@@ -1,5 +1,5 @@
 # ec_api
 
-## yarn install
+## npm install
 
 ### node main.js

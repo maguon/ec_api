@@ -1,0 +1,26 @@
+{
+  "name": "ec_api",
+  "version": "0.0.1",
+  "dependencies": {
+    "jsonwebtoken": "8.5.1",
+    "log4js": "6.3.0",
+    "moment": "2.29.1",
+    "pg-promise": "10.10.2",
+    "posix-getopt": "1.2.0",
+    "restify": "8.5.1",
+    "restify-cors-middleware": "1.1.1",
+    "restify-errors": "8.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "7.14.6",
+    "@babel/preset-env": "7.14.5",
+    "@babel/register": "7.14.5",
+    "babel-loader": "8.1.0"
+  },
+  "scripts": {
+    "start": "node main.js",
+    "test": "mocha test"
+  },
+  "author": "maguon",
+  "license": ""
+}
