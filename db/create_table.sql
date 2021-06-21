@@ -160,7 +160,7 @@ CREATE TABLE IF NOT EXISTS public.category_sub_info (
 --CREATE TABLE user_menu_list
 CREATE TABLE IF NOT EXISTS public.user_menu_list
 (
-    id bigserial NOT NULL,
+    id smallserial NOT NULL,
     created_on timestamp with time zone NOT NULL DEFAULT NOW(),
     updated_on timestamp with time zone NOT NULL DEFAULT NOW(),
     type integer NOT NULL,
