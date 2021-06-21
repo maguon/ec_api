@@ -186,3 +186,37 @@ create trigger user_menu_list_upt before update on user_menu_list for each row e
 select setval(' user_menu_list_id_seq',1000,false);
 
 CREATE UNIQUE INDEX uk_menu_list_type ON user_menu_list(type);
+
+
+--CREATE TABLE product_info
+CREATE TABLE IF NOT EXISTS public.product_info (
+    "id" smallserial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1,
+    "op_user" smallint NOT NULL DEFAULT 0,
+    "remark" character varying(200),
+    "product_name" character varying(50),
+    "product_s_name" character varying(30),
+    "product_address" character varying(30),
+    "category_id" smallint NOT NULL DEFAULT 0,
+    "category_sub_id" smallint NOT NULL DEFAULT 0,
+    "brand_id" smallint NOT NULL DEFAULT 0,
+    "brand_model_id" smallint NOT NULL DEFAULT 0,
+    "image" character varying(200),
+    "standard_type" smallint,
+    "barcode" character varying(30),
+    "unit_name" character varying(10),
+    "price" decimal(10,2),
+
+    PRIMARY KEY ("id")
+);
+COMMENT ON COLUMN public.product_info.product_name IS '商品名称';
+COMMENT ON COLUMN public.product_info.product_s_name IS '商品别名';
+COMMENT ON COLUMN public.product_info.product_address IS '产地';
+COMMENT ON COLUMN public.product_info.standard_type IS '标准类型';
+COMMENT ON COLUMN public.product_info.unit_name IS '单位';
+COMMENT ON COLUMN public.product_info.price IS '价格';
+
+create trigger product_info_upt before update on product_info for each row execute procedure update_timestamp_func();
+select setval(' product_info_id_seq',1000,false);
