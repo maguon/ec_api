@@ -255,6 +255,13 @@
         ],
         "parameters": [
           {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "in": "body",
             "name":"userInfo",
             "description": "User object that needs to be added to the store",
@@ -285,7 +292,7 @@
         "parameters": [
           {
             "name": "userId",
-            "in": "query",
+            "in": "path",
             "description": "用户ID",
             "required": false,
             "type": "integer"

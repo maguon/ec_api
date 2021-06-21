@@ -184,3 +184,5 @@ COMMENT ON COLUMN public.user_menu_list.menu_list IS '菜单列表';
 
 create trigger user_menu_list_upt before update on user_menu_list for each row execute procedure update_timestamp_func();
 select setval(' user_menu_list_id_seq',1000,false);
+
+CREATE UNIQUE INDEX uk_menu_list_type ON user_menu_list(type);
