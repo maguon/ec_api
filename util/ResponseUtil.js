@@ -11,7 +11,7 @@ const resetCreateRes = (res,rows) =>{
 }
 
 const resetUpdateRes = (res,rows)=>{
-    if(rows.length > 0){
+    if(rows && rows !=null){
         res.send(200,{success : true,rows});
     }else{
         res.send(200,{success : false,rows});

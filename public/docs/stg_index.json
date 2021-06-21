@@ -1,0 +1,743 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This a api docs",
+    "version": "0.0.1",
+    "title": "EC api docs",
+    "contact": {
+      "email": "info@myxxjs.com"
+    },
+    "license": {
+      "name": "View source at github",
+      "url": "https://github.com/maguon/ec_api"
+    }
+  },
+  "host": "stg.myxxjs.com:9901/api/",
+
+  "tags": [
+    {
+      "name": "user",
+      "description": "User base info api"
+    },
+    {
+      "name": "app",
+      "description": "app version"
+
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/user": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Add a new user info info",
+        "description": "",
+        "operationId": "AddUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name":"userInfo",
+            "description": "User object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Select user Info",
+        "description": "Get user info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "用户ID",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态（0-停用，1-可用）",
+            "required": false,
+            "type": "integer"
+          },{
+            "name": "userName",
+            "in": "query",
+            "description": "用户名称",
+            "required": false,
+            "type": "string"
+          },{
+            "name": "phone",
+            "in": "query",
+            "description": "联系方式",
+            "required": false,
+            "type": "string"
+          },{
+            "name": "gender",
+            "in": "query",
+            "description": "性别（0-女，1-男）",
+            "required": false,
+            "type": "integer"
+          },{
+            "name": "type",
+            "in": "query",
+            "description": "用户类型（99-超级管理员）",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Finds userInfo and update",
+        "description": "update user info",
+        "operationId": "update user info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+
+          },
+          {
+            "name": "userInfo",
+            "in": "body",
+            "description": "User object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "AdminUserId not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Delete user and userDetail",
+        "description": "delete user info and userDetail",
+        "operationId": "delete user info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "UserId not found"
+          }
+        }
+      }
+    },
+    "/user/{userId}/status": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Finds app status and update",
+        "description": "update app status",
+        "operationId": "update app status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态(0:停用,1:启用)",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
+    "/app": {
+      "get": {
+        "tags": [
+          "app"
+        ],
+        "summary": "Query app info",
+        "description": "GetApp",
+        "operationId": "GetApp",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "appId",
+            "description": "appId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "appType",
+            "description": "app类型(1-新能源)",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "deviceType",
+            "description": "设备类型(1-安卓 2-苹果)",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "description": "状态(0:停用,1:启用)",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "App not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/user/{userId}/app": {
+      "get": {
+        "tags": [
+          "app"
+        ],
+        "summary": "User query app info",
+        "description": "userGetApp",
+        "operationId": "userGetApp",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "appId",
+            "description": "appId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "appType",
+            "description": "app类型(1-新能源)",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "deviceType",
+            "description": "设备类型(1-安卓 2-苹果)",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "description": "状态(0:停用,1:启用)",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "App not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/adminUser/{adminUserId}/app": {
+      "get": {
+        "tags": [
+          "app"
+        ],
+        "summary": "Administrator query app info",
+        "description": "AdministratorGetApp",
+        "operationId": "AdministratorGetApp",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminUserId",
+            "in": "path",
+            "description": "adminUserId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "appId",
+            "description": "appId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "appType",
+            "description": "app类型(1-新能源)",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "deviceType",
+            "description": "设备类型(1-安卓 2-苹果)",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "description": "状态(0:停用,1:启用)",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "App not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "deprecated": true
+      },
+      "post": {
+        "tags": [
+          "app"
+        ],
+        "summary": "Administrator add a new app info",
+        "description": "AdministratorAddApp",
+        "operationId": "AdministratorAddApp",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminUserId",
+            "in": "path",
+            "description": "adminUserId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"body",
+            "description": "App object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/App"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/adminUser/{adminUserId}/app/{appId}": {
+      "put": {
+        "tags": [
+          "app"
+        ],
+        "summary": "Administrator finds app Info and update",
+        "description": "Administrator update app info",
+        "operationId": "Administrator update app info by appId",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminUserId",
+            "in": "path",
+            "description": "adminUser unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "app unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "appInfo",
+            "in": "body",
+            "description": "App object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/App"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/App"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "UserDetailId not found"
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/adminUser/{adminUserId}/app/{appId}/status": {
+      "put": {
+        "tags": [
+          "app"
+        ],
+        "summary": "Administrator finds app status and update",
+        "description": "Administrator update app status",
+        "operationId": "Administrator update app status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminUserId",
+            "in": "path",
+            "description": "adminUser unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "app unique id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态(0:停用,1:启用)",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/App"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/adminUser/{adminUserId}/app/{appId}/del": {
+      "delete": {
+        "tags": [
+          "app"
+        ],
+        "summary": "Administrator delete app",
+        "description": "Administrator delete app",
+        "operationId": "Administrator delete app by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminUserId",
+            "in": "path",
+            "description": "adminUser unique id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "app Id",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "AdminUserId or appId not found"
+          }
+        },
+        "deprecated": true
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "required": [
+        "userName",
+        "password",
+        "phone",
+        "gender",
+        "status",
+        "types"
+      ],
+      "properties": {
+        "userName": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int64",
+          "enum": [
+            0,
+            1
+          ]
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "user"
+      }
+    },
+    "App": {
+      "type": "object",
+      "required": [
+        "appType",
+        "deviceType",
+        "versionSer",
+        "versionNum",
+        "minVersionNum",
+        "forceUpFlag",
+        "url",
+        "remarks"
+      ],
+      "properties": {
+        "appType": {
+          "type": "integer",
+          "format": "int64",
+          "enum": [
+            1,
+            2
+          ]
+        },
+        "deviceType": {
+          "type": "integer",
+          "format": "int64",
+          "enum": [
+            1,
+            2
+          ]
+        },
+        "versionSer": {
+          "type": "string"
+        },
+        "versionNum": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "minVersionNum": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "forceUpFlag": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "url": {
+          "type": "string",
+          "description": "pet status in the store"
+        },
+        "remarks": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "App"
+      }
+    }
+  }
+}

@@ -7,6 +7,7 @@ const serverLogger = require('./util/ServerLogger');
 const logger = serverLogger.createLogger('Server');
 
 const app = require('./bl/App');
+const user = require('./bl/User');
 
 
 const createServer=()=>{
@@ -55,8 +56,18 @@ const createServer=()=>{
     );
 
 
+    /**
+     * User Module
+     */
+    server.get('/api/user', user.queryUser);
+    server.post({path:'/api/user',contentType: 'application/json'}, user.addUser);
+    server.put({path:'/api/user/:userId',contentType: 'application/json'} ,user.updateUser);
+    server.put({path:'/api/user/:userId/status',contentType: 'application/json'} ,user.updateStatus);
+    server.del({path:'/api/user/:userId',contentType: 'application/json'},user.deleteUser);
 
-
+    /**
+     * App Module
+     */
     server.get('/api/app', app.queryApp);
     server.get('/api/user/:userId/app', app.queryApp);
     server.post({path:'/api/user/:userId/app',contentType: 'application/json'}, app.addApp);
