@@ -34,8 +34,8 @@ COMMENT ON COLUMN public.user_info.phone IS '联系方式';
 COMMENT ON COLUMN public.user_info.gender IS '性别（0-女，1-男）';
 COMMENT ON COLUMN public.user_info.type IS '用户类型（99-超级管理员）';
 
--- UPDATE TIMESTAMP TRIGGER
 create trigger user_info_upt before update on user_info for each row execute procedure update_timestamp_func();
+select setval('user_info_id_seq',1000,false);
 
 --CREATE TABLE supplier_info
 CREATE TABLE IF NOT EXISTS public.supplier_info (
@@ -81,7 +81,7 @@ COMMENT ON COLUMN public.supplier_info.settle_month_day IS '月结日期';
 COMMENT ON COLUMN public.supplier_info.remark IS '备注';
 
 create trigger supplier_info_upt before update on supplier_info for each row execute procedure update_timestamp_func();
-
+select setval('supplier_info_id_seq',1000,false);
 --CREATE TABLE storage_info
 CREATE TABLE IF NOT EXISTS public.storage_info (
     "id" smallserial NOT NULL,
@@ -93,6 +93,8 @@ CREATE TABLE IF NOT EXISTS public.storage_info (
     "storage_name" character varying(50),
     PRIMARY KEY ("id")
 );
+create trigger storage_info_upt before update on storage_info for each row execute procedure update_timestamp_func();
+select setval('storage_info_id_seq',1000,false);
 
 --CREATE TABLE storage_area_info
 CREATE TABLE IF NOT EXISTS public.storage_area_info (
@@ -106,6 +108,8 @@ CREATE TABLE IF NOT EXISTS public.storage_area_info (
     "storage_id" smallint NOT NULL,
     PRIMARY KEY ("id")
 );
+create trigger storage_area_info_upt before update on storage_area_info for each row execute procedure update_timestamp_func();
+select setval('storage_area_info_id_seq',1000,false);
 
 --CREATE TABLE brand_info
 CREATE TABLE IF NOT EXISTS public.brand_info (
@@ -118,6 +122,8 @@ CREATE TABLE IF NOT EXISTS public.brand_info (
     "brand_name" character varying(50),
     PRIMARY KEY ("id")
 );
+create trigger brand_info_upt before update on brand_info for each row execute procedure update_timestamp_func();
+select setval('brand_info_id_seq',1000,false);
 
 --CREATE TABLE brand_model_info
 CREATE TABLE IF NOT EXISTS public.brand_model_info (
@@ -131,6 +137,8 @@ CREATE TABLE IF NOT EXISTS public.brand_model_info (
     "brand_id" smallint NOT NULL,
     PRIMARY KEY ("id")
 );
+create trigger brand_model_info_upt before update on brand_model_info for each row execute procedure update_timestamp_func();
+select setval('brand_model_info_id_seq',1000,false);
 
 --CREATE TABLE category_info
 CREATE TABLE IF NOT EXISTS public.category_info (
@@ -143,6 +151,8 @@ CREATE TABLE IF NOT EXISTS public.category_info (
     "category_name" character varying(50),
     PRIMARY KEY ("id")
 );
+create trigger category_info_upt before update on category_info for each row execute procedure update_timestamp_func();
+select setval('category_info_id_seq',1000,false);
 
 --CREATE TABLE category_sub_info
 CREATE TABLE IF NOT EXISTS public.category_sub_info (
@@ -156,6 +166,8 @@ CREATE TABLE IF NOT EXISTS public.category_sub_info (
     "category_id" smallint NOT NULL,
     PRIMARY KEY ("id")
 );
+create trigger category_sub_info_upt before update on category_sub_info for each row execute procedure update_timestamp_func();
+select setval('category_sub_info_id_seq',1000,false);
 
 --CREATE TABLE user_menu_list
 CREATE TABLE IF NOT EXISTS public.user_menu_list
@@ -169,5 +181,6 @@ CREATE TABLE IF NOT EXISTS public.user_menu_list
 );
 COMMENT ON COLUMN public.user_menu_list.type IS '用户类型（99-超级管理员）';
 COMMENT ON COLUMN public.user_menu_list.menu_list IS '菜单列表';
--- UPDATE TIMESTAMP TRIGGER
+
 create trigger user_menu_list_upt before update on user_menu_list for each row execute procedure update_timestamp_func();
+select setval(' user_menu_list_id_seq',1000,false);
