@@ -52,7 +52,8 @@ class UserMenuListDAO  {
 
     static async addUserMenuList(params) {
         const query = 'INSERT INTO user_menu_list (type , menu_list) ' +
-            'VALUES (${type} , ${menu_list} ) RETURNING id ';
+            'VALUES (${type} , ${menu_list} ) ' +
+            'on conflict(type) do update set type=${type} , menu_list=${menu_list} RETURNING id ';
         let valueObj = {};
         valueObj.type = params.type;
         valueObj.menu_list = JSON.stringify(params.menu_list);
