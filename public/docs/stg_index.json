@@ -20,6 +20,10 @@
       "description": "User base info api"
     },
     {
+      "name": "userMenuList",
+      "description": "UserMenuList base info api"
+    },
+    {
       "name": "app",
       "description": "app version"
 
@@ -230,6 +234,73 @@
           },
           "400": {
             "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
+    "/user/{userId}/menuList": {
+      "post": {
+        "tags": [
+          "userMenuList"
+        ],
+        "summary": "Add a new userMenuList info",
+        "description": "",
+        "operationId": "AddUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name":"userInfo",
+            "description": "User object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserMenuList"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "userMenuList"
+        ],
+        "summary": "Select userMenuList Info",
+        "description": "Get userMenuList info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "用户ID",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "管理员类型(99-超级管理员, 1-其他)",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
           }
         }
       }
@@ -681,6 +752,82 @@
       },
       "xml": {
         "name": "user"
+      }
+    },
+    "UserMenuList": {
+      "type": "object",
+      "required": [
+        "type",
+        "menu_list"
+      ],
+      "properties": {
+        "type": {
+          "type": "String"
+        },
+        "menu_list": {
+          "type": "array",
+          "items":{
+            "$ref": "#/definitions/MenuListArray"
+          }
+        }
+      },
+      "xml": {
+        "name": "UserMenuList"
+      }
+    },
+    "MenuListArray": {
+      "type": "object",
+      "required": [
+        "label",
+        "icon",
+        "link",
+        "children",
+        "usable"
+      ],
+      "properties": {
+        "label": {
+          "type": "String"
+        },
+        "icon": {
+          "type": "String"
+        },
+        "link": {
+          "type": "String"
+        },
+        "children": {
+          "type": "array",
+          "items":{
+            "$ref": "#/definitions/ChildrenArray"
+          }
+        },
+        "usable": {
+          "type": "String"
+        }
+      },
+      "xml": {
+        "name": "MenuListArray"
+      }
+    },
+    "ChildrenArray": {
+      "type": "object",
+      "required": [
+        "link",
+        "name",
+        "usable"
+      ],
+      "properties": {
+        "link": {
+          "type": "String"
+        },
+        "name": {
+          "type": "String"
+        },
+        "usable": {
+          "type": "String"
+        }
+      },
+      "xml": {
+        "name": "ChildrenArray"
       }
     },
     "App": {
