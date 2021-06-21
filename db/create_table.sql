@@ -92,6 +92,7 @@ CREATE TABLE IF NOT EXISTS public.storage_info (
     "storage_name" character varying(50),
     PRIMARY KEY ("id")
 );
+create trigger storage_info_upt before update on storage_info for each row execute procedure update_timestamp_func();
 --CREATE TABLE storage_area_info
 CREATE TABLE IF NOT EXISTS public.storage_area_info (
     "id" smallserial NOT NULL,
@@ -104,7 +105,7 @@ CREATE TABLE IF NOT EXISTS public.storage_area_info (
     "storage_id" smallint NOT NULL,
     PRIMARY KEY ("id")
 );
-
+create trigger storage_area_info_upt before update on storage_area_info for each row execute procedure update_timestamp_func();
 --CREATE TABLE brand_info
 
 CREATE TABLE IF NOT EXISTS public.brand_info (
@@ -117,7 +118,7 @@ CREATE TABLE IF NOT EXISTS public.brand_info (
     "brand_name" character varying(50),
     PRIMARY KEY ("id")
 );
-
+create trigger brand_info_upt before update on brand_info for each row execute procedure update_timestamp_func();
 --CREATE TABLE brand_model_info
 
 CREATE TABLE IF NOT EXISTS public.brand_model_info (
@@ -131,6 +132,8 @@ CREATE TABLE IF NOT EXISTS public.brand_model_info (
     "brand_id" smallint NOT NULL,
     PRIMARY KEY ("id")
 );
+
+create trigger brand_model_info_upt before update on brand_model_info for each row execute procedure update_timestamp_func();
 --CREATE TABLE category_info
 
 CREATE TABLE IF NOT EXISTS public.category_info (
@@ -143,6 +146,7 @@ CREATE TABLE IF NOT EXISTS public.category_info (
     "category_name" character varying(50),
     PRIMARY KEY ("id")
 );
+create trigger category_info_upt before update on category_info for each row execute procedure update_timestamp_func();
 --CREATE TABLE category_info
 
 CREATE TABLE IF NOT EXISTS public.category_sub_info (
@@ -156,3 +160,4 @@ CREATE TABLE IF NOT EXISTS public.category_sub_info (
     "category_id" smallint NOT NULL,
     PRIMARY KEY ("id")
 );
+create trigger category_sub_info_upt before update on category_sub_info for each row execute procedure update_timestamp_func();
