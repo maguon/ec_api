@@ -104,3 +104,55 @@ CREATE TABLE IF NOT EXISTS public.storage_area_info (
     "storage_id" smallint NOT NULL,
     PRIMARY KEY ("id")
 );
+
+--CREATE TABLE brand_info
+
+CREATE TABLE IF NOT EXISTS public.brand_info (
+    "id" smallserial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1,
+    "op_user" smallint NOT NULL DEFAULT 0,
+    "remark" character varying(200),
+    "brand_name" character varying(50),
+    PRIMARY KEY ("id")
+);
+
+--CREATE TABLE brand_model_info
+
+CREATE TABLE IF NOT EXISTS public.brand_model_info (
+    "id" smallserial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1,
+    "op_user" smallint NOT NULL DEFAULT 0,
+    "remark" character varying(200),
+    "brand_model_name" character varying(50),
+    "brand_id" smallint NOT NULL,
+    PRIMARY KEY ("id")
+);
+--CREATE TABLE category_info
+
+CREATE TABLE IF NOT EXISTS public.category_info (
+    "id" smallserial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1,
+    "op_user" smallint NOT NULL DEFAULT 0,
+    "remark" character varying(200),
+    "category_name" character varying(50),
+    PRIMARY KEY ("id")
+);
+--CREATE TABLE category_info
+
+CREATE TABLE IF NOT EXISTS public.category_sub_info (
+    "id" smallserial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1,
+    "op_user" smallint NOT NULL DEFAULT 0,
+    "remark" character varying(200),
+    "category_sub_name" character varying(50),
+    "category_id" smallint NOT NULL,
+    PRIMARY KEY ("id")
+);
