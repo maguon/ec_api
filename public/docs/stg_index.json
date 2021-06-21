@@ -12,7 +12,7 @@
       "url": "https://github.com/maguon/ec_api"
     }
   },
-  "host": "stg.myxxjs.com:9901/api/",
+  "host": "stg.myxxjs.com:9911/api/",
 
   "tags": [
     {
