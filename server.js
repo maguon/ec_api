@@ -8,6 +8,7 @@ const logger = serverLogger.createLogger('Server');
 
 const app = require('./bl/App');
 const user = require('./bl/User');
+const userMenuList = require('./bl/UserMenuList');
 
 
 const createServer=()=>{
@@ -64,6 +65,13 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId',contentType: 'application/json'} ,user.updateUser);
     server.put({path:'/api/user/:userId/status',contentType: 'application/json'} ,user.updateStatus);
     server.del({path:'/api/user/:userId',contentType: 'application/json'},user.deleteUser);
+
+    /**
+     * UserMenuList Module
+     */
+    server.get('/api/user/:userId/menuList', userMenuList.queryUserMenuList);
+    server.post({path:'/api/user/:userId/menuList',contentType: 'application/json'}, userMenuList.addUserMenuList);
+
 
     /**
      * App Module
