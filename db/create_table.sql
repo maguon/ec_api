@@ -89,8 +89,7 @@ CREATE TABLE IF NOT EXISTS public.storage_info (
     "status" smallint NOT NULL DEFAULT 1,
     "op_user" smallint NOT NULL DEFAULT 0,
     "remark" character varying(200),
-    "storage_name" character varying(50)
-
+    "storage_name" character varying(50),
     PRIMARY KEY ("id")
 );
 --CREATE TABLE storage_area_info
@@ -102,7 +101,6 @@ CREATE TABLE IF NOT EXISTS public.storage_area_info (
     "op_user" smallint NOT NULL DEFAULT 0,
     "remark" character varying(200),
     "storage_area_name" character varying(50),
-    "storage_id" smallint NOT NULL
-
+    "storage_id" smallint NOT NULL,
     PRIMARY KEY ("id")
 );
