@@ -12,6 +12,7 @@ end
 $$
 language plpgsql;
 
+--CREATE TABLE user_info
 CREATE TABLE IF NOT EXISTS public.user_info
 (
     id smallserial NOT NULL,
@@ -36,6 +37,7 @@ COMMENT ON COLUMN public.user_info.type IS '用户类型（99-超级管理员）
 -- UPDATE TIMESTAMP TRIGGER
 create trigger user_info_upt before update on user_info for each row execute procedure update_timestamp_func();
 
+--CREATE TABLE supplier_info
 CREATE TABLE IF NOT EXISTS public.supplier_info (
     "id" smallserial NOT NULL,
     "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
@@ -81,7 +83,6 @@ COMMENT ON COLUMN public.supplier_info.remark IS '备注';
 create trigger supplier_info_upt before update on supplier_info for each row execute procedure update_timestamp_func();
 
 --CREATE TABLE storage_info
-
 CREATE TABLE IF NOT EXISTS public.storage_info (
     "id" smallserial NOT NULL,
     "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
@@ -92,6 +93,7 @@ CREATE TABLE IF NOT EXISTS public.storage_info (
     "storage_name" character varying(50),
     PRIMARY KEY ("id")
 );
+
 --CREATE TABLE storage_area_info
 CREATE TABLE IF NOT EXISTS public.storage_area_info (
     "id" smallserial NOT NULL,
@@ -106,7 +108,6 @@ CREATE TABLE IF NOT EXISTS public.storage_area_info (
 );
 
 --CREATE TABLE brand_info
-
 CREATE TABLE IF NOT EXISTS public.brand_info (
     "id" smallserial NOT NULL,
     "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
@@ -119,7 +120,6 @@ CREATE TABLE IF NOT EXISTS public.brand_info (
 );
 
 --CREATE TABLE brand_model_info
-
 CREATE TABLE IF NOT EXISTS public.brand_model_info (
     "id" smallserial NOT NULL,
     "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
@@ -131,8 +131,8 @@ CREATE TABLE IF NOT EXISTS public.brand_model_info (
     "brand_id" smallint NOT NULL,
     PRIMARY KEY ("id")
 );
---CREATE TABLE category_info
 
+--CREATE TABLE category_info
 CREATE TABLE IF NOT EXISTS public.category_info (
     "id" smallserial NOT NULL,
     "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
@@ -143,8 +143,8 @@ CREATE TABLE IF NOT EXISTS public.category_info (
     "category_name" character varying(50),
     PRIMARY KEY ("id")
 );
---CREATE TABLE category_info
 
+--CREATE TABLE category_sub_info
 CREATE TABLE IF NOT EXISTS public.category_sub_info (
     "id" smallserial NOT NULL,
     "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
@@ -156,3 +156,18 @@ CREATE TABLE IF NOT EXISTS public.category_sub_info (
     "category_id" smallint NOT NULL,
     PRIMARY KEY ("id")
 );
+
+--CREATE TABLE user_menu_list
+CREATE TABLE IF NOT EXISTS public.user_menu_list
+(
+    id bigserial NOT NULL,
+    created_on timestamp with time zone NOT NULL DEFAULT NOW(),
+    updated_on timestamp with time zone NOT NULL DEFAULT NOW(),
+    type integer NOT NULL,
+    menu_list jsonb NOT NULL,
+    PRIMARY KEY (id)
+);
+COMMENT ON COLUMN public.user_menu_list.type IS '用户类型（99-超级管理员）';
+COMMENT ON COLUMN public.user_menu_list.menu_list IS '菜单列表';
+-- UPDATE TIMESTAMP TRIGGER
+create trigger user_menu_list_upt before update on user_menu_list for each row execute procedure update_timestamp_func();
