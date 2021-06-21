@@ -33,6 +33,41 @@
     "http"
   ],
   "paths": {
+    "/userLogin": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "UserLogin",
+        "description": "",
+        "operationId": "UserLogin",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name":"userInfo",
+            "description": "User object that needs to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserLogin"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
     "/user": {
       "post": {
         "tags": [
@@ -721,6 +756,24 @@
     }
   },
   "definitions": {
+    "UserLogin": {
+      "type": "object",
+      "required": [
+        "userName",
+        "password"
+      ],
+      "properties": {
+        "userName": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "user"
+      }
+    },
     "User": {
       "type": "object",
       "required": [

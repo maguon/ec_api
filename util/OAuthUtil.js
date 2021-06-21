@@ -28,7 +28,7 @@ const expiredTime = 30*24*60*60;
 const createAccessToken=(clientType,userId,status)=>{
     let out ;
     out = {
-        access_token: jwt.sign([clientType,userId,+new Date,status ],options.sign_key),
+        access_token: jwt.sign({clientType,userId,status},options.sign_key),
         refresh_token: null
     };
     return out.access_token;
@@ -36,13 +36,9 @@ const createAccessToken=(clientType,userId,status)=>{
 
 const parseAccessToken=(accessToken)=>{
     try{
-        let data = jwt.verify(accessToken);
-        let tokenInfo ={};
-        tokenInfo.clientType = data[0];
-        tokenInfo.userId = data[1];
-        tokenInfo.grantDate = data[2];
-        tokenInfo.status = data[3];
-        return tokenInfo;
+        let data = jwt.verify(accessToken,options.sign_key);
+
+        return data;
     }catch(e){
         logger.error(' parseNewAccessToken :'+ e.message);
         return null;
@@ -65,25 +61,6 @@ const parseUserToke=(req)=>{
     }
     let resultObj = {};
     resultObj ={userId:tokenInfo.userId,userType:clientType.user,status:tokenInfo.status};
-    return resultObj;
-}
-
-const parseAdminToken=(req)=>{
-    let cookiesToken = req.headers[headerTokenMeta];
-    if(cookiesToken == undefined){
-        return null;
-    }
-    let tokenInfo = parseAccessToken(cookiesToken);
-    if(tokenInfo == undefined){
-        return null;
-    }
-    if(tokenInfo.clientType == undefined || tokenInfo.clientType != clientType.admin){
-        return null;
-    }else if((tokenInfo.grantDate == undefined) || ((tokenInfo.grantDate + expiredTime)<(new Date().getTime()))){
-        return null;
-    }
-    let resultObj = {};
-    resultObj ={userId:tokenInfo.userId,userType:clientType.admin,status:tokenInfo.status};
     return resultObj;
 }
 
@@ -137,7 +114,6 @@ module.exports = {
     createAccessToken,
     parseAccessToken,
     clientType,
-    parseAdminToken,
     saveUserPhoneCode,
     sendCaptcha,
     getUserPhoneCode,

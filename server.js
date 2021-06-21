@@ -60,6 +60,7 @@ const createServer=()=>{
     /**
      * User Module
      */
+    server.post({path:'/api/userLogin',contentType: 'application/json'}, user.userLogin);
     server.get('/api/user', user.queryUser);
     server.post({path:'/api/user',contentType: 'application/json'}, user.addUser);
     server.put({path:'/api/user/:userId',contentType: 'application/json'} ,user.updateUser);

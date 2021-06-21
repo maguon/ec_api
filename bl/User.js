@@ -2,9 +2,47 @@
 const userDAO = require('../models/UserDAO');
 const serverLogger = require('../util/ServerLogger.js');
 const sysConst = require('../util/SystemConst.js');
+const sysMsg = require('../util/SystemMsg.js');
+const sysError = require('../util/SystemError.js');
 const encrypt = require('../util/Encrypt.js');
+const oAuthUtil = require('../util/OAuthUtil.js');
 const resUtil = require('../util/ResponseUtil.js');
 const logger = serverLogger.createLogger('UserInfo.js');
+
+const userLogin = async (req,res,next)=>{
+    let params = req.body;
+    params.password = encrypt.encryptByMd5NoKey(params.password);
+    try{
+        const rows = await userDAO.queryUser({phone:params.userName, password:params.password});
+        if(rows && rows.length<1){
+            logger.warn(' userLogin ' + params.userName + sysMsg.CUST_LOGIN_USER_PSWD_ERROR);
+            resUtil.resetFailedRes(res,sysMsg.CUST_LOGIN_USER_PSWD_ERROR);
+            return next();
+        }else{
+            let userInfo = {
+                userId : rows[0].id,
+                status : rows[0].status,
+                type: rows[0].type
+            }
+            userInfo.accessToken = oAuthUtil.createAccessToken(oAuthUtil.clientType.user,userInfo.userId,userInfo.status);
+            oAuthUtil.saveToken(userInfo,function(error,result){
+                if(error){
+                    logger.error('userLogin loginSaveToken ' + error.stack);
+                    return next(sysError.InternalError(error.message,sysMsg.InvalidArgument));
+                }else{
+                    logger.info('userLogin loginSaveToken ' + userInfo.userId + " success");
+
+                }
+            });
+            logger.info(' userLogin ' + 'success');
+            resUtil.resetQueryRes(res,userInfo,null);
+            return next();
+        }
+    }catch (e) {
+        logger.error(" userLogin error",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
 
 const queryUser = async (req,res,next)=>{
     let query = req.query;
@@ -88,6 +126,7 @@ const deleteUser = async (req,res,next)=>{
 }
 
 module.exports = {
+    userLogin,
     queryUser,
     addUser,
     updateUser,
