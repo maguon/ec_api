@@ -4,7 +4,7 @@ var logger = serverLogger.createLogger('AppDAO.js');
 
 class AppDAO  {
     static async queryApp(params) {
-        let query = "select * from app_version where id is not null ";
+        let query = "select * from app_info where id is not null ";
         let filterObj = {};
         if(params.id){
             query += " and id = ${id} ";
@@ -36,7 +36,7 @@ class AppDAO  {
     }
 
     static async queryAppCount(params) {
-        let query = "select count(id) from app_version where id is not null ";
+        let query = "select count(id) from app_info where id is not null ";
         let filterObj = {};
         if(params.id){
             query += " and id = ${id} ";
@@ -67,55 +67,53 @@ class AppDAO  {
     }
 
     static async addApp(params) {
-        const query = 'INSERT INTO app_version (app_type , device_type , version_ser , version_num , min_version_num , force_up_flag , url , remarks , status) ' +
-            'VALUES (${appType} , ${deviceType} , ${versionSer} , ${versionNum} , ${minVersionNum} , ' +
-            '${forceUpFlag} , ${url} , ${remarks} , ${status}) RETURNING id ';
+        const query = 'INSERT INTO app_info ( status , app_type , device_type , version , version_num , min_version_num , force_update , url , remarks) ' +
+            'VALUES ( ${status} , ${appType} , ${deviceType} , ${version} , ${versionNum} , ${minVersionNum} , ' +
+            '${forceUpdate} , ${url} , ${remarks} ) RETURNING id ';
         let valueObj = {};
+        valueObj.status = params.status;
         valueObj.appType = params.appType;
         valueObj.deviceType = params.deviceType;
-        valueObj.versionSer = params.versionSer;
+        valueObj.version = params.version;
         valueObj.versionNum = params.versionNum;
         valueObj.minVersionNum = params.minVersionNum;
-        valueObj.forceUpFlag = params.forceUpFlag;
+        valueObj.forceUpdate = params.forceUpdate;
         valueObj.url = params.url;
         valueObj.remarks = params.remarks;
-        valueObj.status = params.status;
         logger.debug(' addApp ');
         return await pgDb.one(query,valueObj);
     }
 
     static async updateApp(params){
-        const query = 'update app_version set app_type= ${appType} , device_type=${deviceType} , version_ser=${versionSer} , version_num=${versionNum} ,  min_version_num=${minVersionNum} , ' +
-            ' force_up_flag=${forceUpFlag} ,  url=${url} , remarks=${remarks} , updated_on=${updated_on}' +
+        const query = 'update app_info set app_type= ${appType} , device_type=${deviceType} , version=${version} , version_num=${versionNum} ,  min_version_num=${minVersionNum} , ' +
+            ' force_update=${forceUpdate} ,  url=${url} , remarks=${remarks} ' +
             'where id =${appId} RETURNING * ';
         let valueObj = {};
         valueObj.appType = params.appType;
         valueObj.deviceType = params.deviceType;
-        valueObj.versionSer = params.versionSer;
+        valueObj.version = params.version;
         valueObj.versionNum = params.versionNum;
         valueObj.minVersionNum = params.minVersionNum;
-        valueObj.forceUpFlag = params.forceUpFlag;
+        valueObj.forceUpdate = params.forceUpdate;
         valueObj.url = params.url;
         valueObj.remarks = params.remarks;
-        valueObj.updated_on = params.updated_on;
-        valueObj.appId =params.appId;
+        valueObj.appId = params.appId;
         logger.debug(' updateApp ');
         return await pgDb.one(query,valueObj);
     }
 
     static async updateStatus(params){
-        const query = 'update app_version set status=${status} , updated_on=${updated_on}' +
+        const query = 'update app_info set status=${status} ' +
             ' where id =${appId} RETURNING * ';
         let valueObj = {};
         valueObj.status = params.status;
-        valueObj.updated_on = params.updated_on;
-        valueObj.appId =params.appId;
+        valueObj.appId = params.appId;
         logger.debug(' updateStatus ');
         return await pgDb.any(query,valueObj);
     }
 
     static async deleteApp(params){
-        const query = 'delete from app_version where id =${appId} RETURNING id ';
+        const query = 'delete from app_info where id =${appId} RETURNING id ';
         let valueObj = {};
         valueObj.appId =params.appId;
         logger.debug(' deleteApp ');

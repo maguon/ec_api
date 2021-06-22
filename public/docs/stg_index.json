@@ -348,7 +348,7 @@
       }
     },
 
-    "/app": {
+    "/user/{userId}/app": {
       "get": {
         "tags": [
           "app"
@@ -356,75 +356,6 @@
         "summary": "Query app info",
         "description": "GetApp",
         "operationId": "GetApp",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "appId",
-            "description": "appId",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "appType",
-            "description": "app类型(1-新能源)",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "deviceType",
-            "description": "设备类型(1-安卓 2-苹果)",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "status",
-            "description": "状态(0:停用,1:启用)",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "start",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "size",
-            "required": false,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid params "
-          },
-          "404": {
-            "description": "App not found"
-          },
-          "405": {
-            "description": "Validation exception"
-          }
-        }
-      }
-    },
-    "/user/{userId}/app": {
-      "get": {
-        "tags": [
-          "app"
-        ],
-        "summary": "User query app info",
-        "description": "userGetApp",
-        "operationId": "userGetApp",
         "consumes": [
           "application/json"
         ],
@@ -490,93 +421,15 @@
           "405": {
             "description": "Validation exception"
           }
-        },
-        "deprecated": true
-      }
-    },
-    "/adminUser/{adminUserId}/app": {
-      "get": {
-        "tags": [
-          "app"
-        ],
-        "summary": "Administrator query app info",
-        "description": "AdministratorGetApp",
-        "operationId": "AdministratorGetApp",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "adminUserId",
-            "in": "path",
-            "description": "adminUserId",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "appId",
-            "description": "appId",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "appType",
-            "description": "app类型(1-新能源)",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "deviceType",
-            "description": "设备类型(1-安卓 2-苹果)",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "status",
-            "description": "状态(0:停用,1:启用)",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "start",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "size",
-            "required": false,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid params "
-          },
-          "404": {
-            "description": "App not found"
-          },
-          "405": {
-            "description": "Validation exception"
-          }
-        },
-        "deprecated": true
+        }
       },
       "post": {
         "tags": [
           "app"
         ],
-        "summary": "Administrator add a new app info",
-        "description": "AdministratorAddApp",
-        "operationId": "AdministratorAddApp",
+        "summary": "Add a new app info",
+        "description": "AddApp",
+        "operationId": "AddApp",
         "consumes": [
           "application/json"
         ],
@@ -585,9 +438,9 @@
         ],
         "parameters": [
           {
-            "name": "adminUserId",
+            "name": "userId",
             "in": "path",
-            "description": "adminUserId",
+            "description": "userId",
             "required": true,
             "type": "integer"
           },
@@ -605,26 +458,25 @@
           "405": {
             "description": "Invalid input"
           }
-        },
-        "deprecated": true
+        }
       }
     },
-    "/adminUser/{adminUserId}/app/{appId}": {
+    "/user/{userId}/app/{appId}": {
       "put": {
         "tags": [
           "app"
         ],
-        "summary": "Administrator finds app Info and update",
-        "description": "Administrator update app info",
-        "operationId": "Administrator update app info by appId",
+        "summary": "Finds app Info and update",
+        "description": "Update app info",
+        "operationId": "Update app info by appId",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "adminUserId",
+            "name": "userId",
             "in": "path",
-            "description": "adminUser unique id",
+            "description": "user unique id",
             "required": true,
             "type": "integer"
           },
@@ -659,28 +511,27 @@
             "description": "Invalid params "
           },
           "404": {
-            "description": "UserDetailId not found"
+            "description": "UserId not found"
           }
-        },
-        "deprecated": true
+        }
       }
     },
-    "/adminUser/{adminUserId}/app/{appId}/status": {
+    "/user/{userId}/app/{appId}/status": {
       "put": {
         "tags": [
           "app"
         ],
-        "summary": "Administrator finds app status and update",
-        "description": "Administrator update app status",
-        "operationId": "Administrator update app status by id",
+        "summary": "Finds app status and update",
+        "description": "Update app status",
+        "operationId": "Update app status by id",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "adminUserId",
+            "name": "userId",
             "in": "path",
-            "description": "adminUser unique id",
+            "description": "user unique id",
             "required": true,
             "type": "integer"
           },
@@ -712,26 +563,25 @@
           "400": {
             "description": "Invalid status value"
           }
-        },
-        "deprecated": true
+        }
       }
     },
-    "/adminUser/{adminUserId}/app/{appId}/del": {
+    "/user/{userId}/app/{appId}/del": {
       "delete": {
         "tags": [
           "app"
         ],
-        "summary": "Administrator delete app",
-        "description": "Administrator delete app",
-        "operationId": "Administrator delete app by id",
+        "summary": "Delete app",
+        "description": "Delete app",
+        "operationId": "Delete app by id",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "adminUserId",
+            "name": "userId",
             "in": "path",
-            "description": "adminUser unique id",
+            "description": "user unique id",
             "required": true,
             "type": "string"
           },
@@ -748,10 +598,9 @@
             "description": "Invalid params "
           },
           "404": {
-            "description": "AdminUserId or appId not found"
+            "description": "UserId or appId not found"
           }
-        },
-        "deprecated": true
+        }
       }
     }
   },
@@ -895,10 +744,10 @@
       "required": [
         "appType",
         "deviceType",
-        "versionSer",
+        "version",
         "versionNum",
         "minVersionNum",
-        "forceUpFlag",
+        "forceUpdate",
         "url",
         "remarks"
       ],
@@ -919,18 +768,18 @@
             2
           ]
         },
-        "versionSer": {
+        "version": {
           "type": "string"
         },
         "versionNum": {
-          "type": "integer",
+          "type": "string",
           "format": "int64"
         },
         "minVersionNum": {
           "type": "integer",
           "format": "int64"
         },
-        "forceUpFlag": {
+        "forceUpdate": {
           "type": "integer",
           "format": "int64"
         },

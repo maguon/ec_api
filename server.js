@@ -77,7 +77,6 @@ const createServer=()=>{
     /**
      * App Module
      */
-    server.get('/api/app', app.queryApp);
     server.get('/api/user/:userId/app', app.queryApp);
     server.post({path:'/api/user/:userId/app',contentType: 'application/json'}, app.addApp);
     server.put({path:'/api/user/:userId/app/:appId',contentType: 'application/json'} ,app.updateApp);

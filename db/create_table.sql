@@ -220,3 +220,33 @@ COMMENT ON COLUMN public.product_info.price IS '价格';
 
 create trigger product_info_upt before update on product_info for each row execute procedure update_timestamp_func();
 select setval(' product_info_id_seq',1000,false);
+
+--CREATE TABLE app_info
+CREATE TABLE IF NOT EXISTS public.app_info
+(
+    id smallserial NOT NULL,
+    created_on timestamp with time zone NOT NULL NOW(),
+    updated_on timestamp with time zone NOT NULL NOW(),
+    status smallint NOT NULL,
+    app_type smallint NOT NULL,
+    device_type smallint NOT NULL,
+    version character varying(20) NOT NULL,
+    version_num smallint NOT NULL,
+    min_version_num smallint NOT NULL,
+    force_update smallint NOT NULL,
+    url character varying(200) NOT NULL,
+    remarks character varying(400),
+    PRIMARY KEY (id)
+);
+
+COMMENT ON COLUMN public.app_info.status IS '状态(0:停用,1:启用)';
+COMMENT ON COLUMN public.app_info.app_type IS 'app类型';
+COMMENT ON COLUMN public.app_info.device_type IS '设备类型(1-安卓 2-苹果)';
+COMMENT ON COLUMN public.app_info.version IS '版本号';
+COMMENT ON COLUMN public.app_info.version_num IS '版本序号';
+COMMENT ON COLUMN public.app_info.min_version_num IS '最小支持版本';
+COMMENT ON COLUMN public.app_info.force_update IS '是否强制更新(0-不更新 1-更新)';
+COMMENT ON COLUMN public.app_info.url IS '下载地址';
+COMMENT ON COLUMN public.app_info.remarks IS '备注';
+
+create trigger app_info_upt before update on app_info for each row execute procedure update_timestamp_func();
