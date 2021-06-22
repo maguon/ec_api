@@ -33,6 +33,7 @@ class UserDAO  {
             query += " and type = ${type} ";
             filterObj.type = params.type;
         }
+        query = query + '  order by id desc ';
         if(params.start){
             query += " offset ${start} ";
             filterObj.start = params.start;
@@ -41,7 +42,6 @@ class UserDAO  {
             query += " limit ${size} ";
             filterObj.size = params.size;
         }
-        query = query + '  order by id desc ';
         logger.debug(' queryUser ');
         return await pgDb.any(query,filterObj);
     }
@@ -76,22 +76,14 @@ class UserDAO  {
             query += " and type = ${type} ";
             filterObj.type = params.type;
         }
-        if(params.start){
-            query += " offset ${start} ";
-            filterObj.start = params.start;
-        }
-        if(params.size){
-            query += " limit ${size} ";
-            filterObj.size = params.size;
-        }
         logger.debug(' queryUserCount ');
         return await pgDb.one(query,filterObj);
     }
 
     static async addUser(params) {
         const query = 'INSERT INTO user_info (status , user_name , password , phone , gender , type) ' +
-            'VALUES (${status} , ${userName} , ${password} , ${phone} , ${gender} , ' +
-            '${type} ) RETURNING id ';
+            ' VALUES (${status} , ${userName} , ${password} , ${phone} , ${gender} , ${type} ) ' +
+            ' on conflict(phone) DO NOTHING RETURNING id ';
         let valueObj = {};
         valueObj.status = params.status;
         valueObj.userName = params.userName;
@@ -100,12 +92,12 @@ class UserDAO  {
         valueObj.gender = params.gender;
         valueObj.type = params.type;
         logger.debug(' addUser ');
-        return await pgDb.one(query,valueObj);
+        return await pgDb.any(query,valueObj);
     }
 
     static async updateUser(params){
         const query = 'update user_info set user_name= ${userName} , password=${password} , phone=${phone} , gender=${gender} ,  type=${type} ' +
-            'where id =${userId} RETURNING * ';
+            'where id =${userId} RETURNING id ';
         let valueObj = {};
         valueObj.userName = params.userName;
         valueObj.password = params.password;
@@ -114,15 +106,14 @@ class UserDAO  {
         valueObj.type = params.type;
         valueObj.userId =params.userId;
         logger.debug(' updateUser ');
-        return await pgDb.one(query,valueObj);
+        return await pgDb.any(query,valueObj);
     }
 
     static async updateStatus(params){
-        const query = 'update user_info set status=${status} , updated_on=${updated_on}' +
-            ' where id =${userId} RETURNING * ';
+        const query = 'update user_info set status=${status} ' +
+            ' where id =${userId} RETURNING id ';
         let valueObj = {};
         valueObj.status = params.status;
-        valueObj.updated_on = params.updated_on;
         valueObj.userId = params.userId;
         logger.debug(' updateStatus ');
         return await pgDb.any(query,valueObj);

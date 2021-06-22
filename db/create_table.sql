@@ -37,6 +37,8 @@ COMMENT ON COLUMN public.user_info.type IS '用户类型（99-超级管理员）
 create trigger user_info_upt before update on user_info for each row execute procedure update_timestamp_func();
 select setval('user_info_id_seq',1000,false);
 
+CREATE UNIQUE INDEX uk_user_info_phone ON user_info(phone);
+
 --CREATE TABLE supplier_info
 CREATE TABLE IF NOT EXISTS public.supplier_info (
     "id" smallserial NOT NULL,
@@ -169,23 +171,24 @@ CREATE TABLE IF NOT EXISTS public.category_sub_info (
 create trigger category_sub_info_upt before update on category_sub_info for each row execute procedure update_timestamp_func();
 select setval('category_sub_info_id_seq',1000,false);
 
---CREATE TABLE user_menu_list
-CREATE TABLE IF NOT EXISTS public.user_menu_list
+--CREATE TABLE user_type_menu
+CREATE TABLE IF NOT EXISTS public.user_type_menu
 (
     id smallserial NOT NULL,
     created_on timestamp with time zone NOT NULL DEFAULT NOW(),
     updated_on timestamp with time zone NOT NULL DEFAULT NOW(),
-    type integer NOT NULL,
+    status smallint NOT NULL DEFAULT 1,
+    type_name character varying(50) NOT NULL,
     menu_list jsonb NOT NULL,
+    remarks character varying(400),
     PRIMARY KEY (id)
 );
-COMMENT ON COLUMN public.user_menu_list.type IS '用户类型（99-超级管理员）';
-COMMENT ON COLUMN public.user_menu_list.menu_list IS '菜单列表';
+COMMENT ON COLUMN public.user_type_menu.status IS '状态';
+COMMENT ON COLUMN public.user_type_menu.type_name IS '类型名称';
+COMMENT ON COLUMN public.user_type_menu.menu_list IS '菜单列表';
 
-create trigger user_menu_list_upt before update on user_menu_list for each row execute procedure update_timestamp_func();
-select setval(' user_menu_list_id_seq',1000,false);
-
-CREATE UNIQUE INDEX uk_menu_list_type ON user_menu_list(type);
+create trigger user_type_menu_upt before update on user_type_menu for each row execute procedure update_timestamp_func();
+select setval(' user_type_menu_id_seq',1000,false);
 
 
 --CREATE TABLE product_info

@@ -20,7 +20,7 @@
       "description": "User base info api"
     },
     {
-      "name": "userMenuList",
+      "name": "userTypeMenu",
       "description": "UserMenuList base info api"
     },
     {
@@ -149,6 +149,18 @@
             "description": "用户类型（99-超级管理员）",
             "required": false,
             "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
           }
         ],
         "responses": {
@@ -241,9 +253,9 @@
         "tags": [
           "user"
         ],
-        "summary": "Finds app status and update",
-        "description": "update app status",
-        "operationId": "update app status by id",
+        "summary": "Finds user status and update",
+        "description": "update user status",
+        "operationId": "update user status by id",
         "produces": [
           "application/json"
         ],
@@ -260,7 +272,7 @@
             "in": "query",
             "description": "状态(0:停用,1:启用)",
             "required": true,
-            "type": "string"
+            "type": "integer"
           }
         ],
         "responses": {
@@ -274,12 +286,12 @@
       }
     },
 
-    "/user/{userId}/menuList": {
+    "/user/{userId}/typeMenu": {
       "post": {
         "tags": [
-          "userMenuList"
+          "userTypeMenu"
         ],
-        "summary": "Add a new userMenuList info",
+        "summary": "Add a new userTypeMenu info",
         "description": "",
         "operationId": "AddUser",
         "consumes": [
@@ -293,7 +305,7 @@
             "name": "userId",
             "in": "path",
             "description": "用户ID",
-            "required": false,
+            "required": true,
             "type": "integer"
           },
           {
@@ -317,10 +329,10 @@
       },
       "get": {
         "tags": [
-          "userMenuList"
+          "userTypeMenu"
         ],
-        "summary": "Select userMenuList Info",
-        "description": "Get userMenuList info",
+        "summary": "Select userTypeMenu Info",
+        "description": "Get userTypeMenu info",
         "produces": [
           "application/json"
         ],
@@ -329,13 +341,32 @@
             "name": "userId",
             "in": "path",
             "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "typeId",
+            "in": "query",
+            "description": "typeId",
             "required": false,
             "type": "integer"
           },
           {
-            "name": "type",
+            "name": "status",
             "in": "query",
-            "description": "管理员类型(99-超级管理员, 1-其他)",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
             "required": false,
             "type": "integer"
           }
@@ -343,6 +374,50 @@
         "responses": {
           "400": {
             "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/typeId/{typeId}/status": {
+      "put": {
+        "tags": [
+          "userTypeMenu"
+        ],
+        "summary": "Finds typeMenu status and update",
+        "description": "update typeMenu status",
+        "operationId": "update typeMenu status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "typeId",
+            "in": "path",
+            "description": "type unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态(0:停用,1:启用)",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
           }
         }
       }
@@ -540,14 +615,14 @@
             "in": "path",
             "description": "app unique id",
             "required": true,
-            "type": "string"
+            "type": "integer"
           },
           {
             "name": "status",
             "in": "query",
             "description": "状态(0:停用,1:启用)",
             "required": true,
-            "type": "string"
+            "type": "integer"
           }
         ],
         "responses": {
@@ -583,14 +658,14 @@
             "in": "path",
             "description": "user unique id",
             "required": true,
-            "type": "string"
+            "type": "integer"
           },
           {
             "name": "appId",
             "in": "path",
             "description": "app Id",
             "required": false,
-            "type": "string"
+            "type": "integer"
           }
         ],
         "responses": {
@@ -666,18 +741,27 @@
     "UserMenuList": {
       "type": "object",
       "required": [
-        "type",
-        "menu_list"
+        "id",
+        "typeName",
+        "menuList",
+        "remarks"
       ],
       "properties": {
-        "type": {
-          "type": "String"
+        "id": {
+          "type": "integer",
+          "format": "int64"
         },
-        "menu_list": {
+        "typeName": {
+          "type": "string"
+        },
+        "menuList": {
           "type": "array",
           "items":{
             "$ref": "#/definitions/MenuListArray"
           }
+        },
+        "remarks": {
+          "type": "string"
         }
       },
       "xml": {
@@ -772,7 +856,7 @@
           "type": "string"
         },
         "versionNum": {
-          "type": "string",
+          "type": "integer",
           "format": "int64"
         },
         "minVersionNum": {

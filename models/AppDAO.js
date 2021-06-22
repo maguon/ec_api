@@ -22,6 +22,7 @@ class AppDAO  {
             query += " and status = ${status} ";
             filterObj.status = params.status;
         }
+        query = query + '  order by id desc ';
         if(params.start){
             query += " offset ${start} ";
             filterObj.start = params.start;
@@ -30,7 +31,6 @@ class AppDAO  {
             query += " limit ${size} ";
             filterObj.size = params.size;
         }
-        query = query + '  order by id desc ';
         logger.debug(' queryApp ');
         return await pgDb.any(query,filterObj);
     }
@@ -54,14 +54,6 @@ class AppDAO  {
             query += " and status = ${status} ";
             filterObj.status = params.status;
         }
-        if(params.start){
-            query += " offset ${start} ";
-            filterObj.start = params.start;
-        }
-        if(params.size){
-            query += " limit ${size} ";
-            filterObj.size = params.size;
-        }
         logger.debug(' queryAppCount ');
         return await pgDb.one(query,filterObj);
     }
@@ -81,13 +73,13 @@ class AppDAO  {
         valueObj.url = params.url;
         valueObj.remarks = params.remarks;
         logger.debug(' addApp ');
-        return await pgDb.one(query,valueObj);
+        return await pgDb.any(query,valueObj);
     }
 
     static async updateApp(params){
         const query = 'update app_info set app_type= ${appType} , device_type=${deviceType} , version=${version} , version_num=${versionNum} ,  min_version_num=${minVersionNum} , ' +
             ' force_update=${forceUpdate} ,  url=${url} , remarks=${remarks} ' +
-            'where id =${appId} RETURNING * ';
+            'where id =${appId} RETURNING id ';
         let valueObj = {};
         valueObj.appType = params.appType;
         valueObj.deviceType = params.deviceType;
@@ -99,12 +91,12 @@ class AppDAO  {
         valueObj.remarks = params.remarks;
         valueObj.appId = params.appId;
         logger.debug(' updateApp ');
-        return await pgDb.one(query,valueObj);
+        return await pgDb.any(query,valueObj);
     }
 
     static async updateStatus(params){
         const query = 'update app_info set status=${status} ' +
-            ' where id =${appId} RETURNING * ';
+            ' where id =${appId} RETURNING id ';
         let valueObj = {};
         valueObj.status = params.status;
         valueObj.appId = params.appId;
