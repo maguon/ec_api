@@ -253,3 +253,24 @@ COMMENT ON COLUMN public.app_info.url IS '下载地址';
 COMMENT ON COLUMN public.app_info.remarks IS '备注';
 
 create trigger app_info_upt before update on app_info for each row execute procedure update_timestamp_func();
+
+--CREATE TABLE date_base
+CREATE TABLE IF NOT EXISTS public.date_base
+(
+    id integer NOT NULL,
+    day integer NOT NULL,
+    week integer NOT NULL,
+    month integer NOT NULL,
+    year integer NOT NULL,
+    y_month integer NOT NULL,
+    y_week integer NOT NULL,
+    PRIMARY KEY (id)
+);
+SELECT cron.schedule('add_date_sdl', '0 0 * * *', $$insert into date_base (id,day,week,month,year,y_month,y_week) values
+( CAST (to_char(current_timestamp, 'YYYYMMDD') AS NUMERIC)  ,
+CAST(ltrim(to_char(current_timestamp, 'DD'),'0') AS NUMERIC) ,
+CAST(ltrim(to_char(current_timestamp, 'WW'),'0')  AS NUMERIC) ,
+CAST(ltrim(to_char(current_timestamp, 'MM'),'0') AS NUMERIC) ,
+CAST(to_char(current_timestamp, 'YYYY') AS NUMERIC),
+CAST(to_char(current_timestamp, 'YYYYMM') AS NUMERIC) ,
+CAST(to_char(current_timestamp, 'YYYYWW') AS NUMERIC));$$);
