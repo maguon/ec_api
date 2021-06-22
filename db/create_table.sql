@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS public.user_type_menu
     updated_on timestamp with time zone NOT NULL DEFAULT NOW(),
     status smallint NOT NULL DEFAULT 1,
     type_name character varying(50) NOT NULL,
-    menu_list jsonb NOT NULL,
+    menu_list jsonb NOT NULL DEFAULT '{}' ,
     remarks character varying(400),
     PRIMARY KEY (id)
 );
