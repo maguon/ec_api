@@ -23,6 +23,9 @@ const queryUserTypeMenu = async (req,res,next)=>{
 const addUserTypeMenu = async (req,res,next)=>{
     let params = req.body;
     params.status = sysConst.status.usable;
+    if( params.menuList == undefined ){
+        params.menuList = {};
+    }
     try {
         if( params.id || params.id != undefined ){
             const rows = await userTypeMenuDAO.updateUserTypeMenu(params);
