@@ -29,7 +29,6 @@ const addUserTypeMenu = async (req,res,next)=>{
     try {
         if( params.id || params.id != undefined ){
             const rows = await userTypeMenuDAO.updateUserTypeMenu(params);
-            console.log(rows);
             resUtil.resetUpdateRes(res,rows);
             logger.info(' addUserTypeMenu updateUserTypeMenu ' + 'success');
             return next();
