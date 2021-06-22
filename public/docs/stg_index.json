@@ -380,7 +380,7 @@
           {
             "in": "query",
             "name": "appType",
-            "description": "app类型(1-新能源)",
+            "description": "app类型",
             "required": false,
             "type": "integer"
           },
