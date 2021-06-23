@@ -24,6 +24,10 @@
       "description": "UserMenuList base info api"
     },
     {
+      "name": "brand",
+      "description": "brand base info api"
+    },
+    {
       "name": "supplier",
       "description": "supplier base info api"
     },
@@ -515,6 +519,233 @@
           },
           "400": {
             "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
+    "/user/{userId}/brand": {
+      "post": {
+        "tags": [
+          "brand"
+        ],
+        "summary": "Add a new brand info",
+        "description": "",
+        "operationId": "Add brand",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"userInfo",
+            "description": "User object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Brand"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "brand"
+        ],
+        "summary": "Select brand Info",
+        "description": "Get brand info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "brandId",
+            "in": "query",
+            "description": "brandId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "brandName",
+            "in": "query",
+            "description": "brandName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/brand/{brandId}": {
+      "put": {
+        "tags": [
+          "brand"
+        ],
+        "summary": "Finds brand info and update",
+        "description": "update brand info",
+        "operationId": "update brand info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "brandId",
+            "in": "path",
+            "description": "brand unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "brandInfo",
+            "in": "body",
+            "description": "Brand object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Brand"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/brand/{brandId}/status": {
+      "put": {
+        "tags": [
+          "brand"
+        ],
+        "summary": "Finds brand and update",
+        "description": "update brand status",
+        "operationId": "update brand status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "brandId",
+            "in": "path",
+            "description": "brand unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态(0:停用,1:启用)",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/brand/{brandId}/del": {
+      "delete": {
+        "tags": [
+          "brand"
+        ],
+        "summary": "Delete brand",
+        "description": "Delete brand",
+        "operationId": "Delete brand by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "brandId",
+            "in": "path",
+            "description": "brand Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "UserId or brandId not found"
           }
         }
       }
@@ -1077,6 +1308,24 @@
       },
       "xml": {
         "name": "ChildrenArray"
+      }
+    },
+    "Brand": {
+      "type": "object",
+      "required": [
+        "remark",
+        "brandName"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "brandName": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Brand"
       }
     },
     "Supplier": {

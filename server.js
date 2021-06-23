@@ -9,6 +9,7 @@ const logger = serverLogger.createLogger('Server');
 const app = require('./bl/App');
 const user = require('./bl/User');
 const userTypeMenu = require('./bl/UserTypeMenu');
+const brand = require('./bl/Brand');
 // const supplier = require('./bl/Supplier');
 
 
@@ -76,6 +77,15 @@ const createServer=()=>{
     server.get('/api/user/:userId/typeMenu', userTypeMenu.queryUserTypeMenu);
     server.post({path:'/api/user/:userId/typeMenu',contentType: 'application/json'}, userTypeMenu.addUserTypeMenu);
     server.put({path:'/api/user/:userId/typeId/:typeId/status',contentType: 'application/json'} ,userTypeMenu.updateStatus);
+
+    /**
+     * Brand Module
+     */
+    server.get('/api/user/:userId/brand', brand.queryBrand);
+    server.post({path:'/api/user/:userId/brand',contentType: 'application/json'}, brand.addBrand);
+    server.put({path:'/api/user/:userId/brand/:brandId',contentType: 'application/json'} ,brand.updateBrand);
+    server.put({path:'/api/user/:userId/brand/:brandId/status',contentType: 'application/json'} ,brand.updateStatus);
+    server.del({path:'/api/user/:userId/brand/:brandId/del',contentType: 'application/json'},brand.deleteBrand);
 
     /**
      * Supplier Module
