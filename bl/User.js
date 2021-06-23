@@ -16,7 +16,7 @@ const userLogin = async (req,res,next)=>{
         const rows = await userDAO.queryUser({phone:params.userName, password:params.password});
         if(rows && rows.length<1){
             logger.warn(' userLogin ' + params.userName + sysMsg.CUST_LOGIN_USER_PSWD_ERROR);
-            resUtil.resetFailedRes(res,sysMsg.CUST_LOGIN_USER_PSWD_ERROR);
+            resUtil.resetFailedRes(res,{message:sysMsg.CUST_LOGIN_USER_PSWD_ERROR});
             return next();
         }else{
             let userInfo = {
@@ -54,6 +54,23 @@ const queryUser = async (req,res,next)=>{
         return next();
     }catch (e) {
         logger.error(" queryUser error",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
+const queryUserSysInfo = async(req,res,next)=>{
+    let params = req.query;
+    let path = req.params;
+    if(path.userId){
+        params.userId = path.userId;
+    }
+    try{
+        const rows = await userDAO.queryUserSysInfo(params);
+        logger.info(' queryUserSysInfo ' + 'success');
+        resUtil.resetQueryRes(res,rows,rows.length);
+        return next();
+    }catch (e) {
+        logger.error(" queryUserSysInfo error",e.stack);
         resUtil.resInternalError(e,res,next);
     }
 }
@@ -171,6 +188,7 @@ const deleteUser = async (req,res,next)=>{
 module.exports = {
     userLogin,
     queryUser,
+    queryUserSysInfo,
     addUser,
     updateUser,
     updatePassword,

@@ -72,7 +72,7 @@
         }
       }
     },
-    "/user": {
+    "/user/{userId}/user": {
       "post": {
         "tags": [
           "user"
@@ -87,6 +87,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
           {
             "in": "body",
             "name":"userInfo",
@@ -116,6 +123,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
           {
             "name": "id",
             "in": "query",
@@ -175,6 +189,30 @@
       }
     },
     "/user/{userId}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Select user Info",
+        "description": "Get user info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      },
       "put": {
         "tags": [
           "user"
@@ -192,7 +230,6 @@
             "description": "user unique id",
             "required": true,
             "type": "integer"
-
           },
           {
             "name": "userInfo",
@@ -241,7 +278,6 @@
             "description": "user unique id",
             "required": true,
             "type": "integer"
-
           },
           {
             "name": "password",
@@ -512,7 +548,7 @@
             "description": "User object that needs to be added to the store",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/UserMenuList"
+              "$ref": "#/definitions/Supplier"
             }
           }
         ],
@@ -1041,6 +1077,77 @@
       },
       "xml": {
         "name": "ChildrenArray"
+      }
+    },
+    "Supplier": {
+      "type": "object",
+      "required": [
+        "remark",
+        "supplierName",
+        "supplierType",
+        "contactName",
+        "email",
+        "tel",
+        "mobile",
+        "fax",
+        "address",
+        "invoiceTitle",
+        "invoiceBank",
+        "invoiceBankSer",
+        "invoiceAddress",
+        "settleType",
+        "settleMonthDay"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "supplierName": {
+          "type": "string"
+        },
+        "supplierType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "contactName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "tel": {
+          "type": "string"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "fax": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "invoice_title": {
+          "type": "string"
+        },
+        "invoice_bank": {
+          "type": "string"
+        },
+        "invoice_bank_ser": {
+          "type": "string"
+        },
+        "invoice_address": {
+          "type": "string"
+        },
+        "settle_type": {
+          "type": "string"
+        },
+        "settle_month_day": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Supplier"
       }
     },
     "App": {

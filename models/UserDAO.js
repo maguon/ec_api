@@ -6,7 +6,7 @@ class UserDAO  {
     static async queryUser(params) {
         let query = "select ui.id, ui.created_on, ui.updated_on, ui.status, ui.user_name, " +
             " ui.real_name, ui.phone, ui.email,  ui.gender, ui.type, utm.type_name, " +
-            " utm.menu_list, utm.status as type_status, utm.remarks " +
+            " utm.status as type_status, utm.remarks " +
             " from user_info ui " +
             " left join user_type_menu utm " +
             " on utm.id = ui.type " +
@@ -48,6 +48,23 @@ class UserDAO  {
             filterObj.size = params.size;
         }
         logger.debug(' queryUser ');
+        return await pgDb.any(query,filterObj);
+    }
+
+    static async queryUserSysInfo(params) {
+        let query = "select ui.id, ui.created_on, ui.updated_on, ui.status, ui.user_name, " +
+            " ui.real_name, ui.phone, ui.email,  ui.gender, ui.type, utm.type_name, " +
+            " utm.menu_list, utm.status as type_status, utm.remarks " +
+            " from user_info ui " +
+            " left join user_type_menu utm " +
+            " on utm.id = ui.type " +
+            " where ui.id is not null ";
+        let filterObj = {};
+        if(params.userId){
+            query += " and ui.id = ${userId} ";
+            filterObj.userId = params.userId;
+        }
+        logger.debug(' queryUserSysInfo ');
         return await pgDb.any(query,filterObj);
     }
 

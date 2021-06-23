@@ -62,8 +62,9 @@ const createServer=()=>{
      * User Module
      */
     server.post({path:'/api/userLogin',contentType: 'application/json'}, user.userLogin);
-    server.get('/api/user', user.queryUser);
-    server.post({path:'/api/user',contentType: 'application/json'}, user.addUser);
+    server.get('/api/user/:userId/user', user.queryUser);
+    server.get('/api/user/:userId', user.queryUserSysInfo);
+    server.post({path:'/api/user/:userId/user',contentType: 'application/json'}, user.addUser);
     server.put({path:'/api/user/:userId',contentType: 'application/json'} ,user.updateUser);
     server.put({path:'/api/user/:userId/password',contentType: 'application/json'} ,user.updatePassword);
     server.put({path:'/api/user/:userId/type',contentType: 'application/json'} ,user.updateType);
