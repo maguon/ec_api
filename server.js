@@ -9,7 +9,7 @@ const logger = serverLogger.createLogger('Server');
 const app = require('./bl/App');
 const user = require('./bl/User');
 const userTypeMenu = require('./bl/UserTypeMenu');
-const supplier = require('./bl/Supplier');
+// const supplier = require('./bl/Supplier');
 
 
 const createServer=()=>{
