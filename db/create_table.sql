@@ -274,7 +274,7 @@ CREATE TABLE IF NOT EXISTS public.date_base
     y_week integer NOT NULL,
     PRIMARY KEY (id)
 );
-SELECT cron.schedule('add_date_sdl', '0 0 * * *', $$insert into date_base (id,day,week,month,year,y_month,y_week) values
+SELECT cron.schedule('add_date_sdl', '0 16 * * *', $$insert into date_base (id,day,week,month,year,y_month,y_week) values
 ( CAST (to_char(current_timestamp, 'YYYYMMDD') AS NUMERIC)  ,
 CAST(ltrim(to_char(current_timestamp, 'DD'),'0') AS NUMERIC) ,
 CAST(ltrim(to_char(current_timestamp, 'WW'),'0')  AS NUMERIC) ,
@@ -282,3 +282,40 @@ CAST(ltrim(to_char(current_timestamp, 'MM'),'0') AS NUMERIC) ,
 CAST(to_char(current_timestamp, 'YYYY') AS NUMERIC),
 CAST(to_char(current_timestamp, 'YYYYMM') AS NUMERIC) ,
 CAST(to_char(current_timestamp, 'YYYYWW') AS NUMERIC));$$);
+
+--CREATE TABLE purchase_info
+CREATE TABLE IF NOT EXISTS public.purchase_info
+(
+    "id" bigserial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1,
+    "op_user" smallint NOT NULL DEFAULT 1,
+    "supplier_id" smallint NOT NULL DEFAULT 0,
+    "supplier_name" character varying(50),
+    "plan_date_id" integer ,
+    "finish_date_id" integer ,
+    "storage_status" smallint NOT NULL DEFAULT 1,
+    "payment_status" smallint NOT NULL DEFAULT 1,
+    "payment_date_id" integer,
+    "transfer_cost_type" smallint NOT NULL DEFAULT 1,
+    "transfer_cost" decimal(8,2)  NOT NULL DEFAULT 0,
+    "product_cost" decimal(8,2)  NOT NULL DEFAULT 0,
+    "total_cost" decimal(8,2)  NOT NULL DEFAULT 0,
+    "order_id" bigserial ,
+    PRIMARY KEY (id)
+);
+
+COMMENT ON COLUMN public.purchase_info.plan_date_id IS '创建日期';
+COMMENT ON COLUMN public.purchase_info.finish_date_id IS '完成日期';
+COMMENT ON COLUMN public.purchase_info.storage_status IS '仓储状态';
+COMMENT ON COLUMN public.purchase_info.payment_status IS '付款状态';
+COMMENT ON COLUMN public.purchase_info.payment_date_id IS '付款日期';
+COMMENT ON COLUMN public.purchase_info.transfer_cost_type IS '运费类型1:对方支付2:我方支付';
+COMMENT ON COLUMN public.purchase_info.transfer_cost IS '运费';
+COMMENT ON COLUMN public.purchase_info.product_cost IS '商品成本';
+COMMENT ON COLUMN public.purchase_info.total_cost IS '总成本';
+
+create trigger purchase_info_upt before update on purchase_info for each row execute procedure update_timestamp_func();
+
+SELECT cron.schedule('purchase_id_sdl', '0 16 * * *', $$select setval(' purchase_info_id_seq',(CAST(to_char(current_timestamp, 'YYYYMMDD0001') AS BIGINT)),false);$$);
