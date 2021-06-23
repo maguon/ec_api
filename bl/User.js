@@ -7,7 +7,7 @@ const sysError = require('../util/SystemError.js');
 const encrypt = require('../util/Encrypt.js');
 const oAuthUtil = require('../util/OAuthUtil.js');
 const resUtil = require('../util/ResponseUtil.js');
-const logger = serverLogger.createLogger('UserInfo.js');
+const logger = serverLogger.createLogger('User.js');
 
 const userLogin = async (req,res,next)=>{
     let params = req.body;
@@ -91,6 +91,32 @@ const updateUser = async (req,res,next)=>{
 
 }
 
+const updatePassword = async (req,res,next)=>{
+    let params = req.body;
+    let path = req.params;
+    if(path.userId){
+        params.userId = path.userId;
+    }
+    try{
+        const userInfo = await userDAO.queryUser({
+            userId:params.userId, password:encrypt.encryptByMd5NoKey(params.originPassword)});
+        if(userInfo && userInfo.length<1){
+            logger.warn(' updatePassword ' + params.userId + sysMsg.CUST_LOGIN_USER_PSWD_ERROR);
+            resUtil.resetFailedRes(res,{message:sysMsg.CUST_LOGIN_USER_PSWD_ERROR});
+            return next();
+        }else{
+            const rows = await userDAO.updatePassword({
+                userId:params.userId, password:encrypt.encryptByMd5NoKey(params.newPassword)});
+            logger.info(' updatePassword ' + 'success');
+            resUtil.resetUpdateRes(res,rows);
+            return next();
+        }
+    }catch (e) {
+        logger.error(" updatePassword error ",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 const updateStatus = async (req,res,next)=>{
     let params = req.query;
     let path = req.params;
@@ -104,6 +130,23 @@ const updateStatus = async (req,res,next)=>{
         return next();
     }catch (e) {
         logger.error(" updateStatus error ",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
+const updateType = async (req,res,next)=>{
+    let params = req.query;
+    let path = req.params;
+    if(path.userId){
+        params.userId = path.userId;
+    }
+    try{
+        const rows = await userDAO.updateType(params);
+        logger.info(' updateType ' + 'success');
+        resUtil.resetUpdateRes(res,rows);
+        return next();
+    }catch (e) {
+        logger.error(" updateType error ",e.stack);
         resUtil.resInternalError(e,res,next);
     }
 }
@@ -130,6 +173,8 @@ module.exports = {
     queryUser,
     addUser,
     updateUser,
+    updatePassword,
+    updateType,
     updateStatus,
     deleteUser
 }

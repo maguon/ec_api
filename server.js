@@ -9,6 +9,7 @@ const logger = serverLogger.createLogger('Server');
 const app = require('./bl/App');
 const user = require('./bl/User');
 const userTypeMenu = require('./bl/UserTypeMenu');
+const supplier = require('./bl/Supplier');
 
 
 const createServer=()=>{
@@ -64,6 +65,8 @@ const createServer=()=>{
     server.get('/api/user', user.queryUser);
     server.post({path:'/api/user',contentType: 'application/json'}, user.addUser);
     server.put({path:'/api/user/:userId',contentType: 'application/json'} ,user.updateUser);
+    server.put({path:'/api/user/:userId/password',contentType: 'application/json'} ,user.updatePassword);
+    server.put({path:'/api/user/:userId/type',contentType: 'application/json'} ,user.updateType);
     server.put({path:'/api/user/:userId/status',contentType: 'application/json'} ,user.updateStatus);
     server.del({path:'/api/user/:userId',contentType: 'application/json'},user.deleteUser);
 
@@ -73,6 +76,13 @@ const createServer=()=>{
     server.get('/api/user/:userId/typeMenu', userTypeMenu.queryUserTypeMenu);
     server.post({path:'/api/user/:userId/typeMenu',contentType: 'application/json'}, userTypeMenu.addUserTypeMenu);
     server.put({path:'/api/user/:userId/typeId/:typeId/status',contentType: 'application/json'} ,userTypeMenu.updateStatus);
+
+    /**
+     * Supplier Module
+     */
+    // server.get('/api/user/:userId/Supplier', supplier.querySupplier);
+    // server.post({path:'/api/user/:userId/Supplier',contentType: 'application/json'}, supplier.addSupplier);
+    // server.put({path:'/api/user/:userId/supplierId/:supplierId/status',contentType: 'application/json'} ,supplier.updateStatus);
 
     /**
      * App Module

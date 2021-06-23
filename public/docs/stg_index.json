@@ -24,6 +24,10 @@
       "description": "UserMenuList base info api"
     },
     {
+      "name": "supplier",
+      "description": "supplier base info api"
+    },
+    {
       "name": "app",
       "description": "app version"
 
@@ -196,7 +200,7 @@
             "description": "User object that needs to be added to the store",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/UserPut"
             }
           }
         ],
@@ -217,14 +221,16 @@
             "description": "AdminUserId not found"
           }
         }
-      },
-      "delete": {
+      }
+    },
+    "/user/{userId}/password": {
+      "put": {
         "tags": [
           "user"
         ],
-        "summary": "Delete user and userDetail",
-        "description": "delete user info and userDetail",
-        "operationId": "delete user info by id",
+        "summary": "Finds userInfo and update password",
+        "description": "update user password",
+        "operationId": "update user password by id",
         "produces": [
           "application/json"
         ],
@@ -236,14 +242,69 @@
             "required": true,
             "type": "integer"
 
+          },
+          {
+            "name": "password",
+            "in": "body",
+            "description": "User object that needs to be update to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Password"
+            }
           }
         ],
         "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
           "400": {
             "description": "Invalid params "
           },
           "404": {
-            "description": "UserId not found"
+            "description": "AdminUserId not found"
+          }
+        }
+      }
+    },
+    "/user/{userId}/type": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Finds user type and update",
+        "description": "update user type",
+        "operationId": "update user type by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "用户组别",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
           }
         }
       }
@@ -418,6 +479,99 @@
           },
           "400": {
             "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
+    "/user/{userId}/Supplier": {
+      "post": {
+        "tags": [
+          "supplier"
+        ],
+        "summary": "Add a new supplier info",
+        "description": "",
+        "operationId": "Add supplier",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"userInfo",
+            "description": "User object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserMenuList"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "supplier"
+        ],
+        "summary": "Select supplier Info",
+        "description": "Get supplier info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "typeId",
+            "in": "query",
+            "description": "typeId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
           }
         }
       }
@@ -702,8 +856,10 @@
       "type": "object",
       "required": [
         "userName",
+        "realName",
         "password",
         "phone",
+        "email",
         "gender",
         "status",
         "types"
@@ -712,10 +868,16 @@
         "userName": {
           "type": "string"
         },
+        "realName": {
+          "type": "string"
+        },
         "password": {
           "type": "string"
         },
         "phone": {
+          "type": "string"
+        },
+        "email": {
           "type": "string"
         },
         "gender": {
@@ -736,6 +898,64 @@
       },
       "xml": {
         "name": "user"
+      }
+    },
+    "UserPut": {
+      "type": "object",
+      "required": [
+        "userName",
+        "realName",
+        "email",
+        "gender",
+        "status",
+        "types"
+      ],
+      "properties": {
+        "userName": {
+          "type": "string"
+        },
+        "realName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int64",
+          "enum": [
+            0,
+            1
+          ]
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "user"
+      }
+    },
+    "Password": {
+      "type": "object",
+      "required": [
+        "originPassword",
+        "newPassword"
+      ],
+      "properties": {
+        "originPassword": {
+          "type": "string"
+        },
+        "newPassword": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Password"
       }
     },
     "UserMenuList": {

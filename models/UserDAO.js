@@ -4,36 +4,41 @@ var logger = serverLogger.createLogger('UserDAO.js');
 
 class UserDAO  {
     static async queryUser(params) {
-        let query = "select id, created_on, updated_on, status, user_name, phone, gender, type from user_info where id is not null ";
+        let query = "select ui.id, ui.created_on, ui.updated_on, ui.status, ui.user_name, " +
+            " ui.real_name, ui.phone, ui.email,  ui.gender, ui.type, utm.type_name, " +
+            " utm.menu_list, utm.status as type_status, utm.remarks " +
+            " from user_info ui " +
+            " left join user_type_menu utm " +
+            " on utm.id = ui.type " +
+            " where ui.id is not null ";
         let filterObj = {};
         if(params.id){
-            query += " and id = ${id} ";
+            query += " and ui.id = ${id} ";
             filterObj.id = params.id;
         }
         if(params.status){
-            query += " and status = ${status} ";
+            query += " and ui.status = ${status} ";
             filterObj.status = params.status;
         }
         if(params.userName){
-            query += " and user_name like  '%" + params.userName + "%' ";
+            query += " and ui.user_name like  '%" + params.userName + "%' ";
         }
         if(params.password){
-            query += " and password = ${password} ";
+            query += " and ui.password = ${password} ";
             filterObj.password = params.password;
         }
         if(params.phone){
-            query += " and phone = ${phone} ";
-            filterObj.phone = params.phone;
+            query += " and ui.phone like  '%" + params.phone + "%' ";
         }
         if(params.gender){
-            query += " and gender = ${gender} ";
+            query += " and ui.gender = ${gender} ";
             filterObj.gender = params.gender;
         }
         if(params.type){
-            query += " and type = ${type} ";
+            query += " and ui.type = ${type} ";
             filterObj.type = params.type;
         }
-        query = query + '  order by id desc ';
+        query = query + '  order by ui.id desc ';
         if(params.start){
             query += " offset ${start} ";
             filterObj.start = params.start;
@@ -81,14 +86,16 @@ class UserDAO  {
     }
 
     static async addUser(params) {
-        const query = 'INSERT INTO user_info (status , user_name , password , phone , gender , type) ' +
-            ' VALUES (${status} , ${userName} , ${password} , ${phone} , ${gender} , ${type} ) ' +
+        const query = 'INSERT INTO user_info (status , user_name , real_name , password , phone , email , gender , type) ' +
+            ' VALUES (${status} , ${userName} , ${realName} , ${password} , ${phone} , ${email} , ${gender} , ${type} ) ' +
             ' on conflict(phone) DO NOTHING RETURNING id ';
         let valueObj = {};
         valueObj.status = params.status;
         valueObj.userName = params.userName;
+        valueObj.realName = params.realName;
         valueObj.password = params.password;
         valueObj.phone = params.phone;
+        valueObj.email = params.email;
         valueObj.gender = params.gender;
         valueObj.type = params.type;
         logger.debug(' addUser ');
@@ -96,16 +103,36 @@ class UserDAO  {
     }
 
     static async updateUser(params){
-        const query = 'update user_info set user_name= ${userName} , password=${password} , phone=${phone} , gender=${gender} ,  type=${type} ' +
+        const query = 'update user_info set user_name= ${userName} , real_name=${realName} , email=${email} , gender=${gender} ,  type=${type} ' +
             'where id =${userId} RETURNING id ';
         let valueObj = {};
         valueObj.userName = params.userName;
-        valueObj.password = params.password;
-        valueObj.phone = params.phone;
+        valueObj.realName = params.realName;
+        valueObj.email = params.email;
         valueObj.gender = params.gender;
         valueObj.type = params.type;
         valueObj.userId =params.userId;
         logger.debug(' updateUser ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    static async updatePassword(params){
+        const query = 'update user_info set password= ${password} ' +
+            'where id =${userId} RETURNING id ';
+        let valueObj = {};
+        valueObj.password = params.password;
+        valueObj.userId =params.userId;
+        logger.debug(' updatePassword ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    static async updateType(params){
+        const query = 'update user_info set type= ${type} ' +
+            'where id =${userId} RETURNING id ';
+        let valueObj = {};
+        valueObj.type = params.type;
+        valueObj.userId = params.userId;
+        logger.debug(' updateType ');
         return await pgDb.any(query,valueObj);
     }
 

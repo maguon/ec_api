@@ -20,8 +20,10 @@ CREATE TABLE IF NOT EXISTS public.user_info
     updated_on timestamp with time zone NOT NULL DEFAULT NOW(),
     status smallint NOT NULL,
     user_name character varying(50) NOT NULL,
+    real_name character varying(50),
     password character varying(50) NOT NULL,
     phone character varying(50) NOT NULL,
+    email character varying(100),
     gender smallint,
     type integer NOT NULL,
     PRIMARY KEY (id)
@@ -29,8 +31,10 @@ CREATE TABLE IF NOT EXISTS public.user_info
 
 COMMENT ON COLUMN public.user_info.status IS '状态（0-停用，1-可用）';
 COMMENT ON COLUMN public.user_info.user_name IS '用户名称';
+COMMENT ON COLUMN public.user_info.real_name IS '真实姓名';
 COMMENT ON COLUMN public.user_info.password IS '密码';
 COMMENT ON COLUMN public.user_info.phone IS '联系方式';
+COMMENT ON COLUMN public.user_info.email IS '邮箱';
 COMMENT ON COLUMN public.user_info.gender IS '性别（0-女，1-男）';
 COMMENT ON COLUMN public.user_info.type IS '用户类型（99-超级管理员）';
 
@@ -38,6 +42,10 @@ create trigger user_info_upt before update on user_info for each row execute pro
 select setval('user_info_id_seq',1000,false);
 
 CREATE UNIQUE INDEX uk_user_info_phone ON user_info(phone);
+
+INSERT INTO user_info (status , user_name , real_name , password , phone , email , gender , type)
+VALUES (1 , '超级管理员' , '管理员' , 'E10ADC3949BA59ABBE56E057F20F883E' , '19999999999' , '1234567@qq.com' , 0 , 99 )
+on conflict(phone) DO NOTHING RETURNING id
 
 --CREATE TABLE supplier_info
 CREATE TABLE IF NOT EXISTS public.supplier_info (
