@@ -20,8 +20,8 @@ class UserDAO  {
             query += " and ui.status = ${status} ";
             filterObj.status = params.status;
         }
-        if(params.userName){
-            query += " and ui.user_name like  '%" + params.userName + "%' ";
+        if(params.realName){
+            query += " and ui.real_name like  '%" + params.realName + "%' ";
         }
         if(params.password){
             query += " and ui.password = ${password} ";
@@ -160,14 +160,6 @@ class UserDAO  {
         valueObj.status = params.status;
         valueObj.userId = params.userId;
         logger.debug(' updateStatus ');
-        return await pgDb.any(query,valueObj);
-    }
-
-    static async deleteUser(params){
-        const query = 'delete from user_info where id =${userId} RETURNING id ';
-        let valueObj = {};
-        valueObj.userId =params.userId;
-        logger.debug(' deleteUser ');
         return await pgDb.any(query,valueObj);
     }
 }

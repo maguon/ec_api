@@ -69,7 +69,6 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/password',contentType: 'application/json'} ,user.updatePassword);
     server.put({path:'/api/user/:userId/type',contentType: 'application/json'} ,user.updateType);
     server.put({path:'/api/user/:userId/status',contentType: 'application/json'} ,user.updateStatus);
-    server.del({path:'/api/user/:userId',contentType: 'application/json'},user.deleteUser);
 
     /**
      * UserTypeMenu Module

@@ -168,23 +168,6 @@ const updateType = async (req,res,next)=>{
     }
 }
 
-const deleteUser = async (req,res,next)=>{
-    let params = req.query;
-    let path = req.params;
-    if(path.userId){
-        params.userId = path.userId;
-    }
-    try{
-        const rows = await userDAO.deleteUser(params);
-        logger.info(' deleteUser ' + 'success');
-        resUtil.resetUpdateRes(res,rows);
-        return next();
-    }catch (e) {
-        logger.error(" deleteUser error ",e.stack);
-        resUtil.resInternalError(e,res,next);
-    }
-}
-
 module.exports = {
     userLogin,
     queryUser,
@@ -193,6 +176,5 @@ module.exports = {
     updateUser,
     updatePassword,
     updateType,
-    updateStatus,
-    deleteUser
+    updateStatus
 }

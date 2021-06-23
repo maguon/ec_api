@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS public.user_info
     created_on timestamp with time zone NOT NULL DEFAULT NOW(),
     updated_on timestamp with time zone NOT NULL DEFAULT NOW(),
     status smallint NOT NULL,
-    user_name character varying(50) NOT NULL,
+    user_name character varying(50),
     real_name character varying(50),
     password character varying(50) NOT NULL,
     phone character varying(50) NOT NULL,

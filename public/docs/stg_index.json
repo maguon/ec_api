@@ -144,9 +144,9 @@
             "required": false,
             "type": "integer"
           },{
-            "name": "userName",
+            "name": "realName",
             "in": "query",
-            "description": "用户名称",
+            "description": "真实姓名",
             "required": false,
             "type": "string"
           },{
