@@ -10,6 +10,7 @@ const app = require('./bl/App');
 const user = require('./bl/User');
 const userTypeMenu = require('./bl/UserTypeMenu');
 const brand = require('./bl/Brand');
+const brandModel = require('./bl/BrandModel');
 // const supplier = require('./bl/Supplier');
 
 
@@ -86,6 +87,15 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/brand/:brandId',contentType: 'application/json'} ,brand.updateBrand);
     server.put({path:'/api/user/:userId/brand/:brandId/status',contentType: 'application/json'} ,brand.updateStatus);
     server.del({path:'/api/user/:userId/brand/:brandId/del',contentType: 'application/json'},brand.deleteBrand);
+
+    /**
+     * BrandModel Module
+     */
+    server.get('/api/user/:userId/brandModel', brandModel.queryBrandModel);
+    server.post({path:'/api/user/:userId/brandModel',contentType: 'application/json'}, brandModel.addBrandModel);
+    server.put({path:'/api/user/:userId/brandModel/:brandModelId',contentType: 'application/json'} ,brandModel.updateBrandModel);
+    server.put({path:'/api/user/:userId/brandModel/:brandModelId/status',contentType: 'application/json'} ,brandModel.updateStatus);
+    server.del({path:'/api/user/:userId/brandModel/:brandModelId/del',contentType: 'application/json'},brandModel.deleteBrandModel);
 
     /**
      * Supplier Module

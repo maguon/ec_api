@@ -28,6 +28,10 @@
       "description": "brand base info api"
     },
     {
+      "name": "brandModel",
+      "description": "brandModel base info api"
+    },
+    {
       "name": "supplier",
       "description": "supplier base info api"
     },
@@ -751,6 +755,240 @@
       }
     },
 
+    "/user/{userId}/brandModel": {
+      "post": {
+        "tags": [
+          "brandModel"
+        ],
+        "summary": "Add a new brandModel info",
+        "description": "",
+        "operationId": "Add brandModel",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"brandModelInfo",
+            "description": "brandModel object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BrandModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "brandModel"
+        ],
+        "summary": "Select brandModel Info",
+        "description": "Get brandModel info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "brandId",
+            "in": "query",
+            "description": "brandId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "brandModelId",
+            "in": "query",
+            "description": "brandModelId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "brandModelName",
+            "in": "query",
+            "description": "brandModelName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/brandModel/{brandModelId}": {
+      "put": {
+        "tags": [
+          "brandModel"
+        ],
+        "summary": "Finds brandModel info and update",
+        "description": "update brandModel info",
+        "operationId": "update brandModel info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "brandModelId",
+            "in": "path",
+            "description": "brandModel unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "brandModelInfo",
+            "in": "body",
+            "description": "BrandModel object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BrandModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/brandModel/{brandModelId}/status": {
+      "put": {
+        "tags": [
+          "brandModel"
+        ],
+        "summary": "Finds brandModel and update",
+        "description": "update brandModel status",
+        "operationId": "update brandModel status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "brandModelId",
+            "in": "path",
+            "description": "brandModel unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态(0:停用,1:启用)",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/brandModel/{brandModelId}/del": {
+      "delete": {
+        "tags": [
+          "brandModel"
+        ],
+        "summary": "Delete brandModel",
+        "description": "Delete brandModel",
+        "operationId": "Delete brandModel by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "brandModelId",
+            "in": "path",
+            "description": "brandModel Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "UserId or brandModelId not found"
+          }
+        }
+      }
+    },
+
     "/user/{userId}/Supplier": {
       "post": {
         "tags": [
@@ -1326,6 +1564,28 @@
       },
       "xml": {
         "name": "Brand"
+      }
+    },
+    "BrandModel": {
+      "type": "object",
+      "required": [
+        "remark",
+        "brandModelName",
+        "brandId"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "brandModelName": {
+          "type": "string"
+        },
+        "brandId": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "BrandModel"
       }
     },
     "Supplier": {
