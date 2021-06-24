@@ -774,7 +774,7 @@
     "/user/{userId}/brandModel": {
       "post": {
         "tags": [
-          "brandModel"
+          "brand"
         ],
         "summary": "Add a new brandModel info",
         "description": "",
@@ -814,7 +814,7 @@
       },
       "get": {
         "tags": [
-          "brandModel"
+          "brand"
         ],
         "summary": "Select brandModel Info",
         "description": "Get brandModel info",
@@ -880,7 +880,7 @@
     "/user/{userId}/brandModel/{brandModelId}": {
       "put": {
         "tags": [
-          "brandModel"
+          "brand"
         ],
         "summary": "Finds brandModel info and update",
         "description": "update brandModel info",
@@ -926,7 +926,7 @@
     "/user/{userId}/brandModel/{brandModelId}/status": {
       "put": {
         "tags": [
-          "brandModel"
+          "brand"
         ],
         "summary": "Finds brandModel and update",
         "description": "update brandModel status",
@@ -970,7 +970,7 @@
     "/user/{userId}/brandModel/{brandModelId}/del": {
       "delete": {
         "tags": [
-          "brandModel"
+          "brand"
         ],
         "summary": "Delete brandModel",
         "description": "Delete brandModel",
@@ -1235,7 +1235,7 @@
     "/user/{userId}/categorySub": {
       "post": {
         "tags": [
-          "categorySub"
+          "category"
         ],
         "summary": "Add a new categorySub info",
         "description": "",
@@ -1275,7 +1275,7 @@
       },
       "get": {
         "tags": [
-          "categorySub"
+          "category"
         ],
         "summary": "Select categorySub Info",
         "description": "Get categorySub info",
@@ -1341,7 +1341,7 @@
     "/user/{userId}/categorySub/{categorySubId}": {
       "put": {
         "tags": [
-          "categorySub"
+          "category"
         ],
         "summary": "Finds categorySub info and update",
         "description": "update categorySub info",
@@ -1387,7 +1387,7 @@
     "/user/{userId}/categorySub/{categorySubId}/status": {
       "put": {
         "tags": [
-          "categorySub"
+          "category"
         ],
         "summary": "Finds categorySub and update",
         "description": "update categorySub status",
@@ -1431,7 +1431,7 @@
     "/user/{userId}/categorySub/{categorySubId}/del": {
       "delete": {
         "tags": [
-          "categorySub"
+          "category"
         ],
         "summary": "Delete categorySub",
         "description": "Delete categorySub",
@@ -1696,7 +1696,7 @@
     "/user/{userId}/storageArea": {
       "post": {
         "tags": [
-          "storageArea"
+          "storage"
         ],
         "summary": "Add a new storageArea info",
         "description": "",
@@ -1736,7 +1736,7 @@
       },
       "get": {
         "tags": [
-          "storageArea"
+          "storage"
         ],
         "summary": "Select storageArea Info",
         "description": "Get storageArea info",
@@ -1802,7 +1802,7 @@
     "/user/{userId}/storageArea/{storageAreaId}": {
       "put": {
         "tags": [
-          "storageArea"
+          "storage"
         ],
         "summary": "Finds storageArea info and update",
         "description": "update storageArea info",
@@ -1848,7 +1848,7 @@
     "/user/{userId}/storageArea/{storageAreaId}/status": {
       "put": {
         "tags": [
-          "storageArea"
+          "storage"
         ],
         "summary": "Finds storageArea and update",
         "description": "update storageArea status",
@@ -1892,7 +1892,7 @@
     "/user/{userId}/storageArea/{storageAreaId}/del": {
       "delete": {
         "tags": [
-          "storageArea"
+          "storage"
         ],
         "summary": "Delete storageArea",
         "description": "Delete storageArea",
