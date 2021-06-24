@@ -21,31 +21,19 @@
     },
     {
       "name": "userTypeMenu",
-      "description": "UserMenuList base info api"
+      "description": "UserTypeMenu base info api"
     },
     {
       "name": "brand",
       "description": "brand base info api"
     },
     {
-      "name": "brandModel",
-      "description": "brandModel base info api"
-    },
-    {
       "name": "category",
       "description": "category base info api"
     },
     {
-      "name": "categorySub",
-      "description": "categorySub base info api"
-    },
-    {
       "name": "storage",
       "description": "storage base info api"
-    },
-    {
-      "name": "storageArea",
-      "description": "storageArea base info api"
     },
     {
       "name": "supplier",
@@ -1927,7 +1915,7 @@
       }
     },
 
-    "/user/{userId}/Supplier": {
+    "/user/{userId}/supplier": {
       "post": {
         "tags": [
           "supplier"
@@ -1951,8 +1939,8 @@
           },
           {
             "in": "body",
-            "name":"userInfo",
-            "description": "User object that needs to be added to the store",
+            "name":"supplierInfo",
+            "description": "supplier object that needs to be added to the store",
             "required": true,
             "schema": {
               "$ref": "#/definitions/Supplier"
@@ -1986,9 +1974,23 @@
             "type": "integer"
           },
           {
-            "name": "typeId",
+            "name": "supplierId",
             "in": "query",
-            "description": "typeId",
+            "description": "supplierId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "supplierName",
+            "in": "query",
+            "description": "supplierName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "supplierType",
+            "in": "query",
+            "description": "supplierType",
             "required": false,
             "type": "integer"
           },
@@ -2015,6 +2017,133 @@
         "responses": {
           "400": {
             "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/supplier/{supplierId}": {
+      "put": {
+        "tags": [
+          "supplier"
+        ],
+        "summary": "Finds supplier info and update",
+        "description": "update supplier info",
+        "operationId": "update supplier info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "supplierId",
+            "in": "path",
+            "description": "supplier unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "supplierInfo",
+            "in": "body",
+            "description": "Supplier object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Supplier"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/supplier/{supplierId}/status": {
+      "put": {
+        "tags": [
+          "supplier"
+        ],
+        "summary": "Finds supplier and update",
+        "description": "update supplier status",
+        "operationId": "update supplier status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "supplierId",
+            "in": "path",
+            "description": "supplier unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态(0:停用,1:启用)",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/supplier/{supplierId}/del": {
+      "delete": {
+        "tags": [
+          "supplier"
+        ],
+        "summary": "Delete supplier",
+        "description": "Delete supplier",
+        "operationId": "Delete supplier by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "supplierId",
+            "in": "path",
+            "description": "supplier Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "SupplierId not found"
           }
         }
       }
@@ -2654,23 +2783,25 @@
         "address": {
           "type": "string"
         },
-        "invoice_title": {
+        "invoiceTitle": {
           "type": "string"
         },
-        "invoice_bank": {
+        "invoiceBank": {
           "type": "string"
         },
-        "invoice_bank_ser": {
+        "invoiceBankSer": {
           "type": "string"
         },
-        "invoice_address": {
+        "invoiceAddress": {
           "type": "string"
         },
-        "settle_type": {
-          "type": "string"
+        "settleType": {
+          "type": "integer",
+          "format": "int64"
         },
-        "settle_month_day": {
-          "type": "string"
+        "settleMonthDay": {
+          "type": "integer",
+          "format": "int64"
         }
       },
       "xml": {

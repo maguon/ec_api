@@ -15,7 +15,7 @@ const category = require('./bl/Category');
 const categorySub = require('./bl/CategorySub');
 const storage = require('./bl/Storage');
 const storageArea = require('./bl/StorageArea');
-// const supplier = require('./bl/Supplier');
+const supplier = require('./bl/Supplier');
 
 
 const createServer=()=>{
@@ -137,13 +137,14 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/storageArea/:storageAreaId/status',contentType: 'application/json'} ,storageArea.updateStatus);
     server.del({path:'/api/user/:userId/storageArea/:storageAreaId/del',contentType: 'application/json'},storageArea.deleteStorageArea);
 
-
     /**
      * Supplier Module
      */
-    // server.get('/api/user/:userId/Supplier', supplier.querySupplier);
-    // server.post({path:'/api/user/:userId/Supplier',contentType: 'application/json'}, supplier.addSupplier);
-    // server.put({path:'/api/user/:userId/supplierId/:supplierId/status',contentType: 'application/json'} ,supplier.updateStatus);
+    server.get('/api/user/:userId/supplier', supplier.querySupplier);
+    server.post({path:'/api/user/:userId/supplier',contentType: 'application/json'}, supplier.addSupplier);
+    server.put({path:'/api/user/:userId/supplier/:supplierId',contentType: 'application/json'} ,supplier.updateSupplier);
+    server.put({path:'/api/user/:userId/supplier/:supplierId/status',contentType: 'application/json'} ,supplier.updateStatus);
+    server.del({path:'/api/user/:userId/supplier/:supplierId/del',contentType: 'application/json'},supplier.deleteSupplier);
 
     /**
      * App Module
