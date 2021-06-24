@@ -36,6 +36,10 @@
       "description": "category base info api"
     },
     {
+      "name": "categorySub",
+      "description": "categorySub base info api"
+    },
+    {
       "name": "supplier",
       "description": "supplier base info api"
     },
@@ -1220,6 +1224,240 @@
       }
     },
 
+    "/user/{userId}/categorySub": {
+      "post": {
+        "tags": [
+          "categorySub"
+        ],
+        "summary": "Add a new categorySub info",
+        "description": "",
+        "operationId": "Add categorySub",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"categorySubInfo",
+            "description": "CategorySub object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CategorySub"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "categorySub"
+        ],
+        "summary": "Select categorySub Info",
+        "description": "Get categorySub info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categorySubId",
+            "in": "query",
+            "description": "categorySubId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "categoryId",
+            "in": "query",
+            "description": "categoryId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "categorySubName",
+            "in": "query",
+            "description": "categorySubName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/categorySub/{categorySubId}": {
+      "put": {
+        "tags": [
+          "categorySub"
+        ],
+        "summary": "Finds categorySub info and update",
+        "description": "update categorySub info",
+        "operationId": "update categorySub info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categorySubId",
+            "in": "path",
+            "description": "categorySub unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categorySubInfo",
+            "in": "body",
+            "description": "CategorySub object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CategorySub"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/categorySub/{categorySubId}/status": {
+      "put": {
+        "tags": [
+          "categorySub"
+        ],
+        "summary": "Finds categorySub and update",
+        "description": "update categorySub status",
+        "operationId": "update categorySub status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categorySubId",
+            "in": "path",
+            "description": "categorySub unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态(0:停用,1:启用)",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/categorySub/{categorySubId}/del": {
+      "delete": {
+        "tags": [
+          "categorySub"
+        ],
+        "summary": "Delete categorySub",
+        "description": "Delete categorySub",
+        "operationId": "Delete categorySub by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categorySubId",
+            "in": "path",
+            "description": "categorySub Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "UserId or categorySubId not found"
+          }
+        }
+      }
+    },
+
     "/user/{userId}/Supplier": {
       "post": {
         "tags": [
@@ -1812,7 +2050,7 @@
           "type": "string"
         },
         "brandId": {
-          "type": "string"
+          "type": "integer"
         }
       },
       "xml": {
@@ -1835,6 +2073,28 @@
       },
       "xml": {
         "name": "Category"
+      }
+    },
+    "CategorySub": {
+      "type": "object",
+      "required": [
+        "remark",
+        "categorySubName",
+        "categoryId"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "categorySubName": {
+          "type": "string"
+        },
+        "categoryId": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "CategorySub"
       }
     },
     "Supplier": {

@@ -12,6 +12,7 @@ const userTypeMenu = require('./bl/UserTypeMenu');
 const brand = require('./bl/Brand');
 const brandModel = require('./bl/BrandModel');
 const categoryModel = require('./bl/CategoryModel');
+const categorySubModel = require('./bl/CategorySubModel');
 // const supplier = require('./bl/Supplier');
 
 
@@ -106,6 +107,15 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/category/:categoryId',contentType: 'application/json'} ,categoryModel.updateCategory);
     server.put({path:'/api/user/:userId/category/:categoryId/status',contentType: 'application/json'} ,categoryModel.updateStatus);
     server.del({path:'/api/user/:userId/category/:categoryId/del',contentType: 'application/json'},categoryModel.deleteCategory);
+
+    /**
+     * CategorySub Module
+     */
+    server.get('/api/user/:userId/categorySub', categorySubModel.queryCategorySub);
+    server.post({path:'/api/user/:userId/categorySub',contentType: 'application/json'}, categorySubModel.addCategorySub);
+    server.put({path:'/api/user/:userId/categorySub/:categorySubId',contentType: 'application/json'} ,categorySubModel.updateCategorySub);
+    server.put({path:'/api/user/:userId/categorySub/:categorySubId/status',contentType: 'application/json'} ,categorySubModel.updateStatus);
+    server.del({path:'/api/user/:userId/categorySub/:categorySubId/del',contentType: 'application/json'},categorySubModel.deleteCategorySub);
 
 
     /**
