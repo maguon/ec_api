@@ -352,3 +352,45 @@ COMMENT ON COLUMN public.purchase_item.unit_cost IS '商品单价';
 COMMENT ON COLUMN public.purchase_item.purchase_count IS '采购数量';
 COMMENT ON COLUMN public.purchase_item.total_cost IS '总成本';
 create trigger purchase_item_upt before update on purchase_item for each row execute procedure update_timestamp_func();
+select setval(' purchase_item_id_seq',10000,false);
+
+--CREATE TABLE purchase_refund
+CREATE TABLE IF NOT EXISTS public.purchase_refund
+(
+    "id" serial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1,
+    "op_user" smallint NOT NULL DEFAULT 1,
+    "remark" character varying(200),
+    "supplier_id" smallint NOT NULL DEFAULT 0,
+    "purchase_id" bigint NOT NULL DEFAULT 0,
+    "purchase_item_id" int NOT NULL DEFAULT 0,
+    "product_id" smallint NOT NULL DEFAULT 0,
+    "product_name" character varying(40),
+    "storage_type" smallint NOT NULL DEFAULT 0,
+    "storage_rel_id" bigint,
+    "date_id" integer,
+    "payment_status" smallint NOT NULL DEFAULT 1,
+    "refund_unit_cost" decimal(8,2)  NOT NULL DEFAULT 0,
+    "refund_count" decimal(8,2)  NOT NULL DEFAULT 0,
+    "transfer_cost_type" smallint NOT NULL DEFAULT 1,
+    "transfer_cost" decimal(8,2)  NOT NULL DEFAULT 0,
+    "total_cost" decimal(8,2)  NOT NULL DEFAULT 0,
+    "refund_profile" decimal(8,2)  NOT NULL DEFAULT 0,
+    "order_id" bigint ,
+    PRIMARY KEY (id)
+);
+COMMENT ON COLUMN public.purchase_refund.purchase_id IS '采购单ID';
+COMMENT ON COLUMN public.purchase_refund.purchase_item_id IS '采购条目ID';
+COMMENT ON COLUMN public.purchase_refund.product_id IS '商品ID';
+COMMENT ON COLUMN public.purchase_refund.storage_type IS '需要出库0不出库,1出库';
+COMMENT ON COLUMN public.purchase_refund.storage_rel_id IS '出库操作ID';
+COMMENT ON COLUMN public.purchase_refund.date_id IS '完成日期';
+COMMENT ON COLUMN public.purchase_refund.payment_status IS '退款完成';
+COMMENT ON COLUMN public.purchase_refund.refund_unit_cost IS '退货单价';
+COMMENT ON COLUMN public.purchase_refund.transfer_cost IS '退货运费';
+COMMENT ON COLUMN public.purchase_refund.refund_profile IS '退货盈亏';
+
+create trigger purchase_refund_upt before update on purchase_refund for each row execute procedure update_timestamp_func();
+select setval(' product_refund_id_seq',10000,false);
