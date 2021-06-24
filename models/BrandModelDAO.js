@@ -4,32 +4,36 @@ const logger = serverLogger.createLogger('BrandModelDAO.js');
 
 class BrandModelDAO  {
     static async queryBrandModel(params) {
-        let query = "select * from brand_model_info where id is not null ";
+        let query = "select bmi.*,bi.brand_name,bi.status as brand_status" +
+            " from brand_model_info bmi " +
+            " left join brand_info bi " +
+            " on bi.id = bmi.brand_id " +
+            " where bmi.id is not null ";
         let filterObj = {};
         if(params.brandModelId){
-            query += " and id = ${brandModelId} ";
+            query += " and bmi.id = ${brandModelId} ";
             filterObj.brandModelId = params.brandModelId;
         }
         if(params.brandId){
-            query += " and brand_id = ${brandId} ";
+            query += " and bmi.brand_id = ${brandId} ";
             filterObj.brandId = params.brandId;
         }
         if(params.status){
-            query += " and status = ${status} ";
+            query += " and bmi.status = ${status} ";
             filterObj.status = params.status;
         }
         if(params.opUser){
-            query += " and op_user = ${opUser} ";
+            query += " and bmi.op_user = ${opUser} ";
             filterObj.opUser = params.opUser;
         }
         if(params.brandModelName){
-            query += " and brand_model_name like '%" + params.brandModelName + "%' ";
+            query += " and bmi.brand_model_name like '%" + params.brandModelName + "%' ";
         }
         if(params.remark){
-            query += " and remark = ${remark} ";
+            query += " and bmi.remark = ${remark} ";
             filterObj.remark = params.remark;
         }
-        query = query + '  order by id desc ';
+        query = query + '  order by bmi.id desc ';
         if(params.start){
             query += " offset ${start} ";
             filterObj.start = params.start;

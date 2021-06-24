@@ -4,32 +4,36 @@ const logger = serverLogger.createLogger('CategorySubDAO.js');
 
 class CategorySubDAO  {
     static async queryCategorySub(params) {
-        let query = "select * from category_sub_info where id is not null ";
+        let query = " select csi.* ,ci.category_name , ci.status as category_status " +
+            " from category_sub_info csi " +
+            " left join category_info ci " +
+            " on ci.id = csi.category_id " +
+            " where csi.id is not null ";
         let filterObj = {};
         if(params.categorySubId){
-            query += " and id = ${categorySubId} ";
+            query += " and csi.id = ${categorySubId} ";
             filterObj.categorySubId = params.categorySubId;
         }
         if(params.categoryId){
-            query += " and category_id = ${categoryId} ";
+            query += " and csi.category_id = ${categoryId} ";
             filterObj.categoryId = params.categoryId;
         }
         if(params.status){
-            query += " and status = ${status} ";
+            query += " and csi.status = ${status} ";
             filterObj.status = params.status;
         }
         if(params.opUser){
-            query += " and op_user = ${opUser} ";
+            query += " and csi.op_user = ${opUser} ";
             filterObj.opUser = params.opUser;
         }
         if(params.categorySubName){
-            query += " and category_Sub_name like '%" + params.categorySubName + "%' ";
+            query += " and csi.category_Sub_name like '%" + params.categorySubName + "%' ";
         }
         if(params.remark){
-            query += " and remark = ${remark} ";
+            query += " and csi.remark = ${remark} ";
             filterObj.remark = params.remark;
         }
-        query = query + '  order by id desc ';
+        query = query + '  order by csi.id desc ';
         if(params.start){
             query += " offset ${start} ";
             filterObj.start = params.start;
