@@ -32,6 +32,10 @@
       "description": "brandModel base info api"
     },
     {
+      "name": "category",
+      "description": "category base info api"
+    },
+    {
       "name": "supplier",
       "description": "supplier base info api"
     },
@@ -989,6 +993,233 @@
       }
     },
 
+    "/user/{userId}/category": {
+      "post": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Add a new category info",
+        "description": "",
+        "operationId": "Add category",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"categoryInfo",
+            "description": "Category object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Select category Info",
+        "description": "Get category info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categoryId",
+            "in": "query",
+            "description": "categoryId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "categoryName",
+            "in": "query",
+            "description": "categoryName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/category/{categoryId}": {
+      "put": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Finds category info and update",
+        "description": "update category info",
+        "operationId": "update category info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categoryId",
+            "in": "path",
+            "description": "category unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categoryInfo",
+            "in": "body",
+            "description": "Category object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/category/{categoryId}/status": {
+      "put": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Finds category and update",
+        "description": "update category status",
+        "operationId": "update category status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categoryId",
+            "in": "path",
+            "description": "category unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态(0:停用,1:启用)",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/category/{categoryId}/del": {
+      "delete": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Delete category",
+        "description": "Delete category",
+        "operationId": "Delete category by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categoryId",
+            "in": "path",
+            "description": "category Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "UserId or categoryId not found"
+          }
+        }
+      }
+    },
+
     "/user/{userId}/Supplier": {
       "post": {
         "tags": [
@@ -1586,6 +1817,24 @@
       },
       "xml": {
         "name": "BrandModel"
+      }
+    },
+    "Category": {
+      "type": "object",
+      "required": [
+        "remark",
+        "categoryName"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "categoryName": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Category"
       }
     },
     "Supplier": {
