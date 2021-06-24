@@ -2599,7 +2599,7 @@
           "type": "string"
         },
         "storageId": {
-          "type": "categoryId"
+          "type": "string"
         }
       },
       "xml": {
