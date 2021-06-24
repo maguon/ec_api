@@ -10,6 +10,11 @@ const app = require('./bl/App');
 const user = require('./bl/User');
 const userTypeMenu = require('./bl/UserTypeMenu');
 const brand = require('./bl/Brand');
+const brandModel = require('./bl/BrandModel');
+const category = require('./bl/Category');
+const categorySub = require('./bl/CategorySub');
+const storage = require('./bl/Storage');
+const storageArea = require('./bl/StorageArea');
 // const supplier = require('./bl/Supplier');
 
 
@@ -86,6 +91,52 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/brand/:brandId',contentType: 'application/json'} ,brand.updateBrand);
     server.put({path:'/api/user/:userId/brand/:brandId/status',contentType: 'application/json'} ,brand.updateStatus);
     server.del({path:'/api/user/:userId/brand/:brandId/del',contentType: 'application/json'},brand.deleteBrand);
+
+    /**
+     * BrandModel Module
+     */
+    server.get('/api/user/:userId/brandModel', brandModel.queryBrandModel);
+    server.post({path:'/api/user/:userId/brandModel',contentType: 'application/json'}, brandModel.addBrandModel);
+    server.put({path:'/api/user/:userId/brandModel/:brandModelId',contentType: 'application/json'} ,brandModel.updateBrandModel);
+    server.put({path:'/api/user/:userId/brandModel/:brandModelId/status',contentType: 'application/json'} ,brandModel.updateStatus);
+    server.del({path:'/api/user/:userId/brandModel/:brandModelId/del',contentType: 'application/json'},brandModel.deleteBrandModel);
+
+    /**
+     * Category Module
+     */
+    server.get('/api/user/:userId/category', category.queryCategory);
+    server.post({path:'/api/user/:userId/category',contentType: 'application/json'}, category.addCategory);
+    server.put({path:'/api/user/:userId/category/:categoryId',contentType: 'application/json'} ,category.updateCategory);
+    server.put({path:'/api/user/:userId/category/:categoryId/status',contentType: 'application/json'} ,category.updateStatus);
+    server.del({path:'/api/user/:userId/category/:categoryId/del',contentType: 'application/json'},category.deleteCategory);
+
+    /**
+     * CategorySub Module
+     */
+    server.get('/api/user/:userId/categorySub', categorySub.queryCategorySub);
+    server.post({path:'/api/user/:userId/categorySub',contentType: 'application/json'}, categorySub.addCategorySub);
+    server.put({path:'/api/user/:userId/categorySub/:categorySubId',contentType: 'application/json'} ,categorySub.updateCategorySub);
+    server.put({path:'/api/user/:userId/categorySub/:categorySubId/status',contentType: 'application/json'} ,categorySub.updateStatus);
+    server.del({path:'/api/user/:userId/categorySub/:categorySubId/del',contentType: 'application/json'},categorySub.deleteCategorySub);
+
+    /**
+     * Storage Module
+     */
+    server.get('/api/user/:userId/storage', storage.queryStorage);
+    server.post({path:'/api/user/:userId/storage',contentType: 'application/json'}, storage.addStorage);
+    server.put({path:'/api/user/:userId/storage/:storageId',contentType: 'application/json'} ,storage.updateStorage);
+    server.put({path:'/api/user/:userId/storage/:storageId/status',contentType: 'application/json'} ,storage.updateStatus);
+    server.del({path:'/api/user/:userId/storage/:storageId/del',contentType: 'application/json'},storage.deleteStorage);
+
+    /**
+     * StorageArea Module
+     */
+    server.get('/api/user/:userId/storageArea', storageArea.queryStorageArea);
+    server.post({path:'/api/user/:userId/storageArea',contentType: 'application/json'}, storageArea.addStorageArea);
+    server.put({path:'/api/user/:userId/storageArea/:storageAreaId',contentType: 'application/json'} ,storageArea.updateStorageArea);
+    server.put({path:'/api/user/:userId/storageArea/:storageAreaId/status',contentType: 'application/json'} ,storageArea.updateStatus);
+    server.del({path:'/api/user/:userId/storageArea/:storageAreaId/del',contentType: 'application/json'},storageArea.deleteStorageArea);
+
 
     /**
      * Supplier Module

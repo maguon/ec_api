@@ -28,6 +28,26 @@
       "description": "brand base info api"
     },
     {
+      "name": "brandModel",
+      "description": "brandModel base info api"
+    },
+    {
+      "name": "category",
+      "description": "category base info api"
+    },
+    {
+      "name": "categorySub",
+      "description": "categorySub base info api"
+    },
+    {
+      "name": "storage",
+      "description": "storage base info api"
+    },
+    {
+      "name": "storageArea",
+      "description": "storageArea base info api"
+    },
+    {
       "name": "supplier",
       "description": "supplier base info api"
     },
@@ -751,6 +771,1162 @@
       }
     },
 
+    "/user/{userId}/brandModel": {
+      "post": {
+        "tags": [
+          "brand"
+        ],
+        "summary": "Add a new brandModel info",
+        "description": "",
+        "operationId": "Add brandModel",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"brandModelInfo",
+            "description": "brandModel object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BrandModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "brand"
+        ],
+        "summary": "Select brandModel Info",
+        "description": "Get brandModel info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "brandId",
+            "in": "query",
+            "description": "brandId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "brandModelId",
+            "in": "query",
+            "description": "brandModelId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "brandModelName",
+            "in": "query",
+            "description": "brandModelName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/brandModel/{brandModelId}": {
+      "put": {
+        "tags": [
+          "brand"
+        ],
+        "summary": "Finds brandModel info and update",
+        "description": "update brandModel info",
+        "operationId": "update brandModel info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "brandModelId",
+            "in": "path",
+            "description": "brandModel unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "brandModelInfo",
+            "in": "body",
+            "description": "BrandModel object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BrandModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/brandModel/{brandModelId}/status": {
+      "put": {
+        "tags": [
+          "brand"
+        ],
+        "summary": "Finds brandModel and update",
+        "description": "update brandModel status",
+        "operationId": "update brandModel status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "brandModelId",
+            "in": "path",
+            "description": "brandModel unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态(0:停用,1:启用)",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/brandModel/{brandModelId}/del": {
+      "delete": {
+        "tags": [
+          "brand"
+        ],
+        "summary": "Delete brandModel",
+        "description": "Delete brandModel",
+        "operationId": "Delete brandModel by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "brandModelId",
+            "in": "path",
+            "description": "brandModel Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "UserId or brandModelId not found"
+          }
+        }
+      }
+    },
+
+    "/user/{userId}/category": {
+      "post": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Add a new category info",
+        "description": "",
+        "operationId": "Add category",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"categoryInfo",
+            "description": "Category object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Select category Info",
+        "description": "Get category info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categoryId",
+            "in": "query",
+            "description": "categoryId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "categoryName",
+            "in": "query",
+            "description": "categoryName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/category/{categoryId}": {
+      "put": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Finds category info and update",
+        "description": "update category info",
+        "operationId": "update category info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categoryId",
+            "in": "path",
+            "description": "category unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categoryInfo",
+            "in": "body",
+            "description": "Category object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/category/{categoryId}/status": {
+      "put": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Finds category and update",
+        "description": "update category status",
+        "operationId": "update category status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categoryId",
+            "in": "path",
+            "description": "category unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态(0:停用,1:启用)",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/category/{categoryId}/del": {
+      "delete": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Delete category",
+        "description": "Delete category",
+        "operationId": "Delete category by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categoryId",
+            "in": "path",
+            "description": "category Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "UserId or categoryId not found"
+          }
+        }
+      }
+    },
+
+    "/user/{userId}/categorySub": {
+      "post": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Add a new categorySub info",
+        "description": "",
+        "operationId": "Add categorySub",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"categorySubInfo",
+            "description": "CategorySub object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CategorySub"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Select categorySub Info",
+        "description": "Get categorySub info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categorySubId",
+            "in": "query",
+            "description": "categorySubId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "categoryId",
+            "in": "query",
+            "description": "categoryId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "categorySubName",
+            "in": "query",
+            "description": "categorySubName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/categorySub/{categorySubId}": {
+      "put": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Finds categorySub info and update",
+        "description": "update categorySub info",
+        "operationId": "update categorySub info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categorySubId",
+            "in": "path",
+            "description": "categorySub unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categorySubInfo",
+            "in": "body",
+            "description": "CategorySub object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CategorySub"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/categorySub/{categorySubId}/status": {
+      "put": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Finds categorySub and update",
+        "description": "update categorySub status",
+        "operationId": "update categorySub status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categorySubId",
+            "in": "path",
+            "description": "categorySub unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态(0:停用,1:启用)",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/categorySub/{categorySubId}/del": {
+      "delete": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Delete categorySub",
+        "description": "Delete categorySub",
+        "operationId": "Delete categorySub by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categorySubId",
+            "in": "path",
+            "description": "categorySub Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "UserId or categorySubId not found"
+          }
+        }
+      }
+    },
+
+    "/user/{userId}/storage": {
+      "post": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Add a new storage info",
+        "description": "",
+        "operationId": "Add storage",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"storageInfo",
+            "description": "Storage object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Storage"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Select storage Info",
+        "description": "Get storage info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageId",
+            "in": "query",
+            "description": "storageId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "storageName",
+            "in": "query",
+            "description": "storageName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/storage/{storageId}": {
+      "put": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Finds storage info and update",
+        "description": "update storage info",
+        "operationId": "update storage info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageId",
+            "in": "path",
+            "description": "storage unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageInfo",
+            "in": "body",
+            "description": "Storage object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Storage"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/storage/{storageId}/status": {
+      "put": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Finds storage and update",
+        "description": "update storage status",
+        "operationId": "update storage status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageId",
+            "in": "path",
+            "description": "storage unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态(0:停用,1:启用)",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/storage/{storageId}/del": {
+      "delete": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Delete storage",
+        "description": "Delete storage",
+        "operationId": "Delete storage by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageId",
+            "in": "path",
+            "description": "storage Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "StorageId not found"
+          }
+        }
+      }
+    },
+
+    "/user/{userId}/storageArea": {
+      "post": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Add a new storageArea info",
+        "description": "",
+        "operationId": "Add storageArea",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"storageAreaInfo",
+            "description": "StorageArea object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StorageArea"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Select storageArea Info",
+        "description": "Get storageArea info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageAreaId",
+            "in": "query",
+            "description": "storageAreaId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "storageId",
+            "in": "query",
+            "description": "storageId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "storageAreaName",
+            "in": "query",
+            "description": "storageAreaName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/storageArea/{storageAreaId}": {
+      "put": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Finds storageArea info and update",
+        "description": "update storageArea info",
+        "operationId": "update storageArea info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageAreaId",
+            "in": "path",
+            "description": "storageArea unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageAreaInfo",
+            "in": "body",
+            "description": "StorageArea object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StorageArea"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/storageArea/{storageAreaId}/status": {
+      "put": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Finds storageArea and update",
+        "description": "update storageArea status",
+        "operationId": "update storageArea status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageAreaId",
+            "in": "path",
+            "description": "storageArea unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态(0:停用,1:启用)",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/storageArea/{storageAreaId}/del": {
+      "delete": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Delete storageArea",
+        "description": "Delete storageArea",
+        "operationId": "Delete storageArea by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageAreaId",
+            "in": "path",
+            "description": "storageArea Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "StorageAreaId not found"
+          }
+        }
+      }
+    },
+
     "/user/{userId}/Supplier": {
       "post": {
         "tags": [
@@ -1326,6 +2502,108 @@
       },
       "xml": {
         "name": "Brand"
+      }
+    },
+    "BrandModel": {
+      "type": "object",
+      "required": [
+        "remark",
+        "brandModelName",
+        "brandId"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "brandModelName": {
+          "type": "string"
+        },
+        "brandId": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "BrandModel"
+      }
+    },
+    "Category": {
+      "type": "object",
+      "required": [
+        "remark",
+        "categoryName"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "categoryName": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Category"
+      }
+    },
+    "CategorySub": {
+      "type": "object",
+      "required": [
+        "remark",
+        "categorySubName",
+        "categoryId"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "categorySubName": {
+          "type": "string"
+        },
+        "categoryId": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "CategorySub"
+      }
+    },
+    "Storage": {
+      "type": "object",
+      "required": [
+        "remark",
+        "storageName"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "storageName": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Storage"
+      }
+    },
+    "StorageArea": {
+      "type": "object",
+      "required": [
+        "remark",
+        "storageAreaName",
+        "storageId"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "storageAreaName": {
+          "type": "string"
+        },
+        "storageId": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "StorageArea"
       }
     },
     "Supplier": {

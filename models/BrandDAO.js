@@ -4,28 +4,30 @@ const logger = serverLogger.createLogger('BrandDAO.js');
 
 class BrandDAO  {
     static async queryBrand(params) {
-        let query = "select * from brand_info where id is not null ";
+        let query = "select bi.*, ui.real_name from brand_info bi " +
+            " left join user_info ui on ui.id = bi.op_user " +
+            " where bi.id is not null  ";
         let filterObj = {};
         if(params.brandId){
-            query += " and id = ${brandId} ";
+            query += " and bi.id = ${brandId} ";
             filterObj.brandId = params.brandId;
         }
         if(params.status){
-            query += " and status = ${status} ";
+            query += " and bi.status = ${status} ";
             filterObj.status = params.status;
         }
         if(params.opUser){
-            query += " and op_user = ${opUser} ";
+            query += " and bi.op_user = ${opUser} ";
             filterObj.opUser = params.opUser;
         }
         if(params.brandName){
-            query += " and brand_name like '%" + params.brandName + "%' ";
+            query += " and bi.brand_name like '%" + params.brandName + "%' ";
         }
         if(params.remark){
-            query += " and remark = ${remark} ";
+            query += " and bi.remark = ${remark} ";
             filterObj.remark = params.remark;
         }
-        query = query + '  order by id desc ';
+        query = query + '  order by bi.id desc ';
         if(params.start){
             query += " offset ${start} ";
             filterObj.start = params.start;
