@@ -209,6 +209,7 @@ CREATE TABLE IF NOT EXISTS public.product_info (
     "remark" character varying(200),
     "product_name" character varying(50),
     "product_s_name" character varying(30),
+    "product_serial" character varying(30),
     "product_address" character varying(30),
     "category_id" smallint NOT NULL DEFAULT 0,
     "category_sub_id" smallint NOT NULL DEFAULT 0,
@@ -224,6 +225,7 @@ CREATE TABLE IF NOT EXISTS public.product_info (
 );
 COMMENT ON COLUMN public.product_info.product_name IS '商品名称';
 COMMENT ON COLUMN public.product_info.product_s_name IS '商品别名';
+COMMENT ON COLUMN public.product_info.product_serial IS '商品序列号';
 COMMENT ON COLUMN public.product_info.product_address IS '产地';
 COMMENT ON COLUMN public.product_info.standard_type IS '标准类型';
 COMMENT ON COLUMN public.product_info.unit_name IS '单位';
@@ -291,6 +293,7 @@ CREATE TABLE IF NOT EXISTS public.purchase_info
     "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
     "status" smallint NOT NULL DEFAULT 1,
     "op_user" smallint NOT NULL DEFAULT 1,
+    "remark" character varying(200),
     "supplier_id" smallint NOT NULL DEFAULT 0,
     "supplier_name" character varying(50),
     "plan_date_id" integer ,
@@ -319,3 +322,33 @@ COMMENT ON COLUMN public.purchase_info.total_cost IS '总成本';
 create trigger purchase_info_upt before update on purchase_info for each row execute procedure update_timestamp_func();
 
 SELECT cron.schedule('purchase_id_sdl', '0 16 * * *', $$select setval(' purchase_info_id_seq',(CAST(to_char(current_timestamp, 'YYYYMMDD0001') AS BIGINT)),false);$$);
+
+
+--CREATE TABLE purchase_item
+CREATE TABLE IF NOT EXISTS public.purchase_item
+(
+    "id" serial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1,
+    "storage_status" smallint NOT NULL DEFAULT 1,
+    "payment_status" smallint NOT NULL DEFAULT 1,
+    "op_user" smallint NOT NULL DEFAULT 1,
+    "remark" character varying(200),
+    "supplier_id" smallint NOT NULL DEFAULT 0,
+    "purchase_id" bigint NOT NULL DEFAULT 0,
+    "product_id" smallint NOT NULL DEFAULT 0,
+    "product_name" character varying(40),
+    "unit_cost" decimal(8,2)  NOT NULL DEFAULT 0,
+    "purchase_count" decimal(8,2)  NOT NULL DEFAULT 0,
+    "total_cost" decimal(8,2)  NOT NULL DEFAULT 0,
+    "order_id" bigserial ,
+    PRIMARY KEY (id)
+);
+
+COMMENT ON COLUMN public.purchase_item.purchase_id IS '采购单ID';
+COMMENT ON COLUMN public.purchase_item.product_id IS '商品ID';
+COMMENT ON COLUMN public.purchase_item.unit_cost IS '商品单价';
+COMMENT ON COLUMN public.purchase_item.purchase_count IS '采购数量';
+COMMENT ON COLUMN public.purchase_item.total_cost IS '总成本';
+create trigger purchase_item_upt before update on purchase_item for each row execute procedure update_timestamp_func();
