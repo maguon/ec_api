@@ -44,6 +44,10 @@
       "description": "storage base info api"
     },
     {
+      "name": "storageArea",
+      "description": "storageArea base info api"
+    },
+    {
       "name": "supplier",
       "description": "supplier base info api"
     },
@@ -1689,6 +1693,240 @@
       }
     },
 
+    "/user/{userId}/storageArea": {
+      "post": {
+        "tags": [
+          "storageArea"
+        ],
+        "summary": "Add a new storageArea info",
+        "description": "",
+        "operationId": "Add storageArea",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"storageAreaInfo",
+            "description": "StorageArea object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StorageArea"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "storageArea"
+        ],
+        "summary": "Select storageArea Info",
+        "description": "Get storageArea info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageAreaId",
+            "in": "query",
+            "description": "storageAreaId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "storageId",
+            "in": "query",
+            "description": "storageId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "storageAreaName",
+            "in": "query",
+            "description": "storageAreaName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/storageArea/{storageAreaId}": {
+      "put": {
+        "tags": [
+          "storageArea"
+        ],
+        "summary": "Finds storageArea info and update",
+        "description": "update storageArea info",
+        "operationId": "update storageArea info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageAreaId",
+            "in": "path",
+            "description": "storageArea unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageAreaInfo",
+            "in": "body",
+            "description": "StorageArea object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StorageArea"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/storageArea/{storageAreaId}/status": {
+      "put": {
+        "tags": [
+          "storageArea"
+        ],
+        "summary": "Finds storageArea and update",
+        "description": "update storageArea status",
+        "operationId": "update storageArea status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageAreaId",
+            "in": "path",
+            "description": "storageArea unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态(0:停用,1:启用)",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/storageArea/{storageAreaId}/del": {
+      "delete": {
+        "tags": [
+          "storageArea"
+        ],
+        "summary": "Delete storageArea",
+        "description": "Delete storageArea",
+        "operationId": "Delete storageArea by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageAreaId",
+            "in": "path",
+            "description": "storageArea Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "StorageAreaId not found"
+          }
+        }
+      }
+    },
+
     "/user/{userId}/Supplier": {
       "post": {
         "tags": [
@@ -2344,6 +2582,28 @@
       },
       "xml": {
         "name": "Storage"
+      }
+    },
+    "StorageArea": {
+      "type": "object",
+      "required": [
+        "remark",
+        "storageAreaName",
+        "storageId"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "storageAreaName": {
+          "type": "string"
+        },
+        "storageId": {
+          "type": "categoryId"
+        }
+      },
+      "xml": {
+        "name": "StorageArea"
       }
     },
     "Supplier": {
