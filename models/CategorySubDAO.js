@@ -4,10 +4,10 @@ const logger = serverLogger.createLogger('CategorySubDAO.js');
 
 class CategorySubDAO  {
     static async queryCategorySub(params) {
-        let query = " select csi.* ,ci.category_name , ci.status as category_status " +
+        let query = " select csi.* ,ci.category_name , ci.status as category_status ,ui.real_name " +
             " from category_sub_info csi " +
-            " left join category_info ci " +
-            " on ci.id = csi.category_id " +
+            " left join category_info ci on ci.id = csi.category_id " +
+            " left join user_info ui on ui.id = csi.op_user " +
             " where csi.id is not null ";
         let filterObj = {};
         if(params.categorySubId){

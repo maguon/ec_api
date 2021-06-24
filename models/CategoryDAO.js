@@ -4,28 +4,30 @@ const logger = serverLogger.createLogger('CategoryDAO.js');
 
 class CategoryDAO  {
     static async queryCategory(params) {
-        let query = "select * from category_info where id is not null ";
+        let query = "select ci.* ,ui.real_name from category_info ci " +
+            " left join user_info ui on ui.id = ci.op_user " +
+            " where ci.id is not null ";
         let filterObj = {};
         if(params.categoryId){
-            query += " and id = ${categoryId} ";
+            query += " and ci.id = ${categoryId} ";
             filterObj.categoryId = params.categoryId;
         }
         if(params.status){
-            query += " and status = ${status} ";
+            query += " and ci.status = ${status} ";
             filterObj.status = params.status;
         }
         if(params.opUser){
-            query += " and op_user = ${opUser} ";
+            query += " and ci.op_user = ${opUser} ";
             filterObj.opUser = params.opUser;
         }
         if(params.categoryName){
-            query += " and category_name like '%" + params.categoryName + "%' ";
+            query += " and ci.category_name like '%" + params.categoryName + "%' ";
         }
         if(params.remark){
-            query += " and remark = ${remark} ";
+            query += " and ci.remark = ${remark} ";
             filterObj.remark = params.remark;
         }
-        query = query + '  order by id desc ';
+        query = query + '  order by ci.id desc ';
         if(params.start){
             query += " offset ${start} ";
             filterObj.start = params.start;

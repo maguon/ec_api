@@ -4,28 +4,30 @@ const logger = serverLogger.createLogger('StorageDAO.js');
 
 class StorageDAO  {
     static async queryStorage(params) {
-        let query = "select * from storage_info where id is not null ";
+        let query = "select si.* ,ui.real_name from storage_info si " +
+            " left join user_info ui on ui.id = si.op_user " +
+            " where si.id is not null ";
         let filterObj = {};
         if(params.storageId){
-            query += " and id = ${storageId} ";
+            query += " and si.id = ${storageId} ";
             filterObj.storageId = params.storageId;
         }
         if(params.status){
-            query += " and status = ${status} ";
+            query += " and si.status = ${status} ";
             filterObj.status = params.status;
         }
         if(params.opUser){
-            query += " and op_user = ${opUser} ";
+            query += " and si.op_user = ${opUser} ";
             filterObj.opUser = params.opUser;
         }
         if(params.storageName){
-            query += " and storage_name like '%" + params.storageName + "%' ";
+            query += " and si.storage_name like '%" + params.storageName + "%' ";
         }
         if(params.remark){
-            query += " and remark = ${remark} ";
+            query += " and si.remark = ${remark} ";
             filterObj.remark = params.remark;
         }
-        query = query + '  order by id desc ';
+        query = query + '  order by si.id desc ';
         if(params.start){
             query += " offset ${start} ";
             filterObj.start = params.start;

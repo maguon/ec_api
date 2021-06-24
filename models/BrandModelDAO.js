@@ -4,10 +4,10 @@ const logger = serverLogger.createLogger('BrandModelDAO.js');
 
 class BrandModelDAO  {
     static async queryBrandModel(params) {
-        let query = "select bmi.*,bi.brand_name,bi.status as brand_status" +
+        let query = "select bmi.*,bi.brand_name,bi.status as brand_status  ,ui.real_name" +
             " from brand_model_info bmi " +
-            " left join brand_info bi " +
-            " on bi.id = bmi.brand_id " +
+            " left join brand_info bi on bi.id = bmi.brand_id " +
+            " left join user_info ui on ui.id = bmi.op_user " +
             " where bmi.id is not null ";
         let filterObj = {};
         if(params.brandModelId){
