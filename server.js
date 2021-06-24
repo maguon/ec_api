@@ -11,8 +11,8 @@ const user = require('./bl/User');
 const userTypeMenu = require('./bl/UserTypeMenu');
 const brand = require('./bl/Brand');
 const brandModel = require('./bl/BrandModel');
-const categoryModel = require('./bl/CategoryModel');
-const categorySubModel = require('./bl/CategorySubModel');
+const category = require('./bl/Category');
+const categorySub = require('./bl/CategorySub');
 // const supplier = require('./bl/Supplier');
 
 
@@ -102,20 +102,20 @@ const createServer=()=>{
     /**
      * Category Module
      */
-    server.get('/api/user/:userId/category', categoryModel.queryCategory);
-    server.post({path:'/api/user/:userId/category',contentType: 'application/json'}, categoryModel.addCategory);
-    server.put({path:'/api/user/:userId/category/:categoryId',contentType: 'application/json'} ,categoryModel.updateCategory);
-    server.put({path:'/api/user/:userId/category/:categoryId/status',contentType: 'application/json'} ,categoryModel.updateStatus);
-    server.del({path:'/api/user/:userId/category/:categoryId/del',contentType: 'application/json'},categoryModel.deleteCategory);
+    server.get('/api/user/:userId/category', category.queryCategory);
+    server.post({path:'/api/user/:userId/category',contentType: 'application/json'}, category.addCategory);
+    server.put({path:'/api/user/:userId/category/:categoryId',contentType: 'application/json'} ,category.updateCategory);
+    server.put({path:'/api/user/:userId/category/:categoryId/status',contentType: 'application/json'} ,category.updateStatus);
+    server.del({path:'/api/user/:userId/category/:categoryId/del',contentType: 'application/json'},category.deleteCategory);
 
     /**
      * CategorySub Module
      */
-    server.get('/api/user/:userId/categorySub', categorySubModel.queryCategorySub);
-    server.post({path:'/api/user/:userId/categorySub',contentType: 'application/json'}, categorySubModel.addCategorySub);
-    server.put({path:'/api/user/:userId/categorySub/:categorySubId',contentType: 'application/json'} ,categorySubModel.updateCategorySub);
-    server.put({path:'/api/user/:userId/categorySub/:categorySubId/status',contentType: 'application/json'} ,categorySubModel.updateStatus);
-    server.del({path:'/api/user/:userId/categorySub/:categorySubId/del',contentType: 'application/json'},categorySubModel.deleteCategorySub);
+    server.get('/api/user/:userId/categorySub', categorySub.queryCategorySub);
+    server.post({path:'/api/user/:userId/categorySub',contentType: 'application/json'}, categorySub.addCategorySub);
+    server.put({path:'/api/user/:userId/categorySub/:categorySubId',contentType: 'application/json'} ,categorySub.updateCategorySub);
+    server.put({path:'/api/user/:userId/categorySub/:categorySubId/status',contentType: 'application/json'} ,categorySub.updateStatus);
+    server.del({path:'/api/user/:userId/categorySub/:categorySubId/del',contentType: 'application/json'},categorySub.deleteCategorySub);
 
 
     /**

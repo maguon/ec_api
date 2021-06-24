@@ -7,7 +7,7 @@ const sysError = require('../util/SystemError.js');
 const encrypt = require('../util/Encrypt.js');
 const oAuthUtil = require('../util/OAuthUtil.js');
 const resUtil = require('../util/ResponseUtil.js');
-const logger = serverLogger.createLogger('CategoryModel.js');
+const logger = serverLogger.createLogger('Category.js');
 
 const queryCategory = async (req,res,next)=>{
     let query = req.query;
