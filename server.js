@@ -13,6 +13,7 @@ const brand = require('./bl/Brand');
 const brandModel = require('./bl/BrandModel');
 const category = require('./bl/Category');
 const categorySub = require('./bl/CategorySub');
+const storage = require('./bl/Storage');
 // const supplier = require('./bl/Supplier');
 
 
@@ -116,6 +117,15 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/categorySub/:categorySubId',contentType: 'application/json'} ,categorySub.updateCategorySub);
     server.put({path:'/api/user/:userId/categorySub/:categorySubId/status',contentType: 'application/json'} ,categorySub.updateStatus);
     server.del({path:'/api/user/:userId/categorySub/:categorySubId/del',contentType: 'application/json'},categorySub.deleteCategorySub);
+
+    /**
+     * Storage Module
+     */
+    server.get('/api/user/:userId/storage', storage.queryStorage);
+    server.post({path:'/api/user/:userId/storage',contentType: 'application/json'}, storage.addStorage);
+    server.put({path:'/api/user/:userId/storage/:storageId',contentType: 'application/json'} ,storage.updateStorage);
+    server.put({path:'/api/user/:userId/storage/:storageId/status',contentType: 'application/json'} ,storage.updateStatus);
+    server.del({path:'/api/user/:userId/storage/:storageId/del',contentType: 'application/json'},storage.deleteStorage);
 
 
     /**

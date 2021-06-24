@@ -40,6 +40,10 @@
       "description": "categorySub base info api"
     },
     {
+      "name": "storage",
+      "description": "storage base info api"
+    },
+    {
       "name": "supplier",
       "description": "supplier base info api"
     },
@@ -1458,6 +1462,233 @@
       }
     },
 
+    "/user/{userId}/storage": {
+      "post": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Add a new storage info",
+        "description": "",
+        "operationId": "Add storage",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"storageInfo",
+            "description": "Storage object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Storage"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Select storage Info",
+        "description": "Get storage info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageId",
+            "in": "query",
+            "description": "storageId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "storageName",
+            "in": "query",
+            "description": "storageName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/storage/{storageId}": {
+      "put": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Finds storage info and update",
+        "description": "update storage info",
+        "operationId": "update storage info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageId",
+            "in": "path",
+            "description": "storage unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageInfo",
+            "in": "body",
+            "description": "Storage object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Storage"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/storage/{storageId}/status": {
+      "put": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Finds storage and update",
+        "description": "update storage status",
+        "operationId": "update storage status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageId",
+            "in": "path",
+            "description": "storage unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态(0:停用,1:启用)",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/storage/{storageId}/del": {
+      "delete": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Delete storage",
+        "description": "Delete storage",
+        "operationId": "Delete storage by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageId",
+            "in": "path",
+            "description": "storage Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "StorageId not found"
+          }
+        }
+      }
+    },
+
     "/user/{userId}/Supplier": {
       "post": {
         "tags": [
@@ -2095,6 +2326,24 @@
       },
       "xml": {
         "name": "CategorySub"
+      }
+    },
+    "Storage": {
+      "type": "object",
+      "required": [
+        "remark",
+        "storageName"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "storageName": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Storage"
       }
     },
     "Supplier": {
