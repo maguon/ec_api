@@ -212,9 +212,9 @@ CREATE TABLE IF NOT EXISTS public.product_info (
     "product_serial" character varying(30),
     "product_address" character varying(30),
     "category_id" smallint NOT NULL DEFAULT 0,
-    "category_sub_id" smallint NOT NULL DEFAULT 0,
+    "category_sub_id" smallint,
     "brand_id" smallint NOT NULL DEFAULT 0,
-    "brand_model_id" smallint NOT NULL DEFAULT 0,
+    "brand_model_id" smallint  ,
     "image" character varying(200),
     "standard_type" smallint,
     "barcode" character varying(30),
@@ -305,7 +305,7 @@ CREATE TABLE IF NOT EXISTS public.purchase_info
     "transfer_cost" decimal(8,2)  NOT NULL DEFAULT 0,
     "product_cost" decimal(8,2)  NOT NULL DEFAULT 0,
     "total_cost" decimal(8,2)  NOT NULL DEFAULT 0,
-    "order_id" bigserial ,
+    "order_id" bigint ,
     PRIMARY KEY (id)
 );
 
@@ -342,7 +342,7 @@ CREATE TABLE IF NOT EXISTS public.purchase_item
     "unit_cost" decimal(8,2)  NOT NULL DEFAULT 0,
     "purchase_count" decimal(8,2)  NOT NULL DEFAULT 0,
     "total_cost" decimal(8,2)  NOT NULL DEFAULT 0,
-    "order_id" bigserial ,
+    "order_id" bigint ,
     PRIMARY KEY (id)
 );
 
