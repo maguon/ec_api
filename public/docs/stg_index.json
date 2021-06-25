@@ -40,6 +40,10 @@
       "description": "supplier base info api"
     },
     {
+      "name": "product",
+      "description": "product base info api"
+    },
+    {
       "name": "app",
       "description": "app version"
 
@@ -2149,6 +2153,275 @@
       }
     },
 
+    "/user/{userId}/product": {
+      "post": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Add a new product info",
+        "description": "",
+        "operationId": "Add product",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"productInfo",
+            "description": "product object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Select product Info",
+        "description": "Get product info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "query",
+            "description": "productId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "productName",
+            "in": "query",
+            "description": "productName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "productSName",
+            "in": "query",
+            "description": "productSName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "categoryId",
+            "in": "query",
+            "description": "categoryId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "categorySubId",
+            "in": "query",
+            "description": "categorySubId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "brandId",
+            "in": "query",
+            "description": "brandId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "brandModelId",
+            "in": "query",
+            "description": "brandModelId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "standardType",
+            "in": "query",
+            "description": "standardType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/product/{productId}": {
+      "put": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Finds product info and update",
+        "description": "update product info",
+        "operationId": "update product info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "product unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productInfo",
+            "in": "body",
+            "description": "Product object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/product/{productId}/status": {
+      "put": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Finds product and update",
+        "description": "update product status",
+        "operationId": "update product status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "product unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态(0:停用,1:启用)",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/product/{productId}/del": {
+      "delete": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Delete product",
+        "description": "Delete product",
+        "operationId": "Delete product by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "product Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "ProductId not found"
+          }
+        }
+      }
+    },
+
     "/user/{userId}/app": {
       "get": {
         "tags": [
@@ -2806,6 +3079,78 @@
       },
       "xml": {
         "name": "Supplier"
+      }
+    },
+    "Product": {
+      "type": "object",
+      "required": [
+        "remark",
+        "productName",
+        "productSName",
+        "productSerial",
+        "productAddress",
+        "categoryId",
+        "categorySubId",
+        "brandId",
+        "brandModelId",
+        "image",
+        "standardType",
+        "barcode",
+        "unitName",
+        "price"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "productName": {
+          "type": "string"
+        },
+        "productSName": {
+          "type": "string"
+        },
+        "productSerial": {
+          "type": "string"
+        },
+        "productAddress": {
+          "type": "string"
+        },
+        "categoryId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "categorySubId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "brandId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "brandModelId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "image": {
+          "type": "string"
+        },
+        "standardType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "barcode": {
+          "type": "string"
+        },
+        "unitName": {
+          "type": "string"
+        },
+        "price": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "Product"
       }
     },
     "App": {

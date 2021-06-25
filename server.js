@@ -16,6 +16,7 @@ const categorySub = require('./bl/CategorySub');
 const storage = require('./bl/Storage');
 const storageArea = require('./bl/StorageArea');
 const supplier = require('./bl/Supplier');
+const product = require('./bl/Product');
 
 
 const createServer=()=>{
@@ -145,6 +146,16 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/supplier/:supplierId',contentType: 'application/json'} ,supplier.updateSupplier);
     server.put({path:'/api/user/:userId/supplier/:supplierId/status',contentType: 'application/json'} ,supplier.updateStatus);
     server.del({path:'/api/user/:userId/supplier/:supplierId/del',contentType: 'application/json'},supplier.deleteSupplier);
+
+    /**
+     * Product Module
+     */
+    server.get('/api/user/:userId/product', product.queryProduct);
+    server.post({path:'/api/user/:userId/product',contentType: 'application/json'}, product.addProduct);
+    server.put({path:'/api/user/:userId/product/:productId',contentType: 'application/json'} ,product.updateProduct);
+    server.put({path:'/api/user/:userId/product/:productId/status',contentType: 'application/json'} ,product.updateStatus);
+    server.del({path:'/api/user/:userId/product/:productId/del',contentType: 'application/json'},product.deleteProduct);
+
 
     /**
      * App Module
