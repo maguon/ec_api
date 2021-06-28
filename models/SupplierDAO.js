@@ -41,7 +41,7 @@ class SupplierDAO  {
         let query = "select count(id) from supplier_info where id is not null ";
         let filterObj = {};
         if(params.supplierId){
-            query += " and id = ${id} ";
+            query += " and id = ${supplierId} ";
             filterObj.supplierId = params.supplierId;
         }
         if(params.status){
