@@ -5,6 +5,22 @@ const status = { //使用状态
     usable:1//可用
 }
 
+const purchaseStatus = {
+    ready_process:1,//待处理
+    in_process:3,//处理中
+    completed:7//完成
+}
+
+const paymentStatus = {
+    non_payment:1,//未付款
+    account_paid:7//付款
+}
+
+const storageStatus = {
+    not_put_in:1,//未入库
+    put_in:7,//已入库
+}
+
 const storageType ={
     import:1, //入库
     export:2 //出库
@@ -26,5 +42,11 @@ const storageExportType ={
 }
 
 module.exports = {
-    status
+    status,
+    purchaseStatus,
+    paymentStatus,
+    storageStatus,
+    storageType,
+    storageImportType,
+    storageExportType
 }

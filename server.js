@@ -17,6 +17,8 @@ const storage = require('./bl/Storage');
 const storageArea = require('./bl/StorageArea');
 const supplier = require('./bl/Supplier');
 const product = require('./bl/Product');
+const purchase = require('./bl/Purchase');
+const purchaseItem = require('./bl/PurchaseItem');
 
 
 const createServer=()=>{
@@ -156,6 +158,18 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/product/:productId/status',contentType: 'application/json'} ,product.updateStatus);
     server.del({path:'/api/user/:userId/product/:productId/del',contentType: 'application/json'},product.deleteProduct);
 
+    /**
+     * Purchase Module
+     */
+    server.get('/api/user/:userId/purchase', purchase.queryPurchase);
+    server.post({path:'/api/user/:userId/purchase',contentType: 'application/json'}, purchase.addPurchase);
+    server.put({path:'/api/user/:userId/purchase/:purchaseId',contentType: 'application/json'} ,purchase.updatePurchase);
+    server.put({path:'/api/user/:userId/purchase/:purchaseId/storageStatus',contentType: 'application/json'} ,purchase.updateStorageStatus);
+    server.put({path:'/api/user/:userId/purchase/:purchaseId/paymentStatus',contentType: 'application/json'} ,purchase.updatePaymentStatus);
+    server.put({path:'/api/user/:userId/purchase/:purchaseId/status',contentType: 'application/json'} ,purchase.updateStatus);
+
+    server.get('/api/user/:userId/purchaseItem', purchaseItem.queryPurchaseItem);
+    server.put({path:'/api/user/:userId/purchaseItem/:purchaseItemId',contentType: 'application/json'} ,purchaseItem.updatePurchaseItem);
 
     /**
      * App Module

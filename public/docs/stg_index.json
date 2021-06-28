@@ -44,6 +44,10 @@
       "description": "product base info api"
     },
     {
+      "name": "purchase",
+      "description": "purchase base info api"
+    },
+    {
       "name": "app",
       "description": "app version"
 
@@ -2422,6 +2426,402 @@
       }
     },
 
+    "/user/{userId}/purchase": {
+      "post": {
+        "tags": [
+          "purchase"
+        ],
+        "summary": "Add a new purchase info",
+        "description": "",
+        "operationId": "Add purchase",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"purchaseInfo",
+            "description": "purchase object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Purchase"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "purchase"
+        ],
+        "summary": "Select purchase Info",
+        "description": "Get purchase info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseId",
+            "in": "query",
+            "description": "purchaseId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "supplierId",
+            "in": "query",
+            "description": "supplierId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "planDateId",
+            "in": "query",
+            "description": "planDateId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "finishDateId",
+            "in": "query",
+            "description": "finishDateId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "storageStatus",
+            "in": "query",
+            "description": "storageStatus",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "paymentStatus",
+            "in": "query",
+            "description": "paymentStatus",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "paymentDateId",
+            "in": "query",
+            "description": "paymentDateId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "query",
+            "description": "orderId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/purchase/{purchaseId}": {
+      "put": {
+        "tags": [
+          "purchase"
+        ],
+        "summary": "Finds purchase info and update",
+        "description": "update purchase info",
+        "operationId": "update purchase info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseId",
+            "in": "path",
+            "description": "purchase unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseInfo",
+            "in": "body",
+            "description": "Purchase object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PurchasePut"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/purchase/{purchaseId}/storageStatus": {
+      "put": {
+        "tags": [
+          "purchase"
+        ],
+        "summary": "Finds Purchase and update storageStatus",
+        "description": "update Purchase storageStatus",
+        "operationId": "update Purchase storageStatus by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseId",
+            "in": "path",
+            "description": "Purchase unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageStatus",
+            "in": "query",
+            "description": "仓储状态",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/purchase/{purchaseId}/status": {
+      "put": {
+        "tags": [
+          "purchase"
+        ],
+        "summary": "Finds Purchase and update",
+        "description": "update Purchase status",
+        "operationId": "update Purchase status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseId",
+            "in": "path",
+            "description": "Purchase unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态(0:停用,1:启用)",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
+    "/user/{userId}/purchaseItem": {
+      "get": {
+        "tags": [
+          "purchase"
+        ],
+        "summary": "Select purchaseItem Info",
+        "description": "Get purchaseItem info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseItemId",
+            "in": "query",
+            "description": "purchaseItemId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "supplierId",
+            "in": "query",
+            "description": "supplierId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseId",
+            "in": "query",
+            "description": "purchaseId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "query",
+            "description": "productId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/purchaseItem/{purchaseItemId}": {
+      "put": {
+        "tags": [
+          "purchase"
+        ],
+        "summary": "Finds purchaseItem info and update",
+        "description": "update purchaseItem info",
+        "operationId": "update purchaseItem info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseItemId",
+            "in": "path",
+            "description": "purchaseItem unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseItemInfo",
+            "in": "body",
+            "description": "PurchaseItem object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PurchaseItemPut"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
     "/user/{userId}/app": {
       "get": {
         "tags": [
@@ -3151,6 +3551,132 @@
       },
       "xml": {
         "name": "Product"
+      }
+    },
+    "Purchase": {
+      "type": "object",
+      "required": [
+        "remark",
+        "supplierId",
+        "supplierName",
+        "transferCostType",
+        "transferCost",
+        "totalCost",
+        "orderId"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "supplierId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "supplierName": {
+          "type": "string"
+        },
+        "transferCostType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "transferCost": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "orderId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "purchaseItem": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PurchaseItem"
+          }
+        }
+      },
+      "xml": {
+        "name": "Purchase"
+      }
+    },
+    "PurchaseItem": {
+      "type": "object",
+      "required": [
+        "remark",
+        "productId",
+        "productName",
+        "unitCost",
+        "purchaseCount"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "productId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "productName": {
+          "type": "string"
+        },
+        "unitCost": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "purchaseCount": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "PurchaseItem"
+      }
+    },
+    "PurchasePut": {
+      "type": "object",
+      "required": [
+        "remark",
+        "transferCostType",
+        "transferCost"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "transferCostType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "transferCost": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "PurchasePut"
+      }
+    },
+    "PurchaseItemPut": {
+      "type": "object",
+      "required": [
+        "remark",
+        "unitCost",
+        "purchaseCount"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "unitCost": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "purchaseCount": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "PurchaseItemPut"
       }
     },
     "App": {
