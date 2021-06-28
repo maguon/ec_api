@@ -141,7 +141,7 @@ class PurchaseDAO  {
         return await pgDb.any(query,valueObj);
     }
 
-    //重新计算总成本，商品成本
+    //根据Item 重新计算总成本，商品成本
     static async updateTotalCost(params){
         const query = ' UPDATE purchase_info ' +
             ' SET product_cost = s_pit.s_total_cost, total_cost = s_pit.s_total_cost + pi.transfer_cost ' +
@@ -157,6 +157,16 @@ class PurchaseDAO  {
         valueObj.purchaseId =params.purchaseId;
         valueObj.purchaseId =params.purchaseId;
         logger.debug(' updateTotalCost ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    //重新计算总成本，商品成本
+    static async updateCost(params){
+        const query = ' UPDATE purchase_info ' +
+            ' SET total_cost = product_cost + transfer_cost where id= ${purchaseId} ';
+        let valueObj = {};
+        valueObj.purchaseId =params.purchaseId;
+        logger.debug(' updateCost ');
         return await pgDb.any(query,valueObj);
     }
 
