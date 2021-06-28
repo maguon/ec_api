@@ -2657,6 +2657,50 @@
         }
       }
     },
+    "/user/{userId}/purchase/{purchaseId}/paymentStatus": {
+      "put": {
+        "tags": [
+          "purchase"
+        ],
+        "summary": "Finds Purchase and update paymentStatus",
+        "description": "update Purchase paymentStatus",
+        "operationId": "update Purchase paymentStatus by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseId",
+            "in": "path",
+            "description": "Purchase unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "paymentStatus",
+            "in": "query",
+            "description": "付款状态",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
     "/user/{userId}/purchase/{purchaseId}/status": {
       "put": {
         "tags": [

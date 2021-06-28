@@ -129,12 +129,13 @@ class PurchaseDAO  {
 
     static async updatePurchase(params){
         const query = 'update purchase_info set op_user=${opUser} , remark=${remark} , ' +
-            ' transfer_cost_type=${transferCostType} , transfer_cost=${transferCost} ' +
+            ' transfer_cost_type=${transferCostType} , transfer_cost=${transferCost} , total_cost = product_cost + ${transferCost}' +
             ' where id =${purchaseId} RETURNING id ';
         let valueObj = {};
         valueObj.opUser = params.opUser;
         valueObj.remark = params.remark;
         valueObj.transferCostType =params.transferCostType;
+        valueObj.transferCost =params.transferCost;
         valueObj.transferCost =params.transferCost;
         valueObj.purchaseId =params.purchaseId;
         logger.debug(' updatePurchase ');
@@ -157,16 +158,6 @@ class PurchaseDAO  {
         valueObj.purchaseId =params.purchaseId;
         valueObj.purchaseId =params.purchaseId;
         logger.debug(' updateTotalCost ');
-        return await pgDb.any(query,valueObj);
-    }
-
-    //重新计算总成本，商品成本
-    static async updateCost(params){
-        const query = ' UPDATE purchase_info ' +
-            ' SET total_cost = product_cost + transfer_cost where id= ${purchaseId} ';
-        let valueObj = {};
-        valueObj.purchaseId =params.purchaseId;
-        logger.debug(' updateCost ');
         return await pgDb.any(query,valueObj);
     }
 

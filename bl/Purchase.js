@@ -86,10 +86,6 @@ const updatePurchase = async (req,res,next)=>{
         const rows = await purchaseDAO.updatePurchase(params);
         logger.info(' updatePurchase ' + 'success');
 
-        //更新purchase_info ： product_cost，total_cost
-        const updateRows = await purchaseDAO.updateCost({purchaseId:params.purchaseId});
-        logger.info(' updatePurchase updateCost success');
-
         resUtil.resetUpdateRes(res,rows);
         return next();
     }catch (e) {
