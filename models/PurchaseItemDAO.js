@@ -106,7 +106,7 @@ class PurchaseItemDAO  {
         return await pgDb.any(query,valueObj);
     }
 
-    //全表重新计算总成本
+    //重新计算总成本
     static async updateItemTotalCost(params){
         const query = ' update purchase_item set total_cost = unit_cost * purchase_count ' +
             ' where purchase_id=${purchaseId} RETURNING id ';

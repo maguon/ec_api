@@ -141,7 +141,7 @@ class PurchaseDAO  {
         return await pgDb.any(query,valueObj);
     }
 
-    //全表重新计算总成本，商品成本
+    //重新计算总成本，商品成本
     static async updateTotalCost(params){
         const query = ' UPDATE purchase_info ' +
             ' SET product_cost = s_pit.s_total_cost, total_cost = s_pit.s_total_cost + pi.transfer_cost ' +
