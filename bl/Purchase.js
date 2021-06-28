@@ -49,6 +49,7 @@ const addPurchase = async (req,res,next)=>{
             }
             params.purchaseItem[i].supplierId = params.supplierId;
             params.purchaseItem[i].purchaseId = rows[0].id;
+            params.purchaseItem[i].orderId = params.orderId;
 
             const itemRowsAdd = await purchaseItemDAO.addPurchaseItem(params.purchaseItem[i]);
             logger.info(' addPurchase addPurchaseItem id=' + itemRowsAdd[0].id + ' success');
