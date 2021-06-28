@@ -394,3 +394,66 @@ COMMENT ON COLUMN public.purchase_refund.refund_profile IS '退货盈亏';
 
 create trigger purchase_refund_upt before update on purchase_refund for each row execute procedure update_timestamp_func();
 select setval(' product_refund_id_seq',10000,false);
+
+--CREATE TABLE storage_product_rel
+CREATE TABLE IF NOT EXISTS public.storage_product_rel
+(
+    "id" serial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1,
+    "op_user" smallint NOT NULL DEFAULT 1,
+    "remark" character varying(200),
+    "storage_id" smallint NOT NULL DEFAULT 0,
+    "storage_area_id" smallint NOT NULL DEFAULT 0,
+    "supplier_id" smallint NOT NULL DEFAULT 0,
+    "product_id" smallint NOT NULL DEFAULT 0,
+    "product_name" character varying(50),
+    "purchase_id" bigint,
+    "purchase_item_id" integer,
+    "unit_cost" decimal(8,2)  NOT NULL DEFAULT 0,
+    "storage_count" smallint NOT NULL DEFAULT 0,
+    "date_id" integer ,
+    "order_id" bigint ,
+    PRIMARY KEY (id)
+);
+
+COMMENT ON COLUMN public.storage_product_rel.unit_cost IS '入库单价';
+COMMENT ON COLUMN public.storage_product_rel.storage_count IS '库存量';
+COMMENT ON COLUMN public.storage_product_rel.date_id IS '入库日期';
+
+create trigger storage_product_rel_upt before update on storage_product_rel for each row execute procedure update_timestamp_func();
+select setval(' storage_product_rel_id_seq',10000,false);
+
+--CREATE TABLE storage_product_rel_detail
+CREATE TABLE IF NOT EXISTS public.storage_product_rel_detail
+(
+    "id" serial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1,
+    "op_user" smallint NOT NULL DEFAULT 1,
+    "remark" character varying(200),
+    "storage_id" smallint NOT NULL DEFAULT 0,
+    "storage_area_id" smallint NOT NULL DEFAULT 0,
+    "supplier_id" smallint NOT NULL DEFAULT 0,
+    "product_id" smallint NOT NULL DEFAULT 0,
+    "purchase_id" bigint,
+    "purchase_item_id" integer,
+    "storage_type" smallint NOT NULL DEFAULT 0,
+    "storage_sub_type" smallint NOT NULL DEFAULT 0,
+    "storage_count" smallint NOT NULL DEFAULT 0,
+    "date_id" integer ,
+    "order_id" bigint ,
+    PRIMARY KEY (id)
+);
+
+COMMENT ON COLUMN public.storage_product_rel_detail.storage_type IS '入库=1出库=2';
+COMMENT ON COLUMN public.storage_product_rel_detail.storage_sub_type IS '出入库原因';
+COMMENT ON COLUMN public.storage_product_rel_detail.storage_count IS '出入库量';
+COMMENT ON COLUMN public.storage_product_rel_detail.date_id IS '出入库日期';
+
+create trigger storage_product_rel_detail_upt before update on storage_product_rel_detail for each row execute procedure update_timestamp_func();
+
+SELECT cron.schedule('storage_product_rel_detail_id_sdl', '0 16 * * *', $$select setval(' storage_product_rel_detail_id_seq',(CAST(to_char(current_timestamp, 'YYYYMMDD0001') AS BIGINT)),false);$$);
+
