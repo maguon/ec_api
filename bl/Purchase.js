@@ -56,10 +56,6 @@ const addPurchase = async (req,res,next)=>{
 
         }
 
-        //更新Item总成本： total_cost
-        const itemRowsUp = await purchaseItemDAO.updateItemTotalCost({purchaseId:rows[0].id});
-        logger.info(' addPurchase updateItemTotalCost success');
-
         //更新purchase_info ： product_cost，total_cost
         const updateRows = await purchaseDAO.updateTotalCost({purchaseId:rows[0].id});
         logger.info(' addPurchase updateTotalCost success');
