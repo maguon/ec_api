@@ -124,10 +124,11 @@ const updatePaymentStatus = async (req,res,next)=>{
     if(path.purchaseId){
         params.purchaseId = path.purchaseId;
     }
-
-    let today = new Date();
-    let timeStamp = dateUtil.getDateFormat(today, 'yyyyMMdd');
-    params.paymentDateId = timeStamp;
+    if(params.paymentStatus == sysConst.paymentStatus.account_paid){
+        let today = new Date();
+        let timeStamp = dateUtil.getDateFormat(today, 'yyyyMMdd');
+        params.paymentDateId = timeStamp;
+    }
 
     try{
         const rows = await purchaseDAO.updatePaymentStatus(params);
