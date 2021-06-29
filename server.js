@@ -19,6 +19,7 @@ const supplier = require('./bl/Supplier');
 const product = require('./bl/Product');
 const purchase = require('./bl/Purchase');
 const purchaseItem = require('./bl/PurchaseItem');
+const purchaseRefund = require('./bl/PurchaseRefund');
 
 
 const createServer=()=>{
@@ -170,6 +171,12 @@ const createServer=()=>{
 
     server.get('/api/user/:userId/purchaseItem', purchaseItem.queryPurchaseItem);
     server.put({path:'/api/user/:userId/purchaseItem/:purchaseItemId',contentType: 'application/json'} ,purchaseItem.updatePurchaseItem);
+
+    server.get('/api/user/:userId/purchaseRefund', purchaseRefund.queryPurchaseRefund);
+    server.post({path:'/api/user/:userId/purchase/:purchaseId/purchaseItem/:purchaseItemId/purchaseRefund',contentType: 'application/json'}, purchaseRefund.addPurchaseRefund);
+    server.put({path:'/api/user/:userId/purchaseItem/:purchaseItemId/purchaseRefund/:purchaseRefundId',contentType: 'application/json'} ,purchaseRefund.updatePurchaseRefund);
+    server.put({path:'/api/user/:userId/purchaseRefund/:purchaseRefundId/paymentStatus',contentType: 'application/json'} ,purchaseRefund.updatePaymentStatus);
+    server.put({path:'/api/user/:userId/purchaseRefund/:purchaseRefundId/status',contentType: 'application/json'} ,purchaseRefund.updateStatus);
 
     /**
      * App Module
