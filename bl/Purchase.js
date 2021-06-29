@@ -2,7 +2,7 @@
 const purchaseDAO = require('../models/PurchaseDAO');
 const purchaseItemDAO = require('../models/PurchaseItemDAO');
 const serverLogger = require('../util/ServerLogger.js');
-const dateUtil = require('../util/DateUtil.js');
+const moment = require('moment');
 const sysConst = require('../util/SystemConst.js');
 const resUtil = require('../util/ResponseUtil.js');
 const logger = serverLogger.createLogger('Purchase.js');
@@ -32,8 +32,8 @@ const addPurchase = async (req,res,next)=>{
     params.paymentStatus = sysConst.status.usable;
 
     let today = new Date();
-    let timeStamp = dateUtil.getDateFormat(today, 'yyyyMMdd');
-    params.planDateId = timeStamp;
+    let date = moment(today).format('YYYYMMDD');
+    params.planDateId = date;
 
     try {
         //创建purchase_info
@@ -55,10 +55,6 @@ const addPurchase = async (req,res,next)=>{
             logger.info(' addPurchase addPurchaseItem id=' + itemRowsAdd[0].id + ' success');
 
         }
-
-        //更新Item总成本： total_cost
-        const itemRowsUp = await purchaseItemDAO.updateItemTotalCost({purchaseId:rows[0].id});
-        logger.info(' addPurchase updateItemTotalCost success');
 
         //更新purchase_info ： product_cost，total_cost
         const updateRows = await purchaseDAO.updateTotalCost({purchaseId:rows[0].id});
@@ -124,10 +120,11 @@ const updatePaymentStatus = async (req,res,next)=>{
     if(path.purchaseId){
         params.purchaseId = path.purchaseId;
     }
-
-    let today = new Date();
-    let timeStamp = dateUtil.getDateFormat(today, 'yyyyMMdd');
-    params.paymentDateId = timeStamp;
+    if(params.paymentStatus == sysConst.paymentStatus.account_paid){
+        let today = new Date();
+        let date = moment(today).format('YYYYMMDD');
+        params.paymentDateId = date;
+    }
 
     try{
         const rows = await purchaseDAO.updatePaymentStatus(params);
@@ -155,8 +152,8 @@ const updateStatus = async (req,res,next)=>{
 
         if(params.status == sysConst.purchaseStatus.completed){
             let today = new Date();
-            let timeStamp = dateUtil.getDateFormat(today, 'yyyyMMdd');
-            params.finishDateId = timeStamp;
+            let date = moment(today).format('YYYYMMDD');
+            params.finishDateId = date;
             const rowsDate = await purchaseDAO.updateFinishDateId(params);
             logger.info(' updateStatus updateFinishDateId ' + 'success');
         }

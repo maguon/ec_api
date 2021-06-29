@@ -21,13 +21,21 @@ class PurchaseDAO  {
             query += " and pi.supplier_id = ${supplierId} ";
             filterObj.supplierId = params.supplierId;
         }
-        if(params.planDateId){
-            query += " and pi.plan_date_id = ${planDateId} ";
-            filterObj.planDateId = params.planDateId;
+        if(params.planDateStart){
+            query += " and pi.plan_date_id >= ${planDateStart} ";
+            filterObj.planDateStart = params.planDateStart;
         }
-        if(params.finishDateId){
-            query += " and pi.finish_date_id = ${finishDateId} ";
-            filterObj.finishDateId = params.finishDateId;
+        if(params.planDateEnd){
+            query += " and pi.plan_date_id <= ${planDateEnd} ";
+            filterObj.planDateEnd = params.planDateEnd;
+        }
+        if(params.finishDateStart){
+            query += " and pi.finish_date_id >= ${finishDateStart} ";
+            filterObj.finishDateStart = params.finishDateStart;
+        }
+        if(params.finishDateEnd){
+            query += " and pi.finish_date_id <= ${finishDateEnd} ";
+            filterObj.finishDateEnd = params.finishDateEnd;
         }
         if(params.storageStatus){
             query += " and pi.storage_status = ${storageStatus} ";
@@ -37,9 +45,13 @@ class PurchaseDAO  {
             query += " and pi.payment_status = ${paymentStatus} ";
             filterObj.paymentStatus = params.paymentStatus;
         }
-        if(params.paymentDateId){
-            query += " and pi.payment_date_id = ${paymentDateId} ";
-            filterObj.paymentDateId = params.paymentDateId;
+        if(params.paymentDateStart){
+            query += " and pi.payment_date_id >= ${paymentDateStart} ";
+            filterObj.paymentDateStart = params.paymentDateStart;
+        }
+        if(params.paymentDateEnd){
+            query += " and pi.payment_date_id <= ${paymentDateEnd} ";
+            filterObj.paymentDateEnd = params.paymentDateEnd;
         }
         if(params.orderId){
             query += " and pi.order_id = ${orderId} ";

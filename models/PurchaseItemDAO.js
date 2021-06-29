@@ -72,9 +72,9 @@ class PurchaseItemDAO  {
 
     static async addPurchaseItem(params) {
         const query = 'INSERT INTO purchase_item (status , op_user , remark , storage_status , payment_status , ' +
-            ' supplier_id , purchase_id , product_id , product_name , unit_cost , purchase_count , order_id ) ' +
+            ' supplier_id , purchase_id , product_id , product_name , unit_cost , purchase_count , total_cost , order_id ) ' +
             ' VALUES (${status} , ${opUser} , ${remark} , ${storageStatus} , ${paymentStatus} , ${supplierId} ,' +
-            ' ${purchaseId} , ${productId} , ${productName} , ${unitCost} , ${purchaseCount} , ${orderId} ) RETURNING id ';
+            ' ${purchaseId} , ${productId} , ${productName} , ${unitCost} , ${purchaseCount} , ${totalCost} , ${orderId} ) RETURNING id ';
         let valueObj = {};
         valueObj.status = params.status;
         valueObj.opUser = params.opUser;
@@ -87,6 +87,7 @@ class PurchaseItemDAO  {
         valueObj.productName = params.productName;
         valueObj.unitCost = params.unitCost;
         valueObj.purchaseCount = params.purchaseCount;
+        valueObj.totalCost = params.unitCost * params.purchaseCount;
         valueObj.orderId = params.orderId;
         logger.debug(' addPurchaseItem ');
         return await pgDb.any(query,valueObj);
@@ -94,25 +95,16 @@ class PurchaseItemDAO  {
 
     static async updatePurchaseItem(params){
         const query = 'update purchase_item set op_user=${opUser} , remark=${remark} , ' +
-            ' unit_cost=${unitCost} , purchase_count=${purchaseCount} ' +
+            ' unit_cost=${unitCost} , purchase_count=${purchaseCount} , total_cost=${totalCost}' +
             ' where id =${purchaseItemId} RETURNING id ';
         let valueObj = {};
         valueObj.opUser = params.opUser;
         valueObj.remark = params.remark;
         valueObj.unitCost =params.unitCost;
         valueObj.purchaseCount =params.purchaseCount;
+        valueObj.totalCost = params.unitCost * params.purchaseCount;
         valueObj.purchaseItemId  =params.purchaseItemId ;
         logger.debug(' updatePurchaseItem ');
-        return await pgDb.any(query,valueObj);
-    }
-
-    //重新计算总成本
-    static async updateItemTotalCost(params){
-        const query = ' update purchase_item set total_cost = unit_cost * purchase_count ' +
-            ' where purchase_id=${purchaseId} RETURNING id ';
-        let valueObj = {};
-        valueObj.purchaseId =params.purchaseId;
-        logger.debug(' updateItemTotalCost ');
         return await pgDb.any(query,valueObj);
     }
 

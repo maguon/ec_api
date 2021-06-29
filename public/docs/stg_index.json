@@ -2499,16 +2499,30 @@
             "type": "integer"
           },
           {
-            "name": "planDateId",
+            "name": "planDateStart",
             "in": "query",
-            "description": "planDateId",
+            "description": "planDateStart",
             "required": false,
             "type": "integer"
           },
           {
-            "name": "finishDateId",
+            "name": "planDateEnd",
             "in": "query",
-            "description": "finishDateId",
+            "description": "planDateEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "finishDateStart",
+            "in": "query",
+            "description": "finishDateStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "finishDateEnd",
+            "in": "query",
+            "description": "finishDateEnd",
             "required": false,
             "type": "integer"
           },
@@ -2527,9 +2541,16 @@
             "type": "integer"
           },
           {
-            "name": "paymentDateId",
+            "name": "paymentDateStart",
             "in": "query",
-            "description": "paymentDateId",
+            "description": "paymentDateStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "paymentDateEnd",
+            "in": "query",
+            "description": "paymentDateEnd",
             "required": false,
             "type": "integer"
           },
@@ -2730,7 +2751,7 @@
           {
             "name": "status",
             "in": "query",
-            "description": "状态(0:停用,1:启用)",
+            "description": "状态",
             "required": true,
             "type": "integer"
           }
@@ -2853,6 +2874,291 @@
             "schema": {
               "$ref": "#/definitions/PurchaseItemPut"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
+    "/user/{userId}/purchaseRefund": {
+      "get": {
+        "tags": [
+          "purchase"
+        ],
+        "summary": "Select purchaseRefund Info",
+        "description": "Get purchaseRefund info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseRefundId",
+            "in": "query",
+            "description": "purchaseRefundId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "supplierId",
+            "in": "query",
+            "description": "supplierId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseId",
+            "in": "query",
+            "description": "purchaseId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseItemId",
+            "in": "query",
+            "description": "purchaseItemId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "query",
+            "description": "productId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "query",
+            "description": "orderId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/purchase/{purchaseId}/purchaseItem/{purchaseItemId}/purchaseRefund": {
+      "post": {
+        "tags": [
+          "purchase"
+        ],
+        "summary": "Add a new purchaseRefund info",
+        "description": "",
+        "operationId": "Add purchaseRefund",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseId",
+            "in": "path",
+            "description": "purchaseId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseItemId",
+            "in": "path",
+            "description": "purchaseItemId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"purchaseRefundInfo",
+            "description": "purchaseRefund object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PurchaseRefund"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/user/{userId}/purchaseItem/{purchaseItemId}/purchaseRefund/{purchaseRefundId}": {
+      "put": {
+        "tags": [
+          "purchase"
+        ],
+        "summary": "Finds purchaseRefund info and update",
+        "description": "update purchaseRefund info",
+        "operationId": "update purchaseRefund info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseRefundId",
+            "in": "path",
+            "description": "purchaseRefund unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseItemId",
+            "in": "path",
+            "description": "purchaseItemId unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseRefundInfo",
+            "in": "body",
+            "description": "PurchaseRefund object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PurchaseRefundPut"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/purchaseRefund/{purchaseRefundId}/paymentStatus": {
+      "put": {
+        "tags": [
+          "purchase"
+        ],
+        "summary": "Finds purchaseRefund and update paymentStatus",
+        "description": "update purchaseRefund paymentStatus",
+        "operationId": "update purchaseRefund paymentStatus by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseRefundId",
+            "in": "path",
+            "description": "purchaseRefundId unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "paymentStatus",
+            "in": "query",
+            "description": "付款状态",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/purchaseRefund/{purchaseRefundId}/status": {
+      "put": {
+        "tags": [
+          "purchase"
+        ],
+        "summary": "Finds purchaseRefund and update",
+        "description": "update purchaseRefund status",
+        "operationId": "update purchaseRefund status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseRefundId",
+            "in": "path",
+            "description": "PurchaseRefundId unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态(0:停用,1:启用)",
+            "required": true,
+            "type": "integer"
           }
         ],
         "responses": {
@@ -3721,6 +4027,103 @@
       },
       "xml": {
         "name": "PurchaseItemPut"
+      }
+    },
+    "PurchaseRefund": {
+      "type": "object",
+      "required": [
+        "remark",
+        "supplierId",
+        "productId",
+        "productName",
+        "storageType",
+        "refundUnitCost",
+        "refundCount",
+        "transferCostType",
+        "transferCost",
+        "orderId"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "supplierId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "productId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "productName": {
+          "type": "string"
+        },
+        "storageType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "refundUnitCost": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "refundCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "transferCostType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "transferCost": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "orderId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "PurchaseRefund"
+      }
+    },
+    "PurchaseRefundPut": {
+      "type": "object",
+      "required": [
+        "remark",
+        "storageType",
+        "refundUnitCost",
+        "refundCount",
+        "transferCostType",
+        "transferCost"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "storageType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "refundUnitCost": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "refundCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "transferCostType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "transferCost": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "PurchaseRefundPut"
       }
     },
     "App": {
