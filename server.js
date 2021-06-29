@@ -15,6 +15,8 @@ const category = require('./bl/Category');
 const categorySub = require('./bl/CategorySub');
 const storage = require('./bl/Storage');
 const storageArea = require('./bl/StorageArea');
+const storageProductRel = require('./bl/StorageProductRel');
+const storageProductRelDetail = require('./bl/StorageProductRelDetail');
 const supplier = require('./bl/Supplier');
 const product = require('./bl/Product');
 const purchase = require('./bl/Purchase');
@@ -96,9 +98,6 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/brand/:brandId/status',contentType: 'application/json'} ,brand.updateStatus);
     server.del({path:'/api/user/:userId/brand/:brandId/del',contentType: 'application/json'},brand.deleteBrand);
 
-    /**
-     * BrandModel Module
-     */
     server.get('/api/user/:userId/brandModel', brandModel.queryBrandModel);
     server.post({path:'/api/user/:userId/brandModel',contentType: 'application/json'}, brandModel.addBrandModel);
     server.put({path:'/api/user/:userId/brandModel/:brandModelId',contentType: 'application/json'} ,brandModel.updateBrandModel);
@@ -114,9 +113,6 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/category/:categoryId/status',contentType: 'application/json'} ,category.updateStatus);
     server.del({path:'/api/user/:userId/category/:categoryId/del',contentType: 'application/json'},category.deleteCategory);
 
-    /**
-     * CategorySub Module
-     */
     server.get('/api/user/:userId/categorySub', categorySub.queryCategorySub);
     server.post({path:'/api/user/:userId/categorySub',contentType: 'application/json'}, categorySub.addCategorySub);
     server.put({path:'/api/user/:userId/categorySub/:categorySubId',contentType: 'application/json'} ,categorySub.updateCategorySub);
@@ -132,14 +128,18 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/storage/:storageId/status',contentType: 'application/json'} ,storage.updateStatus);
     server.del({path:'/api/user/:userId/storage/:storageId/del',contentType: 'application/json'},storage.deleteStorage);
 
-    /**
-     * StorageArea Module
-     */
     server.get('/api/user/:userId/storageArea', storageArea.queryStorageArea);
     server.post({path:'/api/user/:userId/storageArea',contentType: 'application/json'}, storageArea.addStorageArea);
     server.put({path:'/api/user/:userId/storageArea/:storageAreaId',contentType: 'application/json'} ,storageArea.updateStorageArea);
     server.put({path:'/api/user/:userId/storageArea/:storageAreaId/status',contentType: 'application/json'} ,storageArea.updateStatus);
     server.del({path:'/api/user/:userId/storageArea/:storageAreaId/del',contentType: 'application/json'},storageArea.deleteStorageArea);
+
+    server.get('/api/user/:userId/storageProductRel', storageProductRel.queryStorageProductRel);
+    server.post({path:'/api/user/:userId/storage/:storageId/product/:productId/storageProductRel',contentType: 'application/json'}, storageProductRel.addStorageProductRel);
+    server.put({path:'/api/user/:userId/storageProductRel/:storageProductRelId',contentType: 'application/json'} ,storageProductRel.updateStorageProductRel);
+
+    server.get('/api/user/:userId/storageProductRelDetail', storageProductRelDetail.queryStorageProductRelDetail);
+    server.post({path:'/api/user/:userId/storageProductRel/:storageProductRelId/storageProductRelDetail',contentType: 'application/json'}, storageProductRelDetail.addStorageProductRelDetail);
 
     /**
      * Supplier Module

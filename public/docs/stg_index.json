@@ -1923,6 +1923,396 @@
       }
     },
 
+    "/user/{userId}/storageProductRel": {
+      "get": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Select storageProductRel Info",
+        "description": "Get storageProductRel info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageProductRelId",
+            "in": "query",
+            "description": "storageProductRelId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "storageId",
+            "in": "query",
+            "description": "storageId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "storageAreaId",
+            "in": "query",
+            "description": "storageAreaId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "supplierId",
+            "in": "query",
+            "description": "supplierId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "query",
+            "description": "productId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseId",
+            "in": "query",
+            "description": "purchaseId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseItemId",
+            "in": "query",
+            "description": "purchaseItemId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateId",
+            "in": "query",
+            "description": "dateId",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "orderId",
+            "in": "query",
+            "description": "orderId",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/storage/{storageId}/product/{productId}/storageProductRel": {
+      "post": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Add a new storageProductRel info ",
+        "description": "",
+        "operationId": "Add storageProductRel info ",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageId",
+            "in": "path",
+            "description": "storageId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "productId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"storageProductRelInfo",
+            "description": "StorageProductRel object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StorageProductRel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/user/{userId}/storageProductRel/{storageProductRelId}": {
+      "put": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Finds storageProductRel info and update",
+        "description": "update storageProductRel info",
+        "operationId": "update storageProductRel info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageProductRelId",
+            "in": "path",
+            "description": "storageProductRel unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageProductRel",
+            "in": "body",
+            "description": "storageProductRel object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StorageProductRelPut"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
+    "/user/{userId}/storageProductRelDetail": {
+      "get": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Select storageProductRelDetail Info",
+        "description": "Get storageProductRelDetail info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageProductRelDetailId",
+            "in": "query",
+            "description": "storageProductRelDetailId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "storageId",
+            "in": "query",
+            "description": "storageId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "storageAreaId",
+            "in": "query",
+            "description": "storageAreaId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "storageProductRelId",
+            "in": "query",
+            "description": "storageProductRelId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "supplierId",
+            "in": "query",
+            "description": "supplierId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "query",
+            "description": "productId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseId",
+            "in": "query",
+            "description": "purchaseId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseItemId",
+            "in": "query",
+            "description": "purchaseItemId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "storageType",
+            "in": "query",
+            "description": "storageType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "storageSubType",
+            "in": "query",
+            "description": "storageSubType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateId",
+            "in": "query",
+            "description": "dateId",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "orderId",
+            "in": "query",
+            "description": "orderId",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/storageProductRel/{storageProductRelId}/storageProductRelDetail": {
+      "post": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Add a new storageProductRelDetail info ",
+        "description": "",
+        "operationId": "Add storageProductRelDetail info ",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageProductRelId",
+            "in": "path",
+            "description": "storageProductRelId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"storageProductRelDetail",
+            "description": "StorageProductRelDetail object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StorageProductRelDetail"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+
     "/user/{userId}/supplier": {
       "post": {
         "tags": [
@@ -3756,6 +4146,116 @@
       },
       "xml": {
         "name": "StorageArea"
+      }
+    },
+    "StorageProductRel": {
+      "type": "object",
+      "required": [
+        "remark",
+        "storageName",
+        "storageAreaId",
+        "supplierId",
+        "productName",
+        "purchaseId",
+        "purchaseItemId",
+        "unitCost",
+        "storageCount",
+        "orderId",
+        "storageType",
+        "storageSubType"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "storageName": {
+          "type": "string"
+        },
+        "storageAreaId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "supplierId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "productName": {
+          "type": "string"
+        },
+        "purchaseId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "purchaseItemId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "unitCost": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "storageCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "orderId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "storageType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "storageSubType": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "StorageProductRel"
+      }
+    },
+    "StorageProductRelPut": {
+      "type": "object",
+      "required": [
+        "remark"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "storageProductRelPut"
+      }
+    },
+    "StorageProductRelDetail": {
+      "type": "object",
+      "required": [
+        "remark",
+        "storageCount",
+        "storageType",
+        "storageSubType"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "storageCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "storageType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "storageSubType": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "StorageProductRelDetail"
       }
     },
     "Supplier": {
