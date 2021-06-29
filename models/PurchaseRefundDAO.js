@@ -61,9 +61,9 @@ class PurchaseRefundDAO  {
     static async queryPurchaseRefundCount(params) {
         let query = "select count(id) from purchase_refund where id is not null ";
         let filterObj = {};
-        if(params.purchaseId){
-            query += " and id = ${purchaseId} ";
-            filterObj.purchaseId = params.purchaseId;
+        if(params.purchaseRefundId){
+            query += " and id = ${purchaseRefundId} ";
+            filterObj.purchaseRefundId = params.purchaseRefundId;
         }
         if(params.status){
             query += " and status = ${status} ";
