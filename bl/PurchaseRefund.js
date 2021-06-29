@@ -3,7 +3,7 @@ const purchaseDAO = require('../models/PurchaseDAO');
 const purchaseItemDAO = require('../models/PurchaseItemDAO');
 const purchaseRefundDAO = require('../models/PurchaseRefundDAO');
 const serverLogger = require('../util/ServerLogger.js');
-const dateUtil = require('../util/DateUtil.js');
+const moment = require('moment');
 const sysConst = require('../util/SystemConst.js');
 const resUtil = require('../util/ResponseUtil.js');
 const logger = serverLogger.createLogger('PurchaseRefund.js');
@@ -103,8 +103,8 @@ const updatePaymentStatus = async (req,res,next)=>{
     }
     if(params.paymentStatus == sysConst.paymentStatus.account_paid){
         let today = new Date();
-        let timeStamp = dateUtil.getDateFormat(today, 'yyyyMMdd');
-        params.dateId = timeStamp;
+        let date = moment(today).format('YYYYMMDD');
+        params.dateId = date;
     }
 
     try{
@@ -133,8 +133,8 @@ const updateStatus = async (req,res,next)=>{
 
         if(params.status == sysConst.purchaseStatus.completed){
             let today = new Date();
-            let timeStamp = dateUtil.getDateFormat(today, 'yyyyMMdd');
-            params.finishDateId = timeStamp;
+            let date = moment(today).format('YYYYMMDD');
+            params.finishDateId = date;
             const rowsDate = await purchaseDAO.updateFinishDateId(params);
             logger.info(' updateStatus updateFinishDateId ' + 'success');
         }

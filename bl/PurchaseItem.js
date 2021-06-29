@@ -2,8 +2,6 @@
 const purchaseDAO = require('../models/PurchaseDAO');
 const purchaseItemDAO = require('../models/PurchaseItemDAO');
 const serverLogger = require('../util/ServerLogger.js');
-const dateUtil = require('../util/DateUtil.js');
-const sysConst = require('../util/SystemConst.js');
 const resUtil = require('../util/ResponseUtil.js');
 const logger = serverLogger.createLogger('PurchaseItem.js');
 
