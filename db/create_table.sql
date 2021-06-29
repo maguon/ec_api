@@ -393,7 +393,7 @@ COMMENT ON COLUMN public.purchase_refund.transfer_cost IS '退货运费';
 COMMENT ON COLUMN public.purchase_refund.refund_profile IS '退货盈亏';
 
 create trigger purchase_refund_upt before update on purchase_refund for each row execute procedure update_timestamp_func();
-select setval(' product_refund_id_seq',10000,false);
+select setval(' purchase_refund_id_seq',10000,false);
 
 --CREATE TABLE storage_product_rel
 CREATE TABLE IF NOT EXISTS public.storage_product_rel
