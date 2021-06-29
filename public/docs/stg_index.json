@@ -2499,16 +2499,30 @@
             "type": "integer"
           },
           {
-            "name": "planDateId",
+            "name": "planDateStart",
             "in": "query",
-            "description": "planDateId",
+            "description": "planDateStart",
             "required": false,
             "type": "integer"
           },
           {
-            "name": "finishDateId",
+            "name": "planDateEnd",
             "in": "query",
-            "description": "finishDateId",
+            "description": "planDateEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "finishDateStart",
+            "in": "query",
+            "description": "finishDateStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "finishDateEnd",
+            "in": "query",
+            "description": "finishDateEnd",
             "required": false,
             "type": "integer"
           },
@@ -2527,9 +2541,16 @@
             "type": "integer"
           },
           {
-            "name": "paymentDateId",
+            "name": "paymentDateStart",
             "in": "query",
-            "description": "paymentDateId",
+            "description": "paymentDateStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "paymentDateEnd",
+            "in": "query",
+            "description": "paymentDateEnd",
             "required": false,
             "type": "integer"
           },
@@ -2730,7 +2751,7 @@
           {
             "name": "status",
             "in": "query",
-            "description": "状态(0:停用,1:启用)",
+            "description": "状态",
             "required": true,
             "type": "integer"
           }
