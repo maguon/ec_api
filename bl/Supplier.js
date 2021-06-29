@@ -10,7 +10,7 @@ const querySupplier = async (req,res,next)=>{
     try{
         const rows = await supplierDAO.querySupplier(query);
         const count = await supplierDAO.querySupplierCount(query);
-        logger.info(' queryUserMenuList ' + 'success');
+        logger.info(' querySupplier ' + 'success');
         resUtil.resetQueryRes(res,rows,count);
         return next();
     }catch (e) {
