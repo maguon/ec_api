@@ -458,3 +458,50 @@ create trigger storage_product_rel_detail_upt before update on storage_product_r
 
 SELECT cron.schedule('storage_product_rel_detail_id_sdl', '0 16 * * *', $$select setval(' storage_product_rel_detail_id_seq',(CAST(to_char(current_timestamp, 'YYYYMMDD0001') AS BIGINT)),false);$$);
 
+--CREATE TABLE client_agent
+CREATE TABLE IF NOT EXISTS public.client_agent
+(
+    "id" smallserial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1,
+    "op_user" smallint NOT NULL DEFAULT 1,
+    "remark" character varying(200),
+    "client_type" smallint NOT NULL DEFAULT 0,
+    "tel" character varying(20),
+    "address" character varying(50),
+    "id_serial" character varying(20),
+    "date_id" integer ,
+    "sales_user_id" smallint,
+    "source_type" smallint NOT NULL DEFAULT 0,
+
+    PRIMARY KEY (id)
+);
+
+COMMENT ON COLUMN public.client_agent.client_type IS '客户类型';
+COMMENT ON COLUMN public.client_agent.id_serial IS '身份证号';
+COMMENT ON COLUMN public.client_agent.date_id IS '出入库量';
+COMMENT ON COLUMN public.client_agent.sales_user_id IS '销售人员编号';
+COMMENT ON COLUMN public.client_agent.source_type IS '客户来源';
+
+create trigger client_agent_upt before update on client_agent for each row execute procedure update_timestamp_func();
+select setval(' client_agent_id_seq',10000,false);
+
+--CREATE TABLE client_agent_invoice
+CREATE TABLE IF NOT EXISTS public.client_agent_invoice(
+    "id" smallserial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1,
+    "op_user" smallint NOT NULL DEFAULT 1,
+    "remark" character varying(200),
+    "invoice_type" smallint,
+    "invoice_title" character varying(50),
+    "invoice_bank" character varying(50),
+    "invoice_bank_ser" character varying(20),
+    "invoice_address" character varying(50),
+    "settle_type" smallint NOT NULL DEFAULT 0,
+     PRIMARY KEY (id)
+);
+create trigger client_agent_invoice_upt before update on client_agent_invoice for each row execute procedure update_timestamp_func();
+select setval(' client_agent_invoice_id_seq',10000,false);
