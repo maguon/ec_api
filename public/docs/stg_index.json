@@ -48,6 +48,10 @@
       "description": "purchase base info api"
     },
     {
+      "name": "client",
+      "description": "client base info api"
+    },
+    {
       "name": "app",
       "description": "app version"
 
@@ -3562,6 +3566,399 @@
       }
     },
 
+    "/user/{userId}/clientAgent": {
+      "post": {
+        "tags": [
+          "client"
+        ],
+        "summary": "Add a new clientAgent info",
+        "description": "",
+        "operationId": "Add clientAgent",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"clientAgentInfo",
+            "description": "clientAgent object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ClientAgent"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "client"
+        ],
+        "summary": "Select clientAgent Info",
+        "description": "Get clientAgent info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "clientAgentId",
+            "in": "query",
+            "description": "clientAgentId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "clientType",
+            "in": "query",
+            "description": "clientType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "idSerial",
+            "in": "query",
+            "description": "idSerial",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateIdStart",
+            "in": "query",
+            "description": "dateIdStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateIdEnd",
+            "in": "query",
+            "description": "dateIdEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "sourceType",
+            "in": "query",
+            "description": "sourceType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/clientAgent/{clientAgentId}": {
+      "put": {
+        "tags": [
+          "client"
+        ],
+        "summary": "Finds clientAgent info and update",
+        "description": "update clientAgent info",
+        "operationId": "update clientAgent info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "clientAgentId",
+            "in": "path",
+            "description": "clientAgent unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "clientAgent",
+            "in": "body",
+            "description": "clientAgent object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ClientAgent"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/clientAgent/{clientAgentId}/status": {
+      "put": {
+        "tags": [
+          "client"
+        ],
+        "summary": "Finds clientAgent and update",
+        "description": "update clientAgent status",
+        "operationId": "update clientAgent status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "clientAgentId",
+            "in": "path",
+            "description": "clientAgent unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
+    "/user/{userId}/clientAgentInvoice": {
+      "get": {
+        "tags": [
+          "client"
+        ],
+        "summary": "Select clientAgentInvoice Info",
+        "description": "Get clientAgentInvoice info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "clientAgentInvoiceId",
+            "in": "query",
+            "description": "clientAgentInvoiceId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "clientAgentId",
+            "in": "query",
+            "description": "clientAgentId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "invoiceType",
+            "in": "query",
+            "description": "invoiceType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "settleType",
+            "in": "query",
+            "description": "settleType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/clientAgent/{clientAgentId}/clientAgentInvoice": {
+      "post": {
+        "tags": [
+          "client"
+        ],
+        "summary": "Add a new clientAgentInvoice info",
+        "description": "",
+        "operationId": "Add clientAgentInvoice info",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "clientAgentId",
+            "in": "path",
+            "description": "clientAgentId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"clientAgentInvoiceInfo",
+            "description": "clientAgentInvoice object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ClientAgentInvoice"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/user/{userId}/clientAgentInvoice/{clientAgentInvoiceId}": {
+      "put": {
+        "tags": [
+          "client"
+        ],
+        "summary": "Finds clientAgentInvoice and update",
+        "description": "Update clientAgentInvoice",
+        "operationId": "Update clientAgentInvoice by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "clientAgentInvoiceId",
+            "in": "path",
+            "description": "clientAgentInvoice unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "clientAgentInvoice",
+            "in": "body",
+            "description": "clientAgentInvoice object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ClientAgentInvoice"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/App"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
     "/user/{userId}/app": {
       "get": {
         "tags": [
@@ -4624,6 +5021,86 @@
       },
       "xml": {
         "name": "PurchaseRefundPut"
+      }
+    },
+    "ClientAgent": {
+      "type": "object",
+      "required": [
+        "remark",
+        "clientType",
+        "tel",
+        "address",
+        "idSerial",
+        "salesUserId",
+        "sourceType"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "clientType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "tel": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "idSerial": {
+          "type": "string"
+        },
+        "salesUserId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sourceType": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "ClientAgent"
+      }
+    },
+    "ClientAgentInvoice": {
+      "type": "object",
+      "required": [
+        "remark",
+        "invoiceType",
+        "invoiceTitle",
+        "invoiceBank",
+        "invoiceBankSer",
+        "invoiceAddress",
+        "settleType"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "invoiceType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "invoiceTitle": {
+          "type": "string"
+        },
+        "invoiceBank": {
+          "type": "string"
+        },
+        "invoiceBankSer": {
+          "type": "string"
+        },
+        "invoiceAddress": {
+          "type": "string"
+        },
+        "settleType": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "ClientAgentInvoice"
       }
     },
     "App": {

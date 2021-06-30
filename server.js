@@ -22,6 +22,8 @@ const product = require('./bl/Product');
 const purchase = require('./bl/Purchase');
 const purchaseItem = require('./bl/PurchaseItem');
 const purchaseRefund = require('./bl/PurchaseRefund');
+const clientAgent = require('./bl/ClientAgent');
+const clientAgentInvoice = require('./bl/ClientAgentInvoice');
 
 
 const createServer=()=>{
@@ -177,6 +179,18 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/purchaseItem/:purchaseItemId/purchaseRefund/:purchaseRefundId',contentType: 'application/json'} ,purchaseRefund.updatePurchaseRefund);
     server.put({path:'/api/user/:userId/purchaseRefund/:purchaseRefundId/paymentStatus',contentType: 'application/json'} ,purchaseRefund.updatePaymentStatus);
     server.put({path:'/api/user/:userId/purchaseRefund/:purchaseRefundId/status',contentType: 'application/json'} ,purchaseRefund.updateStatus);
+
+    /**
+     * Client Module
+     */
+    server.get('/api/user/:userId/clientAgent', clientAgent.queryClientAgent);
+    server.post({path:'/api/user/:userId/clientAgent',contentType: 'application/json'}, clientAgent.addClientAgent);
+    server.put({path:'/api/user/:userId/clientAgent/:clientAgentId',contentType: 'application/json'} ,clientAgent.updateClientAgent);
+    server.put({path:'/api/user/:userId/clientAgent/:clientAgentId/status',contentType: 'application/json'} ,clientAgent.updateStatus);
+
+    server.get('/api/user/:userId/clientAgentInvoice', clientAgentInvoice.queryClientAgentInvoice);
+    server.post({path:'/api/user/:userId/clientAgent/:clientAgentId/clientAgentInvoice',contentType: 'application/json'}, clientAgentInvoice.addClientAgentInvoice);
+    server.put({path:'/api/user/:userId/clientAgentInvoice/:clientAgentInvoiceId',contentType: 'application/json'} ,clientAgentInvoice.updateClientAgentInvoice);
 
     /**
      * App Module
