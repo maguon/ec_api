@@ -506,3 +506,68 @@ CREATE TABLE IF NOT EXISTS public.client_agent_invoice(
 );
 create trigger client_agent_invoice_upt before update on client_agent_invoice for each row execute procedure update_timestamp_func();
 select setval(' client_agent_invoice_id_seq',10000,false);
+
+--CREATE TABLE sale_service_info
+
+CREATE TABLE IF NOT EXISTS public.sale_service_info(
+    "id" smallserial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1,
+    "op_user" smallint NOT NULL DEFAULT 1,
+    "remark" character varying(200),
+    "service_name" character varying(200),
+    "service_type" smallint NOT NULL DEFAULT 1 ,
+    "service_price_type" smallint NOT NULL DEFAULT 1 ,
+    "fixed_price" decimal(10,2) NOT NULL DEFAULT 0,
+    "unit_price" decimal(10,2) NOT NULL DEFAULT 0,
+    "service_price_count" decimal(10,2) NOT NULL DEFAULT 0,
+    "service_cost_type" smallint NOT NULL DEFAULT 1 ,
+    "fixed_cost" decimal(10,2) NOT NULL DEFAULT 0,
+    "unit_cost" decimal(10,2) NOT NULL DEFAULT 0,
+    "service_cost_count" decimal(10,2) NOT NULL DEFAULT 0,
+    "total_price" decimal(10,2)NOT NULL DEFAULT 0,
+    "total_cost" decimal(10,2)NOT NULL DEFAULT 0,
+    "total_profit" decimal(10,2)NOT NULL DEFAULT 0,
+    "sale_perf_type" smallint NOT NULL DEFAULT 1 ,
+    "sale_perf_fixed" decimal(10,2) NOT NULL DEFAULT 0,
+    "sale_perf_ratio" decimal(10,2) NOT NULL DEFAULT 0,
+    "deploy_perf_type" smallint NOT NULL DEFAULT 1 ,
+    "deploy_perf_fixed" decimal(10,2) NOT NULL DEFAULT 0,
+    "deploy_perf_ratio" decimal(10,2) NOT NULL DEFAULT 0,
+    "check_perf_type" smallint NOT NULL DEFAULT 1 ,
+    "check_perf_fixed" decimal(10,2) NOT NULL DEFAULT 0,
+    "check_perf_ratio" decimal(10,2) NOT NULL DEFAULT 0,
+     PRIMARY KEY (id)
+);
+
+COMMENT ON COLUMN public.sale_service_info.service_type IS '服务类型';
+COMMENT ON COLUMN public.sale_service_info.service_price_type IS '服务价格类型1:固定2:单价数量';
+COMMENT ON COLUMN public.sale_service_info.fixed_price IS '固定售价';
+COMMENT ON COLUMN public.sale_service_info.unit_price IS '销售单价';
+COMMENT ON COLUMN public.sale_service_info.service_price_count IS '销售数量';
+COMMENT ON COLUMN public.sale_service_info.service_cost_type IS '服务成本类型1:固定2:单价数量';
+COMMENT ON COLUMN public.sale_service_info.fixed_cost IS '固定成本';
+COMMENT ON COLUMN public.sale_service_info.unit_cost IS '成本单价';
+COMMENT ON COLUMN public.sale_service_info.service_cost_count IS '成本数量';
+COMMENT ON COLUMN public.sale_service_info.total_price IS '销售额';
+COMMENT ON COLUMN public.sale_service_info.total_cost IS '总承包';
+COMMENT ON COLUMN public.sale_service_info.total_profit IS '毛利率';
+COMMENT ON COLUMN public.sale_service_info.sale_perf_type IS '销售提成类型1:无提成2:固定提成3:营业额提成4:毛利提成';
+COMMENT ON COLUMN public.sale_service_info.sale_perf_fixed IS '固定提成金额';
+COMMENT ON COLUMN public.sale_service_info.sale_perf_ratio IS '提成比例';
+COMMENT ON COLUMN public.sale_service_info.deploy_perf_type IS '施工提成类型';
+COMMENT ON COLUMN public.sale_service_info.check_perf_type IS '验收提成类型';
+create trigger sale_service_info_upt before update on sale_service_info for each row execute procedure update_timestamp_func();
+select setval(' sale_service_info_id_seq',10000,false);
+
+--CREATE TABLE sale_service_prod_rel
+CREATE TABLE IF NOT EXISTS public.sale_service_prod_rel(
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "op_user" smallint NOT NULL DEFAULT 1,
+    "sale_service_id" smallint NOT NULL,
+    "service_name" character varying(200),
+    "product_id" smallint NOT NULL,
+    "product_name" character varying(200),
+    "product_count" smallint NOT NULL DEFAULT 1
+);
