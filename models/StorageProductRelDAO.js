@@ -172,6 +172,36 @@ class StorageProductRelDAO  {
         logger.debug(' updateStorageProductRel ');
         return await pgDb.any(query,valueObj);
     }
+
+    static async queryStatistics(params) {
+        let query = "select sum(unit_cost) as unit_cost_count , sum(storage_count) as storage_count_count" +
+            " from storage_product_rel spr " +
+            " where spr.id is not null and spr.storage_count > 0 ";
+        let filterObj = {};
+        if(params.storageId){
+            query += " and spr.storage_id = ${storageId} ";
+            filterObj.storageId = params.storageId;
+        }
+        if(params.storageAreaId){
+            query += " and spr.storage_area_id = ${storageAreaId} ";
+            filterObj.storageAreaId = params.storageAreaId;
+        }
+        if(params.supplierId){
+            query += " and spr.supplier_id = ${supplierId} ";
+            filterObj.supplierId = params.supplierId;
+        }
+        if(params.productId){
+            query += " and spr.product_id = ${productId} ";
+            filterObj.productId = params.productId;
+        }
+        if(params.purchaseId){
+            query += " and spr.purchase_id = ${purchaseId} ";
+            filterObj.purchaseId = params.purchaseId;
+        }
+        logger.debug(' queryStatistics ');
+        return await pgDb.any(query,filterObj);
+    }
+
 }
 
 module.exports = StorageProductRelDAO;

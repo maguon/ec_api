@@ -77,9 +77,22 @@ const updateStorageProductRel = async (req,res,next)=>{
 
 }
 
+const queryStatistics = async (req,res,next)=>{
+    let query = req.query;
+    try{
+        const rows = await storageProductRelDAO.queryStatistics(query);
+        logger.info(' queryStatistics ' + 'success');
+        resUtil.resetQueryRes(res,rows,1);
+        return next();
+    }catch (e) {
+        logger.error(" queryStatistics error",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
 
 module.exports = {
     queryStorageProductRel,
     addStorageProductRel,
-    updateStorageProductRel
+    updateStorageProductRel,
+    queryStatistics
 }

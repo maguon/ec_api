@@ -2331,6 +2331,68 @@
       }
     },
 
+    "/user/{userId}/storageProductRelStatistics": {
+      "get": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Select storageProductRel Statistics",
+        "description": "Get storageProductRel Statistics",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageId",
+            "in": "query",
+            "description": "storageId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "storageAreaId",
+            "in": "query",
+            "description": "storageAreaId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "supplierId",
+            "in": "query",
+            "description": "supplierId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "query",
+            "description": "productId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseId",
+            "in": "query",
+            "description": "purchaseId",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+
     "/user/{userId}/supplier": {
       "post": {
         "tags": [
@@ -3972,143 +4034,6 @@
         }
       }
     },
-
-    "/user/{userId}/saleService": {
-      "post": {
-        "tags": [
-          "service"
-        ],
-        "summary": "Add a new saleService info",
-        "description": "",
-        "operationId": "Add saleService info",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "用户ID",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "in": "body",
-            "name":"saleServiceInfo",
-            "description": "saleService object that needs to be added to the store",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/SaleService"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid params "
-          },
-          "405": {
-            "description": "Validation exception"
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "service"
-        ],
-        "summary": "Select saleService Info",
-        "description": "Get saleService info",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "userId",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "saleServiceId",
-            "in": "query",
-            "description": "saleServiceId",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "name": "serviceType",
-            "in": "query",
-            "description": "serviceType",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "name": "servicePriceType",
-            "in": "query",
-            "description": "servicePriceType",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "name": "serviceCostType",
-            "in": "query",
-            "description": "serviceCostType",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "name": "salePerfType",
-            "in": "query",
-            "description": "salePerfType",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "name": "deployPerfType",
-            "in": "query",
-            "description": "deployPerfType",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "name": "checkPerfType",
-            "in": "query",
-            "description": "checkPerfType",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "name": "status",
-            "in": "query",
-            "description": "status",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "start",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "size",
-            "required": false,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid params"
-          }
-        }
-      }
-    },
-
-
 
     "/user/{userId}/app": {
       "get": {

@@ -143,6 +143,9 @@ const createServer=()=>{
     server.get('/api/user/:userId/storageProductRelDetail', storageProductRelDetail.queryStorageProductRelDetail);
     server.post({path:'/api/user/:userId/storageProductRel/:storageProductRelId/storageProductRelDetail',contentType: 'application/json'}, storageProductRelDetail.addStorageProductRelDetail);
 
+    server.get('/api/user/:userId/storageProductRelStatistics' ,storageProductRel.queryStatistics);
+
+
     /**
      * Supplier Module
      */
@@ -191,6 +194,12 @@ const createServer=()=>{
     server.get('/api/user/:userId/clientAgentInvoice', clientAgentInvoice.queryClientAgentInvoice);
     server.post({path:'/api/user/:userId/clientAgent/:clientAgentId/clientAgentInvoice',contentType: 'application/json'}, clientAgentInvoice.addClientAgentInvoice);
     server.put({path:'/api/user/:userId/clientAgentInvoice/:clientAgentInvoiceId',contentType: 'application/json'} ,clientAgentInvoice.updateClientAgentInvoice);
+
+    /**
+     * Service Module
+     */
+    // server.get('/api/user/:userId/saleService', clientAgent.queryClientAgent);
+    // server.post({path:'/api/user/:userId/saleService',contentType: 'application/json'}, clientAgent.addClientAgent);
 
     /**
      * App Module
