@@ -495,6 +495,7 @@ CREATE TABLE IF NOT EXISTS public.client_agent_invoice(
     "status" smallint NOT NULL DEFAULT 1,
     "op_user" smallint NOT NULL DEFAULT 1,
     "remark" character varying(200),
+    "client_agent_id" smallint NOT NULL DEFAULT 1 ,
     "invoice_type" smallint,
     "invoice_title" character varying(50),
     "invoice_bank" character varying(50),
