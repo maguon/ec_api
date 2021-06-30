@@ -480,7 +480,7 @@ CREATE TABLE IF NOT EXISTS public.client_agent
 
 COMMENT ON COLUMN public.client_agent.client_type IS '客户类型';
 COMMENT ON COLUMN public.client_agent.id_serial IS '身份证号';
-COMMENT ON COLUMN public.client_agent.date_id IS '出入库量';
+COMMENT ON COLUMN public.client_agent.date_id IS '创建日期';
 COMMENT ON COLUMN public.client_agent.sales_user_id IS '销售人员编号';
 COMMENT ON COLUMN public.client_agent.source_type IS '客户来源';
 
