@@ -1995,11 +1995,18 @@
             "type": "integer"
           },
           {
-            "name": "dateId",
+            "name": "dateIdStart",
             "in": "query",
-            "description": "dateId",
+            "description": "dateIdStart",
             "required": false,
-            "type": "string"
+            "type": "integer"
+          },
+          {
+            "name": "dateIdEnd",
+            "in": "query",
+            "description": "dateIdEnd",
+            "required": false,
+            "type": "integer"
           },
           {
             "name": "orderId",
@@ -2227,11 +2234,18 @@
             "type": "integer"
           },
           {
-            "name": "dateId",
+            "name": "dateIdStart",
             "in": "query",
-            "description": "dateId",
+            "description": "dateIdStart",
             "required": false,
-            "type": "string"
+            "type": "integer"
+          },
+          {
+            "name": "dateIdEnd",
+            "in": "query",
+            "description": "dateIdEnd",
+            "required": false,
+            "type": "integer"
           },
           {
             "name": "orderId",
@@ -3958,6 +3972,143 @@
         }
       }
     },
+
+    "/user/{userId}/saleService": {
+      "post": {
+        "tags": [
+          "service"
+        ],
+        "summary": "Add a new saleService info",
+        "description": "",
+        "operationId": "Add saleService info",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"saleServiceInfo",
+            "description": "saleService object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SaleService"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "service"
+        ],
+        "summary": "Select saleService Info",
+        "description": "Get saleService info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "saleServiceId",
+            "in": "query",
+            "description": "saleServiceId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "serviceType",
+            "in": "query",
+            "description": "serviceType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "servicePriceType",
+            "in": "query",
+            "description": "servicePriceType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "serviceCostType",
+            "in": "query",
+            "description": "serviceCostType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "salePerfType",
+            "in": "query",
+            "description": "salePerfType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "deployPerfType",
+            "in": "query",
+            "description": "deployPerfType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "checkPerfType",
+            "in": "query",
+            "description": "checkPerfType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+
+
 
     "/user/{userId}/app": {
       "get": {

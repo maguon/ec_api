@@ -44,9 +44,13 @@ class StorageProductRelDAO  {
             query += " and spr.purchase_item_id = ${purchaseItemId} ";
             filterObj.purchaseItemId = params.purchaseItemId;
         }
-        if(params.dateId){
-            query += " and spr.date_id = ${dateId} ";
-            filterObj.dateId = params.dateId;
+        if(params.dateIdStart){
+            query += " and spr.date_id >= ${dateIdStart} ";
+            filterObj.dateIdStart = params.dateIdStart;
+        }
+        if(params.dateIdEnd){
+            query += " and spr.date_id <= ${dateIdEnd} ";
+            filterObj.dateIdEnd = params.dateIdEnd;
         }
         if(params.orderId){
             query += " and spr.order_id = ${orderId} ";
@@ -104,9 +108,13 @@ class StorageProductRelDAO  {
             query += " and purchase_item_id = ${purchaseItemId} ";
             filterObj.purchaseItemId = params.purchaseItemId;
         }
-        if(params.dateId){
-            query += " and date_id = ${dateId} ";
-            filterObj.dateId = params.dateId;
+        if(params.dateIdStart){
+            query += " and date_id >= ${dateIdStart} ";
+            filterObj.dateIdStart = params.dateIdStart;
+        }
+        if(params.dateIdEnd){
+            query += " and date_id <= ${dateIdEnd} ";
+            filterObj.dateIdEnd = params.dateIdEnd;
         }
         if(params.orderId){
             query += " and order_id = ${orderId} ";
