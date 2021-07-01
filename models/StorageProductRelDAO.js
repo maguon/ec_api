@@ -202,6 +202,22 @@ class StorageProductRelDAO  {
             query += " and spr.purchase_id = ${purchaseId} ";
             filterObj.purchaseId = params.purchaseId;
         }
+        if(params.dateIdStart){
+            query += " and spr.date_id >= ${dateIdStart} ";
+            filterObj.dateIdStart = params.dateIdStart;
+        }
+        if(params.dateIdEnd){
+            query += " and spr.date_id <= ${dateIdEnd} ";
+            filterObj.dateIdEnd = params.dateIdEnd;
+        }
+        if(params.orderId){
+            query += " and spr.order_id = ${orderId} ";
+            filterObj.orderId = params.orderId;
+        }
+        if(params.status){
+            query += " and spr.status = ${status} ";
+            filterObj.status = params.status;
+        }
         logger.debug(' queryStatistics ');
         return await pgDb.any(query,filterObj);
     }
