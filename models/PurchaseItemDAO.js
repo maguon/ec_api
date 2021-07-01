@@ -46,9 +46,9 @@ class PurchaseItemDAO  {
     static async queryPurchaseItemCount(params) {
         let query = "select count(id) from purchase_item where id is not null ";
         let filterObj = {};
-        if(params.purchaseId){
-            query += " and id = ${purchaseId} ";
-            filterObj.purchaseId = params.purchaseId;
+        if(params.purchaseItemId){
+            query += " and id = ${purchaseItemId} ";
+            filterObj.purchaseItemId = params.purchaseItemId;
         }
         if(params.status){
             query += " and status = ${status} ";
