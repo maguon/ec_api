@@ -218,6 +218,60 @@ class PurchaseDAO  {
         return await pgDb.any(query,valueObj);
     }
 
+    static async queryStatistics(params) {
+        let query = "select COALESCE(sum(transfer_cost),0) as transfer_cost, COALESCE(sum(product_cost),0) as product ," +
+            " COALESCE(sum(total_cost),0) as total_cost " +
+            " from purchase_info pi " +
+            " where pi.id is not null";
+        let filterObj = {};
+        if(params.status){
+            query += " and pi.status = ${status} ";
+            filterObj.status = params.status;
+        }
+        if(params.supplierId){
+            query += " and pi.supplier_id = ${supplierId} ";
+            filterObj.supplierId = params.supplierId;
+        }
+        if(params.planDateStart){
+            query += " and pi.plan_date_id >= ${planDateStart} ";
+            filterObj.planDateStart = params.planDateStart;
+        }
+        if(params.planDateEnd){
+            query += " and pi.plan_date_id <= ${planDateEnd} ";
+            filterObj.planDateEnd = params.planDateEnd;
+        }
+        if(params.finishDateStart){
+            query += " and pi.finish_date_id >= ${finishDateStart} ";
+            filterObj.finishDateStart = params.finishDateStart;
+        }
+        if(params.finishDateEnd){
+            query += " and pi.finish_date_id <= ${finishDateEnd} ";
+            filterObj.finishDateEnd = params.finishDateEnd;
+        }
+        if(params.storageStatus){
+            query += " and pi.storage_status = ${storageStatus} ";
+            filterObj.storageStatus = params.storageStatus;
+        }
+        if(params.paymentStatus){
+            query += " and pi.payment_status = ${paymentStatus} ";
+            filterObj.paymentStatus = params.paymentStatus;
+        }
+        if(params.paymentDateStart){
+            query += " and pi.payment_date_id >= ${paymentDateStart} ";
+            filterObj.paymentDateStart = params.paymentDateStart;
+        }
+        if(params.paymentDateEnd){
+            query += " and pi.payment_date_id <= ${paymentDateEnd} ";
+            filterObj.paymentDateEnd = params.paymentDateEnd;
+        }
+        if(params.orderId){
+            query += " and pi.order_id = ${orderId} ";
+            filterObj.orderId = params.orderId;
+        }
+        logger.debug(' queryStatistics ');
+        return await pgDb.any(query,filterObj);
+    }
+
 }
 
 module.exports = PurchaseDAO;

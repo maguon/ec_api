@@ -184,6 +184,8 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/purchaseRefund/:purchaseRefundId/paymentStatus',contentType: 'application/json'} ,purchaseRefund.updatePaymentStatus);
     server.put({path:'/api/user/:userId/purchaseRefund/:purchaseRefundId/status',contentType: 'application/json'} ,purchaseRefund.updateStatus);
 
+    server.get('/api/user/:userId/purchaseStatistics' ,purchase.queryStatistics);
+
     /**
      * Client Module
      */
