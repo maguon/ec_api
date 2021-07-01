@@ -3789,6 +3789,67 @@
         }
       }
     },
+    "/user/{userId}/purchaseItemStatistics": {
+      "get": {
+        "tags": [
+          "purchase"
+        ],
+        "summary": "Select purchaseItemStatistics",
+        "description": "Get purchaseItemStatistics",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseItemId",
+            "in": "query",
+            "description": "purchaseItemId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "supplierId",
+            "in": "query",
+            "description": "supplierId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseId",
+            "in": "query",
+            "description": "purchaseId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "query",
+            "description": "productId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
 
     "/user/{userId}/clientAgent": {
       "post": {

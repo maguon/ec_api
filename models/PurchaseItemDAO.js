@@ -119,6 +119,32 @@ class PurchaseItemDAO  {
         return await pgDb.any(query,valueObj);
     }
 
+    static async queryStatistics(params) {
+        let query = "select count(*), COALESCE(sum(purchase_count),0) as purchase_count ," +
+            " COALESCE(sum(total_cost),0) as total_cost " +
+            " from purchase_item pi " +
+            " where pi.id is not null";
+        let filterObj = {};
+        if(params.status){
+            query += " and pit.status = ${status} ";
+            filterObj.status = params.status;
+        }
+        if(params.supplierId){
+            query += " and pit.supplier_id = ${supplierId} ";
+            filterObj.supplierId = params.supplierId;
+        }
+        if(params.purchaseId){
+            query += " and pit.purchase_id = ${purchaseId} ";
+            filterObj.purchaseId = params.purchaseId;
+        }
+        if(params.productId){
+            query += " and pit.product_id = ${productId} ";
+            filterObj.productId = params.productId;
+        }
+        logger.debug(' queryStatistics ');
+        return await pgDb.any(query,filterObj);
+    }
+
 }
 
 module.exports = PurchaseItemDAO;
