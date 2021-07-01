@@ -178,7 +178,7 @@ class StorageProductRelDAO  {
     }
 
     static async queryStatistics(params) {
-        let query = "select COALESCE(sum(unit_cost),0) as unit_cost_count , COALESCE(sum(storage_count),0) as storage_count_count" +
+        let query = "select COALESCE(sum(unit_cost*storage_count),0) as total_cost, COALESCE(sum(storage_count),0) as storage_count" +
             " from storage_product_rel spr " +
             " where spr.id is not null and spr.storage_count > 0 ";
         let filterObj = {};
