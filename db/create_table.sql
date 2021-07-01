@@ -571,3 +571,5 @@ CREATE TABLE IF NOT EXISTS public.sale_service_prod_rel(
     "product_name" character varying(200),
     "product_count" smallint NOT NULL DEFAULT 1
 );
+
+CREATE UNIQUE INDEX uk_sale_service_prod_rel ON sale_service_prod_rel(sale_service_id,product_id);

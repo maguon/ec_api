@@ -24,6 +24,8 @@ const purchaseItem = require('./bl/PurchaseItem');
 const purchaseRefund = require('./bl/PurchaseRefund');
 const clientAgent = require('./bl/ClientAgent');
 const clientAgentInvoice = require('./bl/ClientAgentInvoice');
+const saleService = require('./bl/SaleService');
+const saleServiceProdRel = require('./bl/SaleServiceProdRel');
 
 
 const createServer=()=>{
@@ -145,7 +147,6 @@ const createServer=()=>{
 
     server.get('/api/user/:userId/storageProductRelStatistics' ,storageProductRel.queryStatistics);
 
-
     /**
      * Supplier Module
      */
@@ -198,8 +199,13 @@ const createServer=()=>{
     /**
      * Service Module
      */
-    // server.get('/api/user/:userId/saleService', clientAgent.queryClientAgent);
-    // server.post({path:'/api/user/:userId/saleService',contentType: 'application/json'}, clientAgent.addClientAgent);
+    server.get('/api/user/:userId/saleService', saleService.querySaleService);
+    server.post({path:'/api/user/:userId/saleService',contentType: 'application/json'}, saleService.addSaleService);
+    server.put({path:'/api/user/:userId/saleService/:saleServiceId',contentType: 'application/json'} ,saleService.updateSaleService);
+
+    server.get('/api/user/:userId/saleServiceProdRel', saleServiceProdRel.querySaleServiceProdRel);
+    server.post({path:'/api/user/:userId/saleService/:saleServiceId/product/:productId',contentType: 'application/json'}, saleServiceProdRel.addSaleServiceProdRel);
+    server.del({path:'/api/user/:userId/saleService/:saleServiceId/product/:productId',contentType: 'application/json'}, saleServiceProdRel.deleteServiceProdRel);
 
     /**
      * App Module

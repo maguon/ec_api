@@ -52,6 +52,10 @@
       "description": "client base info api"
     },
     {
+      "name": "service",
+      "description": "service base info api"
+    },
+    {
       "name": "app",
       "description": "app version"
 
@@ -4035,6 +4039,347 @@
       }
     },
 
+    "/user/{userId}/saleService": {
+      "post": {
+        "tags": [
+          "service"
+        ],
+        "summary": "Add a new saleService info",
+        "description": "",
+        "operationId": "Add saleService info",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"saleServiceInfo",
+            "description": "saleService object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SaleService"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "service"
+        ],
+        "summary": "Select saleService Info",
+        "description": "Get saleService info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "saleServiceId",
+            "in": "query",
+            "description": "saleServiceId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "serviceType",
+            "in": "query",
+            "description": "serviceType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "servicePriceType",
+            "in": "query",
+            "description": "servicePriceType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "serviceCostType",
+            "in": "query",
+            "description": "serviceCostType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "salePerfType",
+            "in": "query",
+            "description": "salePerfType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "deployPerfType",
+            "in": "query",
+            "description": "deployPerfType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "checkPerfType",
+            "in": "query",
+            "description": "checkPerfType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/saleService/{saleServiceId}": {
+      "put": {
+        "tags": [
+          "service"
+        ],
+        "summary": "Finds saleService Info and update",
+        "description": "Update saleService info",
+        "operationId": "Update saleService info by saleServiceId",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "saleServiceId",
+            "in": "path",
+            "description": "saleService unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "saleServiceInfo",
+            "in": "body",
+            "description": "SaleService object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SaleService"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SaleService"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "SaleServiceId not found"
+          }
+        }
+      }
+    },
+
+    "/user/{userId}/saleServiceProdRel": {
+      "get": {
+        "tags": [
+          "service"
+        ],
+        "summary": "Select saleServiceProdRel Info",
+        "description": "Get saleServiceProdRel info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "saleServiceId",
+            "in": "query",
+            "description": "saleServiceId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "query",
+            "description": "productId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/saleService/{saleServiceId}/product/{productId}": {
+      "post": {
+        "tags": [
+          "service"
+        ],
+        "summary": "Add a new saleServiceProdRel info",
+        "description": "",
+        "operationId": "Add saleServiceProdRel info",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "saleServiceId",
+            "in": "path",
+            "description": "saleServiceId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "productId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"saleServiceProdRelInfo",
+            "description": "saleServiceProdRel object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SaleServiceProdRel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "service"
+        ],
+        "summary": "SaleServiceProdRel app",
+        "description": "SaleServiceProdRel app",
+        "operationId": "SaleServiceProdRel app by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "saleServiceId",
+            "in": "path",
+            "description": "saleServiceId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "productId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "SaleServiceProdRelId or appId not found"
+          }
+        }
+      }
+    },
+
     "/user/{userId}/app": {
       "get": {
         "tags": [
@@ -5173,6 +5518,152 @@
       },
       "xml": {
         "name": "ClientAgentInvoice"
+      }
+    },
+    "SaleService": {
+      "type": "object",
+      "required": [
+        "remark",
+        "serviceName",
+        "serviceType",
+        "servicePriceType",
+        "fixedPrice",
+        "unitPrice",
+        "servicePriceCount",
+        "serviceCostType",
+        "fixedCost",
+        "unitCost",
+        "serviceCostCount",
+        "totalPrice",
+        "totalCost",
+        "totalProfit",
+        "salePerfType",
+        "salePerfFixed",
+        "salePerfRatio",
+        "deployPerfType",
+        "deployPerfFixed",
+        "deployPerfRatio",
+        "checkPerfType",
+        "checkPerfFixed",
+        "checkPerfRatio"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "serviceName": {
+          "type": "string"
+        },
+        "serviceType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "servicePriceType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "fixedPrice": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "unitPrice": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "servicePriceCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "serviceCostType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "fixedCost": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "unitCost": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "serviceCostCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "totalPrice": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "totalCost": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "totalProfit": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "salePerfType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "salePerfFixed": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "salePerfRatio": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "deployPerfType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "deployPerfFixed": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "deployPerfRatio": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "checkPerfType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "checkPerfFixed": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "checkPerfRatio": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "SaleService"
+      }
+    },
+    "SaleServiceProdRel": {
+      "type": "object",
+      "required": [
+        "serviceName",
+        "productName",
+        "productCount"
+      ],
+      "properties": {
+        "serviceName": {
+          "type": "string"
+        },
+        "productName": {
+          "type": "string"
+        },
+        "productCount": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "SaleServiceProdRel"
       }
     },
     "App": {
