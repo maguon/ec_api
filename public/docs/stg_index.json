@@ -4625,7 +4625,6 @@
       "type": "object",
       "required": [
         "remark",
-        "storageName",
         "storageAreaId",
         "supplierId",
         "productName",
@@ -4639,9 +4638,6 @@
       ],
       "properties": {
         "remark": {
-          "type": "string"
-        },
-        "storageName": {
           "type": "string"
         },
         "storageAreaId": {

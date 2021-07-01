@@ -4,8 +4,12 @@ const logger = serverLogger.createLogger('StorageProductRelDAO.js');
 
 class StorageProductRelDAO  {
     static async queryStorageProductRel(params) {
-        let query = "select spr.* ,ui.real_name from storage_product_rel spr " +
+        let query = "select spr.* ,ui.real_name , si.storage_name , sai.storage_area_name , sui.supplier_name  " +
+            " from storage_product_rel spr " +
             " left join user_info ui on ui.id = spr.op_user " +
+            " left join storage_info si on si.id = spr.storage_id " +
+            " left join storage_area_info sai on sai.id = spr.storage_area_id " +
+            " left join supplier_info sui on sui.id = spr.supplier_id " +
             " where spr.id is not null ";
         let filterObj = {};
         if(params.storageProductRelId){
