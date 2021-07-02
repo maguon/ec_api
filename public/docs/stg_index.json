@@ -100,6 +100,39 @@
         }
       }
     },
+    "/phone/{phone}/passwordSms": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "send reg phone passwordSms（忘记密码）",
+        "description": "Send reg phone passwordSms",
+        "operationId": "send Reg Phone passwordSms",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "phone",
+            "in": "path",
+            "description": "user phone",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
     "/user/{userId}/user": {
       "post": {
         "tags": [
@@ -336,17 +369,13 @@
         }
       }
     },
-    "/phone/{phone}/passwordSms": {
-      "post": {
+    "/phone/{phone}/password": {
+      "put": {
         "tags": [
           "user"
         ],
-        "summary": "send reg phone passwordSms（忘记密码）",
-        "description": "Send reg phone passwordSms",
-        "operationId": "send Reg Phone passwordSms",
-        "consumes": [
-          "application/json"
-        ],
+        "summary": "reset user password（根据电话验证码，更新密码）",
+        "description": "reset update password",
         "produces": [
           "application/json"
         ],
@@ -357,14 +386,29 @@
             "description": "user phone",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "body",
+            "description": "user info",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PasswordAndCode"
+            }
           }
         ],
         "responses": {
-          "400": {
-            "description": "Invalid params "
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/Password"
+              }
+            }
           },
-          "405": {
-            "description": "Validation exception"
+          "400": {
+            "description": "Invalid token value or invalid user id"
           }
         }
       }
@@ -5255,6 +5299,24 @@
       },
       "xml": {
         "name": "Password"
+      }
+    },
+    "PasswordAndCode": {
+      "type": "object",
+      "required": [
+        "code",
+        "newPassword"
+      ],
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "newPassword": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "PasswordAndCode"
       }
     },
     "UserMenuList": {

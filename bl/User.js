@@ -134,6 +134,55 @@ const updatePassword = async (req,res,next)=>{
     }
 }
 
+const updatePasswordByPhone = async (req,res,next)=>{
+    let params = req.body;
+    let path = req.params;
+    if(path.phone ){
+        params.phone  = path.phone ;
+    }
+
+    try{
+        //判断验证码是否正确
+        await oAuthUtil.getUserPhoneCode({phone:params.phone},function(error,rows){
+            if (error) {
+                resUtil.resetFailedRes(res,{message:'验证码获取失败！'});
+                logger.info(' updatePasswordByPhone getUserPhoneCode failure');
+                return next();
+            } else {
+                logger.info(' updatePasswordByPhone getUserPhoneCode success');
+                if(rows && rows.result.code != params.code ){
+                    logger.info('updatePasswordByPhone getCode ' + 'Verification code error!');
+                    resUtil.resetFailedRes(res, {message:'验证码错误！'} );
+                    return next();
+                }else{
+                    logger.info('updatePasswordByPhone getCode '+'success');
+                }
+            }
+        });
+
+        //判断该用户是否存在
+        const rows = await userDAO.queryUser({phone:params.phone});
+        logger.info(' updatePasswordByPhone queryUser success');
+        if(rows.length >= 1){
+            //存在更改密码
+            const rowsUpdate = await userDAO.updatePassword({
+                userId:rows[0].id, password:encrypt.encryptByMd5NoKey(params.newPassword)});
+            logger.info(' updatePasswordByPhone ' + 'success');
+            resUtil.resetUpdateRes(res,rowsUpdate);
+            return next();
+        }else{
+            //不存在返回错误信息
+            logger.warn(' updatePasswordByPhone ' + params.phone + ' 用户不存在！');
+            resUtil.resetFailedRes(res,{message:' 用户不存在！'});
+            return next();
+        }
+
+    }catch (e) {
+        logger.error(" updatePasswordByPhone error ",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 const updateStatus = async (req,res,next)=>{
     let params = req.query;
     let path = req.params;
@@ -175,6 +224,7 @@ module.exports = {
     addUser,
     updateUser,
     updatePassword,
+    updatePasswordByPhone,
     updateType,
     updateStatus
 }

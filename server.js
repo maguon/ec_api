@@ -84,6 +84,7 @@ const createServer=()=>{
     server.post({path:'/api/user/:userId/user',contentType: 'application/json'}, user.addUser);
     server.put({path:'/api/user/:userId',contentType: 'application/json'} ,user.updateUser);
     server.put({path:'/api/user/:userId/password',contentType: 'application/json'} ,user.updatePassword);
+    server.put({path:'/api/phone/:phone/password',contentType: 'application/json'},user.updatePasswordByPhone);
     server.put({path:'/api/user/:userId/type',contentType: 'application/json'} ,user.updateType);
     server.put({path:'/api/user/:userId/status',contentType: 'application/json'} ,user.updateStatus);
 
