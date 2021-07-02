@@ -45,6 +45,14 @@ class PurchaseRefundDAO  {
             query += " and pr.payment_status = ${paymentStatus} ";
             filterObj.paymentStatus = params.paymentStatus;
         }
+        if(params.dateIdStart){
+            query += " and pr.date_id >= ${dateIdStart} ";
+            filterObj.dateIdStart = params.dateIdStart;
+        }
+        if(params.dateIdEnd){
+            query += " and pr.date_id <= ${dateIdEnd} ";
+            filterObj.dateIdEnd = params.dateIdEnd;
+        }
         query = query + '  order by pr.id desc ';
         if(params.start){
             query += " offset ${start} ";
@@ -96,6 +104,14 @@ class PurchaseRefundDAO  {
         if(params.paymentStatus){
             query += " and payment_status = ${paymentStatus} ";
             filterObj.paymentStatus = params.paymentStatus;
+        }
+        if(params.dateIdStart){
+            query += " and date_id >= ${dateIdStart} ";
+            filterObj.dateIdStart = params.dateIdStart;
+        }
+        if(params.dateIdEnd){
+            query += " and date_id <= ${dateIdEnd} ";
+            filterObj.dateIdEnd = params.dateIdEnd;
         }
         logger.debug(' queryPurchaseRefundCount ');
         return await pgDb.one(query,filterObj);
