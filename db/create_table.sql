@@ -340,7 +340,7 @@ CREATE TABLE IF NOT EXISTS public.purchase_item
     "product_id" smallint NOT NULL DEFAULT 0,
     "product_name" character varying(40),
     "unit_cost" decimal(8,2)  NOT NULL DEFAULT 0,
-    "purchase_count" decimal(8,2)  NOT NULL DEFAULT 0,
+    "purchase_count" smallint  NOT NULL DEFAULT 0,
     "total_cost" decimal(8,2)  NOT NULL DEFAULT 0,
     "order_id" bigint ,
     PRIMARY KEY (id)
@@ -373,7 +373,7 @@ CREATE TABLE IF NOT EXISTS public.purchase_refund
     "date_id" integer,
     "payment_status" smallint NOT NULL DEFAULT 1,
     "refund_unit_cost" decimal(8,2)  NOT NULL DEFAULT 0,
-    "refund_count" decimal(8,2)  NOT NULL DEFAULT 0,
+    "refund_count" smallint  NOT NULL DEFAULT 0,
     "transfer_cost_type" smallint NOT NULL DEFAULT 1,
     "transfer_cost" decimal(8,2)  NOT NULL DEFAULT 0,
     "total_cost" decimal(8,2)  NOT NULL DEFAULT 0,
