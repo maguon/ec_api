@@ -6,26 +6,26 @@ const encrypt = require('../util/Encrypt.js');
 const moment = require('moment');
 const https = require('https');
 const oauthUtil = require('../util/OAuthUtil.js');
-const smsConfig = require('../config/SmsConfig');
+const index = require('../config/index');
 const logger = serverLogger.createLogger('Sms.js');
 
 const httpSend = (msg, callback) => {
     let today = new Date();
-    let timeStampStr = moment(today).format('yyyyMMddhhmmss');
+    let timeStampStr = moment(today).format('YYYYMMDDHHmmss');
 
-    let originSignStr = smsConfig.smsOptions.accountSID + smsConfig.smsOptions.accountToken + timeStampStr;
+    let originSignStr = index.smsOptions.accountSID + index.smsOptions.accountToken + timeStampStr;
     let signature = encrypt.encryptByMd5NoKey(originSignStr);
 
-    let originAuthStr = smsConfig.smsOptions.accountSID + ":" + timeStampStr;
+    let originAuthStr = index.smsOptions.accountSID + ":" + timeStampStr;
     let auth = encrypt.base64Encode(originAuthStr);
-    let url = "/2013-12-26/" + smsConfig.smsOptions.accountType + "/" +
-        smsConfig.smsOptions.accountSID + "/" + smsConfig.smsOptions.action + "?sig=";
+    let url = "/2013-12-26/" + index.smsOptions.accountType + "/" +
+        index.smsOptions.accountSID + "/" + index.smsOptions.action + "?sig=";
 
     url = url + signature;
     let postData = JSON.stringify(msg);
     let options = {
-        host: smsConfig.smsOptions.server,
-        port: smsConfig.smsOptions.port,
+        host: index.smsOptions.server,
+        port: index.smsOptions.port,
         path: url,
         method: 'POST',
         headers: {
@@ -62,7 +62,7 @@ const httpSend = (msg, callback) => {
 const sendSms = (params, callback) =>{
     let msg = {
         to: params.phone,
-        appId: smsConfig.smsOptions.appSID,
+        appId: index.smsOptions.appSID,
         templateId: params.templateId,
         datas: [params.captcha, '15']
     };
@@ -87,19 +87,17 @@ const passwordSms = async (req,res,next)=>{
                     logger.info(' passwordSms saveUserPhoneCode failure');
                     return next();
                 } else {
-                    console.log("phone"+path.phone+ "code"+captcha);
                     logger.info(' passwordSms saveUserPhoneCodes success');
 
                 }
             });
 
-            await sendSms({phone:path.phone,captcha:captcha,templateId:smsConfig.smsOptions.signTemplateId},function(error,result){
+            await sendSms({phone:path.phone,captcha:captcha,templateId:index.smsOptions.signTemplateId},function(error,result){
                 if (error) {
                     resUtil.resetFailedRes(res,{message:'验证码发送失败！'});
                     logger.info(' passwordSms sendSms failure');
                     return next();
                 } else {
-                    console.log("phone"+path.phone+ "code"+captcha);
                     logger.info(' passwordSms sendSms success');
                     resUtil.resetUpdateRes(res,{id:1});
                     return next();
