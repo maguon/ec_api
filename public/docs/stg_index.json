@@ -1682,6 +1682,41 @@
             "description": "Invalid status value"
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Delete storage",
+        "description": "Delete storage",
+        "operationId": "Delete storage by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageId",
+            "in": "path",
+            "description": "storage Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "StorageId not found"
+          }
+        }
       }
     },
     "/user/{userId}/storage/{storageId}/status": {
@@ -1724,43 +1759,6 @@
           },
           "400": {
             "description": "Invalid status value"
-          }
-        }
-      }
-    },
-    "/user/{userId}/storage/{storageId}/del": {
-      "delete": {
-        "tags": [
-          "storage"
-        ],
-        "summary": "Delete storage",
-        "description": "Delete storage",
-        "operationId": "Delete storage by id",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "user unique id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "storageId",
-            "in": "path",
-            "description": "storage Id",
-            "required": false,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid params "
-          },
-          "404": {
-            "description": "StorageId not found"
           }
         }
       }
