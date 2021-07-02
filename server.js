@@ -107,13 +107,13 @@ const createServer=()=>{
     server.post({path:'/api/user/:userId/brand',contentType: 'application/json'}, brand.addBrand);
     server.put({path:'/api/user/:userId/brand/:brandId',contentType: 'application/json'} ,brand.updateBrand);
     server.put({path:'/api/user/:userId/brand/:brandId/status',contentType: 'application/json'} ,brand.updateStatus);
-    server.del({path:'/api/user/:userId/brand/:brandId/del',contentType: 'application/json'},brand.deleteBrand);
+    server.del({path:'/api/user/:userId/brand/:brandId',contentType: 'application/json'},brand.deleteBrand);
 
     server.get('/api/user/:userId/brandModel', brandModel.queryBrandModel);
     server.post({path:'/api/user/:userId/brandModel',contentType: 'application/json'}, brandModel.addBrandModel);
     server.put({path:'/api/user/:userId/brandModel/:brandModelId',contentType: 'application/json'} ,brandModel.updateBrandModel);
     server.put({path:'/api/user/:userId/brandModel/:brandModelId/status',contentType: 'application/json'} ,brandModel.updateStatus);
-    server.del({path:'/api/user/:userId/brandModel/:brandModelId/del',contentType: 'application/json'},brandModel.deleteBrandModel);
+    server.del({path:'/api/user/:userId/brandModel/:brandModelId',contentType: 'application/json'},brandModel.deleteBrandModel);
 
     /**
      * Category Module
@@ -122,13 +122,13 @@ const createServer=()=>{
     server.post({path:'/api/user/:userId/category',contentType: 'application/json'}, category.addCategory);
     server.put({path:'/api/user/:userId/category/:categoryId',contentType: 'application/json'} ,category.updateCategory);
     server.put({path:'/api/user/:userId/category/:categoryId/status',contentType: 'application/json'} ,category.updateStatus);
-    server.del({path:'/api/user/:userId/category/:categoryId/del',contentType: 'application/json'},category.deleteCategory);
+    server.del({path:'/api/user/:userId/category/:categoryId',contentType: 'application/json'},category.deleteCategory);
 
     server.get('/api/user/:userId/categorySub', categorySub.queryCategorySub);
     server.post({path:'/api/user/:userId/categorySub',contentType: 'application/json'}, categorySub.addCategorySub);
     server.put({path:'/api/user/:userId/categorySub/:categorySubId',contentType: 'application/json'} ,categorySub.updateCategorySub);
     server.put({path:'/api/user/:userId/categorySub/:categorySubId/status',contentType: 'application/json'} ,categorySub.updateStatus);
-    server.del({path:'/api/user/:userId/categorySub/:categorySubId/del',contentType: 'application/json'},categorySub.deleteCategorySub);
+    server.del({path:'/api/user/:userId/categorySub/:categorySubId',contentType: 'application/json'},categorySub.deleteCategorySub);
 
     /**
      * Storage Module
@@ -137,13 +137,13 @@ const createServer=()=>{
     server.post({path:'/api/user/:userId/storage',contentType: 'application/json'}, storage.addStorage);
     server.put({path:'/api/user/:userId/storage/:storageId',contentType: 'application/json'} ,storage.updateStorage);
     server.put({path:'/api/user/:userId/storage/:storageId/status',contentType: 'application/json'} ,storage.updateStatus);
-    server.del({path:'/api/user/:userId/storage/:storageId/del',contentType: 'application/json'},storage.deleteStorage);
+    server.del({path:'/api/user/:userId/storage/:storageId',contentType: 'application/json'},storage.deleteStorage);
 
     server.get('/api/user/:userId/storageArea', storageArea.queryStorageArea);
     server.post({path:'/api/user/:userId/storageArea',contentType: 'application/json'}, storageArea.addStorageArea);
     server.put({path:'/api/user/:userId/storageArea/:storageAreaId',contentType: 'application/json'} ,storageArea.updateStorageArea);
     server.put({path:'/api/user/:userId/storageArea/:storageAreaId/status',contentType: 'application/json'} ,storageArea.updateStatus);
-    server.del({path:'/api/user/:userId/storageArea/:storageAreaId/del',contentType: 'application/json'},storageArea.deleteStorageArea);
+    server.del({path:'/api/user/:userId/storageArea/:storageAreaId',contentType: 'application/json'},storageArea.deleteStorageArea);
 
     server.get('/api/user/:userId/storageProductRel', storageProductRel.queryStorageProductRel);
     server.get('/api/user/:userId/storageProductRel.csv', storageProductRel.queryStorageProductRelCsv);
@@ -162,7 +162,7 @@ const createServer=()=>{
     server.post({path:'/api/user/:userId/supplier',contentType: 'application/json'}, supplier.addSupplier);
     server.put({path:'/api/user/:userId/supplier/:supplierId',contentType: 'application/json'} ,supplier.updateSupplier);
     server.put({path:'/api/user/:userId/supplier/:supplierId/status',contentType: 'application/json'} ,supplier.updateStatus);
-    server.del({path:'/api/user/:userId/supplier/:supplierId/del',contentType: 'application/json'},supplier.deleteSupplier);
+    server.del({path:'/api/user/:userId/supplier/:supplierId',contentType: 'application/json'},supplier.deleteSupplier);
 
     /**
      * Product Module
@@ -171,7 +171,7 @@ const createServer=()=>{
     server.post({path:'/api/user/:userId/product',contentType: 'application/json'}, product.addProduct);
     server.put({path:'/api/user/:userId/product/:productId',contentType: 'application/json'} ,product.updateProduct);
     server.put({path:'/api/user/:userId/product/:productId/status',contentType: 'application/json'} ,product.updateStatus);
-    server.del({path:'/api/user/:userId/product/:productId/del',contentType: 'application/json'},product.deleteProduct);
+    server.del({path:'/api/user/:userId/product/:productId',contentType: 'application/json'},product.deleteProduct);
 
     /**
      * Purchase Module
@@ -226,7 +226,7 @@ const createServer=()=>{
     server.post({path:'/api/user/:userId/app',contentType: 'application/json'}, app.addApp);
     server.put({path:'/api/user/:userId/app/:appId',contentType: 'application/json'} ,app.updateApp);
     server.put({path:'/api/user/:userId/app/:appId/status',contentType: 'application/json'} ,app.updateStatus);
-    server.del({path:'/api/user/:userId/app/:appId/del',contentType: 'application/json'},app.deleteApp);
+    server.del({path:'/api/user/:userId/app/:appId',contentType: 'application/json'},app.deleteApp);
 
 
     server.on('NotFound', function (req, res ,err,next) {

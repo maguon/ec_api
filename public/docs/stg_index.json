@@ -768,6 +768,41 @@
             "description": "Invalid status value"
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "brand"
+        ],
+        "summary": "Delete brand",
+        "description": "Delete brand",
+        "operationId": "Delete brand by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "brandId",
+            "in": "path",
+            "description": "brand Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "UserId or brandId not found"
+          }
+        }
       }
     },
     "/user/{userId}/brand/{brandId}/status": {
@@ -810,43 +845,6 @@
           },
           "400": {
             "description": "Invalid status value"
-          }
-        }
-      }
-    },
-    "/user/{userId}/brand/{brandId}/del": {
-      "delete": {
-        "tags": [
-          "brand"
-        ],
-        "summary": "Delete brand",
-        "description": "Delete brand",
-        "operationId": "Delete brand by id",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "user unique id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "brandId",
-            "in": "path",
-            "description": "brand Id",
-            "required": false,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid params "
-          },
-          "404": {
-            "description": "UserId or brandId not found"
           }
         }
       }
@@ -1002,6 +1000,41 @@
             "description": "Invalid status value"
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "brand"
+        ],
+        "summary": "Delete brandModel",
+        "description": "Delete brandModel",
+        "operationId": "Delete brandModel by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "brandModelId",
+            "in": "path",
+            "description": "brandModel Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "UserId or brandModelId not found"
+          }
+        }
       }
     },
     "/user/{userId}/brandModel/{brandModelId}/status": {
@@ -1044,43 +1077,6 @@
           },
           "400": {
             "description": "Invalid status value"
-          }
-        }
-      }
-    },
-    "/user/{userId}/brandModel/{brandModelId}/del": {
-      "delete": {
-        "tags": [
-          "brand"
-        ],
-        "summary": "Delete brandModel",
-        "description": "Delete brandModel",
-        "operationId": "Delete brandModel by id",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "user unique id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "brandModelId",
-            "in": "path",
-            "description": "brandModel Id",
-            "required": false,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid params "
-          },
-          "404": {
-            "description": "UserId or brandModelId not found"
           }
         }
       }
@@ -1229,6 +1225,41 @@
             "description": "Invalid status value"
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Delete category",
+        "description": "Delete category",
+        "operationId": "Delete category by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categoryId",
+            "in": "path",
+            "description": "category Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "UserId or categoryId not found"
+          }
+        }
       }
     },
     "/user/{userId}/category/{categoryId}/status": {
@@ -1271,43 +1302,6 @@
           },
           "400": {
             "description": "Invalid status value"
-          }
-        }
-      }
-    },
-    "/user/{userId}/category/{categoryId}/del": {
-      "delete": {
-        "tags": [
-          "category"
-        ],
-        "summary": "Delete category",
-        "description": "Delete category",
-        "operationId": "Delete category by id",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "user unique id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "categoryId",
-            "in": "path",
-            "description": "category Id",
-            "required": false,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid params "
-          },
-          "404": {
-            "description": "UserId or categoryId not found"
           }
         }
       }
@@ -1463,6 +1457,41 @@
             "description": "Invalid status value"
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Delete categorySub",
+        "description": "Delete categorySub",
+        "operationId": "Delete categorySub by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categorySubId",
+            "in": "path",
+            "description": "categorySub Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "UserId or categorySubId not found"
+          }
+        }
       }
     },
     "/user/{userId}/categorySub/{categorySubId}/status": {
@@ -1505,43 +1534,6 @@
           },
           "400": {
             "description": "Invalid status value"
-          }
-        }
-      }
-    },
-    "/user/{userId}/categorySub/{categorySubId}/del": {
-      "delete": {
-        "tags": [
-          "category"
-        ],
-        "summary": "Delete categorySub",
-        "description": "Delete categorySub",
-        "operationId": "Delete categorySub by id",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "user unique id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "categorySubId",
-            "in": "path",
-            "description": "categorySub Id",
-            "required": false,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid params "
-          },
-          "404": {
-            "description": "UserId or categorySubId not found"
           }
         }
       }
@@ -1924,6 +1916,41 @@
             "description": "Invalid status value"
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Delete storageArea",
+        "description": "Delete storageArea",
+        "operationId": "Delete storageArea by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageAreaId",
+            "in": "path",
+            "description": "storageArea Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "StorageAreaId not found"
+          }
+        }
       }
     },
     "/user/{userId}/storageArea/{storageAreaId}/status": {
@@ -1966,43 +1993,6 @@
           },
           "400": {
             "description": "Invalid status value"
-          }
-        }
-      }
-    },
-    "/user/{userId}/storageArea/{storageAreaId}/del": {
-      "delete": {
-        "tags": [
-          "storage"
-        ],
-        "summary": "Delete storageArea",
-        "description": "Delete storageArea",
-        "operationId": "Delete storageArea by id",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "user unique id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "storageAreaId",
-            "in": "path",
-            "description": "storageArea Id",
-            "required": false,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid params "
-          },
-          "404": {
-            "description": "StorageAreaId not found"
           }
         }
       }
@@ -2767,6 +2757,41 @@
             "description": "Invalid status value"
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "supplier"
+        ],
+        "summary": "Delete supplier",
+        "description": "Delete supplier",
+        "operationId": "Delete supplier by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "supplierId",
+            "in": "path",
+            "description": "supplier Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "SupplierId not found"
+          }
+        }
       }
     },
     "/user/{userId}/supplier/{supplierId}/status": {
@@ -2809,43 +2834,6 @@
           },
           "400": {
             "description": "Invalid status value"
-          }
-        }
-      }
-    },
-    "/user/{userId}/supplier/{supplierId}/del": {
-      "delete": {
-        "tags": [
-          "supplier"
-        ],
-        "summary": "Delete supplier",
-        "description": "Delete supplier",
-        "operationId": "Delete supplier by id",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "user unique id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "supplierId",
-            "in": "path",
-            "description": "supplier Id",
-            "required": false,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid params "
-          },
-          "404": {
-            "description": "SupplierId not found"
           }
         }
       }
@@ -3036,6 +3024,41 @@
             "description": "Invalid status value"
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Delete product",
+        "description": "Delete product",
+        "operationId": "Delete product by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "product Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "ProductId not found"
+          }
+        }
       }
     },
     "/user/{userId}/product/{productId}/status": {
@@ -3078,43 +3101,6 @@
           },
           "400": {
             "description": "Invalid status value"
-          }
-        }
-      }
-    },
-    "/user/{userId}/product/{productId}/del": {
-      "delete": {
-        "tags": [
-          "product"
-        ],
-        "summary": "Delete product",
-        "description": "Delete product",
-        "operationId": "Delete product by id",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "user unique id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "productId",
-            "in": "path",
-            "description": "product Id",
-            "required": false,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid params "
-          },
-          "404": {
-            "description": "ProductId not found"
           }
         }
       }
@@ -5093,6 +5079,41 @@
             "description": "UserId not found"
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "app"
+        ],
+        "summary": "Delete app",
+        "description": "Delete app",
+        "operationId": "Delete app by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "app Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "UserId or appId not found"
+          }
+        }
       }
     },
     "/user/{userId}/app/{appId}/status": {
@@ -5141,43 +5162,6 @@
           },
           "400": {
             "description": "Invalid status value"
-          }
-        }
-      }
-    },
-    "/user/{userId}/app/{appId}/del": {
-      "delete": {
-        "tags": [
-          "app"
-        ],
-        "summary": "Delete app",
-        "description": "Delete app",
-        "operationId": "Delete app by id",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "user unique id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "appId",
-            "in": "path",
-            "description": "app Id",
-            "required": false,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid params "
-          },
-          "404": {
-            "description": "UserId or appId not found"
           }
         }
       }
