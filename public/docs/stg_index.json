@@ -3785,6 +3785,13 @@
             "type": "integer"
           },
           {
+            "name": "paymentStatus",
+            "in": "query",
+            "description": "paymentStatus",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "status",
             "in": "query",
             "description": "status",
