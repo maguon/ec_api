@@ -7,6 +7,7 @@ const serverLogger = require('./util/ServerLogger');
 const logger = serverLogger.createLogger('Server');
 
 const app = require('./bl/App');
+const sms = require('./bl/Sms');
 const user = require('./bl/User');
 const userTypeMenu = require('./bl/UserTypeMenu');
 const brand = require('./bl/Brand');
@@ -85,6 +86,11 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/password',contentType: 'application/json'} ,user.updatePassword);
     server.put({path:'/api/user/:userId/type',contentType: 'application/json'} ,user.updateType);
     server.put({path:'/api/user/:userId/status',contentType: 'application/json'} ,user.updateStatus);
+
+    /**
+     * SMS Module
+     */
+    server.post({path:'/api/phone/:phone/passwordSms',contentType: 'application/json'},sms.passwordSms);
 
     /**
      * UserTypeMenu Module

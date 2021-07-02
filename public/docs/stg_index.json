@@ -336,6 +336,39 @@
         }
       }
     },
+    "/phone/{phone}/passwordSms": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "send reg phone passwordSms（忘记密码）",
+        "description": "Send reg phone passwordSms",
+        "operationId": "send Reg Phone passwordSms",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "phone",
+            "in": "path",
+            "description": "user phone",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
     "/user/{userId}/type": {
       "put": {
         "tags": [
