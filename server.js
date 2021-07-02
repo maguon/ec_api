@@ -180,6 +180,7 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/purchase/:purchaseId/storageStatus',contentType: 'application/json'} ,purchase.updateStorageStatus);
     server.put({path:'/api/user/:userId/purchase/:purchaseId/paymentStatus',contentType: 'application/json'} ,purchase.updatePaymentStatus);
     server.put({path:'/api/user/:userId/purchase/:purchaseId/status',contentType: 'application/json'} ,purchase.updateStatus);
+    server.get('/api/user/:userId/purchaseAndItem', purchase.queryPurchaseAndItem);
 
     server.get('/api/user/:userId/purchaseItem', purchaseItem.queryPurchaseItem);
     server.put({path:'/api/user/:userId/purchaseItem/:purchaseItemId',contentType: 'application/json'} ,purchaseItem.updatePurchaseItem);

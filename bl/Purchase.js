@@ -21,6 +21,20 @@ const queryPurchase = async (req,res,next)=>{
     }
 }
 
+const queryPurchaseAndItem = async (req,res,next)=>{
+    let query = req.query;
+    try{
+        const rows = await purchaseDAO.queryPurchaseAndItem(query);
+        const count = await purchaseDAO.queryPurchaseAndItemCount(query);
+        logger.info(' queryPurchaseAndItem ' + 'success');
+        resUtil.resetQueryRes(res,rows,count);
+        return next();
+    }catch (e) {
+        logger.error(" queryPurchaseAndItem error",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 const addPurchase = async (req,res,next)=>{
     let params = req.body;
     let path = req.params;
@@ -181,6 +195,7 @@ const queryStatistics = async (req,res,next)=>{
 
 module.exports = {
     queryPurchase,
+    queryPurchaseAndItem,
     addPurchase,
     updatePurchase,
     updateStorageStatus,

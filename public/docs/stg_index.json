@@ -3301,6 +3301,149 @@
         }
       }
     },
+    "/user/{userId}/purchaseAndItem": {
+      "get": {
+        "tags": [
+          "purchase"
+        ],
+        "summary": "Select purchase Info",
+        "description": "Get purchase info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseId",
+            "in": "query",
+            "description": "purchaseId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseItemId",
+            "in": "query",
+            "description": "purchaseItemId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "supplierId",
+            "in": "query",
+            "description": "supplierId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "query",
+            "description": "productId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "planDateStart",
+            "in": "query",
+            "description": "planDateStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "planDateEnd",
+            "in": "query",
+            "description": "planDateEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "finishDateStart",
+            "in": "query",
+            "description": "finishDateStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "finishDateEnd",
+            "in": "query",
+            "description": "finishDateEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "storageStatus",
+            "in": "query",
+            "description": "storageStatus",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "paymentStatus",
+            "in": "query",
+            "description": "paymentStatus",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "paymentDateStart",
+            "in": "query",
+            "description": "paymentDateStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "paymentDateEnd",
+            "in": "query",
+            "description": "paymentDateEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "query",
+            "description": "orderId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "itemStatus",
+            "in": "query",
+            "description": "itemStatus",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
 
     "/user/{userId}/purchaseItem": {
       "get": {

@@ -113,6 +113,130 @@ class PurchaseDAO  {
         return await pgDb.one(query,filterObj);
     }
 
+    static async queryPurchaseAndItem(params) {
+        let query = "select pi.* , ui.real_name , pit.id as item_id, pit.product_id, pit.product_name, " +
+            " pit.unit_cost, pit.purchase_count, pit.total_cost, pit.status as item_status  " +
+            " from purchase_info pi " +
+            " left join user_info ui on ui.id = pi.op_user " +
+            " left join purchase_item pit on pit.purchase_id = pi.id  " +
+            " where pi.id is not null ";
+        let filterObj = {};
+        if(params.purchaseId){
+            query += " and pi.id = ${purchaseId} ";
+            filterObj.purchaseId = params.purchaseId;
+        }
+        if(params.purchaseItemId){
+            query += " and pit.id = ${purchaseItemId} ";
+            filterObj.purchaseItemId = params.purchaseItemId;
+        }
+        if(params.status){
+            query += " and pi.status = ${status} ";
+            filterObj.status = params.status;
+        }
+        if(params.itemStatus){
+            query += " and pit.status = ${itemStatus} ";
+            filterObj.itemStatus = params.itemStatus;
+        }
+        if(params.supplierId){
+            query += " and pi.supplier_id = ${supplierId} ";
+            filterObj.supplierId = params.supplierId;
+        }
+        if(params.productId){
+            query += " and pit.product_id = ${productId} ";
+            filterObj.productId = params.productId;
+        }
+        if(params.planDateStart){
+            query += " and pi.plan_date_id >= ${planDateStart} ";
+            filterObj.planDateStart = params.planDateStart;
+        }
+        if(params.planDateEnd){
+            query += " and pi.plan_date_id <= ${planDateEnd} ";
+            filterObj.planDateEnd = params.planDateEnd;
+        }
+        if(params.finishDateStart){
+            query += " and pi.finish_date_id >= ${finishDateStart} ";
+            filterObj.finishDateStart = params.finishDateStart;
+        }
+        if(params.finishDateEnd){
+            query += " and pi.finish_date_id <= ${finishDateEnd} ";
+            filterObj.finishDateEnd = params.finishDateEnd;
+        }
+        if(params.storageStatus){
+            query += " and pi.storage_status = ${storageStatus} ";
+            filterObj.storageStatus = params.storageStatus;
+        }
+        if(params.paymentStatus){
+            query += " and pi.payment_status = ${paymentStatus} ";
+            filterObj.paymentStatus = params.paymentStatus;
+        }
+        if(params.paymentDateStart){
+            query += " and pi.payment_date_id >= ${paymentDateStart} ";
+            filterObj.paymentDateStart = params.paymentDateStart;
+        }
+        if(params.paymentDateEnd){
+            query += " and pi.payment_date_id <= ${paymentDateEnd} ";
+            filterObj.paymentDateEnd = params.paymentDateEnd;
+        }
+        if(params.orderId){
+            query += " and pi.order_id = ${orderId} ";
+            filterObj.orderId = params.orderId;
+        }
+        query = query + '  order by pi.id desc ';
+        if(params.start){
+            query += " offset ${start} ";
+            filterObj.start = params.start;
+        }
+        if(params.size){
+            query += " limit ${size} ";
+            filterObj.size = params.size;
+        }
+        logger.debug(' queryPurchaseAndItem ');
+        return await pgDb.any(query,filterObj);
+    }
+
+    static async queryPurchaseAndItemCount(params) {
+        let query = "select count(id) from purchase_info where id is not null ";
+        let filterObj = {};
+        if(params.purchaseId){
+            query += " and id = ${purchaseId} ";
+            filterObj.purchaseId = params.purchaseId;
+        }
+        if(params.status){
+            query += " and status = ${status} ";
+            filterObj.status = params.status;
+        }
+        if(params.supplierId){
+            query += " and supplier_id = ${supplierId} ";
+            filterObj.supplierId = params.supplierId;
+        }
+        if(params.planDateId){
+            query += " and plan_date_id = ${planDateId} ";
+            filterObj.planDateId = params.planDateId;
+        }
+        if(params.finishDateId){
+            query += " and finish_date_id = ${finishDateId} ";
+            filterObj.finishDateId = params.finishDateId;
+        }
+        if(params.storageStatus){
+            query += " and storage_status = ${storageStatus} ";
+            filterObj.storageStatus = params.storageStatus;
+        }
+        if(params.paymentStatus){
+            query += " and payment_status = ${paymentStatus} ";
+            filterObj.paymentStatus = params.paymentStatus;
+        }
+        if(params.paymentDateId){
+            query += " and payment_date_id = ${paymentDateId} ";
+            filterObj.paymentDateId = params.paymentDateId;
+        }
+        if(params.orderId){
+            query += " and order_id = ${orderId} ";
+            filterObj.orderId = params.orderId;
+        }
+        logger.debug(' queryPurchaseAndItemCount ');
+        return await pgDb.one(query,filterObj);
+    }
+
     static async addPurchase(params) {
         const query = 'INSERT INTO purchase_info (status , op_user , remark , supplier_id , supplier_name , ' +
             ' plan_date_id , finish_date_id , storage_status , payment_status , payment_date_id , transfer_cost_type , transfer_cost , ' +
