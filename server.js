@@ -145,6 +145,7 @@ const createServer=()=>{
     server.del({path:'/api/user/:userId/storageArea/:storageAreaId/del',contentType: 'application/json'},storageArea.deleteStorageArea);
 
     server.get('/api/user/:userId/storageProductRel', storageProductRel.queryStorageProductRel);
+    server.get('/api/user/:userId/storageProductRel.csv', storageProductRel.queryStorageProductRelCsv);
     server.post({path:'/api/user/:userId/storage/:storageId/product/:productId/storageProductRel',contentType: 'application/json'}, storageProductRel.addStorageProductRel);
     server.put({path:'/api/user/:userId/storageProductRel/:storageProductRelId',contentType: 'application/json'} ,storageProductRel.updateStorageProductRel);
 
