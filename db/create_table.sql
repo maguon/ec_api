@@ -573,3 +573,53 @@ CREATE TABLE IF NOT EXISTS public.sale_service_prod_rel(
 );
 
 CREATE UNIQUE INDEX uk_sale_service_prod_rel ON sale_service_prod_rel(sale_service_id,product_id);
+
+--CREATE TABLE storage_check
+CREATE TABLE IF NOT EXISTS public.storage_check(
+    "id" smallserial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1 ,
+    "check_status" smallint NOT NULL DEFAULT 1 ,
+    "op_user" smallint NOT NULL DEFAULT 1,
+    "remark" character varying(200),
+    "date_id" integer NOT NULL,
+    "plan_check_count" smallint  NOT NULL DEFAULT 0,
+    "checked_count" smallint  NOT NULL DEFAULT 0,
+    "check_desc" character varying(200),
+    PRIMARY KEY (id)
+);
+COMMENT ON COLUMN public.storage_check.status IS '1:未完成2:已完成';
+COMMENT ON COLUMN public.storage_check.check_status IS '盘点结果1:正常2:异常';
+COMMENT ON COLUMN public.storage_check.date_id IS '盘点完成日期';
+COMMENT ON COLUMN public.storage_check.plan_check_count IS '计划盘点数量';
+COMMENT ON COLUMN public.storage_check.checked_count IS '已盘点数量';
+COMMENT ON COLUMN public.storage_check.check_desc IS '盘点描述';
+
+create trigger storage_check_upt before update on storage_check for each row execute procedure update_timestamp_func();
+select setval(' storage_check_id_seq',10000,false);
+
+--CREATE TABLE storage_check_rel
+CREATE TABLE IF NOT EXISTS public.storage_check_rel(
+    "id" smallserial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1 ,
+    "check_status" smallint NOT NULL DEFAULT 1 ,
+    "op_user" smallint NOT NULL DEFAULT 1,
+    "remark" character varying(200),
+    "date_id" integer NOT NULL,
+    "storage_count" smallint  NOT NULL DEFAULT 0,
+    "check_count" smallint  NOT NULL DEFAULT 0,
+    "storage_product_rel_id" integer NOT NULL DEFAULT 0,
+    "storage_id" smallint  NOT NULL DEFAULT 0,
+    "storage_area_id" smallint  NOT NULL DEFAULT 0,
+    "product_id" smallint  NOT NULL DEFAULT 0,
+    PRIMARY KEY (id)
+);
+
+COMMENT ON COLUMN public.storage_check_rel.check_status IS '库存等于盘库数量1,否则异常2';
+COMMENT ON COLUMN public.storage_check_rel.storage_count IS '库存数量';
+COMMENT ON COLUMN public.storage_check_rel.check_count IS '盘库数量';
+create trigger storage_check_rel_upt before update on storage_check_rel for each row execute procedure update_timestamp_func();
+select setval(' storage_check_rel_id_seq',10000,false);
