@@ -5996,7 +5996,11 @@
         "productId",
         "productName",
         "purchaseId",
-        "purchaseItemId"
+        "purchaseItemId",
+        "categoryId",
+        "categorySubId",
+        "brandId",
+        "brandModelId"
       ],
       "properties": {
         "remark": {
@@ -6029,6 +6033,22 @@
           "format": "int64"
         },
         "purchaseItemId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "categoryId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "categorySubId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "brandId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "brandModelId": {
           "type": "integer",
           "format": "int64"
         }

@@ -111,6 +111,7 @@ class StorageCheckRelDAO  {
             ' (select ${opUser} , ${remark} , ${storageCheckId} , ${dateId} , ' +
             ' spr.storage_count , spr.id , spr.storage_id , spr.storage_area_id , spr.product_id ' +
             ' from storage_product_rel spr ' +
+            ' left join product_info pi on pi.id = spr.product_id ' +
             ' where spr.id is not null ';
         let valueObj = {};
         valueObj.status = params.status;
@@ -125,11 +126,11 @@ class StorageCheckRelDAO  {
             valueObj.storageId = params.storageId;
         }
         if(params.storageAreaId){
-            query += " and storage_area_id = ${storageAreaId} ";
+            query += " and spr.storage_area_id = ${storageAreaId} ";
             valueObj.storageAreaId = params.storageAreaId;
         }
         if(params.supplierId){
-            query += " and supplier_id = ${supplierId} ";
+            query += " and spr.supplier_id = ${supplierId} ";
             valueObj.supplierId = params.supplierId;
         }
         if(params.productId){
@@ -148,6 +149,26 @@ class StorageCheckRelDAO  {
             query += " and spr.purchase_item_id = ${purchaseItemId} ";
             valueObj.purchaseItemId = params.purchaseItemId;
         }
+
+
+        if(params.categoryId){
+            query += " and pi.category_id = ${categoryId} ";
+            valueObj.categoryId = params.categoryId;
+        }
+        if(params.categorySubId){
+            query += " and pi.category_sub_id = ${categorySubId} ";
+            valueObj.categorySubId = params.categorySubId;
+        }
+        if(params.brandId){
+            query += " and pi.brand_id = ${brandId} ";
+            valueObj.brandId = params.brandId;
+        }
+        if(params.brandModelId){
+            query += " and pi.brand_model_id = ${brandModelId} ";
+            valueObj.brandModelId = params.brandModelId;
+        }
+
+
         query += ") RETURNING id ";
         logger.debug(' addStorageCheckRel ');
         return await pgDb.any(query,valueObj);
