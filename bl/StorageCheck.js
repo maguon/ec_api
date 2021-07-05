@@ -2,7 +2,7 @@
 const storageCheckDAO = require('../models/StorageCheckDAO');
 const storageCheckRelDAO = require('../models/StorageCheckRelDAO');
 const serverLogger = require('../util/ServerLogger.js');
-const sysConst = require('../util/SystemConst.js');
+const moment = require('moment');
 const resUtil = require('../util/ResponseUtil.js');
 const logger = serverLogger.createLogger('StorageCheck.js');
 
@@ -81,6 +81,10 @@ const updateStatus = async (req,res,next)=>{
         params.storageCheckId = path.storageCheckId;
     }
     try{
+        let today = new Date();
+        let date = moment(today).format('YYYYMMDD');
+        params.dateId = date;
+
         const rows = await storageCheckDAO.updateStatus(params);
         logger.info(' updateStatus ' + 'success');
         resUtil.resetUpdateRes(res,rows);

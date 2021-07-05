@@ -4,8 +4,12 @@ const logger = serverLogger.createLogger('StorageCheckRelDAO.js');
 
 class StorageCheckRelDAO  {
     static async queryStorageCheckRel(params) {
-        let query = "select sc.* ,ui.real_name from storage_check_rel sc " +
+        let query = "select sc.* ,ui.real_name , si.storage_name , sai.storage_area_name , pi.product_name , pi.product_s_name  " +
+            " from storage_check_rel sc " +
             " left join user_info ui on ui.id = sc.op_user " +
+            " left join storage_info si on si.id = sc.storage_id " +
+            " left join storage_area_info sai on sai.id = sc.storage_area_id " +
+            " left join product_info pi on pi.id = sc.product_id" +
             " where sc.id is not null ";
         let filterObj = {};
         if(params.storageCheckRelId){
@@ -151,7 +155,7 @@ class StorageCheckRelDAO  {
 
     static async updateStorageCheckRel(params){
         const query = 'update storage_check_rel set op_user=${opUser} , remark=${remark} , ' +
-            ' check_count=${checkCount} , status = ${status} ,  ' +
+            ' check_count=${checkCount} , status = ${status} , date_id = ${dateId} , ' +
             ' check_status = (' +
             ' select (case when scr.storage_count=${checkCount} then 1 else 2 end ) as check_status ' +
             ' from storage_check_rel scr ' +
@@ -162,6 +166,7 @@ class StorageCheckRelDAO  {
         valueObj.remark = params.remark;
         valueObj.checkCount = params.checkCount;
         valueObj.status = 2;
+        valueObj.dateId = params.dateId;
         valueObj.checkCount = params.checkCount;
         valueObj.storageCheckRelId =params.storageCheckRelId;
         valueObj.storageCheckRelId =params.storageCheckRelId;

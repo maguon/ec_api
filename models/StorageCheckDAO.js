@@ -116,11 +116,12 @@ class StorageCheckDAO  {
     }
 
     static async updateStatus(params){
-        const query = 'update storage_check set status=${status} , op_user=${opUser} ' +
+        const query = 'update storage_check set status=${status} , op_user=${opUser} , date_id=${dateId} ' +
             ' where id =${storageCheckId} RETURNING id ';
         let valueObj = {};
         valueObj.status = params.status;
         valueObj.opUser = params.opUser;
+        valueObj.dateId = params.dateId;
         valueObj.storageCheckId = params.storageCheckId;
         logger.debug(' updateStatus ');
         return await pgDb.any(query,valueObj);
