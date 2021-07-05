@@ -41,6 +41,12 @@ const storageExportType ={
     innerExport:25//内部领料出库
 }
 
+const storageCheckStatus = {
+    not_check:0,//未盘点
+    normal:1,//正常
+    not_normal:2,//不正常
+}
+
 module.exports = {
     status,
     purchaseStatus,
@@ -48,5 +54,6 @@ module.exports = {
     storageStatus,
     storageType,
     storageImportType,
-    storageExportType
+    storageExportType,
+    storageCheckStatus
 }

@@ -18,6 +18,8 @@ const storage = require('./bl/Storage');
 const storageArea = require('./bl/StorageArea');
 const storageProductRel = require('./bl/StorageProductRel');
 const storageProductRelDetail = require('./bl/StorageProductRelDetail');
+const storageCheck = require('./bl/StorageCheck');
+const storageCheckRel = require('./bl/StorageCheckRel');
 const supplier = require('./bl/Supplier');
 const product = require('./bl/Product');
 const purchase = require('./bl/Purchase');
@@ -152,6 +154,14 @@ const createServer=()=>{
 
     server.get('/api/user/:userId/storageProductRelDetail', storageProductRelDetail.queryStorageProductRelDetail);
     server.post({path:'/api/user/:userId/storageProductRel/:storageProductRelId/storageProductRelDetail',contentType: 'application/json'}, storageProductRelDetail.addStorageProductRelDetail);
+
+    server.get('/api/user/:userId/storageCheck', storageCheck.queryStorageCheck);
+    server.post({path:'/api/user/:userId/storageCheck',contentType: 'application/json'}, storageCheck.addStorageCheck);
+    server.put({path:'/api/user/:userId/storageCheck/:storageCheckId',contentType: 'application/json'} ,storageCheck.updateStorageCheck);
+    server.put({path:'/api/user/:userId/storageCheck/:storageCheckId/status',contentType: 'application/json'} ,storageCheck.updateStatus);
+
+    server.get('/api/user/:userId/storageCheckRel', storageCheckRel.queryStorageCheckRel);
+    server.put({path:'/api/user/:userId/storageCheckRel/:storageCheckRelId',contentType: 'application/json'} ,storageCheckRel.updateStorageCheckRel);
 
     server.get('/api/user/:userId/storageProductRelStatistics' ,storageProductRel.queryStatistics);
 

@@ -2515,6 +2515,358 @@
       }
     },
 
+    "/user/{userId}/storageCheck": {
+      "post": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Add a new storageCheck info",
+        "description": "",
+        "operationId": "Add storageCheck info ",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"storageCheckInfo",
+            "description": "StorageCheck object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StorageCheck"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Select storageCheck Info",
+        "description": "Get storageCheck info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageCheckId",
+            "in": "query",
+            "description": "storageCheckId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateIdStart",
+            "in": "query",
+            "description": "dateIdStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateIdEnd",
+            "in": "query",
+            "description": "dateIdEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "checkStatus",
+            "in": "query",
+            "description": "checkStatus",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/storageCheck/{storageCheckId}": {
+      "put": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Finds storageCheck info and update",
+        "description": "update storageCheck info",
+        "operationId": "update storageCheck info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageCheckId",
+            "in": "path",
+            "description": "storageCheck unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageCheckInfo",
+            "in": "body",
+            "description": "StorageCheck object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StorageCheckPut"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/storageCheck/{storageCheckId}/status": {
+      "put": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Finds storageCheck and update",
+        "description": "update storageCheck status",
+        "operationId": "update storageCheck status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageCheckId",
+            "in": "path",
+            "description": "storageCheck unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态(1:未完成2:已完成)",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
+    "/user/{userId}/storageCheckRel": {
+      "get": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Select storageCheckRel Info",
+        "description": "Get storageCheckRel info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageCheckRelId",
+            "in": "query",
+            "description": "storageCheckRelId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "storageCheckId",
+            "in": "query",
+            "description": "storageCheckId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "storageId",
+            "in": "query",
+            "description": "storageId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "storageAreaId",
+            "in": "query",
+            "description": "storageAreaId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "query",
+            "description": "productId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateIdStart",
+            "in": "query",
+            "description": "dateIdStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateIdEnd",
+            "in": "query",
+            "description": "dateIdEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "checkStatus",
+            "in": "query",
+            "description": "checkStatus",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/storageCheckRel/{storageCheckRelId}": {
+      "put": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Finds storageCheckRel info and update",
+        "description": "update storageCheckRel info",
+        "operationId": "update storageCheckRel info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageCheckRelId",
+            "in": "path",
+            "description": "storageCheckRel unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageCheckRelInfo",
+            "in": "body",
+            "description": "StorageCheckRel object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StorageCheckRelPut"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
     "/user/{userId}/storageProductRelStatistics": {
       "get": {
         "tags": [
@@ -5631,6 +5983,91 @@
       },
       "xml": {
         "name": "StorageProductRelDetail"
+      }
+    },
+    "StorageCheck": {
+      "type": "object",
+      "required": [
+        "remark",
+        "checkDesc",
+        "storageId",
+        "storageAreaId",
+        "supplierId",
+        "productId",
+        "productName",
+        "purchaseId",
+        "purchaseItemId"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "checkDesc": {
+          "type": "string"
+        },
+        "storageId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "storageAreaId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "supplierId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "productId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "productName": {
+          "type": "string"
+        },
+        "purchaseId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "purchaseItemId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "StorageCheck"
+      }
+    },
+    "StorageCheckPut": {
+      "type": "object",
+      "required": [
+        "remark"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "StorageCheckPut"
+      }
+    },
+    "StorageCheckRelPut": {
+      "type": "object",
+      "required": [
+        "remark",
+        "checkCount"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "checkCount": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "StorageCheckRelPut"
       }
     },
     "Supplier": {
