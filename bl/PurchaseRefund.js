@@ -46,7 +46,7 @@ const addPurchaseRefund = async (req,res,next)=>{
         if(rowsItem.length <= 0){
             params.refundProfile = 0 - params.totalCost;
         }else{
-            params.refundProfile = rowsItem[0].total_cost - params.totalCost;
+            params.refundProfile = ( params.refundUnitCost - rowsItem[0].unit_cost ) * params.refundCount - params.transferCost ;
         }
 
         const rows = await purchaseRefundDAO.addPurchaseRefund(params);
