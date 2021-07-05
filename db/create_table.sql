@@ -608,6 +608,7 @@ CREATE TABLE IF NOT EXISTS public.storage_check_rel(
     "check_status" smallint NOT NULL DEFAULT 1 ,
     "op_user" smallint NOT NULL DEFAULT 1,
     "remark" character varying(200),
+    "storage_check_id" smallint NOT NULL,
     "date_id" integer NOT NULL,
     "storage_count" smallint  NOT NULL DEFAULT 0,
     "check_count" smallint  NOT NULL DEFAULT 0,
