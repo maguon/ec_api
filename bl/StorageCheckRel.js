@@ -20,6 +20,96 @@ const queryStorageCheckRel = async (req,res,next)=>{
     }
 }
 
+const queryStorageCheckRelCsv = async (req,res,next)=>{
+    let path = req.params;
+
+    try{
+
+        let csvString = "";
+        const header = "ID" + ',' + "盘点ID" + ','  + "仓库" + ',' +
+            "仓库分区" + ',' + "商品名称" + ',' + "库存数量" + ',' + "盘库数量"  + ',' + "备注";
+        csvString = header + '\r\n' + csvString;
+        let parkObj = {};
+        const rows = await storageCheckRelDAO.queryStorageCheckRel({storageCheckId:path.storageCheckId});
+
+        for (let i = 0; i < rows.length; i++) {
+            //ID
+            if (rows[i].id == null) {
+                parkObj.id = 0;
+            } else {
+                parkObj.id = rows[i].id;
+            }
+
+            //盘点ID
+            if (rows[i].storage_check_id == null) {
+                parkObj.storageCheckId = 0;
+            } else {
+                parkObj.storageCheckId = rows[i].storage_check_id;
+            }
+
+            //仓库
+            if (rows[i].storage_name == null) {
+                parkObj.storageName = '';
+            } else {
+                parkObj.storageName = rows[i].storage_name;
+            }
+
+            //仓库分区
+            if (rows[i].storage_area_name == null) {
+                parkObj.storageAreaName = '';
+            } else {
+                parkObj.storageAreaName = rows[i].storage_area_name;
+            }
+
+            //商品名称
+            if (rows[i].product_name == null) {
+                parkObj.productName = 0;
+            } else {
+                parkObj.productName = rows[i].product_name;
+            }
+
+            //库存数量
+            if (rows[i].storage_count == null) {
+                parkObj.storageCount = 0;
+            } else {
+                parkObj.storageCount = rows[i].storage_count;
+            }
+
+            //盘库数量
+            if (rows[i].check_count == null) {
+                parkObj.checkCount = 0;
+            } else {
+                parkObj.checkCount = rows[i].check_count;
+            }
+
+            //备注
+            if (rows[i].remark == null) {
+                parkObj.remark = '';
+            } else {
+                parkObj.remark = rows[i].remark;
+            }
+
+
+            csvString = csvString + parkObj.id + "," + parkObj.storageCheckId + "," + parkObj.storageName + "," +
+                parkObj.storageAreaName + "," + parkObj.productName + "," + parkObj.storageCount + "," +
+                parkObj.checkCount + ","  + parkObj.remark + '\r\n';
+        }
+        let csvBuffer = new Buffer(csvString, 'utf8');
+        res.set('content-type', 'application/csv');
+        res.set('charset', 'utf8');
+        res.set('content-length', csvBuffer.length);
+        res.writeHead(200);
+        res.write(csvBuffer);//TODO
+        res.end();
+        return next(false);
+        logger.info(' queryStorageCheckRelCsv ' + 'success');
+
+    }catch (e) {
+        logger.error(" queryStorageCheckRelCsv error",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 const updateStorageCheckRel = async (req,res,next)=>{
     let params = req.body;
     let path = req.params;
@@ -77,6 +167,7 @@ const updateStatus = async (req,res,next)=>{
 
 module.exports = {
     queryStorageCheckRel,
+    queryStorageCheckRelCsv,
     updateStorageCheckRel,
     updateStatus
 }

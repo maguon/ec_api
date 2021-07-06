@@ -201,7 +201,7 @@
           {
             "name": "status",
             "in": "query",
-            "description": "状态（0-停用，1-可用）",
+            "description": "状态",
             "required": false,
             "type": "integer"
           },{
@@ -472,7 +472,7 @@
           {
             "name": "status",
             "in": "query",
-            "description": "状态(0:停用,1:启用)",
+            "description": "状态",
             "required": true,
             "type": "integer"
           }
@@ -609,7 +609,7 @@
           {
             "name": "status",
             "in": "query",
-            "description": "状态(0:停用,1:启用)",
+            "description": "状态",
             "required": true,
             "type": "integer"
           }
@@ -834,7 +834,7 @@
           {
             "name": "status",
             "in": "query",
-            "description": "状态(0:停用,1:启用)",
+            "description": "状态",
             "required": true,
             "type": "integer"
           }
@@ -1066,7 +1066,7 @@
           {
             "name": "status",
             "in": "query",
-            "description": "状态(0:停用,1:启用)",
+            "description": "状态",
             "required": true,
             "type": "integer"
           }
@@ -1291,7 +1291,7 @@
           {
             "name": "status",
             "in": "query",
-            "description": "状态(0:停用,1:启用)",
+            "description": "状态",
             "required": true,
             "type": "integer"
           }
@@ -1523,7 +1523,7 @@
           {
             "name": "status",
             "in": "query",
-            "description": "状态(0:停用,1:启用)",
+            "description": "状态",
             "required": true,
             "type": "integer"
           }
@@ -1748,7 +1748,7 @@
           {
             "name": "status",
             "in": "query",
-            "description": "状态(0:停用,1:启用)",
+            "description": "状态",
             "required": true,
             "type": "integer"
           }
@@ -1980,7 +1980,7 @@
           {
             "name": "status",
             "in": "query",
-            "description": "状态(0:停用,1:启用)",
+            "description": "状态",
             "required": true,
             "type": "integer"
           }
@@ -2820,6 +2820,39 @@
         }
       }
     },
+    "/user/{userId}/storageCheck/{storageCheckId}/storageCheckRel.csv": {
+      "get": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Select storageCheckRel.csv",
+        "description": "Get storageCheckRel.csv",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageCheckId",
+            "in": "path",
+            "description": "storageCheckId",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
     "/user/{userId}/storageCheckRel/{storageCheckRelId}": {
       "put": {
         "tags": [
@@ -3173,7 +3206,7 @@
           {
             "name": "status",
             "in": "query",
-            "description": "状态(0:停用,1:启用)",
+            "description": "状态",
             "required": true,
             "type": "integer"
           }
@@ -3440,7 +3473,7 @@
           {
             "name": "status",
             "in": "query",
-            "description": "状态(0:停用,1:启用)",
+            "description": "状态",
             "required": true,
             "type": "integer"
           }
@@ -4350,7 +4383,7 @@
           {
             "name": "status",
             "in": "query",
-            "description": "状态(0:停用,1:启用)",
+            "description": "状态",
             "required": true,
             "type": "integer"
           }
@@ -5323,7 +5356,7 @@
           {
             "in": "query",
             "name": "status",
-            "description": "状态(0:停用,1:启用)",
+            "description": "状态",
             "required": false,
             "type": "integer"
           },
@@ -5509,7 +5542,7 @@
           {
             "name": "status",
             "in": "query",
-            "description": "状态(0:停用,1:启用)",
+            "description": "状态",
             "required": true,
             "type": "integer"
           }

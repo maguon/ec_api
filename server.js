@@ -161,6 +161,7 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/storageCheck/:storageCheckId/status',contentType: 'application/json'} ,storageCheck.updateStatus);
 
     server.get('/api/user/:userId/storageCheckRel', storageCheckRel.queryStorageCheckRel);
+    server.get('/api/user/:userId/storageCheck/:storageCheckId/storageCheckRel.csv', storageCheckRel.queryStorageCheckRelCsv);
     server.put({path:'/api/user/:userId/storageCheckRel/:storageCheckRelId',contentType: 'application/json'} ,storageCheckRel.updateStorageCheckRel);
 
     server.get('/api/user/:userId/storageProductRelStatistics' ,storageProductRel.queryStatistics);
