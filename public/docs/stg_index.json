@@ -4046,6 +4046,51 @@
         }
       }
     },
+    "/user/{userId}/purchaseItemStorage": {
+      "get": {
+        "tags": [
+          "purchase"
+        ],
+        "summary": "Select purchaseItemStorage Info",
+        "description": "Get purchaseItemStorage info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseId",
+            "in": "query",
+            "description": "purchaseId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
     "/user/{userId}/purchaseItem/{purchaseItemId}": {
       "put": {
         "tags": [

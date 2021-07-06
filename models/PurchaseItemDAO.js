@@ -70,6 +70,48 @@ class PurchaseItemDAO  {
         return await pgDb.one(query,filterObj);
     }
 
+    static async queryPurchaseItemStorage(params) {
+        let query = "select pi.id as product_item_id, spr.id as storage_product_id ,  pi.product_id , pi.product_name , " +
+            " spr.storage_id, si.storage_name ,spr.storage_area_id , sai.storage_area_name , spr.storage_count " +
+            " from purchase_item pi " +
+            " left join storage_product_rel spr on spr.purchase_item_id = pi.id" +
+            " left join storage_info si on si.id = spr.storage_id" +
+            " left join storage_area_info sai on sai.id = spr.storage_area_id  " +
+            " where pi.id is not null " ;
+        let filterObj = {};
+        if(params.purchaseId){
+            query += " and pi.purchase_id = ${purchaseId} ";
+            filterObj.purchaseId = params.purchaseId;
+        }
+        query = query + '  order by pi.id desc ';
+        if(params.start){
+            query += " offset ${start} ";
+            filterObj.start = params.start;
+        }
+        if(params.size){
+            query += " limit ${size} ";
+            filterObj.size = params.size;
+        }
+        logger.debug(' queryPurchaseItemStorage ');
+        return await pgDb.any(query,filterObj);
+    }
+
+    static async queryPurchaseItemStorageCount(params) {
+        let query = "select count(pi.id) " +
+            " from purchase_item pi " +
+            " left join storage_product_rel spr on spr.purchase_item_id = pi.id" +
+            " left join storage_info si on si.id = spr.storage_id" +
+            " left join storage_area_info sai on sai.id = spr.storage_area_id  " +
+            " where pi.id is not null ";
+        let filterObj = {};
+        if(params.purchaseId){
+            query += " and pi.purchase_id = ${purchaseId} ";
+            filterObj.purchaseId = params.purchaseId;
+        }
+        logger.debug(' queryPurchaseItemStorageCount ');
+        return await pgDb.one(query,filterObj);
+    }
+
     static async addPurchaseItem(params) {
         const query = 'INSERT INTO purchase_item (status , op_user , remark , storage_status , payment_status , ' +
             ' supplier_id , purchase_id , product_id , product_name , unit_cost , purchase_count , total_cost , order_id ) ' +

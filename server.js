@@ -196,6 +196,7 @@ const createServer=()=>{
     server.get('/api/user/:userId/purchaseAndItem', purchase.queryPurchaseAndItem);
 
     server.get('/api/user/:userId/purchaseItem', purchaseItem.queryPurchaseItem);
+    server.get('/api/user/:userId/purchaseItemStorage', purchaseItem.queryPurchaseItemStorage);
     server.put({path:'/api/user/:userId/purchaseItem/:purchaseItemId',contentType: 'application/json'} ,purchaseItem.updatePurchaseItem);
 
     server.get('/api/user/:userId/purchaseRefund', purchaseRefund.queryPurchaseRefund);

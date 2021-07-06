@@ -19,6 +19,20 @@ const queryPurchaseItem = async (req,res,next)=>{
     }
 }
 
+const queryPurchaseItemStorage = async (req,res,next)=>{
+    let query = req.query;
+    try{
+        const rows = await purchaseItemDAO.queryPurchaseItemStorage(query);
+        const count = await purchaseItemDAO.queryPurchaseItemStorageCount(query);
+        logger.info(' queryPurchaseItemStorage ' + 'success');
+        resUtil.resetQueryRes(res,rows,count);
+        return next();
+    }catch (e) {
+        logger.error(" queryPurchaseItemStorage error",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 const updatePurchaseItem = async (req,res,next)=>{
     let params = req.body;
     let path = req.params;
@@ -84,6 +98,7 @@ const queryStatistics = async (req,res,next)=>{
 
 module.exports = {
     queryPurchaseItem,
+    queryPurchaseItemStorage,
     updatePurchaseItem,
     updateStatus,
     queryStatistics
