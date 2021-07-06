@@ -26,7 +26,7 @@ const queryStorageCheckRelCsv = async (req,res,next)=>{
     try{
 
         let csvString = "";
-        const header = "ID" + ',' + "盘点ID" + ','  + "仓库" + ',' +
+        const header = "序号" + ',' + "盘点ID" + ','  + "仓库" + ',' +
             "仓库分区" + ',' + "商品名称" + ',' + "库存数量" + ',' + "盘库数量"  + ',' + "备注";
         csvString = header + '\r\n' + csvString;
         let parkObj = {};
