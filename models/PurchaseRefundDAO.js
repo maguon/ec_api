@@ -152,6 +152,7 @@ class PurchaseRefundDAO  {
     static async updatePurchaseRefund(params){
         const query = 'update purchase_refund set op_user=${opUser} , remark=${remark} , ' +
             ' storage_type=${storageType} , refund_unit_cost = ${refundUnitCost} , refund_count = ${refundCount} , ' +
+            ' transfer_cost_type =${transferCostType} , transfer_cost = ${transferCost} , ' +
             ' total_cost = ${totalCost} , refund_profile = ${refundProfile}' +
             ' where id =${purchaseRefundId} RETURNING id ';
         let valueObj = {};
@@ -160,6 +161,8 @@ class PurchaseRefundDAO  {
         valueObj.storageType =params.storageType;
         valueObj.refundUnitCost =params.refundUnitCost;
         valueObj.refundCount =params.refundCount;
+        valueObj.transferCostType = params.transferCostType;
+        valueObj.transferCost = params.transferCost;
         valueObj.totalCost = params.totalCost;
         valueObj.refundProfile = params.refundProfile;
         valueObj.purchaseRefundId =params.purchaseRefundId;
