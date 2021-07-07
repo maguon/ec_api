@@ -130,15 +130,6 @@ const updateStatus = async (req,res,next)=>{
     try{
         const rows = await purchaseRefundDAO.updateStatus(params);
         logger.info(' updateStatus ' + 'success');
-
-        if(params.status == sysConst.purchaseStatus.completed){
-            let today = new Date();
-            let date = moment(today).format('YYYYMMDD');
-            params.finishDateId = date;
-            const rowsDate = await purchaseDAO.updateFinishDateId(params);
-            logger.info(' updateStatus updateFinishDateId ' + 'success');
-        }
-
         resUtil.resetUpdateRes(res,rows);
         return next();
     }catch (e) {
