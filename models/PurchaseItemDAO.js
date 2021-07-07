@@ -72,11 +72,12 @@ class PurchaseItemDAO  {
 
     static async queryPurchaseItemStorage(params) {
         let query = "select pi.id as product_item_id, spr.id as storage_product_id ,  pi.product_id , pi.product_name , " +
-            " spr.storage_id, si.storage_name ,spr.storage_area_id , sai.storage_area_name , spr.storage_count " +
+            " spr.storage_id, si.storage_name ,spr.storage_area_id , sai.storage_area_name ,  pi.supplier_id, sui.supplier_name , spr.storage_count " +
             " from purchase_item pi " +
             " left join storage_product_rel spr on spr.purchase_item_id = pi.id" +
             " left join storage_info si on si.id = spr.storage_id" +
-            " left join storage_area_info sai on sai.id = spr.storage_area_id  " +
+            " left join storage_area_info sai on sai.id = spr.storage_area_id " +
+            " left join supplier_info sui on sui.id = pi.supplier_id " +
             " where pi.id is not null " ;
         let filterObj = {};
         if(params.purchaseId){
@@ -102,6 +103,7 @@ class PurchaseItemDAO  {
             " left join storage_product_rel spr on spr.purchase_item_id = pi.id" +
             " left join storage_info si on si.id = spr.storage_id" +
             " left join storage_area_info sai on sai.id = spr.storage_area_id  " +
+            " left join supplier_info sui on sui.id = pi.supplier_id " +
             " where pi.id is not null ";
         let filterObj = {};
         if(params.purchaseId){
