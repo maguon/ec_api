@@ -71,8 +71,9 @@ class PurchaseItemDAO  {
     }
 
     static async queryPurchaseItemStorage(params) {
-        let query = "select pi.id as product_item_id, spr.id as storage_product_id ,  pi.product_id , pi.product_name , " +
-            " spr.storage_id, si.storage_name ,spr.storage_area_id , sai.storage_area_name ,  pi.supplier_id, sui.supplier_name , spr.storage_count " +
+        let query = "select pi.id as product_item_id, spr.id as storage_product_id , pi.purchase_id , pi.product_id , pi.product_name , " +
+            " spr.storage_id, si.storage_name ,spr.storage_area_id , sai.storage_area_name ,  pi.supplier_id, sui.supplier_name , spr.storage_count ," +
+            " pi.unit_cost , pi.purchase_count " +
             " from purchase_item pi " +
             " left join storage_product_rel spr on spr.purchase_item_id = pi.id" +
             " left join storage_info si on si.id = spr.storage_id" +
@@ -83,6 +84,26 @@ class PurchaseItemDAO  {
         if(params.purchaseId){
             query += " and pi.purchase_id = ${purchaseId} ";
             filterObj.purchaseId = params.purchaseId;
+        }
+        if(params.storageStatus){
+            query += " and pi.storage_status = ${storageStatus} ";
+            filterObj.storageStatus = params.storageStatus;
+        }
+        if(params.supplierId){
+            query += " and pi.supplier_id = ${supplierId} ";
+            filterObj.supplierId = params.supplierId;
+        }
+        if(params.productId){
+            query += " and pi.product_id = ${productId} ";
+            filterObj.productId = params.productId;
+        }
+        if(params.storageId){
+            query += " and spr.storage_id = ${storageId} ";
+            filterObj.storageId = params.storageId;
+        }
+        if(params.storageAreaId){
+            query += " and spr.storage_area_id = ${storageAreaId} ";
+            filterObj.storageAreaId = params.storageAreaId;
         }
         query = query + '  order by pi.id desc ';
         if(params.start){
