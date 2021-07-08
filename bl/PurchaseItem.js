@@ -1,8 +1,12 @@
 
 const purchaseDAO = require('../models/PurchaseDAO');
 const purchaseItemDAO = require('../models/PurchaseItemDAO');
+const storageProductRelDAO = require('../models/StorageProductRelDAO');
+const storageProductRelDetailDAO = require('../models/StorageProductRelDetailDAO');
 const serverLogger = require('../util/ServerLogger.js');
+const systemConst = require('../util/SystemConst.js');
 const resUtil = require('../util/ResponseUtil.js');
+const moment = require('moment');
 const logger = serverLogger.createLogger('PurchaseItem.js');
 
 const queryPurchaseItem = async (req,res,next)=>{
@@ -63,6 +67,57 @@ const updatePurchaseItem = async (req,res,next)=>{
 
 }
 
+const updateStorageStatus = async (req,res,next)=>{
+    let params = req.body;
+    let path = req.params;
+
+    if(path.userId){
+        params.opUser = path.userId;
+    }
+    if(path.purchaseId){
+        params.purchaseId = path.purchaseId;
+    }
+    if(path.purchaseItemId){
+        params.purchaseItemId = path.purchaseItemId;
+    }
+    let today = new Date();
+    let date = moment(today).format('YYYYMMDD');
+    params.dateId = date;
+
+    try{
+
+        params.storageStatus = systemConst.storageStatus.put_in;
+        //更新 purchase_item storage_status 未入库时更新为已入库
+        const rowsItem = await purchaseItemDAO.updateStorageStatus(params);
+        logger.info(' updateStorageStatus ' + 'success');
+
+        if(rowsItem.length <=0){
+            resUtil.resetFailedRes(res,{message:'更新失败！'});
+            return next();
+        }
+
+        //创建 StorageProductRel
+        const rowsRel = await storageProductRelDAO.addStorageProductRelByPurchaseItem(params);
+        logger.info(' updateStorageStatus addStorageProductRel ' + 'success');
+
+        params.storageType = systemConst.storageType.import;
+        params.storageSubType = systemConst.storageImportType.purchaseImport;
+        params.storageProductRelId = rowsRel[0].id;
+        //创建 StorageProductRelDetail
+        const rowsRelDetail = await storageProductRelDetailDAO.addStorageProductRelDetailByPuerchaseItem(params);
+
+        //更新 purchase_info 下所有的都入库了，更新storage_status
+        const rowsInfo = await purchaseDAO.updateStorageStatusByItem(params);
+        logger.info(' updateStorageStatus updateStorageStatusByItem ' + 'success');
+        resUtil.resetUpdateRes(res,rowsItem);
+        return next();
+
+    }catch (e) {
+        logger.error(" updateStorageStatus error ",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 const updateStatus = async (req,res,next)=>{
     let params = req.query;
     let path = req.params;
@@ -100,6 +155,7 @@ module.exports = {
     queryPurchaseItem,
     queryPurchaseItemStorage,
     updatePurchaseItem,
+    updateStorageStatus,
     updateStatus,
     queryStatistics
 }

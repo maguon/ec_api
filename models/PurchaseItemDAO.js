@@ -73,7 +73,7 @@ class PurchaseItemDAO  {
     static async queryPurchaseItemStorage(params) {
         let query = "select pi.id as product_item_id, spr.id as storage_product_id , pi.purchase_id , pi.product_id , pi.product_name , " +
             " spr.storage_id, si.storage_name ,spr.storage_area_id , sai.storage_area_name ,  pi.supplier_id, sui.supplier_name , spr.storage_count ," +
-            " pi.unit_cost , pi.purchase_count " +
+            " pi.unit_cost , pi.purchase_count , pi.storage_status " +
             " from purchase_item pi " +
             " left join storage_product_rel spr on spr.purchase_item_id = pi.id" +
             " left join storage_info si on si.id = spr.storage_id" +
@@ -181,6 +181,17 @@ class PurchaseItemDAO  {
         valueObj.opUser = params.opUser;
         valueObj.purchaseId = params.purchaseId;
         logger.debug(' updateStatus ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    static async updateStorageStatus(params){
+        const query = 'update purchase_item set storage_status=${storageStatus} , op_user=${opUser} ' +
+            ' where id=${purchaseItemId} and storage_status = 1 RETURNING id ';
+        let valueObj = {};
+        valueObj.storageStatus = params.storageStatus;
+        valueObj.opUser = params.opUser;
+        valueObj.purchaseItemId  = params.purchaseItemId ;
+        logger.debug(' updateStorageStatus ');
         return await pgDb.any(query,valueObj);
     }
 

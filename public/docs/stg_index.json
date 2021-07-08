@@ -4172,6 +4172,59 @@
         }
       }
     },
+    "/user/{userId}/purchase/{purchaseId}/purchaseItem/{purchaseItemId}/storageStatus": {
+      "put": {
+        "tags": [
+          "purchase"
+        ],
+        "summary": "Finds purchaseItem and update storageStatus",
+        "description": "update purchaseItem storageStatus",
+        "operationId": "update purchaseItem storageStatus by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseId",
+            "in": "path",
+            "description": "Purchase unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseItemId",
+            "in": "path",
+            "description": "PurchaseItem unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"storageInfo",
+            "description": "storageInfo object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/purchaseItemPutStorage"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
 
     "/user/{userId}/purchaseRefund": {
       "get": {
@@ -6472,6 +6525,30 @@
       },
       "xml": {
         "name": "PurchaseItemPut"
+      }
+    },
+    "purchaseItemPutStorage": {
+      "type": "object",
+      "required": [
+        "storageId",
+        "storageAreaId",
+        "remark"
+      ],
+      "properties": {
+        "storageId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "storageAreaId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "remark": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "purchaseItemPutStorage"
       }
     },
     "PurchaseRefund": {

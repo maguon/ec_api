@@ -308,6 +308,22 @@ class PurchaseDAO  {
         return await pgDb.any(query,valueObj);
     }
 
+    //根据 item 中全部已入库时更新
+    static async updateStorageStatusByItem(params){
+        const query = 'update purchase_info set storage_status = ${storageStatus} , op_user=${opUser} ' +
+            ' where (select count(*) ' +
+            ' from purchase_item pi ' +
+            ' where pi.storage_status = 1 and pi.purchase_id = ${purchaseId} ' +
+            ' ) = 0 and purchase_info.id = ${purchaseId}  RETURNING id ';
+        let valueObj = {};
+        valueObj.storageStatus = params.storageStatus;
+        valueObj.opUser = params.opUser;
+        valueObj.purchaseId = params.purchaseId;
+        valueObj.purchaseId = params.purchaseId;
+        logger.debug(' updateStorageStatusByItem ');
+        return await pgDb.any(query,valueObj);
+    }
+
     static async updatePaymentStatus(params){
         const query = 'update purchase_info set payment_status=${paymentStatus} , payment_date_id=${paymentDateId} ,' +
             ' op_user=${opUser} ' +

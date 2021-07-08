@@ -154,6 +154,32 @@ class StorageProductRelDAO  {
         return await pgDb.any(query,valueObj);
     }
 
+    //  根据 purchase_item 查询结果，创建信息
+    static async addStorageProductRelByPurchaseItem(params) {
+        const query = 'INSERT INTO storage_product_rel ( op_user , remark , storage_id , storage_area_id , ' +
+            ' supplier_id , product_id , product_name , purchase_id , purchase_item_id , unit_cost , storage_count , ' +
+            ' date_id , order_id ) ' +
+            ' ( select  ${opUser} , ${remark} , ${storageId} , ${storageAreaId} , ' +
+            ' pit.supplier_id, pit.product_id , pit.product_name , pit.purchase_id, ' +
+            ' pit.id , pit.unit_cost , pit.purchase_count ,  ${dateId} , pit.order_id ' +
+            ' from purchase_item pit ' +
+            ' left join user_info ui on ui.id = pit.op_user ' +
+            ' left join supplier_info si on si.id = pit.supplier_id ' +
+            ' where pit.id is not null  and pit.id = ${purchaseItemId}  and pit.purchase_id = ${purchaseId}' +
+            ' order by pit.id desc ) RETURNING id ';
+        let valueObj = {};
+        valueObj.opUser = params.opUser;
+        valueObj.remark = params.remark;
+        valueObj.storageId = params.storageId;
+        valueObj.storageAreaId = params.storageAreaId;
+        valueObj.storageCount = params.storageCount;
+        valueObj.dateId = params.dateId;
+        valueObj.purchaseItemId = params.purchaseItemId;
+        valueObj.purchaseId = params.purchaseId;
+        logger.debug(' addStorageProductRelByPurchaseItem ');
+        return await pgDb.any(query,valueObj);
+    }
+
     static async updateStorageProductRel(params){
         const query = 'update storage_product_rel set op_user=${opUser} , remark=${remark} ' +
             ' where id =${storageProductRelId} RETURNING id ';
