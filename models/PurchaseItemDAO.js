@@ -71,7 +71,7 @@ class PurchaseItemDAO  {
     }
 
     static async queryPurchaseItemStorage(params) {
-        let query = "select pi.id as product_item_id, spr.id as storage_product_id , pi.purchase_id , pi.product_id , pi.product_name , " +
+        let query = "select pi.id as purchase_item_id, spr.id as storage_product_id , pi.purchase_id , pi.product_id , pi.product_name , " +
             " spr.storage_id, si.storage_name ,spr.storage_area_id , sai.storage_area_name ,  pi.supplier_id, sui.supplier_name , spr.storage_count ," +
             " pi.unit_cost , pi.purchase_count , pi.storage_status " +
             " from purchase_item pi " +
