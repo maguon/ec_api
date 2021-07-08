@@ -1,5 +1,4 @@
 
-const purchaseDAO = require('../models/PurchaseDAO');
 const purchaseItemDAO = require('../models/PurchaseItemDAO');
 const purchaseRefundDAO = require('../models/PurchaseRefundDAO');
 const serverLogger = require('../util/ServerLogger.js');

@@ -54,6 +54,16 @@ class PurchaseRefundDAO  {
             query += " and pr.date_id <= ${dateIdEnd} ";
             filterObj.dateIdEnd = params.dateIdEnd;
         }
+        if(params.refundFlag){
+            if(params.refundFlag == 1){
+                query += " and pr.storage_rel_id is null ";
+                filterObj.refundFlag = params.refundFlag;
+            }
+            if(params.refundFlag == 2){
+                query += " and pr.storage_rel_id is not null ";
+                filterObj.refundFlag = params.refundFlag;
+            }
+        }
         query = query + '  order by pr.id desc ';
         if(params.start){
             query += " offset ${start} ";

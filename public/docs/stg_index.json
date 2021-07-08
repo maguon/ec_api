@@ -4315,6 +4315,13 @@
             "type": "integer"
           },
           {
+            "name": "refundFlag",
+            "in": "query",
+            "description": "refundFlag(1:未退货，2:已退货)",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "in": "query",
             "name": "start",
             "required": false,
