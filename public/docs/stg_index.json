@@ -4315,9 +4315,9 @@
             "type": "integer"
           },
           {
-            "name": "refundFlag",
+            "name": "refundStorageFlag",
             "in": "query",
-            "description": "refundFlag(1:未退货，2:已退货)",
+            "description": "仓库退货状态(1:未退货，2:已退货)",
             "required": false,
             "type": "integer"
           },
