@@ -7007,10 +7007,10 @@
     "Remark": {
       "type": "object",
       "required": [
-        "remarks"
+        "remark"
       ],
       "properties": {
-        "remarks": {
+        "remark": {
           "type": "string"
         }
       },
