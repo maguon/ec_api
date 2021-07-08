@@ -1,6 +1,8 @@
 
 const purchaseItemDAO = require('../models/PurchaseItemDAO');
 const purchaseRefundDAO = require('../models/PurchaseRefundDAO');
+const storageProductRelDAO = require('../models/StorageProductRelDAO');
+const storageProductRelDetailDAO = require('../models/StorageProductRelDetailDAO');
 const serverLogger = require('../util/ServerLogger.js');
 const moment = require('moment');
 const sysConst = require('../util/SystemConst.js');
@@ -137,10 +139,67 @@ const updateStatus = async (req,res,next)=>{
     }
 }
 
+const updateRefundStorage = async (req,res,next)=>{
+    let params = req.query;
+    let path = req.params;
+    if(path.userId){
+        params.opUser = path.userId;
+    }
+    if(path.purchaseRefundId){
+        params.purchaseRefundId = path.purchaseRefundId;
+    }
+    if(path.storageProductRelId){
+        params.storageProductRelId = path.storageProductRelId;
+    }
+
+    try{
+        //查询退款信息
+        const rows = await purchaseRefundDAO.queryPurchaseRefund(params);
+        logger.info(' updateRefundStorage queryPurchaseRefund ' + 'success');
+        params.refundCount = Number.parseInt(rows[0].refund_count);
+
+        //判断库存数量是否可以出库
+        const rowsStorageProductRel = await storageProductRelDAO.updateStorageCountByRefund(params);
+        logger.info(' updateRefundStorage updateStorageCount ' + 'success');
+
+        if(rowsStorageProductRel.length <=0){
+            resUtil.resetFailedRes(res,{message:'库存数量不足！'});
+            return next();
+        }
+
+        params.supplierId = rows[0].supplier_id;
+        params.productId = rows[0].product_id;
+        params.purchaseId = rows[0].purchase_id;
+        params.purchaseItemId = rows[0].purchase_item_id;
+        params.storageType = sysConst.storageType.export;
+        params.storageSubType = sysConst.storageExportType.purchaseExport;
+
+        let today = new Date();
+        let date = moment(today).format('YYYYMMDD');
+        params.dateId = date;
+
+        //创建 storage_product_rel_detail
+        const rowsDetail = await  storageProductRelDetailDAO.addStorageProductRelDetailByStorageProductRel(params);
+        logger.info(' updateRefundStorage rowsDetail ' + 'success');
+
+        //更新退款信息
+        const rowsRefund = await purchaseRefundDAO.updateStorageRelId({
+            opUser:path.userId , storageRelId:rowsDetail[0].id , purchaseRefundId:path.purchaseRefundId});
+        logger.info(' updateRefundStorage updateStorageRelId ' + 'success');
+
+        resUtil.resetUpdateRes(res,rowsRefund);
+        return next();
+    }catch (e) {
+        logger.error(" updateRefundStorage error ",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 module.exports = {
     queryPurchaseRefund,
     addPurchaseRefund,
     updatePurchaseRefund,
     updatePaymentStatus,
-    updateStatus
+    updateStatus,
+    updateRefundStorage
 }

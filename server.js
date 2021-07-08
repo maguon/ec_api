@@ -205,6 +205,7 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/purchaseItem/:purchaseItemId/purchaseRefund/:purchaseRefundId',contentType: 'application/json'} ,purchaseRefund.updatePurchaseRefund);
     server.put({path:'/api/user/:userId/purchaseRefund/:purchaseRefundId/paymentStatus',contentType: 'application/json'} ,purchaseRefund.updatePaymentStatus);
     server.put({path:'/api/user/:userId/purchaseRefund/:purchaseRefundId/status',contentType: 'application/json'} ,purchaseRefund.updateStatus);
+    server.put({path:'/api/user/:userId/purchaseRefund/:purchaseRefundId/storageProductRel/:storageProductRelId/refundStorage',contentType: 'application/json'} ,purchaseRefund.updateRefundStorage);
 
     server.get('/api/user/:userId/purchaseStatistics' ,purchase.queryStatistics);
     server.get('/api/user/:userId/purchaseItemStatistics' ,purchaseItem.queryStatistics);

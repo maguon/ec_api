@@ -64,6 +64,14 @@ class PurchaseRefundDAO  {
                 filterObj.refundStorageFlag = params.refundStorageFlag;
             }
         }
+        if(params.storageType){
+            query += " and pr.storage_type = ${storageType} ";
+            filterObj.storageType = params.storageType;
+        }
+        if(params.transferCostType){
+            query += " and pr.transfer_cost_type = ${transferCostType} ";
+            filterObj.transferCostType = params.transferCostType;
+        }
         query = query + '  order by pr.id desc ';
         if(params.start){
             query += " offset ${start} ";
@@ -177,6 +185,17 @@ class PurchaseRefundDAO  {
         valueObj.refundProfile = params.refundProfile;
         valueObj.purchaseRefundId =params.purchaseRefundId;
         logger.debug(' updatePurchaseRefund ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    static async updateStorageRelId(params){
+        const query = 'update purchase_refund set op_user=${opUser} , storage_rel_id = ${storageRelId} ' +
+            ' where id =${purchaseRefundId} RETURNING id ';
+        let valueObj = {};
+        valueObj.opUser = params.opUser;
+        valueObj.storageRelId = params.storageRelId;
+        valueObj.purchaseRefundId =params.purchaseRefundId;
+        logger.debug(' updateStorageRelId ');
         return await pgDb.any(query,valueObj);
     }
 

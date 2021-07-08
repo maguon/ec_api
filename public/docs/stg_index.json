@@ -4322,6 +4322,20 @@
             "type": "integer"
           },
           {
+            "name": "storageType",
+            "in": "query",
+            "description": "需要出库(0:不出库,1:出库)",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "transferCostType",
+            "in": "query",
+            "description": "运费类型(1:对方支付,2:我方支付)",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "in": "query",
             "name": "start",
             "required": false,
@@ -4526,6 +4540,59 @@
             "description": "状态",
             "required": true,
             "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/purchaseRefund/{purchaseRefundId}/storageProductRel/{storageProductRelId}/refundStorage": {
+      "put": {
+        "tags": [
+          "purchase"
+        ],
+        "summary": "Finds purchaseRefund storage and update ",
+        "description": "update purchaseRefund storage and update ",
+        "operationId": "update purchaseRefund storage by id ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseRefundId",
+            "in": "path",
+            "description": "PurchaseRefundId unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageProductRelId",
+            "in": "path",
+            "description": "storageProductRel unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"storageInfo",
+            "description": "storageInfo object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Remark"
+            }
           }
         ],
         "responses": {
@@ -6935,6 +7002,20 @@
       },
       "xml": {
         "name": "App"
+      }
+    },
+    "Remark": {
+      "type": "object",
+      "required": [
+        "remarks"
+      ],
+      "properties": {
+        "remarks": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Remark"
       }
     }
   }

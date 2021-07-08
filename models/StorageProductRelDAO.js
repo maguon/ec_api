@@ -203,6 +203,20 @@ class StorageProductRelDAO  {
         return await pgDb.any(query,valueObj);
     }
 
+    //判断 退货数量 是否可以退货
+    static async updateStorageCountByRefund(params){
+        const query = 'update storage_product_rel ' +
+            ' set storage_count =  storage_count - ${refundCount} ' +
+            ' where id = ${storageProductRelId} and (storage_count - ${refundCount}) >=0 RETURNING id ';
+
+        let valueObj = {};
+        valueObj.refundCount = params.refundCount;
+        valueObj.storageProductRelId = params.storageProductRelId;
+        valueObj.refundCount = params.refundCount;
+        logger.debug(' updateStorageCountByRefund ');
+        return await pgDb.any(query,valueObj);
+    }
+
     static async queryStatistics(params) {
         let query = "select COALESCE(sum(unit_cost*storage_count),0) as total_cost, COALESCE(sum(storage_count),0) as storage_count" +
             " from storage_product_rel spr " +
