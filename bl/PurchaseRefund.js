@@ -140,7 +140,7 @@ const updateStatus = async (req,res,next)=>{
 }
 
 const updateRefundStorage = async (req,res,next)=>{
-    let params = req.query;
+    let params = req.body;
     let path = req.params;
     if(path.userId){
         params.opUser = path.userId;
