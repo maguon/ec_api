@@ -191,7 +191,7 @@ class StorageProductRelDAO  {
         return await pgDb.any(query,valueObj);
     }
 
-    //更新库存数量
+    //更新库存数量 加减
     static async updateStorageCount(params){
         const query = 'update storage_product_rel set op_user=${opUser} , storage_count = storage_count + ${storageCount}  ' +
             ' where id =${storageProductRelId} RETURNING id ';
@@ -200,6 +200,19 @@ class StorageProductRelDAO  {
         valueObj.storageCount = params.storageCount;
         valueObj.storageProductRelId =params.storageProductRelId;
         logger.debug(' updateStorageProductRel ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    //更新库存数量 根据盘点数量
+    static async updateStorageCountByStorageCheckId(params){
+        const query = ' update storage_product_rel set storage_count = check_count ' +
+            ' from storage_product_rel spr ' +
+            ' left join storage_check_rel scr on scr.storage_product_rel_id = spr.id ' +
+            ' where (scr.storage_count - scr.check_count)<>0 and scr.storage_check_id = ${storageCheckId}' +
+            ' and  storage_product_rel.id = scr.storage_product_rel_id RETURNING storage_product_rel.id ';
+        let valueObj = {};
+        valueObj.storageCheckId =params.storageCheckId;
+        logger.debug(' updateStorageCountByStorageCheckId ');
         return await pgDb.any(query,valueObj);
     }
 

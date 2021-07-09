@@ -1,7 +1,10 @@
 
 const storageCheckDAO = require('../models/StorageCheckDAO');
 const storageCheckRelDAO = require('../models/StorageCheckRelDAO');
+const storageProductRelDAO = require('../models/StorageProductRelDAO');
+const storageProductRelDetailDAO = require('../models/StorageProductRelDetailDAO');
 const serverLogger = require('../util/ServerLogger.js');
+const systemConst = require('../util/SystemConst.js');
 const moment = require('moment');
 const resUtil = require('../util/ResponseUtil.js');
 const logger = serverLogger.createLogger('StorageCheck.js');
@@ -87,6 +90,18 @@ const updateStatus = async (req,res,next)=>{
 
         const rows = await storageCheckDAO.updateStatus(params);
         logger.info(' updateStatus ' + 'success');
+
+        if(params.status = 2){
+            //更新库存数量
+            const rowsStroageProductRel = await storageProductRelDAO.updateStorageCountByStorageCheckId({
+                storageCheckId: params.storageCheckId});
+            logger.info(' updateStatus updateStorageCountByStorageCheckId ' + 'success');
+
+            //添加 storage_product_rel_detail
+            const rowsStrageProductRelDetail = await storageProductRelDetailDAO.addStorageProductRelDetailByStorageCheck(params);
+            logger.info(' updateStatus addStorageProductRelDetailByStorageCheck ' + 'success');
+        }
+
         resUtil.resetUpdateRes(res,rows);
         return next();
     }catch (e) {
