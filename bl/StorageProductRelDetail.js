@@ -134,7 +134,7 @@ const queryStorageProductRelDetailCsv = async (req,res,next)=>{
 function stroageTypeConst(storageSubType){
 
     let returnMsg = '未知';
-    const storageType = storageSubType/10;
+    const storageType = parseInt(storageSubType/10);
     if(storageType == sysConst.storageType.import){
         if(storageSubType == sysConst.storageImportType.purchaseImport){
             returnMsg = "采购入库";
