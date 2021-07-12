@@ -58,8 +58,30 @@ const updateSaleService = async (req,res,next)=>{
 
 }
 
+const updateStatus = async (req,res,next)=>{
+    let params = req.query;
+    let path = req.params;
+    if(path.userId){
+        params.opUser = path.userId;
+    }
+    if(path.saleServiceId){
+        params.saleServiceId = path.saleServiceId;
+    }
+    try{
+        const rows = await saleServiceDAO.updateStatus(params);
+        logger.info(' updateStatus ' + 'success');
+        resUtil.resetUpdateRes(res,rows);
+        return next();
+    }catch (e) {
+        logger.error(" updateStatus error ",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+
+}
+
 module.exports = {
     querySaleService,
     addSaleService,
-    updateSaleService
+    updateSaleService,
+    updateStatus
 }

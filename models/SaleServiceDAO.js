@@ -182,6 +182,16 @@ class SaleServiceDAO  {
         return await pgDb.any(query,valueObj);
     }
 
+    static async updateStatus(params){
+        const query = 'update sale_service_info set status=${status} , op_user=${opUser} ' +
+            ' where id =${saleServiceId} RETURNING id ';
+        let valueObj = {};
+        valueObj.status = params.status;
+        valueObj.opUser = params.opUser;
+        valueObj.saleServiceId = params.saleServiceId;
+        logger.debug(' updateStatus ');
+        return await pgDb.any(query,valueObj);
+    }
 }
 
 module.exports = SaleServiceDAO;

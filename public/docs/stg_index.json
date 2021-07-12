@@ -5658,6 +5658,50 @@
         }
       }
     },
+    "/user/{userId}/saleService/{saleServiceId}/status": {
+      "put": {
+        "tags": [
+          "service"
+        ],
+        "summary": "Finds service and update",
+        "description": "update service status",
+        "operationId": "update service status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "saleServiceId",
+            "in": "path",
+            "description": "saleService unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
 
     "/user/{userId}/saleServiceProdRel": {
       "get": {
