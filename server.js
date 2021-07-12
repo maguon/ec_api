@@ -165,8 +165,8 @@ const createServer=()=>{
     server.get('/api/user/:userId/storageCheck/:storageCheckId/storageCheckRel.csv', storageCheckRel.queryStorageCheckRelCsv);
     server.put({path:'/api/user/:userId/storageCheckRel/:storageCheckRelId',contentType: 'application/json'} ,storageCheckRel.updateStorageCheckRel);
 
-    server.get('/api/user/:userId/storageProductRelStat' ,storageProductRel.queryStatistics);
-    server.get('/api/user/:userId/storageCheckStat' ,storageCheck.queryStatistics);
+    server.get('/api/user/:userId/storageProductRelStat' ,storageProductRel.queryStat);
+    server.get('/api/user/:userId/storageCheckStat' ,storageCheck.queryStat);
 
     /**
      * Supplier Module
@@ -209,9 +209,9 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/purchaseRefund/:purchaseRefundId/status',contentType: 'application/json'} ,purchaseRefund.updateStatus);
     server.put({path:'/api/user/:userId/purchaseRefund/:purchaseRefundId/storageProductRel/:storageProductRelId/refundStorage',contentType: 'application/json'} ,purchaseRefund.updateRefundStorage);
 
-    server.get('/api/user/:userId/purchaseStat' ,purchase.queryStatistics);
-    server.get('/api/user/:userId/purchaseItemStat' ,purchaseItem.queryStatistics);
-    server.get('/api/user/:userId/purchaseRefundStat' ,purchaseRefund.queryStatistics);
+    server.get('/api/user/:userId/purchaseStat' ,purchase.queryStat);
+    server.get('/api/user/:userId/purchaseItemStat' ,purchaseItem.queryStat);
+    server.get('/api/user/:userId/purchaseRefundStat' ,purchaseRefund.queryStat);
 
     /**
      * Client Module

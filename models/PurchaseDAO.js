@@ -358,7 +358,7 @@ class PurchaseDAO  {
         return await pgDb.any(query,valueObj);
     }
 
-    static async queryStatistics(params) {
+    static async queryStat(params) {
         let query = "select COALESCE(sum(transfer_cost),0) as transfer_cost, COALESCE(sum(product_cost),0) as product ," +
             " COALESCE(sum(total_cost),0) as total_cost , count(*)" +
             " from purchase_info pi " +
@@ -408,7 +408,7 @@ class PurchaseDAO  {
             query += " and pi.order_id = ${orderId} ";
             filterObj.orderId = params.orderId;
         }
-        logger.debug(' queryStatistics ');
+        logger.debug(' queryStat ');
         return await pgDb.any(query,filterObj);
     }
 

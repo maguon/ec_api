@@ -3041,8 +3041,8 @@
         "tags": [
           "storage"
         ],
-        "summary": "Select storageProductRel Statistics",
-        "description": "Get storageProductRel Statistics",
+        "summary": "Select storageProductRel Stat",
+        "description": "Get storageProductRel Stat",
         "produces": [
           "application/json"
         ],
@@ -3130,8 +3130,8 @@
         "tags": [
           "storage"
         ],
-        "summary": "Select storageCheck Statistics",
-        "description": "Get storageCheck Statistics",
+        "summary": "Select storageCheck Stat",
+        "description": "Get storageCheck Stat",
         "produces": [
           "application/json"
         ],
@@ -4808,8 +4808,8 @@
         "tags": [
           "purchase"
         ],
-        "summary": "Select purchaseStatistics",
-        "description": "Get purchaseStatistics",
+        "summary": "Select purchaseStat",
+        "description": "Get purchaseStat",
         "produces": [
           "application/json"
         ],
@@ -4923,8 +4923,8 @@
         "tags": [
           "purchase"
         ],
-        "summary": "Select purchaseItemStatistics",
-        "description": "Get purchaseItemStatistics",
+        "summary": "Select purchaseItemStat",
+        "description": "Get purchaseItemStat",
         "produces": [
           "application/json"
         ],
@@ -4991,8 +4991,8 @@
         "tags": [
           "purchase"
         ],
-        "summary": "Select purchaseRefund Statistics",
-        "description": "Get purchaseRefund Statistics",
+        "summary": "Select purchaseRefund Stat",
+        "description": "Get purchaseRefund Stat",
         "produces": [
           "application/json"
         ],

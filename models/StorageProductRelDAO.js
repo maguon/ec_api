@@ -230,7 +230,7 @@ class StorageProductRelDAO  {
         return await pgDb.any(query,valueObj);
     }
 
-    static async queryStatistics(params) {
+    static async queryStat(params) {
         let query = "select COALESCE(sum(unit_cost*storage_count),0) as total_cost, COALESCE(sum(storage_count),0) as storage_count" +
             " from storage_product_rel spr " +
             " where spr.id is not null and spr.storage_count > 0 ";
@@ -271,7 +271,7 @@ class StorageProductRelDAO  {
             query += " and spr.status = ${status} ";
             filterObj.status = params.status;
         }
-        logger.debug(' queryStatistics ');
+        logger.debug(' queryStat ');
         return await pgDb.any(query,filterObj);
     }
 

@@ -195,15 +195,15 @@ const updateRefundStorage = async (req,res,next)=>{
     }
 }
 
-const queryStatistics = async (req,res,next)=>{
+const queryStat = async (req,res,next)=>{
     let query = req.query;
     try{
-        const rows = await purchaseRefundDAO.queryStatistics(query);
-        logger.info(' queryStatistics ' + 'success');
+        const rows = await purchaseRefundDAO.queryStat(query);
+        logger.info(' queryStat ' + 'success');
         resUtil.resetQueryRes(res,rows,1);
         return next();
     }catch (e) {
-        logger.error(" queryStatistics error",e.stack);
+        logger.error(" queryStat error",e.stack);
         resUtil.resInternalError(e,res,next);
     }
 }
@@ -215,5 +215,5 @@ module.exports = {
     updatePaymentStatus,
     updateStatus,
     updateRefundStorage,
-    queryStatistics
+    queryStat
 }

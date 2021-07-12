@@ -141,7 +141,7 @@ class StorageCheckDAO  {
         return await pgDb.any(query,valueObj);
     }
 
-    static async queryStatistics(params) {
+    static async queryStat(params) {
         let query = "select count(*) , COALESCE(sum(sc.plan_check_count),0) as plan_check_count , " +
             " COALESCE(sum(sc.checked_count),0) as checked_count " +
             " from storage_check sc " +
@@ -163,7 +163,7 @@ class StorageCheckDAO  {
             query += " and sc.date_id <= ${dateIdEnd} ";
             filterObj.dateIdEnd = params.dateIdEnd;
         }
-        logger.debug(' queryStatistics ');
+        logger.debug(' queryStat ');
         return await pgDb.any(query,filterObj);
     }
 
