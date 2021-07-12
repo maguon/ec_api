@@ -359,7 +359,7 @@ class PurchaseDAO  {
     }
 
     static async queryStat(params) {
-        let query = "select COALESCE(sum(transfer_cost),0) as transfer_cost, COALESCE(sum(product_cost),0) as product ," +
+        let query = "select COALESCE(sum(transfer_cost),0) as transfer_cost, COALESCE(sum(product_cost),0) as product_cost ," +
             " COALESCE(sum(total_cost),0) as total_cost , count(*)" +
             " from purchase_info pi " +
             " where pi.id is not null";
