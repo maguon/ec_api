@@ -3036,7 +3036,7 @@
       }
     },
 
-    "/user/{userId}/storageProductRelStatistics": {
+    "/user/{userId}/storageProductRelStat": {
       "get": {
         "tags": [
           "storage"
@@ -3125,7 +3125,7 @@
         }
       }
     },
-    "/user/{userId}/storageCheckStatistics": {
+    "/user/{userId}/storageCheckStat": {
       "get": {
         "tags": [
           "storage"
@@ -4803,7 +4803,7 @@
       }
     },
 
-    "/user/{userId}/purchaseStatistics": {
+    "/user/{userId}/purchaseStat": {
       "get": {
         "tags": [
           "purchase"
@@ -4918,7 +4918,7 @@
         }
       }
     },
-    "/user/{userId}/purchaseItemStatistics": {
+    "/user/{userId}/purchaseItemStat": {
       "get": {
         "tags": [
           "purchase"
@@ -4986,7 +4986,7 @@
         }
       }
     },
-    "/user/{userId}/purchaseRefundStatistics": {
+    "/user/{userId}/purchaseRefundStat": {
       "get": {
         "tags": [
           "purchase"
