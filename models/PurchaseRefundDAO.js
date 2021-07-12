@@ -112,6 +112,16 @@ class PurchaseRefundDAO  {
             query += " and product_id = ${productId} ";
             filterObj.productId = params.productId;
         }
+        if(params.refundStorageFlag){
+            if(params.refundStorageFlag == 1){
+                query += " and storage_rel_id is null ";
+                filterObj.refundStorageFlag = params.refundStorageFlag;
+            }
+            if(params.refundStorageFlag == 2){
+                query += " and storage_rel_id is not null ";
+                filterObj.refundStorageFlag = params.refundStorageFlag;
+            }
+        }
         if(params.storageType){
             query += " and storage_type = ${storageType} ";
             filterObj.storageType = params.storageType;
@@ -221,6 +231,59 @@ class PurchaseRefundDAO  {
         valueObj.purchaseRefundId = params.purchaseRefundId;
         logger.debug(' updateStatus ');
         return await pgDb.any(query,valueObj);
+    }
+
+    static async queryRefundStatistics(params) {
+        let query = "select count(*), COALESCE(sum(pr.refund_count),0) as refund_count , " +
+            " COALESCE(sum(pr.total_cost),0) as total_cost , " +
+            " COALESCE(sum(pr.refund_profile),0) as refund_profile " +
+            " from purchase_refund pr " +
+            " where pr.id is not null";
+        let filterObj = {};
+        if(params.status){
+            query += " and pr.status = ${status} ";
+            filterObj.status = params.status;
+        }
+        if(params.paymentStatus){
+            query += " and pr.payment_status = ${paymentStatus} ";
+            filterObj.paymentStatus = params.paymentStatus;
+        }
+        if(params.storageType){
+            query += " and pr.storage_type = ${storageType} ";
+            filterObj.storageType = params.storageType;
+        }
+        if(params.refundStorageFlag){
+            if(params.refundStorageFlag == 1){
+                query += " and pr.storage_rel_id is null ";
+                filterObj.refundStorageFlag = params.refundStorageFlag;
+            }
+            if(params.refundStorageFlag == 2){
+                query += " and pr.storage_rel_id is not null ";
+                filterObj.refundStorageFlag = params.refundStorageFlag;
+            }
+        }
+        if(params.transferCostType){
+            query += " and pr.transfer_cost_type = ${transferCostType} ";
+            filterObj.transferCostType = params.transferCostType;
+        }
+        if(params.supplierId){
+            query += " and pr.supplier_id = ${supplierId} ";
+            filterObj.supplierId = params.supplierId;
+        }
+        if(params.purchaseId){
+            query += " and pr.purchase_id = ${purchaseId} ";
+            filterObj.purchaseId = params.purchaseId;
+        }
+        if(params.purchaseItemId){
+            query += " and pr.purchase_item_id = ${purchaseItemId} ";
+            filterObj.purchaseItemId = params.purchaseItemId;
+        }
+        if(params.productId){
+            query += " and pr.product_id = ${productId} ";
+            filterObj.productId = params.productId;
+        }
+        logger.debug(' queryRefundStatistics ');
+        return await pgDb.any(query,filterObj);
     }
 
 }

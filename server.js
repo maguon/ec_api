@@ -210,6 +210,7 @@ const createServer=()=>{
 
     server.get('/api/user/:userId/purchaseStatistics' ,purchase.queryStatistics);
     server.get('/api/user/:userId/purchaseItemStatistics' ,purchaseItem.queryStatistics);
+    server.get('/api/user/:userId/purchaseRefundStatistics' ,purchaseRefund.queryRefundStatistics);
 
     /**
      * Client Module

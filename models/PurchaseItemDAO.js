@@ -18,6 +18,10 @@ class PurchaseItemDAO  {
             query += " and pit.status = ${status} ";
             filterObj.status = params.status;
         }
+        if(params.storageStatus){
+            query += " and pit.storage_tatus = ${storageStatus} ";
+            filterObj.storageStatus = params.storageStatus;
+        }
         if(params.supplierId){
             query += " and pit.supplier_id = ${supplierId} ";
             filterObj.supplierId = params.supplierId;
@@ -202,19 +206,23 @@ class PurchaseItemDAO  {
             " where pi.id is not null";
         let filterObj = {};
         if(params.status){
-            query += " and pit.status = ${status} ";
+            query += " and pi.status = ${status} ";
             filterObj.status = params.status;
         }
+        if(params.storageStatus){
+            query += " and pi.storage_status = ${storageStatus} ";
+            filterObj.storageStatus = params.storageStatus;
+        }
         if(params.supplierId){
-            query += " and pit.supplier_id = ${supplierId} ";
+            query += " and pi.supplier_id = ${supplierId} ";
             filterObj.supplierId = params.supplierId;
         }
         if(params.purchaseId){
-            query += " and pit.purchase_id = ${purchaseId} ";
+            query += " and pi.purchase_id = ${purchaseId} ";
             filterObj.purchaseId = params.purchaseId;
         }
         if(params.productId){
-            query += " and pit.product_id = ${productId} ";
+            query += " and pi.product_id = ${productId} ";
             filterObj.productId = params.productId;
         }
         logger.debug(' queryStatistics ');
