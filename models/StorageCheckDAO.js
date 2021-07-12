@@ -91,6 +91,20 @@ class StorageCheckDAO  {
         return await pgDb.any(query,valueObj);
     }
 
+    static async updatePlanCheckCountAndCheckedCount(params){
+        const query = 'update storage_check set plan_check_count = plan_check_count + 1 ,' +
+            ' checked_count = ( ' +
+            ' select count(*) ' +
+            ' from storage_check_rel scr ' +
+            ' where scr.storage_check_id = ${storageCheckId} and scr.status = 2 )' +
+            ' where id =${storageCheckId} RETURNING id ';
+        let valueObj = {};
+        valueObj.storageCheckId = params.storageCheckId;
+        valueObj.storageCheckId =params.storageCheckId;
+        logger.debug(' updatePlanCheckCountAndCheckedCount ');
+        return await pgDb.any(query,valueObj);
+    }
+
     static async updateCheckedCount(params){
         const query = 'update storage_check set checked_count = ( ' +
             ' select count(*) ' +

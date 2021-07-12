@@ -129,14 +129,13 @@ class StorageProductRelDAO  {
     }
 
     static async addStorageProductRel(params) {
-        const query = 'INSERT INTO storage_product_rel (status , op_user , remark , storage_id , storage_area_id , ' +
+        const query = 'INSERT INTO storage_product_rel ( op_user , remark , storage_id , storage_area_id , ' +
             ' supplier_id , product_id , product_name , purchase_id , purchase_item_id , unit_cost , storage_count , ' +
             ' date_id , order_id ) ' +
-            ' VALUES (${status} , ${opUser} , ${remark} , ${storageId} , ${storageAreaId} , ${supplierId} , ' +
+            ' VALUES ( ${opUser} , ${remark} , ${storageId} , ${storageAreaId} , ${supplierId} , ' +
             ' ${productId} , ${productName} ,${purchaseId} , ${purchaseItemId} , ${unitCost} , ${storageCount} , ' +
             ' ${dateId} , ${orderId}) RETURNING id ';
         let valueObj = {};
-        valueObj.status = params.status;
         valueObj.opUser = params.opUser;
         valueObj.remark = params.remark;
         valueObj.storageId = params.storageId;

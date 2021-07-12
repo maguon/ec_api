@@ -2856,6 +2856,46 @@
     },
 
     "/user/{userId}/storageCheckRel": {
+      "post": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Add a new storageCheckRel info",
+        "description": "",
+        "operationId": "Add storageCheckRel info ",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"storageCheckRelInfo",
+            "description": "StorageCheckRel object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StorageCheckRel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
       "get": {
         "tags": [
           "storage"
@@ -6646,6 +6686,64 @@
       },
       "xml": {
         "name": "StorageCheckPut"
+      }
+    },
+    "StorageCheckRel": {
+      "type": "object",
+      "required": [
+        "remark",
+        "storageCheckId",
+        "checkCount",
+        "storageId",
+        "storageAreaId",
+        "storageDateId",
+        "supplierId",
+        "productId",
+        "productName",
+        "unitCost"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "checkCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "storageCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "storageId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "storageAreaId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "storageDateId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "supplierId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "productId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "productName": {
+          "type": "string"
+        },
+        "unitCost": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "StorageCheckRel"
       }
     },
     "StorageCheckRelPut": {

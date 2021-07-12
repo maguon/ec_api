@@ -109,7 +109,6 @@ const addStorageProductRel = async (req,res,next)=>{
     if(path.productId){
         params.productId = path.productId;
     }
-    params.status = sysConst.status.usable;
 
     let today = new Date();
     let date = moment(today).format('YYYYMMDD');

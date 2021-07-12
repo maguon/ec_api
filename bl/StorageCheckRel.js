@@ -1,7 +1,9 @@
 
 const storageCheckDAO = require('../models/StorageCheckDAO');
 const storageCheckRelDAO = require('../models/StorageCheckRelDAO');
+const storageProductRelDAO = require('../models/StorageProductRelDAO');
 const serverLogger = require('../util/ServerLogger.js');
+const systemConst = require('../util/SystemConst.js');
 const moment = require('moment');
 const resUtil = require('../util/ResponseUtil.js');
 const logger = serverLogger.createLogger('StorageCheckRel.js');
@@ -110,6 +112,47 @@ const queryStorageCheckRelCsv = async (req,res,next)=>{
     }
 }
 
+const addStorageCheckRel = async (req,res,next)=>{
+    let params = req.body;
+    let path = req.params;
+    if(path.userId){
+        params.opUser = path.userId;
+    }
+    params.dateId = 0;
+    try {
+        params.dateId = params.storageDateId;
+        params.purchaseId = 0;
+        params.purchaseItemId = 0;
+        params.storageCount = 0;
+        params.orderId = 0;
+        //创建 storage_product_rel
+        const rowsProductRel = await storageProductRelDAO.addStorageProductRel(params);
+        logger.info(' addStorageCheckRel addStorageProductRel ' + 'success');
+
+        let today = new Date();
+        let date = moment(today).format('YYYYMMDD');
+        params.dateId = date;
+        params.storageProductRelId = rowsProductRel[0].id;
+        params.status = 2;
+        params.checkStatus = systemConst.storageCheckStatus.not_normal;
+        //创建 storage_check_rel
+        const rowsRel = await storageCheckRelDAO.addStorageCheckRel(params);
+        logger.info(' addStorageCheckRel ' + 'success');
+
+
+        //更新计划盘点数量 plan_check_count , checked_count
+        const rowUpdate = await storageCheckDAO.updatePlanCheckCountAndCheckedCount(
+            {storageCheckId:params.storageCheckId });
+        logger.info(' addStorageCheckRel updatePlanCheckCountAndCheckedCount ' + 'success');
+
+        resUtil.resetCreateRes(res,rowsRel);
+        return next();
+    }catch (e) {
+        logger.error(" addStorageCheck error ",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 const updateStorageCheckRel = async (req,res,next)=>{
     let params = req.body;
     let path = req.params;
@@ -166,6 +209,7 @@ const updateStatus = async (req,res,next)=>{
 }
 
 module.exports = {
+    addStorageCheckRel,
     queryStorageCheckRel,
     queryStorageCheckRelCsv,
     updateStorageCheckRel,

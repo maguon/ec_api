@@ -105,14 +105,12 @@ class StorageCheckRelDAO  {
     }
 
     static async addStorageCheckRel(params) {
-        let query = 'INSERT INTO storage_check_rel (op_user , ' +
-            ' remark , storage_check_id , date_id , storage_count , storage_product_rel_id ,' +
+        let query = 'INSERT INTO storage_check_rel ( status , check_status , op_user , ' +
+            ' remark , storage_check_id , date_id , storage_count , check_count , storage_product_rel_id ,' +
             ' storage_id , storage_area_id , product_id ) ' +
-            ' (select ${opUser} , ${remark} , ${storageCheckId} , ${dateId} , ' +
-            ' spr.storage_count , spr.id , spr.storage_id , spr.storage_area_id , spr.product_id ' +
-            ' from storage_product_rel spr ' +
-            ' left join product_info pi on pi.id = spr.product_id ' +
-            ' where spr.id is not null ';
+            ' VALUES ( ${status} , ${checkStatus}  , ${opUser} , ${remark} , ${storageCheckId} , ${dateId} ,  ' +
+            ' ${storageCount} , ${checkCount} , ${storageProductRelId} , ${storageId} , ${storageAreaId} , ' +
+            ' ${productId} ) ';
         let valueObj = {};
         valueObj.status = params.status;
         valueObj.checkStatus = params.checkStatus;
@@ -120,56 +118,14 @@ class StorageCheckRelDAO  {
         valueObj.remark = params.remark;
         valueObj.storageCheckId = params.storageCheckId;
         valueObj.dateId = params.dateId;
+        valueObj.storageCount = params.storageCount;
+        valueObj.checkCount = params.checkCount;
+        valueObj.storageProductRelId = params.storageProductRelId;
+        valueObj.storageId = params.storageId;
+        valueObj.storageAreaId = params.storageAreaId;
+        valueObj.productId = params.productId;
 
-        if(params.storageId){
-            query += " and spr.storage_id = ${storageId} ";
-            valueObj.storageId = params.storageId;
-        }
-        if(params.storageAreaId){
-            query += " and spr.storage_area_id = ${storageAreaId} ";
-            valueObj.storageAreaId = params.storageAreaId;
-        }
-        if(params.supplierId){
-            query += " and spr.supplier_id = ${supplierId} ";
-            valueObj.supplierId = params.supplierId;
-        }
-        if(params.productId){
-            query += " and spr.product_id = ${productId} ";
-            valueObj.productId = params.productId;
-        }
-        if(params.productName){
-            query += " and spr.product_name = ${productName} ";
-            valueObj.productName = params.productName;
-        }
-        if(params.purchaseId){
-            query += " and spr.purchase_id = ${purchaseId} ";
-            valueObj.purchaseId = params.purchaseId;
-        }
-        if(params.purchaseItemId){
-            query += " and spr.purchase_item_id = ${purchaseItemId} ";
-            valueObj.purchaseItemId = params.purchaseItemId;
-        }
-
-
-        if(params.categoryId){
-            query += " and pi.category_id = ${categoryId} ";
-            valueObj.categoryId = params.categoryId;
-        }
-        if(params.categorySubId){
-            query += " and pi.category_sub_id = ${categorySubId} ";
-            valueObj.categorySubId = params.categorySubId;
-        }
-        if(params.brandId){
-            query += " and pi.brand_id = ${brandId} ";
-            valueObj.brandId = params.brandId;
-        }
-        if(params.brandModelId){
-            query += " and pi.brand_model_id = ${brandModelId} ";
-            valueObj.brandModelId = params.brandModelId;
-        }
-
-
-        query += ") RETURNING id ";
+        query += " RETURNING id ";
         logger.debug(' addStorageCheckRel ');
         return await pgDb.any(query,valueObj);
     }
