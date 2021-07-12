@@ -6706,11 +6706,11 @@
         "remark": {
           "type": "string"
         },
-        "checkCount": {
+        "storageCheckId": {
           "type": "integer",
           "format": "int64"
         },
-        "storageCount": {
+        "checkCount": {
           "type": "integer",
           "format": "int64"
         },
