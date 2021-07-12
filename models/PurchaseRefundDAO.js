@@ -233,7 +233,7 @@ class PurchaseRefundDAO  {
         return await pgDb.any(query,valueObj);
     }
 
-    static async queryRefundStatistics(params) {
+    static async queryStatistics(params) {
         let query = "select count(*), COALESCE(sum(pr.refund_count),0) as refund_count , " +
             " COALESCE(sum(pr.total_cost),0) as total_cost , " +
             " COALESCE(sum(pr.refund_profile),0) as refund_profile " +
@@ -282,7 +282,7 @@ class PurchaseRefundDAO  {
             query += " and pr.product_id = ${productId} ";
             filterObj.productId = params.productId;
         }
-        logger.debug(' queryRefundStatistics ');
+        logger.debug(' queryStatistics ');
         return await pgDb.any(query,filterObj);
     }
 

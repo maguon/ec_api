@@ -3125,6 +3125,60 @@
         }
       }
     },
+    "/user/{userId}/storageCheckStatistics": {
+      "get": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Select storageCheck Statistics",
+        "description": "Get storageCheck Statistics",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "dateIdStart",
+            "in": "query",
+            "description": "dateIdStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateIdEnd",
+            "in": "query",
+            "description": "dateIdEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "checkStatus",
+            "in": "query",
+            "description": "checkStatus",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
 
     "/user/{userId}/supplier": {
       "post": {

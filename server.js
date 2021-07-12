@@ -166,6 +166,7 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/storageCheckRel/:storageCheckRelId',contentType: 'application/json'} ,storageCheckRel.updateStorageCheckRel);
 
     server.get('/api/user/:userId/storageProductRelStatistics' ,storageProductRel.queryStatistics);
+    server.get('/api/user/:userId/storageCheckStatistics' ,storageCheck.queryStatistics);
 
     /**
      * Supplier Module
@@ -210,7 +211,7 @@ const createServer=()=>{
 
     server.get('/api/user/:userId/purchaseStatistics' ,purchase.queryStatistics);
     server.get('/api/user/:userId/purchaseItemStatistics' ,purchaseItem.queryStatistics);
-    server.get('/api/user/:userId/purchaseRefundStatistics' ,purchaseRefund.queryRefundStatistics);
+    server.get('/api/user/:userId/purchaseRefundStatistics' ,purchaseRefund.queryStatistics);
 
     /**
      * Client Module

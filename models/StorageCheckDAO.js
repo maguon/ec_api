@@ -140,6 +140,33 @@ class StorageCheckDAO  {
         logger.debug(' updateCheckStatus ');
         return await pgDb.any(query,valueObj);
     }
+
+    static async queryStatistics(params) {
+        let query = "select count(*) , COALESCE(sum(sc.plan_check_count),0) as plan_check_count , " +
+            " COALESCE(sum(sc.checked_count),0) as checked_count " +
+            " from storage_check sc " +
+            " where sc.id is not null";
+        let filterObj = {};
+        if(params.status){
+            query += " and sc.status = ${status} ";
+            filterObj.status = params.status;
+        }
+        if(params.checkStatus){
+            query += " and sc.check_status = ${checkStatus} ";
+            filterObj.checkStatus = params.checkStatus;
+        }
+        if(params.dateIdStart){
+            query += " and sc.date_id >= ${dateIdStart} ";
+            filterObj.dateIdStart = params.dateIdStart;
+        }
+        if(params.dateIdEnd){
+            query += " and sc.date_id <= ${dateIdEnd} ";
+            filterObj.dateIdEnd = params.dateIdEnd;
+        }
+        logger.debug(' queryStatistics ');
+        return await pgDb.any(query,filterObj);
+    }
+
 }
 
 module.exports = StorageCheckDAO;
