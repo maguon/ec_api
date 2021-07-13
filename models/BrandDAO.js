@@ -67,10 +67,9 @@ class BrandDAO  {
     }
 
     static async addBrand(params) {
-        const query = 'INSERT INTO brand_info (status , op_user , remark , brand_name ) ' +
-            ' VALUES (${status} , ${opUser} , ${remark} , ${brandName}) RETURNING id ';
+        const query = 'INSERT INTO brand_info (op_user , remark , brand_name ) ' +
+            ' VALUES ( ${opUser} , ${remark} , ${brandName}) RETURNING id ';
         let valueObj = {};
-        valueObj.status = params.status;
         valueObj.opUser = params.opUser;
         valueObj.remark = params.remark;
         valueObj.brandName = params.brandName;

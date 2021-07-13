@@ -107,6 +107,7 @@ const createServer=()=>{
      */
     server.get('/api/user/:userId/brand', brand.queryBrand);
     server.post({path:'/api/user/:userId/brand',contentType: 'application/json'}, brand.addBrand);
+    server.post({path:'/api/user/:userId/brandFile',contentType: 'application/json'}, brand.uploadBrandFile);
     server.put({path:'/api/user/:userId/brand/:brandId',contentType: 'application/json'} ,brand.updateBrand);
     server.put({path:'/api/user/:userId/brand/:brandId/status',contentType: 'application/json'} ,brand.updateStatus);
     server.del({path:'/api/user/:userId/brand/:brandId',contentType: 'application/json'},brand.deleteBrand);

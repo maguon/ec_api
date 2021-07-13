@@ -7,6 +7,8 @@ const sysError = require('../util/SystemError.js');
 const encrypt = require('../util/Encrypt.js');
 const oAuthUtil = require('../util/OAuthUtil.js');
 const resUtil = require('../util/ResponseUtil.js');
+const csv=require('csvtojson');
+const fs = require('fs');
 const logger = serverLogger.createLogger('Brand.js');
 
 const queryBrand = async (req,res,next)=>{
@@ -29,7 +31,6 @@ const addBrand = async (req,res,next)=>{
     if(path.userId){
         params.opUser = path.userId;
     }
-    params.status = sysConst.status.usable;
     try {
         const rows = await brandDAO.addBrand(params);
         logger.info(' addBrand ' + 'success');
@@ -37,6 +38,36 @@ const addBrand = async (req,res,next)=>{
         return next();
     }catch (e) {
         logger.error(" addBrand error ",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
+const uploadBrandFile = async (req,res,next)=>{
+    let params = req.params;
+    let successedInsert = 0;
+    let failedCase = 0;
+    let file = req.files.file;
+    try {
+
+        const objArray = await csv().fromFile(file.path);
+
+        for(let i=0;i<objArray.length;i++){
+            let subParams = {
+                opUser:params.userId,
+                brandName : objArray[i].品牌名称,
+                remark : objArray[i].备注,
+            }
+            const rows = await brandDAO.addBrand(subParams);
+        }
+
+        fs.unlink(file.path, function() {});
+        failedCase=objArray.length-successedInsert;
+        logger.info(' uploadBrandFile ' + 'success');
+        resUtil.resetQueryRes(res, {successedInsert:successedInsert,failedCase:failedCase},null);
+        return next();
+
+    }catch (e) {
+        logger.error(" uploadBrandFile error ",e.stack);
         resUtil.resInternalError(e,res,next);
     }
 }
@@ -103,6 +134,7 @@ const deleteBrand = async (req,res,next)=>{
 module.exports = {
     queryBrand,
     addBrand,
+    uploadBrandFile,
     updateBrand,
     updateStatus,
     deleteBrand
