@@ -7,6 +7,8 @@ const sysError = require('../util/SystemError.js');
 const encrypt = require('../util/Encrypt.js');
 const oAuthUtil = require('../util/OAuthUtil.js');
 const resUtil = require('../util/ResponseUtil.js');
+const csv=require('csvtojson');
+const fs = require('fs');
 const logger = serverLogger.createLogger('Category.js');
 
 const queryCategory = async (req,res,next)=>{
@@ -29,7 +31,6 @@ const addCategory = async (req,res,next)=>{
     if(path.userId){
         params.opUser = path.userId;
     }
-    params.status = sysConst.status.usable;
     try {
         const rows = await categoryDAO.addCategory(params);
         logger.info(' addCategory ' + 'success');
@@ -37,6 +38,36 @@ const addCategory = async (req,res,next)=>{
         return next();
     }catch (e) {
         logger.error(" addCategory error ",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
+const uploadCategoryFile = async (req,res,next)=>{
+    let params = req.params;
+    let successedInsert = 0;
+    let failedCase = 0;
+    let file = req.files.file;
+    try {
+
+        const objArray = await csv().fromFile(file.path);
+
+        for(let i=0;i<objArray.length;i++){
+            let subParams = {
+                opUser:params.userId,
+                categoryName : objArray[i].商品分类名称,
+                remark : objArray[i].备注,
+            }
+            const rows = await categoryDAO.addCategory(subParams);
+        }
+
+        fs.unlink(file.path, function() {});
+        failedCase=objArray.length-successedInsert;
+        logger.info(' uploadCategoryFile ' + 'success');
+        resUtil.resetQueryRes(res, {successedInsert:successedInsert,failedCase:failedCase},null);
+        return next();
+
+    }catch (e) {
+        logger.error(" uploadCategoryFile error ",e.stack);
         resUtil.resInternalError(e,res,next);
     }
 }
@@ -103,6 +134,7 @@ const deleteCategory = async (req,res,next)=>{
 module.exports = {
     queryCategory,
     addCategory,
+    uploadCategoryFile,
     updateCategory,
     updateStatus,
     deleteCategory

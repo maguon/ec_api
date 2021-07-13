@@ -123,6 +123,7 @@ const createServer=()=>{
      */
     server.get('/api/user/:userId/category', category.queryCategory);
     server.post({path:'/api/user/:userId/category',contentType: 'application/json'}, category.addCategory);
+    server.post({path:'/api/user/:userId/categoryFile',contentType: 'application/json'}, category.uploadCategoryFile);
     server.put({path:'/api/user/:userId/category/:categoryId',contentType: 'application/json'} ,category.updateCategory);
     server.put({path:'/api/user/:userId/category/:categoryId/status',contentType: 'application/json'} ,category.updateStatus);
     server.del({path:'/api/user/:userId/category/:categoryId',contentType: 'application/json'},category.deleteCategory);

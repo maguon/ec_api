@@ -67,10 +67,9 @@ class CategoryDAO  {
     }
 
     static async addCategory(params) {
-        const query = 'INSERT INTO category_info (status , op_user , remark , category_name ) ' +
-            ' VALUES (${status} , ${opUser} , ${remark} , ${categoryName} ) RETURNING id ';
+        const query = 'INSERT INTO category_info ( op_user , remark , category_name ) ' +
+            ' VALUES ( ${opUser} , ${remark} , ${categoryName} ) RETURNING id ';
         let valueObj = {};
-        valueObj.status = params.status;
         valueObj.opUser = params.opUser;
         valueObj.remark = params.remark;
         valueObj.categoryName = params.categoryName;
