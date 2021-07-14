@@ -116,7 +116,7 @@ const updatePassword = async (req,res,next)=>{
     }
     try{
         const userInfo = await userDAO.queryUser({
-            userId:params.userId, password:encrypt.encryptByMd5NoKey(params.originPassword)});
+            id:params.userId, password:encrypt.encryptByMd5NoKey(params.originPassword)});
         if(userInfo && userInfo.length<1){
             logger.warn(' updatePassword ' + params.userId + sysMsg.CUST_LOGIN_USER_PSWD_ERROR);
             resUtil.resetFailedRes(res,{message:sysMsg.CUST_LOGIN_USER_PSWD_ERROR});
