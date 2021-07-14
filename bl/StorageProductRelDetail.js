@@ -172,7 +172,6 @@ function stroageTypeConst(storageSubType){
     return returnMsg;
 }
 
-
 const addStorageProductRelDetail = async (req,res,next)=>{
     let params = req.body;
     let path = req.params;

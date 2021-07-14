@@ -2480,6 +2480,13 @@
             "type": "integer"
           },
           {
+            "name": "reUser",
+            "in": "query",
+            "description": "reUser",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "storageProductRelDetailId",
             "in": "query",
             "description": "storageProductRelDetailId",
