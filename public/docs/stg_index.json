@@ -2414,6 +2414,52 @@
         }
       }
     },
+    "/user/{userId}/storageProductRel/{storageProductRelId}/storageMove": {
+      "put": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Finds storageProductRel  storageMove and update",
+        "description": "update storageProductRel storageMove",
+        "operationId": "update storageProductRel storageMove by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageProductRelId",
+            "in": "path",
+            "description": "storageProductRel unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageMoveInfo",
+            "in": "body",
+            "description": "storageProductRel object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/storageMoveInfo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
 
     "/user/{userId}/storageProductRelDetail": {
       "get": {
@@ -6657,6 +6703,35 @@
       },
       "xml": {
         "name": "storageProductRelPut"
+      }
+    },
+    "storageMoveInfo": {
+      "type": "object",
+      "required": [
+        "remark",
+        "moveCount",
+        "moveStorageId",
+        "moveStorageAreaId"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "moveCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "moveStorageId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "moveStorageAreaId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "storageMoveInfo"
       }
     },
     "StorageProductRelDetail": {

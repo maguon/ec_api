@@ -153,6 +153,7 @@ const createServer=()=>{
     server.get('/api/user/:userId/storageProductRel.csv', storageProductRel.queryStorageProductRelCsv);
     server.post({path:'/api/user/:userId/storage/:storageId/product/:productId/storageProductRel',contentType: 'application/json'}, storageProductRel.addStorageProductRel);
     server.put({path:'/api/user/:userId/storageProductRel/:storageProductRelId',contentType: 'application/json'} ,storageProductRel.updateStorageProductRel);
+    server.put({path:'/api/user/:userId/storageProductRel/:storageProductRelId/storageMove',contentType: 'application/json'} ,storageProductRel.updateStorageMove);
 
     server.get('/api/user/:userId/storageProductRelDetail', storageProductRelDetail.queryStorageProductRelDetail);
     server.get('/api/user/:userId/storageProductRelDetail.csv', storageProductRelDetail.queryStorageProductRelDetailCsv);

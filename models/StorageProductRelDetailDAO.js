@@ -171,7 +171,7 @@ class StorageProductRelDetailDAO  {
         return await pgDb.any(query,valueObj);
     }
 
-    // 根据 purchase_item 查询结果，创建信息
+    // 根据 purchase_item 查询结果，创建信息 (完成采购)
     static async addStorageProductRelDetailByPuerchaseItem(params) {
         const query = 'INSERT INTO storage_product_rel_detail (op_user , storage_id , storage_area_id , ' +
             ' storage_product_rel_id , supplier_id , product_id , purchase_id , purchase_item_id , storage_type , ' +
@@ -197,7 +197,7 @@ class StorageProductRelDetailDAO  {
         return await pgDb.any(query,valueObj);
     }
 
-    // 根据 storage_product_rel 查询结果，创建信息
+    // 根据 storage_product_rel 查询结果，创建信息 (退货)
     static async addStorageProductRelDetailByStorageProductRel(params) {
         const query = 'INSERT INTO storage_product_rel_detail (op_user , remark , storage_id , storage_area_id , ' +
             ' storage_product_rel_id , supplier_id , product_id , purchase_id , purchase_item_id , storage_type , ' +
@@ -222,7 +222,29 @@ class StorageProductRelDetailDAO  {
         return await pgDb.any(query,valueObj);
     }
 
-    // 根据 storage_check 查询结果，创建信息
+    // 根据 storage_product_rel 查询结果，创建信息 (移库)
+    static async addStorageProductRelDetailByMove(params) {
+        const query = 'INSERT INTO storage_product_rel_detail (op_user , remark , storage_id , storage_area_id , ' +
+            ' storage_product_rel_id , supplier_id , product_id , purchase_id , purchase_item_id , storage_type , ' +
+            ' storage_sub_type , storage_count , date_id , order_id ) ' +
+            ' ( select ${opUser} , ${remark} , spr.storage_id , spr.storage_area_id , spr.id , spr.supplier_id , ' +
+            ' spr.product_id , spr.purchase_id , spr.purchase_item_id , ${storageType} , ${storageSubType} , ' +
+            ' ${moveCount} , ${dateId} , spr.order_id ' +
+            ' from storage_product_rel spr ' +
+            ' where spr.id is not null  and spr.id = ${storageProductRelId} order by spr.id desc ) RETURNING id ';
+        let valueObj = {};
+        valueObj.opUser = params.opUser;
+        valueObj.remark = params.remark;
+        valueObj.storageType = params.storageType;
+        valueObj.storageSubType = params.storageSubType;
+        valueObj.moveCount = params.moveCount;
+        valueObj.dateId = params.dateId;
+        valueObj.storageProductRelId = params.storageProductRelId;
+        logger.debug(' addStorageProductRelDetailByMove ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    // 根据 storage_check 查询结果，创建信息 (盘库)
     static async addStorageProductRelDetailByStorageCheck(params) {
         const query = 'INSERT INTO storage_product_rel_detail (op_user , storage_id , storage_area_id , ' +
             ' storage_product_rel_id , supplier_id , product_id , purchase_id , purchase_item_id , storage_type , ' +

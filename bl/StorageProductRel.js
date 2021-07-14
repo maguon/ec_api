@@ -152,6 +152,52 @@ const updateStorageProductRel = async (req,res,next)=>{
 
 }
 
+const updateStorageMove = async (req,res,next)=>{
+    let params = req.body;
+    let path = req.params;
+    if(path.userId){
+        params.opUser = path.userId;
+    }
+    if(path.storageProductRelId){
+        params.storageProductRelId = path.storageProductRelId;
+    }
+    let today = new Date();
+    let date = moment(today).format('YYYYMMDD');
+    params.dateId = date;
+    try{
+
+        //更新 storage_product_rel 原库存量
+        const rows = await storageProductRelDAO.updateStorageCountByMove(params);
+        logger.info(' updateStorageMove ' + 'success');
+
+        if(rows.length <=0){
+            resUtil.resetFailedRes(res,{message:'移库失败！'});
+            return next();
+        }
+        params.storageType = sysConst.storageType.export;
+        params.storageSubType = sysConst.storageExportType.storageMoveExport;
+        //创建 storage_product_detail 出库
+        const rowsAddExportDetail = await storageProductRelDetailDAO.addStorageProductRelDetailByMove(params);
+
+
+        //创建 storage_product_rel 入库
+        const rowsAddRel = await storageProductRelDAO.addStorageProductRelByMove(params);
+
+        params.storageType = sysConst.storageType.import;
+        params.storageSubType = sysConst.storageImportType.storageMoveImport;
+        params.storageProductRelId = rowsAddRel[0].id;
+        //创建 storage_product_detail 入库
+        const rowsAddDetail = await storageProductRelDetailDAO.addStorageProductRelDetailByMove(params);
+
+        resUtil.resetUpdateRes(res,rows);
+        return next();
+    }catch (e) {
+        logger.error(" updateStorageMove error ",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+
+}
+
 const queryStat = async (req,res,next)=>{
     let query = req.query;
     try{
@@ -170,5 +216,6 @@ module.exports = {
     queryStorageProductRelCsv,
     addStorageProductRel,
     updateStorageProductRel,
+    updateStorageMove,
     queryStat
 }

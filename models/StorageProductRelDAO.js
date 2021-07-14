@@ -179,6 +179,28 @@ class StorageProductRelDAO  {
         return await pgDb.any(query,valueObj);
     }
 
+    //  根据  storage_product_rel 查询结果，创建信息 (移库)
+    static async addStorageProductRelByMove(params) {
+        const query = 'INSERT INTO storage_product_rel ( op_user , remark , storage_id , storage_area_id , ' +
+            ' supplier_id , product_id , product_name , purchase_id , purchase_item_id , unit_cost , storage_count , ' +
+            ' date_id , order_id ) ' +
+            ' ( SELECT ${opUser} , ${remark} , ${storageId} , ${storageAreaId} , ' +
+            ' sprs.supplier_id , sprs.product_id , sprs.product_name , sprs.purchase_id , ' +
+            ' sprs.purchase_item_id , sprs.unit_cost , ${moveCount} , ${dateId} , sprs.order_id ' +
+            ' FROM storage_product_rel sprs ' +
+            ' WHERE sprs.id is not null and sprs.id = ${storageProductRelId}) RETURNING id ';
+        let valueObj = {};
+        valueObj.opUser = params.opUser;
+        valueObj.remark = params.remark;
+        valueObj.storageId = params.moveStorageId;
+        valueObj.storageAreaId = params.moveStorageAreaId;
+        valueObj.moveCount = params.moveCount;
+        valueObj.dateId = params.dateId;
+        valueObj.storageProductRelId = params.storageProductRelId;
+        logger.debug(' addStorageProductRelByMove ');
+        return await pgDb.any(query,valueObj);
+    }
+
     static async updateStorageProductRel(params){
         const query = 'update storage_product_rel set op_user=${opUser} , remark=${remark} ' +
             ' where id =${storageProductRelId} RETURNING id ';
@@ -223,6 +245,20 @@ class StorageProductRelDAO  {
 
         let valueObj = {};
         valueObj.refundCount = params.refundCount;
+        valueObj.storageProductRelId = params.storageProductRelId;
+        valueObj.refundCount = params.refundCount;
+        logger.debug(' updateStorageCountByRefund ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    //判断 移库数量 是否可以移库
+    static async updateStorageCountByMove(params){
+        const query = 'update storage_product_rel ' +
+            ' set storage_count =  storage_count - ${moveCount} ' +
+            ' where id = ${storageProductRelId} and (storage_count - ${moveCount}) >=0 RETURNING id ';
+
+        let valueObj = {};
+        valueObj.moveCount = params.moveCount;
         valueObj.storageProductRelId = params.storageProductRelId;
         valueObj.refundCount = params.refundCount;
         logger.debug(' updateStorageCountByRefund ');
