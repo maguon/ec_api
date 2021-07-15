@@ -5075,7 +5075,7 @@
             "in": "query",
             "description": "status",
             "required": false,
-            "type": "integer"
+            "type": "string"
           },
           {
             "in": "query",

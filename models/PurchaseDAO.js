@@ -365,8 +365,7 @@ class PurchaseDAO  {
             " where pi.id is not null";
         let filterObj = {};
         if(params.status){
-            query += " and pi.status = ${status} ";
-            filterObj.status = params.status;
+            query += " and pi.status in (" + params.status + ")";
         }
         if(params.supplierId){
             query += " and pi.supplier_id = ${supplierId} ";
