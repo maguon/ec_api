@@ -58,6 +58,9 @@ const uploadCategoryFile = async (req,res,next)=>{
                 remark : objArray[i].备注,
             }
             const rows = await categoryDAO.addCategory(subParams);
+            if(rows.length >=1){
+                successedInsert = successedInsert + rows.length;
+            }
         }
 
         fs.unlink(file.path, function() {});
