@@ -54,7 +54,7 @@ const uploadCategoryFile = async (req,res,next)=>{
         for(let i=0;i<objArray.length;i++){
             let subParams = {
                 opUser:params.userId,
-                categoryName : objArray[i].商品分类名称,
+                categoryName : objArray[i].分类名称,
                 remark : objArray[i].备注,
             }
             const rows = await categoryDAO.addCategory(subParams);
