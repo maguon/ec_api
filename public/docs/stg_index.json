@@ -7424,6 +7424,7 @@
       "type": "object",
       "required": [
         "remark",
+        "name",
         "clientType",
         "tel",
         "address",
@@ -7433,6 +7434,9 @@
       ],
       "properties": {
         "remark": {
+          "type": "string"
+        },
+        "name": {
           "type": "string"
         },
         "clientType": {

@@ -86,14 +86,15 @@ class ClientAgentDAO  {
     }
 
     static async addClientAgent(params) {
-        const query = 'INSERT INTO client_agent (status , op_user , remark , client_type , tel , ' +
+        const query = 'INSERT INTO client_agent (status , op_user , remark , name , client_type , tel , ' +
             ' address , id_serial , date_id , sales_user_id , source_type ) ' +
-            ' VALUES (${status} , ${opUser} , ${remark} , ${clientType} , ${tel} , ${address} ,' +
+            ' VALUES (${status} , ${opUser} , ${remark} ,  ${name} , ${clientType} , ${tel} , ${address} ,' +
             ' ${idSerial} , ${dateId} , ${salesUserId} , ${sourceType} ) RETURNING id ';
         let valueObj = {};
         valueObj.status = params.status;
         valueObj.opUser = params.opUser;
         valueObj.remark = params.remark;
+        valueObj.name = params.name;
         valueObj.clientType = params.clientType;
         valueObj.tel = params.tel;
         valueObj.address = params.address;
@@ -107,12 +108,13 @@ class ClientAgentDAO  {
 
     static async updateClientAgent(params){
         const query = 'update client_agent set op_user = ${opUser} , remark = ${remark} , ' +
-            ' client_type = ${clientType} , tel = ${tel} , address = ${address} , ' +
+            ' name = ${name} , client_type = ${clientType} , tel = ${tel} , address = ${address} , ' +
             ' id_serial = ${idSerial} , sales_user_id = ${salesUserId} , source_type = ${sourceType}' +
             ' where id =${clientAgentId} RETURNING id ';
         let valueObj = {};
         valueObj.opUser = params.opUser;
         valueObj.remark = params.remark;
+        valueObj.name = params.name;
         valueObj.clientType = params.clientType;
         valueObj.tel = params.tel;
         valueObj.address = params.address;
