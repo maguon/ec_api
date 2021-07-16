@@ -468,6 +468,7 @@ CREATE TABLE IF NOT EXISTS public.client_agent
     "status" smallint NOT NULL DEFAULT 1,
     "op_user" smallint NOT NULL DEFAULT 1,
     "remark" character varying(200),
+    "name" character varying(200) NOT NULL,
     "client_type" smallint NOT NULL DEFAULT 0,
     "tel" character varying(20),
     "address" character varying(50),
