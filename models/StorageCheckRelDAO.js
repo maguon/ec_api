@@ -105,14 +105,13 @@ class StorageCheckRelDAO  {
     }
 
     static async addStorageCheckRel(params) {
-        let query = 'INSERT INTO storage_check_rel ( status , check_status , op_user , ' +
+        let query = 'INSERT INTO storage_check_rel ( check_status , op_user , ' +
             ' remark , storage_check_id , date_id , storage_count , check_count , storage_product_rel_id ,' +
             ' storage_id , storage_area_id , product_id ) ' +
             ' VALUES ( ${status} , ${checkStatus}  , ${opUser} , ${remark} , ${storageCheckId} , ${dateId} ,  ' +
             ' ${storageCount} , ${checkCount} , ${storageProductRelId} , ${storageId} , ${storageAreaId} , ' +
             ' ${productId} ) ';
         let valueObj = {};
-        valueObj.status = params.status;
         valueObj.checkStatus = params.checkStatus;
         valueObj.opUser = params.opUser;
         valueObj.remark = params.remark;
