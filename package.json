@@ -8,6 +8,7 @@
     "log4js": "6.3.0",
     "md5-node": "^1.0.1",
     "moment": "2.29.1",
+    "node-fetch": "^2.6.1",
     "pg-promise": "10.10.2",
     "posix-getopt": "1.2.0",
     "restify": "8.5.1",

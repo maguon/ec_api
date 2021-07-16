@@ -2,12 +2,22 @@
 const http = require('http');
 const https = require('https');
 const qs = require('querystring');
+const fetch = require('node-fetch');
 
 const httpGet = (host,url,req,params,callback) => {
     if(params !=null){
         url = url + "?" + qs.stringify(params);
     }
     httpRequest(host,url,req,{},callback,'get');
+}
+
+const httpAsyncGet = (url) => {
+    return fetch(url, {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    }).then( (response) => response.json())
 }
 
 const httpRequest = (host,url,req,params,callback,method) => {
@@ -85,6 +95,19 @@ const httpPost = (host,url,req,params,callback) => {
     httpRequest(host,url,req,params,callback,'post');
 }
 
+const httpAsyncPost = (url,params) => {
+    let paramStr = JSON.stringify(params);
+    return fetch(url, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+            'Content-Length' : Buffer.byteLength(paramStr, 'utf8')
+        },
+        body:paramStr
+    }).then( (response) => response.json())
+
+}
+
 const httpPut = (host,url,req,params,callback) => {
     httpRequest(host,url,req,params,callback,'put');
 }
@@ -100,4 +123,12 @@ const httpsGet = (host,port,url,params,callback) => {
     httpsRequest(host,port,url,{},callback,'get');
 }
 
-module.exports ={ httpGet ,httpPost,httpPut ,httpDelete ,httpsGet }
+module.exports ={
+    httpGet,
+    httpPost,
+    httpPut,
+    httpDelete,
+    httpsGet,
+    httpAsyncGet,
+    httpAsyncPost
+}

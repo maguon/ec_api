@@ -143,6 +143,16 @@ class UserDAO  {
         return await pgDb.any(query,valueObj);
     }
 
+    static async updatePhone(params){
+        const query = 'update user_info set phone= ${phone} ' +
+            'where id =${userId} RETURNING id ';
+        let valueObj = {};
+        valueObj.phone = params.phone;
+        valueObj.userId =params.userId;
+        logger.debug(' updatePhone ');
+        return await pgDb.any(query,valueObj);
+    }
+
     static async updateType(params){
         const query = 'update user_info set type= ${type} ' +
             'where id =${userId} RETURNING id ';

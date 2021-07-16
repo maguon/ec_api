@@ -133,6 +133,39 @@
         }
       }
     },
+    "/phone/{phone}/changePhoneSms": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "send reg phone changePhoneSms（更换手机号）",
+        "description": "Send reg phone changePhoneSms",
+        "operationId": "send Reg Phone changePhoneSms",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "phone",
+            "in": "path",
+            "description": "user phone",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
     "/user/{userId}/user": {
       "post": {
         "tags": [
@@ -404,6 +437,50 @@
               "type": "object",
               "items": {
                 "$ref": "#/definitions/Password"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
+    "/phone/{phone}/changePhone": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "reset user changePhone（根据电话验证码，更新手机号）",
+        "description": "reset update changePhone",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "phone",
+            "in": "path",
+            "description": "user phone",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "changePhone",
+            "in": "body",
+            "description": "user info",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PhoneAndCode"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/PhoneAndCode"
               }
             }
           },
@@ -6428,6 +6505,24 @@
       },
       "xml": {
         "name": "PasswordAndCode"
+      }
+    },
+    "PhoneAndCode": {
+      "type": "object",
+      "required": [
+        "code",
+        "newPhone"
+      ],
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "newPhone": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "PhoneAndCode"
       }
     },
     "UserMenuList": {

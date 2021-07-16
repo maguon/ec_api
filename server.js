@@ -87,6 +87,7 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId',contentType: 'application/json'} ,user.updateUser);
     server.put({path:'/api/user/:userId/password',contentType: 'application/json'} ,user.updatePassword);
     server.put({path:'/api/phone/:phone/password',contentType: 'application/json'},user.updatePasswordByPhone);
+    server.put({path:'/api/phone/:phone/changePhone',contentType: 'application/json'},user.updatePhone);
     server.put({path:'/api/user/:userId/type',contentType: 'application/json'} ,user.updateType);
     server.put({path:'/api/user/:userId/status',contentType: 'application/json'} ,user.updateStatus);
 
@@ -94,6 +95,7 @@ const createServer=()=>{
      * SMS Module
      */
     server.post({path:'/api/phone/:phone/passwordSms',contentType: 'application/json'},sms.passwordSms);
+    server.post({path:'/api/phone/:phone/changePhoneSms',contentType: 'application/json'},sms.changePhoneSms);
 
     /**
      * UserTypeMenu Module

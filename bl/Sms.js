@@ -69,7 +69,7 @@ const sendSms = (params, callback) =>{
     httpSend(msg, callback);
 }
 
-//验证用户存在，发送验证码
+//验证用户存在，存在 发送验证码
 const passwordSms = async (req,res,next)=>{
     let path = req.params;
 
@@ -81,28 +81,26 @@ const passwordSms = async (req,res,next)=>{
         if(rows.length >= 1){
             //存在用户，发送验证码
             let captcha = encrypt.getSmsRandomKey();
-            await oauthUtil.saveUserPhoneCode({phone:path.phone,code:captcha},function(error,result){
-                if (error) {
-                    resUtil.resetFailedRes(res,{message:'验证码发送失败！'});
-                    logger.info(' passwordSms saveUserPhoneCode failure');
-                    return next();
-                } else {
-                    logger.info(' passwordSms saveUserPhoneCodes success');
+            const saveAsyncPhontCode = await oauthUtil.saveUserPhoneCode({phone:path.phone,code:captcha});
+            logger.info(' passwordSms saveUserPhoneCode failure');
 
-                }
-            });
-
-            await sendSms({phone:path.phone,captcha:captcha,templateId:index.smsOptions.signTemplateId},function(error,result){
-                if (error) {
-                    resUtil.resetFailedRes(res,{message:'验证码发送失败！'});
-                    logger.info(' passwordSms sendSms failure');
-                    return next();
-                } else {
-                    logger.info(' passwordSms sendSms success');
-                    resUtil.resetUpdateRes(res,{id:1});
-                    return next();
-                }
-            });
+            if(saveAsyncPhontCode.success == true){
+                sendSms({phone:path.phone,captcha:captcha,templateId:index.smsOptions.signTemplateId},function(error,result){
+                    if (error) {
+                        resUtil.resetFailedRes(res,{message:'验证码发送失败！'});
+                        logger.info(' passwordSms sendSms failure');
+                        return next();
+                    } else {
+                        logger.info(' passwordSms sendSms success');
+                        resUtil.resetUpdateRes(res,{id:1});
+                        return next();
+                    }
+                });
+            }else{
+                resUtil.resetFailedRes(res,{message:'验证码保存失败！'});
+                logger.info(' passwordSms sendSms failure');
+                return next();
+            }
 
         }else{
             //不存在，返回提示
@@ -119,7 +117,57 @@ const passwordSms = async (req,res,next)=>{
 
 }
 
+//验证用户存在，不存在 发送验证码
+const changePhoneSms = async (req,res,next)=>{
+    let path = req.params;
+
+    try{
+        //查询是否存在用户
+        const rows = await userDAO.queryUser({phone:path.phone});
+        logger.info(' changePhoneSms queryUser success');
+
+        if(rows.length >= 1){
+
+            //存在，返回提示
+            resUtil.resetFailedRes(res,{message:'该用户已存在！'});
+            logger.info(' changePhoneSms sendSms ' + ' phone already exist!');
+            return next();
+
+        }else{
+
+            //不存在用户，发送验证码
+            let captcha = encrypt.getSmsRandomKey();
+            const saveAsyncPhontCode = await oauthUtil.saveUserPhoneCode({phone:path.phone,code:captcha});
+
+            if(saveAsyncPhontCode.success == true){
+                sendSms({phone:path.phone,captcha:captcha,templateId:index.smsOptions.signTemplateId},function(error,result){
+                    if (error) {
+                        resUtil.resetFailedRes(res,{message:'验证码发送失败！'});
+                        logger.info(' changePhoneSms sendSms failure');
+                        return next();
+                    } else {
+                        logger.info(' changePhoneSms sendSms success');
+                        resUtil.resetUpdateRes(res,{id:1});
+                        return next();
+                    }
+                });
+            }else{
+                resUtil.resetFailedRes(res,{message:'验证码保存失败！'});
+                logger.info(' changePhoneSms sendSms failure');
+                return next();
+            }
+        }
+
+    }catch (e) {
+        logger.error(" changePhoneSms error ",e.stack);
+        resUtil.resInternalError(e,res,next);
+        return next();
+    }
+
+}
+
 
 module.exports = {
-    passwordSms
+    passwordSms,
+    changePhoneSms
 }

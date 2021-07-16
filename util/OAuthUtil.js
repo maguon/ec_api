@@ -73,16 +73,24 @@ const getCookie=(cookie ,name)=>
         return null;
 }
 
-const saveUserPhoneCode=(params,callback)=>{
-    httpUtil.httpPost(config.hosts.auth,'/api/'+params.phone+"/signCode",{},params,(error,result)=>{
-        callback(error,result)
-    })
+const saveUserPhoneCode = async (params)=>{
+    try{
+        let url = config.hosts.auth.host + ':' +  config.hosts.auth.port+'/api/'+params.phone+"/signCode";
+        const result = await httpUtil.httpAsyncPost(url,params);
+        return result;
+    }catch(e){
+        return e;
+    }
 }
 
-const getUserPhoneCode=(params,callback)=>{
-    httpUtil.httpGet(config.hosts.auth,'/api/'+params.phone+"/signCode",{},{},(error,result)=>{
-        callback(error,result)
-    })
+const getUserPhoneCode = async (params)=>{
+    try{
+        let url = config.hosts.auth.host + ':' +  config.hosts.auth.port+'/api/'+params.phone+"/signCode";
+        const result = await httpUtil.httpAsyncGet(url);
+        return result;
+    }catch(e){
+        return e;
+    }
 }
 
 const sendCaptcha=(params,callback)=>{

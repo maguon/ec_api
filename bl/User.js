@@ -134,6 +134,7 @@ const updatePassword = async (req,res,next)=>{
     }
 }
 
+//根据手机验证码，更换秘密
 const updatePasswordByPhone = async (req,res,next)=>{
     let params = req.body;
     let path = req.params;
@@ -143,22 +144,15 @@ const updatePasswordByPhone = async (req,res,next)=>{
 
     try{
         //判断验证码是否正确
-        await oAuthUtil.getUserPhoneCode({phone:params.phone},function(error,rows){
-            if (error) {
-                resUtil.resetFailedRes(res,{message:'验证码获取失败！'});
-                logger.info(' updatePasswordByPhone getUserPhoneCode failure');
-                return next();
-            } else {
-                logger.info(' updatePasswordByPhone getUserPhoneCode success');
-                if(rows && rows.result.code != params.code ){
-                    logger.info('updatePasswordByPhone getCode ' + 'Verification code error!');
-                    resUtil.resetFailedRes(res, {message:'验证码错误！'} );
-                    return next();
-                }else{
-                    logger.info('updatePasswordByPhone getCode '+'success');
-                }
-            }
-        });
+        const phoneCodeRes = await oAuthUtil.getUserPhoneCode({phone:params.phone});
+
+        if(phoneCodeRes && phoneCodeRes.result.code != params.code ){
+            logger.info('updatePasswordByPhone getUserPhoneCode ' + 'Verification code error!');
+            resUtil.resetFailedRes(res, {message:'验证码错误！'} );
+            return next();
+        }else{
+            logger.info('updatePasswordByPhone getUserPhoneCode '+'success');
+        }
 
         //判断该用户是否存在
         const rows = await userDAO.queryUser({phone:params.phone});
@@ -177,8 +171,52 @@ const updatePasswordByPhone = async (req,res,next)=>{
             return next();
         }
 
+
     }catch (e) {
         logger.error(" updatePasswordByPhone error ",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
+//根据手机验证码，更换新手机号
+const updatePhone = async (req,res,next)=>{
+    let params = req.body;
+    let path = req.params;
+    if(path.phone ){
+        params.phone  = path.phone ;
+    }
+    try{
+
+        //判断验证码是否正确
+        const phoneCodeRes = await oAuthUtil.getUserPhoneCode({phone:params.newPhone});
+
+        if(phoneCodeRes && phoneCodeRes.result.code != params.code ){
+            logger.info('updatePhone getUserPhoneCode ' + 'Verification code error!');
+            resUtil.resetFailedRes(res, {message:'验证码错误！'} );
+            return next();
+        }else{
+            logger.info('updatePhone getUserPhoneCode '+'success');
+        }
+
+        //判断该用户是否存在
+        const rows = await userDAO.queryUser({phone:params.phone});
+        logger.info(' updatePhone queryUser success');
+        if(rows.length >= 1){
+            //存在更改手机号
+            const rowsUpdate = await userDAO.updatePhone({
+                userId:rows[0].id, phone:params.newPhone});
+            logger.info(' updatePhone queryUser ' + 'success');
+            resUtil.resetUpdateRes(res,rowsUpdate);
+            return next();
+        }else{
+            //不存在返回错误信息
+            logger.warn(' updatePhone queryUser ' + params.phone + ' 用户不存在！');
+            resUtil.resetFailedRes(res,{message:' 用户不存在！'});
+            return next();
+        }
+
+    }catch (e) {
+        logger.error(" updatePhone error ",e.stack);
         resUtil.resInternalError(e,res,next);
     }
 }
@@ -225,6 +263,7 @@ module.exports = {
     updateUser,
     updatePassword,
     updatePasswordByPhone,
+    updatePhone,
     updateType,
     updateStatus
 }
