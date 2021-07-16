@@ -24,6 +24,11 @@ const userLogin = async (req,res,next)=>{
                 status : rows[0].status,
                 type: rows[0].type
             }
+            if(rows[0].status == sysConst.status.unusable){
+                logger.info(' userLogin status ' + 'unusable!');
+                resUtil.resetFailedRes(res,{message:'该用户已停用！'});
+                return next();
+            }
             userInfo.accessToken = oAuthUtil.createAccessToken(oAuthUtil.clientType.user,userInfo.userId,userInfo.status);
             oAuthUtil.saveToken(userInfo,function(error,result){
                 if(error){
