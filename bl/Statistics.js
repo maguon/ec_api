@@ -19,6 +19,20 @@ const queryPurchaseStatByMonth = async (req,res,next)=>{
     }
 }
 
+const queryPurchaseStatByDay = async (req,res,next)=>{
+    let query = req.query;
+    try{
+        const rows = await statisticsDAO.queryPurchaseStatByDay(query);
+        logger.info(' queryPurchaseStatByDay ' + 'success');
+        resUtil.resetQueryRes(res,rows,1);
+        return next();
+    }catch (e) {
+        logger.error(" queryPurchaseStatByDay error",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 module.exports = {
-    queryPurchaseStatByMonth
+    queryPurchaseStatByMonth,
+    queryPurchaseStatByDay
 }

@@ -6400,20 +6400,63 @@
             "type": "integer"
           },
           {
-            "name": "monthStart",
+            "name": "status",
             "in": "query",
-            "description": "month start",
+            "description": "status",
             "required": false,
-            "type": "integer"
-
+            "type": "string"
           },
           {
-            "name": "monthEnd",
             "in": "query",
-            "description": "month end",
+            "name": "start",
             "required": false,
             "type": "integer"
-
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/statPurchaseByDay": {
+      "get": {
+        "tags": [
+          "statistics"
+        ],
+        "summary": "Select statPurchaseByDay",
+        "description": "Get statPurchaseByDay",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageStatus",
+            "in": "query",
+            "description": "storageStatus",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "paymentStatus",
+            "in": "query",
+            "description": "paymentStatus",
+            "required": false,
+            "type": "integer"
           },
           {
             "name": "status",

@@ -257,6 +257,7 @@ const createServer=()=>{
      * Statistics Module
      */
     server.get('/api/user/:userId/statPurchaseByMonth', statistics.queryPurchaseStatByMonth);
+    server.get('/api/user/:userId/statPurchaseByDay', statistics.queryPurchaseStatByDay);
 
 
 
