@@ -29,6 +29,7 @@ const clientAgent = require('./bl/ClientAgent');
 const clientAgentInvoice = require('./bl/ClientAgentInvoice');
 const saleService = require('./bl/SaleService');
 const saleServiceProdRel = require('./bl/SaleServiceProdRel');
+const statistics = require('./bl/Statistics');
 
 
 const createServer=()=>{
@@ -251,6 +252,12 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/app/:appId',contentType: 'application/json'} ,app.updateApp);
     server.put({path:'/api/user/:userId/app/:appId/status',contentType: 'application/json'} ,app.updateStatus);
     server.del({path:'/api/user/:userId/app/:appId',contentType: 'application/json'},app.deleteApp);
+
+    /**
+     * Statistics Module
+     */
+    server.get('/api/user/:userId/statPurchaseByMonth', statistics.queryPurchaseStatByMonth);
+
 
 
     server.on('NotFound', function (req, res ,err,next) {

@@ -58,7 +58,10 @@
     {
       "name": "app",
       "description": "app version"
-
+    },
+    {
+      "name": "statistics",
+      "description": "statistics version"
     }
   ],
   "schemes": [
@@ -6359,6 +6362,82 @@
           },
           "400": {
             "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
+    "/user/{userId}/statPurchaseByMonth": {
+      "get": {
+        "tags": [
+          "statistics"
+        ],
+        "summary": "Select statPurchaseByMonth",
+        "description": "Get statPurchaseByMonth",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageStatus",
+            "in": "query",
+            "description": "storageStatus",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "paymentStatus",
+            "in": "query",
+            "description": "paymentStatus",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "monthStart",
+            "in": "query",
+            "description": "month start",
+            "required": false,
+            "type": "integer"
+
+          },
+          {
+            "name": "monthEnd",
+            "in": "query",
+            "description": "month end",
+            "required": false,
+            "type": "integer"
+
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
           }
         }
       }
