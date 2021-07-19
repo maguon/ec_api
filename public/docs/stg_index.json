@@ -7417,6 +7417,7 @@
       "required": [
         "storageId",
         "storageAreaId",
+        "storageCount",
         "remark"
       ],
       "properties": {
@@ -7425,6 +7426,10 @@
           "format": "int64"
         },
         "storageAreaId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "storageCount": {
           "type": "integer",
           "format": "int64"
         },

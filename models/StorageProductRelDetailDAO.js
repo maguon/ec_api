@@ -179,16 +179,11 @@ class StorageProductRelDetailDAO  {
 
     // 根据 purchase_item 查询结果，创建信息 (完成采购)
     static async addStorageProductRelDetailByPurchaseItem(params) {
-        const query = 'INSERT INTO storage_product_rel_detail (op_user , storage_id , storage_area_id , ' +
+        let query = 'INSERT INTO storage_product_rel_detail (op_user , storage_id , storage_area_id , ' +
             ' storage_product_rel_id , supplier_id , product_id , purchase_id , purchase_item_id , storage_type , ' +
             ' storage_sub_type , storage_count , date_id , order_id ) ' +
             ' ( select ${opUser} , ${storageId} , ${storageAreaId} , ${storageProductRelId} , pit.supplier_id , pit.product_id , pit.purchase_id, ' +
-            ' pit.id , ${storageType} , ${storageSubType} , pit.purchase_count , ${dateId} , pit.order_id ' +
-            ' from purchase_item pit ' +
-            ' left join user_info ui on ui.id = pit.op_user ' +
-            ' left join supplier_info si on si.id = pit.supplier_id ' +
-            ' where pit.id is not null  and pit.id = ${purchaseItemId} and pit.purchase_id = ${purchaseId} order by pit.id desc ' +
-            ' ) RETURNING id ';
+            ' pit.id , ${storageType} , ${storageSubType} , ' ;
         let valueObj = {};
         valueObj.opUser = params.opUser;
         valueObj.storageId = params.storageId;
@@ -196,6 +191,21 @@ class StorageProductRelDetailDAO  {
         valueObj.storageProductRelId = params.storageProductRelId;
         valueObj.storageType = params.storageType;
         valueObj.storageSubType = params.storageSubType;
+
+        if(params.storageCount == undefined){
+            query =  query + ' pit.purchase_count , ' ;
+        }else{
+            query =  query + ' ${storageCount} , ' ;
+            valueObj.storageCount = params.storageCount;
+        }
+
+        query =  query + ' ${dateId} , pit.order_id ' +
+            ' from purchase_item pit ' +
+            ' left join user_info ui on ui.id = pit.op_user ' +
+            ' left join supplier_info si on si.id = pit.supplier_id ' +
+            ' where pit.id is not null  and pit.id = ${purchaseItemId} and pit.purchase_id = ${purchaseId} order by pit.id desc ' +
+            ' ) RETURNING id ';
+
         valueObj.dateId = params.dateId;
         valueObj.purchaseItemId = params.purchaseItemId;
         valueObj.purchaseId = params.purchaseId;
