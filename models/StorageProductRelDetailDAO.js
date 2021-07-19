@@ -151,6 +151,7 @@ class StorageProductRelDetailDAO  {
         return await pgDb.one(query,filterObj);
     }
 
+    // 根据 storage_product_rel 查询结果，判断是否可以出入库，创建信息 (领料、退料)
     static async addStorageProductRelDetail(params) {
         const query = 'INSERT INTO storage_product_rel_detail (status , op_user , remark , storage_id , storage_area_id , ' +
             ' storage_product_rel_id , supplier_id , product_id , purchase_id , purchase_item_id , storage_type , ' +
