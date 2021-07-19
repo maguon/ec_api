@@ -75,7 +75,7 @@ const updatePurchaseRefund = async (req,res,next)=>{
 
         //计算 refund_profile
         const rowsItem = await purchaseItemDAO.queryPurchaseItem({purchaseItemId:path.purchaseItemId});
-        console.log(' rowsItem[0].unit_cost: ' + rowsItem[0].unit_cost);
+
         console.log(' params.refundUnitCost: ' + params.refundUnitCost);
         console.log(' params.refundCount: ' + params.refundCount);
         console.log(' params.transferCost: ' + params.transferCost);
@@ -85,6 +85,7 @@ const updatePurchaseRefund = async (req,res,next)=>{
         if(rowsItem.length <= 0){
             params.refundProfile = 0 - params.totalCost;
         }else{
+            console.log(' rowsItem[0].unit_cost: ' + rowsItem[0].unit_cost);
             params.refundProfile = ( params.refundUnitCost - rowsItem[0].unit_cost ) * params.refundCount - params.totalCost;
             // params.refundProfile = - rowsItem[0].unit_cost  * params.refundCount + params.transferCost
         }
