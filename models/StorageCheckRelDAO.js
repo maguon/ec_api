@@ -136,6 +136,7 @@ class StorageCheckRelDAO  {
             ' (select ${opUser} , ${remark} , ${storageCheckId} , ${dateId} , spr.storage_count , 0 , spr.id , ' +
             ' spr.storage_id , spr.storage_area_id , spr.product_id ' +
             ' from storage_product_rel spr ' +
+            ' left join product_info pi on pi.id = spr.product_id ' +
             ' where spr.id is not null ';
 
         let valueObj = {};
@@ -168,7 +169,7 @@ class StorageCheckRelDAO  {
             valueObj.brandModelId = params.brandModelId;
         }
         if(params.supplierId){
-            query += " and pi.supplier_id = ${supplierId} ";
+            query += " and spr.supplier_id = ${supplierId} ";
             valueObj.supplierId = params.supplierId;
         }
         query += " ) RETURNING id ";
