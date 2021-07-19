@@ -6995,8 +6995,6 @@
         "storageId",
         "storageAreaId",
         "supplierId",
-        "productId",
-        "productName",
         "purchaseId",
         "purchaseItemId",
         "categoryId",
@@ -7022,13 +7020,6 @@
         "supplierId": {
           "type": "integer",
           "format": "int64"
-        },
-        "productId": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "productName": {
-          "type": "string"
         },
         "purchaseId": {
           "type": "integer",

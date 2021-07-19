@@ -123,9 +123,56 @@ class StorageCheckRelDAO  {
         valueObj.storageId = params.storageId;
         valueObj.storageAreaId = params.storageAreaId;
         valueObj.productId = params.productId;
-
         query += " RETURNING id ";
         logger.debug(' addStorageCheckRel ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    //根据 storage_product_rel 新建 rel
+    static async addStorageCheckRelByProductRel(params) {
+        let query = 'INSERT INTO storage_check_rel (op_user , ' +
+            ' remark , storage_check_id , date_id , storage_count , check_count , storage_product_rel_id ,' +
+            ' storage_id , storage_area_id , product_id ) ' +
+            ' (select ${opUser} , ${remark} , ${storageCheckId} , ${dateId} , spr.storage_count , 0 , spr.id , ' +
+            ' spr.storage_id , spr.storage_area_id , spr.product_id ' +
+            ' from storage_product_rel spr ' +
+            ' where spr.id is not null ';
+
+        let valueObj = {};
+        valueObj.opUser = params.opUser;
+        valueObj.remark = params.remark;
+        valueObj.storageCheckId = params.storageCheckId;
+        valueObj.dateId = params.dateId;
+        if(params.storageId){
+            query += " and spr.storage_id = ${storageId} ";
+            valueObj.storageId = params.storageId;
+        }
+        if(params.storageAreaId){
+            query += " and spr.storage_area_id = ${storageAreaId} ";
+            valueObj.storageAreaId = params.storageAreaId;
+        }
+        if(params.categoryId){
+            query += " and pi.category_id = ${categoryId} ";
+            valueObj.categoryId = params.categoryId;
+        }
+        if(params.categorySubId){
+            query += " and pi.category_sub_id = ${categorySubId} ";
+            valueObj.categorySubId = params.categorySubId;
+        }
+        if(params.brandId){
+            query += " and pi.brand_id = ${brandId} ";
+            valueObj.brandId = params.brandId;
+        }
+        if(params.brandModelId){
+            query += " and pi.brand_model_id = ${brandModelId} ";
+            valueObj.brandModelId = params.brandModelId;
+        }
+        if(params.supplierId){
+            query += " and pi.supplier_id = ${supplierId} ";
+            valueObj.supplierId = params.supplierId;
+        }
+        query += " ) RETURNING id ";
+        logger.debug(' addStorageCheckRelByProductRel ');
         return await pgDb.any(query,valueObj);
     }
 

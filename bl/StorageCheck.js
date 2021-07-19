@@ -37,7 +37,7 @@ const addStorageCheck = async (req,res,next)=>{
 
         params.storageCheckId = rows[0].id;
         //根据条件创建 storage_check_rel
-        const rowsRel = await storageCheckRelDAO.addStorageCheckRel(params);
+        const rowsRel = await storageCheckRelDAO.addStorageCheckRelByProductRel(params);
         logger.info(' addStorageCheck addStorageCheckRel ' + 'success');
 
         //更新计划盘点数量 plan_check_count
