@@ -179,7 +179,7 @@ const updateRefundStorage = async (req,res,next)=>{
         params.dateId = date;
 
         //创建 storage_product_rel_detail
-        const rowsDetail = await  storageProductRelDetailDAO.addStorageProductRelDetailByStorageProductRel(params);
+        const rowsDetail = await  storageProductRelDetailDAO.addStorageProductRelDetailByRefund(params);
         logger.info(' updateRefundStorage rowsDetail ' + 'success');
 
         //更新退款信息

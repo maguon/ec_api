@@ -177,7 +177,7 @@ class StorageProductRelDetailDAO  {
     }
 
     // 根据 purchase_item 查询结果，创建信息 (完成采购)
-    static async addStorageProductRelDetailByPuerchaseItem(params) {
+    static async addStorageProductRelDetailByPurchaseItem(params) {
         const query = 'INSERT INTO storage_product_rel_detail (op_user , storage_id , storage_area_id , ' +
             ' storage_product_rel_id , supplier_id , product_id , purchase_id , purchase_item_id , storage_type , ' +
             ' storage_sub_type , storage_count , date_id , order_id ) ' +
@@ -198,12 +198,12 @@ class StorageProductRelDetailDAO  {
         valueObj.dateId = params.dateId;
         valueObj.purchaseItemId = params.purchaseItemId;
         valueObj.purchaseId = params.purchaseId;
-        logger.debug(' addStorageProductRelDetailByPuerchaseItems ');
+        logger.debug(' addStorageProductRelDetailByPurchaseItem ');
         return await pgDb.any(query,valueObj);
     }
 
     // 根据 storage_product_rel 查询结果，创建信息 (退货)
-    static async addStorageProductRelDetailByStorageProductRel(params) {
+    static async addStorageProductRelDetailByRefund(params) {
         const query = 'INSERT INTO storage_product_rel_detail (op_user , remark , storage_id , storage_area_id , ' +
             ' storage_product_rel_id , supplier_id , product_id , purchase_id , purchase_item_id , storage_type , ' +
             ' storage_sub_type , storage_count , date_id , order_id ) ' +
@@ -223,7 +223,7 @@ class StorageProductRelDetailDAO  {
         valueObj.refundCount = params.refundCount;
         valueObj.dateId = params.dateId;
         valueObj.storageProductRelId = params.storageProductRelId;
-        logger.debug(' addStorageProductRelDetailByStorageProductRel ');
+        logger.debug(' addStorageProductRelDetailByRefund ');
         return await pgDb.any(query,valueObj);
     }
 
@@ -250,7 +250,7 @@ class StorageProductRelDetailDAO  {
     }
 
     // 根据 storage_check 查询结果，创建信息 (盘库)
-    static async addStorageProductRelDetailByStorageCheck(params) {
+    static async addStorageProductRelDetailByCheck(params) {
         const query = 'INSERT INTO storage_product_rel_detail (op_user , storage_id , storage_area_id , ' +
             ' storage_product_rel_id , supplier_id , product_id , purchase_id , purchase_item_id , storage_type , ' +
             ' storage_sub_type , storage_count , date_id , order_id ) ' +
@@ -266,7 +266,7 @@ class StorageProductRelDetailDAO  {
         valueObj.opUser = params.opUser;
         valueObj.dateId = params.dateId;
         valueObj.storageCheckId =params.storageCheckId;
-        logger.debug(' addStorageProductRelDetailByStorageProductRel ');
+        logger.debug(' addStorageProductRelDetailByCheck ');
         return await pgDb.any(query,valueObj);
     }
 

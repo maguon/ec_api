@@ -98,7 +98,7 @@ const updateStatus = async (req,res,next)=>{
             logger.info(' updateStatus updateStorageCountByStorageCheckId ' + 'success');
 
             //添加 storage_product_rel_detail
-            const rowsStrageProductRelDetail = await storageProductRelDetailDAO.addStorageProductRelDetailByStorageCheck(params);
+            const rowsStrageProductRelDetail = await storageProductRelDetailDAO.addStorageProductRelDetailByCheck(params);
             logger.info(' updateStatus addStorageProductRelDetailByStorageCheck ' + 'success');
         }
 

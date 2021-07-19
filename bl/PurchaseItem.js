@@ -104,7 +104,7 @@ const updateStorageStatus = async (req,res,next)=>{
         params.storageSubType = systemConst.storageImportType.purchaseImport;
         params.storageProductRelId = rowsRel[0].id;
         //创建 StorageProductRelDetail
-        const rowsRelDetail = await storageProductRelDetailDAO.addStorageProductRelDetailByPuerchaseItem(params);
+        const rowsRelDetail = await storageProductRelDetailDAO.addStorageProductRelDetailByPurchaseItem(params);
 
         //更新 purchase_info 下所有的都入库了，更新storage_status
         const rowsInfo = await purchaseDAO.updateStorageStatusByItem(params);
