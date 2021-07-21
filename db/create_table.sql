@@ -219,7 +219,7 @@ CREATE TABLE IF NOT EXISTS public.product_info (
     "standard_type" smallint,
     "barcode" character varying(30),
     "unit_name" character varying(10),
-    "price" decimal(10,2),
+    "price" decimal(12,2),
 
     PRIMARY KEY ("id")
 );
@@ -302,9 +302,9 @@ CREATE TABLE IF NOT EXISTS public.purchase_info
     "payment_status" smallint NOT NULL DEFAULT 1,
     "payment_date_id" integer,
     "transfer_cost_type" smallint NOT NULL DEFAULT 1,
-    "transfer_cost" decimal(8,2)  NOT NULL DEFAULT 0,
-    "product_cost" decimal(8,2)  NOT NULL DEFAULT 0,
-    "total_cost" decimal(8,2)  NOT NULL DEFAULT 0,
+    "transfer_cost" decimal(12,2)  NOT NULL DEFAULT 0,
+    "product_cost" decimal(12,2)  NOT NULL DEFAULT 0,
+    "total_cost" decimal(12,2)  NOT NULL DEFAULT 0,
     "order_id" bigint ,
     PRIMARY KEY (id)
 );
@@ -339,9 +339,9 @@ CREATE TABLE IF NOT EXISTS public.purchase_item
     "purchase_id" bigint NOT NULL DEFAULT 0,
     "product_id" smallint NOT NULL DEFAULT 0,
     "product_name" character varying(40),
-    "unit_cost" decimal(8,2)  NOT NULL DEFAULT 0,
+    "unit_cost" decimal(12,2)  NOT NULL DEFAULT 0,
     "purchase_count" smallint  NOT NULL DEFAULT 0,
-    "total_cost" decimal(8,2)  NOT NULL DEFAULT 0,
+    "total_cost" decimal(12,2)  NOT NULL DEFAULT 0,
     "order_id" bigint ,
     PRIMARY KEY (id)
 );
@@ -372,12 +372,12 @@ CREATE TABLE IF NOT EXISTS public.purchase_refund
     "storage_rel_id" bigint,
     "date_id" integer,
     "payment_status" smallint NOT NULL DEFAULT 1,
-    "refund_unit_cost" decimal(8,2)  NOT NULL DEFAULT 0,
+    "refund_unit_cost" decimal(12,2)  NOT NULL DEFAULT 0,
     "refund_count" smallint  NOT NULL DEFAULT 0,
     "transfer_cost_type" smallint NOT NULL DEFAULT 1,
-    "transfer_cost" decimal(8,2)  NOT NULL DEFAULT 0,
-    "total_cost" decimal(8,2)  NOT NULL DEFAULT 0,
-    "refund_profile" decimal(8,2)  NOT NULL DEFAULT 0,
+    "transfer_cost" decimal(12,2)  NOT NULL DEFAULT 0,
+    "total_cost" decimal(12,2)  NOT NULL DEFAULT 0,
+    "refund_profile" decimal(12,2)  NOT NULL DEFAULT 0,
     "order_id" bigint ,
     PRIMARY KEY (id)
 );
@@ -411,7 +411,7 @@ CREATE TABLE IF NOT EXISTS public.storage_product_rel
     "product_name" character varying(50),
     "purchase_id" bigint,
     "purchase_item_id" integer,
-    "unit_cost" decimal(8,2)  NOT NULL DEFAULT 0,
+    "unit_cost" decimal(12,2)  NOT NULL DEFAULT 0,
     "storage_count" smallint NOT NULL DEFAULT 0,
     "date_id" integer ,
     "order_id" bigint ,
@@ -509,6 +509,41 @@ CREATE TABLE IF NOT EXISTS public.client_agent_invoice(
 create trigger client_agent_invoice_upt before update on client_agent_invoice for each row execute procedure update_timestamp_func();
 select setval(' client_agent_invoice_id_seq',10000,false);
 
+--CREATE TABLE client_info
+CREATE TABLE IF NOT EXISTS public.client_info
+(
+    "id" smallserial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1,
+    "op_user" smallint NOT NULL DEFAULT 1,
+    "remark" character varying(200),
+    "name" character varying(20) NOT NULL,
+    "tel" character varying(20),
+    "address" character varying(50),
+    "client_serial" character varying(20),
+    "client_serial_detail" character varying(20),
+    "model_id" smallint ,
+    "model_name" character varying(200),
+    "client_agent_id" smallint ,
+    "date_id" integer ,
+    "refer_user" smallint NOT NULL DEFAULT 1,
+    "source_type" smallint NOT NULL DEFAULT 0,
+
+    PRIMARY KEY (id)
+);
+
+COMMENT ON COLUMN public.client_info.refer_user IS '推荐人';
+COMMENT ON COLUMN public.client_info.client_serial IS '客户序列号：如车牌号';
+COMMENT ON COLUMN public.client_info.client_serial_detail IS '客户详号：如VIN';
+COMMENT ON COLUMN public.client_info.date_id IS '创建日期';
+COMMENT ON COLUMN public.client_info.model_id IS '类型ID';
+COMMENT ON COLUMN public.client_info.model_name IS '类型名称';
+COMMENT ON COLUMN public.client_info.source_type IS '客户来源';
+
+create trigger client_info_upt before update on client_info for each row execute procedure update_timestamp_func();
+select setval(' client_info_id_seq',10000,false);
+
 --CREATE TABLE sale_service_info
 
 CREATE TABLE IF NOT EXISTS public.sale_service_info(
@@ -521,25 +556,25 @@ CREATE TABLE IF NOT EXISTS public.sale_service_info(
     "service_name" character varying(200),
     "service_type" smallint NOT NULL DEFAULT 1 ,
     "service_price_type" smallint NOT NULL DEFAULT 1 ,
-    "fixed_price" decimal(10,2) NOT NULL DEFAULT 0,
-    "unit_price" decimal(10,2) NOT NULL DEFAULT 0,
-    "service_price_count" decimal(10,2) NOT NULL DEFAULT 0,
+    "fixed_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "unit_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "service_price_count" decimal(12,2) NOT NULL DEFAULT 0,
     "service_cost_type" smallint NOT NULL DEFAULT 1 ,
-    "fixed_cost" decimal(10,2) NOT NULL DEFAULT 0,
-    "unit_cost" decimal(10,2) NOT NULL DEFAULT 0,
-    "service_cost_count" decimal(10,2) NOT NULL DEFAULT 0,
-    "total_price" decimal(10,2)NOT NULL DEFAULT 0,
-    "total_cost" decimal(10,2)NOT NULL DEFAULT 0,
-    "total_profit" decimal(10,2)NOT NULL DEFAULT 0,
+    "fixed_cost" decimal(12,2) NOT NULL DEFAULT 0,
+    "unit_cost" decimal(12,2) NOT NULL DEFAULT 0,
+    "service_cost_count" decimal(12,2) NOT NULL DEFAULT 0,
+    "total_price" decimal(12,2)NOT NULL DEFAULT 0,
+    "total_cost" decimal(12,2)NOT NULL DEFAULT 0,
+    "total_profit" decimal(12,2)NOT NULL DEFAULT 0,
     "sale_perf_type" smallint NOT NULL DEFAULT 1 ,
-    "sale_perf_fixed" decimal(10,2) NOT NULL DEFAULT 0,
-    "sale_perf_ratio" decimal(10,2) NOT NULL DEFAULT 0,
+    "sale_perf_fixed" decimal(12,2) NOT NULL DEFAULT 0,
+    "sale_perf_ratio" decimal(12,2) NOT NULL DEFAULT 0,
     "deploy_perf_type" smallint NOT NULL DEFAULT 1 ,
-    "deploy_perf_fixed" decimal(10,2) NOT NULL DEFAULT 0,
-    "deploy_perf_ratio" decimal(10,2) NOT NULL DEFAULT 0,
+    "deploy_perf_fixed" decimal(12,2) NOT NULL DEFAULT 0,
+    "deploy_perf_ratio" decimal(12,2) NOT NULL DEFAULT 0,
     "check_perf_type" smallint NOT NULL DEFAULT 1 ,
-    "check_perf_fixed" decimal(10,2) NOT NULL DEFAULT 0,
-    "check_perf_ratio" decimal(10,2) NOT NULL DEFAULT 0,
+    "check_perf_fixed" decimal(12,2) NOT NULL DEFAULT 0,
+    "check_perf_ratio" decimal(12,2) NOT NULL DEFAULT 0,
      PRIMARY KEY (id)
 );
 
@@ -626,3 +661,129 @@ COMMENT ON COLUMN public.storage_check_rel.storage_count IS '库存数量';
 COMMENT ON COLUMN public.storage_check_rel.check_count IS '盘库数量';
 create trigger storage_check_rel_upt before update on storage_check_rel for each row execute procedure update_timestamp_func();
 select setval(' storage_check_rel_id_seq',10000,false);
+
+--CREATE TABLE order_info
+CREATE TABLE IF NOT EXISTS public.order_info(
+    "id" serial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1,
+    "payment_status" smallint NOT NULL DEFAULT 1,
+    "op_user" smallint NOT NULL DEFAULT 1,
+    "re_user_id" smallint NOT NULL DEFAULT 1,
+    "re_user_name" character varying(20),
+    "check_user_id" smallint NOT NULL DEFAULT 1,
+    "check_user_name" character varying(20),
+    "client_remark" character varying(200) ,
+    "op_remark" character varying(200) ,
+    "order_type" smallint NOT NULL DEFAULT 1,
+    "client_id" smallint NOT NULL DEFAULT 0,
+    "client_agent_id" smallint NOT NULL DEFAULT 0,
+    "client_name" character varying(20),
+    "client_tel" character varying(20),
+    "client_address" character varying(50),
+    "client_serial" character varying(20),
+    "client_serial_detail" character varying(20),
+    "model_id" smallint ,
+    "model_name" character varying(200) ,
+    "date_id" integer ,
+    "fin_date_id" integer ,
+    "service_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "prod_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "discount_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "actual_price" decimal(12,2) NOT NULL DEFAULT 0,
+    PRIMARY KEY (id)
+);
+COMMENT ON COLUMN public.order_info.re_user_id IS '接单人';
+COMMENT ON COLUMN public.order_info.check_user_id IS '验收人';
+COMMENT ON COLUMN public.order_info.client_remark IS '客户订单备注';
+COMMENT ON COLUMN public.order_info.op_remark IS '操作备注';
+COMMENT ON COLUMN public.order_info.fin_date_id IS '完工日期';
+COMMENT ON COLUMN public.order_info.service_price IS '服务费';
+COMMENT ON COLUMN public.order_info.prod_price IS '商品费';
+COMMENT ON COLUMN public.order_info.discount_price IS '折扣金额';
+COMMENT ON COLUMN public.order_info.actual_price IS '实收金额';
+create trigger order_info_upt before update on order_info for each row execute procedure update_timestamp_func();
+
+SELECT cron.schedule('order_id_sdl', '0 16 * * *', $$select setval(' order_info_id_seq',(CAST(to_char(current_timestamp, 'YYYYMMDD0001') AS BIGINT)),false);$$);
+
+--CREATE TABLE order_item_service
+CREATE TABLE IF NOT EXISTS public.order_item_service(
+    "id" serial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1,
+    "op_user" smallint NOT NULL DEFAULT 1,
+    "sale_user_id" smallint NOT NULL DEFAULT 1,
+    "sale_user_name" character varying(20),
+    "deploy_user_id" smallint NOT NULL DEFAULT 1,
+    "deploy_user_name" character varying(20),
+    "check_user_id" smallint NOT NULL DEFAULT 1,
+    "check_user_name" character varying(20),
+    "remark" character varying(200) ,
+    "order_id" integer NOT NULL,
+    "client_id" smallint NOT NULL DEFAULT 0,
+    "client_agent_id" smallint NOT NULL DEFAULT 0,
+    "order_item_type" smallint NOT NULL,
+    "sale_service_id" integer NOT NULL,
+    "sale_service_name" character varying(20),
+    "fixed_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "unit_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "service_count" decimal(12,2) NOT NULL DEFAULT 0,
+    "service_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "discount_service_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "actual_service_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "date_id" integer ,
+    "fin_date_id" integer ,
+    "sale_perf" decimal(12,2) NOT NULL DEFAULT 0,
+    "deploy_perf" decimal(12,2) NOT NULL DEFAULT 0,
+    "check_perf" decimal(12,2) NOT NULL DEFAULT 0,
+    PRIMARY KEY (id)
+);
+
+
+COMMENT ON COLUMN public.order_item_service.deploy_user_id IS '施工人';
+COMMENT ON COLUMN public.order_item_service.check_user_id IS '验收人';
+COMMENT ON COLUMN public.order_item_service.service_price IS '服务原价';
+COMMENT ON COLUMN public.order_item_service.discount_service_price IS '折扣价';
+COMMENT ON COLUMN public.order_item_service.actual_service_price IS '实际价格';
+COMMENT ON COLUMN public.order_item_service.sale_perf IS '销售提成';
+COMMENT ON COLUMN public.order_item_service.deploy_perf IS '施工提成';
+COMMENT ON COLUMN public.order_item_service.check_perf IS '验收提成';
+
+create trigger order_item_service_upt before update on order_item_service for each row execute procedure update_timestamp_func();
+select setval(' order_item_service_id_seq',10000,false);
+
+--CREATE TABLE order_prod_service
+CREATE TABLE IF NOT EXISTS public.order_prod_service(
+    "id" serial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1,
+    "op_user" smallint NOT NULL DEFAULT 1,
+    "sale_user_id" smallint NOT NULL DEFAULT 1,
+    "sale_user_name" character varying(20),
+    "remark" character varying(200) ,
+    "order_id" integer NOT NULL,
+    "client_id" smallint NOT NULL DEFAULT 0,
+    "client_agent_id" smallint NOT NULL DEFAULT 0,
+    "order_item_type" smallint NOT NULL,
+    "prod_id" integer NOT NULL,
+    "prod_name" character varying(20),
+    "unit_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "prod_count" decimal(12,2) NOT NULL DEFAULT 0,
+    "prod_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "discount_prod_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "actual_prod_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "date_id" integer ,
+    "sale_perf" decimal(12,2) NOT NULL DEFAULT 0,
+    PRIMARY KEY (id)
+);
+
+COMMENT ON COLUMN public.order_prod_service.sale_user_id IS '销售人';
+COMMENT ON COLUMN public.order_prod_service.discount_prod_price IS '折扣价';
+COMMENT ON COLUMN public.order_prod_service.actual_prod_price IS '实际价格';
+COMMENT ON COLUMN public.order_prod_service.sale_perf IS '销售提成';
+
+create trigger order_prod_service_upt before update on order_prod_service for each row execute procedure update_timestamp_func();
+select setval(' order_prod_service_id_seq',10000,false);
