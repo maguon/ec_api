@@ -37,7 +37,7 @@ const addStorageCheck = async (req,res,next)=>{
 
         params.storageCheckId = rows[0].id;
         //根据条件创建 storage_check_rel
-        const rowsRel = await storageCheckRelDAO.addStorageCheckRel(params);
+        const rowsRel = await storageCheckRelDAO.addStorageCheckRelByProductRel(params);
         logger.info(' addStorageCheck addStorageCheckRel ' + 'success');
 
         //更新计划盘点数量 plan_check_count
@@ -98,7 +98,7 @@ const updateStatus = async (req,res,next)=>{
             logger.info(' updateStatus updateStorageCountByStorageCheckId ' + 'success');
 
             //添加 storage_product_rel_detail
-            const rowsStrageProductRelDetail = await storageProductRelDetailDAO.addStorageProductRelDetailByStorageCheck(params);
+            const rowsStrageProductRelDetail = await storageProductRelDetailDAO.addStorageProductRelDetailByCheck(params);
             logger.info(' updateStatus addStorageProductRelDetailByStorageCheck ' + 'success');
         }
 

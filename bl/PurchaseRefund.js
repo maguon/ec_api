@@ -75,10 +75,11 @@ const updatePurchaseRefund = async (req,res,next)=>{
 
         //计算 refund_profile
         const rowsItem = await purchaseItemDAO.queryPurchaseItem({purchaseItemId:path.purchaseItemId});
+
         if(rowsItem.length <= 0){
             params.refundProfile = 0 - params.totalCost;
         }else{
-            params.refundProfile = ( params.refundUnitCost - rowsItem[0].unit_cost ) * params.refundCount - params.totalCost;
+            params.refundProfile = ( params.refundUnitCost - rowsItem[0].unit_cost ) * params.refundCount - params.transferCost;
         }
 
         const rows = await purchaseRefundDAO.updatePurchaseRefund(params);
@@ -179,7 +180,7 @@ const updateRefundStorage = async (req,res,next)=>{
         params.dateId = date;
 
         //创建 storage_product_rel_detail
-        const rowsDetail = await  storageProductRelDetailDAO.addStorageProductRelDetailByStorageProductRel(params);
+        const rowsDetail = await  storageProductRelDetailDAO.addStorageProductRelDetailByRefund(params);
         logger.info(' updateRefundStorage rowsDetail ' + 'success');
 
         //更新退款信息
