@@ -5335,6 +5335,238 @@
       }
     },
 
+    "/user/{userId}/client": {
+      "post": {
+        "tags": [
+          "client"
+        ],
+        "summary": "Add a new client info",
+        "description": "",
+        "operationId": "Add client",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"clientInfo",
+            "description": "client object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "client"
+        ],
+        "summary": "Select client Info",
+        "description": "Get client info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "clientId",
+            "in": "query",
+            "description": "clientId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "tel",
+            "in": "query",
+            "description": "tel",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "clientSerial",
+            "in": "query",
+            "description": "clientSerial",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "clientSerialDetail",
+            "in": "query",
+            "description": "clientSerialDetail",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "dateIdStart",
+            "in": "query",
+            "description": "dateIdStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateIdEnd",
+            "in": "query",
+            "description": "dateIdEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "referUser",
+            "in": "query",
+            "description": "referUser",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "sourceType",
+            "in": "query",
+            "description": "sourceType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/client/{clientId}": {
+      "put": {
+        "tags": [
+          "client"
+        ],
+        "summary": "Finds client info and update",
+        "description": "update client info",
+        "operationId": "update client info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "clientId",
+            "in": "path",
+            "description": "client unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "clientInfo",
+            "in": "body",
+            "description": "client object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ClientPut"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/client/{clientId}/status": {
+      "put": {
+        "tags": [
+          "client"
+        ],
+        "summary": "Finds client and update",
+        "description": "update client status",
+        "operationId": "update client status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "clientId",
+            "in": "path",
+            "description": "client unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
     "/user/{userId}/clientAgent": {
       "post": {
         "tags": [
@@ -7536,6 +7768,112 @@
       },
       "xml": {
         "name": "PurchaseRefundPut"
+      }
+    },
+    "Client": {
+      "type": "object",
+      "required": [
+        "remark",
+        "name",
+        "tel",
+        "address",
+        "clientSerial",
+        "clientSerialDetail",
+        "modelId",
+        "modelName",
+        "clientAgentId",
+        "referUser",
+        "sourceType"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "tel": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "clientSerial": {
+          "type": "string"
+        },
+        "clientSerialDetail": {
+          "type": "string"
+        },
+        "modelId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modelName": {
+          "type": "string"
+        },
+        "clientAgentId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "referUser": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sourceType": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "Client"
+      }
+    },
+    "ClientPut": {
+      "type": "object",
+      "required": [
+        "remark",
+        "name",
+        "tel",
+        "address",
+        "clientSerial",
+        "clientSerialDetail",
+        "modelId",
+        "modelName",
+        "clientAgentId"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "tel": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "clientSerial": {
+          "type": "string"
+        },
+        "clientSerialDetail": {
+          "type": "string"
+        },
+        "modelId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modelName": {
+          "type": "string"
+        },
+        "clientAgentId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "ClientPut"
       }
     },
     "ClientAgent": {
