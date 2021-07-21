@@ -4,10 +4,12 @@ const logger = serverLogger.createLogger('ClientDAO.js');
 
 class ClientDAO  {
     static async queryClient(params) {
-        let query = "select ci.* , ui.real_name , rui.real_name as refer_real_name " +
+        let query = "select ci.* , ui.real_name , rui.real_name as refer_real_name , " +
+            " ca.name as client_agent_name " +
             " from client_info ci " +
             " left join user_info ui on ui.id = ci.op_user " +
             " left join user_info rui on rui.id = ci.refer_user " +
+            " left join client_agent ca on ca.id = ci.client_agent_id " +
             " where ci.id is not null ";
         let filterObj = {};
         if(params.clientId){
