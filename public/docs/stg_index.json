@@ -56,6 +56,10 @@
       "description": "service base info api"
     },
     {
+      "name": "order",
+      "description": "order base info api"
+    },
+    {
       "name": "app",
       "description": "app version"
     },
@@ -2560,9 +2564,9 @@
             "type": "integer"
           },
           {
-            "name": "reUser",
+            "name": "reUserId",
             "in": "query",
-            "description": "reUser",
+            "description": "reUserId",
             "required": false,
             "type": "integer"
           },
@@ -6345,6 +6349,540 @@
       }
     },
 
+    "/user/{userId}/order": {
+      "post": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Add a new order info",
+        "description": "",
+        "operationId": "Add order info",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"orderInfo",
+            "description": "order object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Select order Info",
+        "description": "Get order info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "query",
+            "description": "orderId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "paymentStatus",
+            "in": "query",
+            "description": "paymentStatus",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderType",
+            "in": "query",
+            "description": "orderType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "checkUserId",
+            "in": "query",
+            "description": "checkUserId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "clientId",
+            "in": "query",
+            "description": "clientId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "clientAgentId",
+            "in": "query",
+            "description": "clientAgentId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "modelId",
+            "in": "query",
+            "description": "modelId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateStart",
+            "in": "query",
+            "description": "dateStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateEnd",
+            "in": "query",
+            "description": "dateEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "finDateStart",
+            "in": "query",
+            "description": "finDateStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "finDateEnd",
+            "in": "query",
+            "description": "finDateEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/order/{orderId}/status": {
+      "put": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Finds order and update",
+        "description": "update order status",
+        "operationId": "update order status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "order unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
+    "/user/{userId}/orderItemProd": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Select orderItemProd Info",
+        "description": "Get orderItemProd info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderItemProdId",
+            "in": "query",
+            "description": "orderItemProdId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "saleUserId",
+            "in": "query",
+            "description": "saleUserId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "query",
+            "description": "orderId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "clientId",
+            "in": "query",
+            "description": "clientId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "clientAgentId",
+            "in": "query",
+            "description": "clientAgentId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderItemType",
+            "in": "query",
+            "description": "orderItemType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "prodId",
+            "in": "query",
+            "description": "prodId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateStart",
+            "in": "query",
+            "description": "dateStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateEnd",
+            "in": "query",
+            "description": "dateEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/orderItemProd/{orderItemProdId}/status": {
+      "put": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Finds orderItemProd and update",
+        "description": "update orderItemProd status",
+        "operationId": "update orderItemProd status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderItemProdId",
+            "in": "path",
+            "description": "orderItemProd unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
+    "/user/{userId}/orderItemService": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Select orderItemService Info",
+        "description": "Get orderItemService info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderItemServiceId",
+            "in": "query",
+            "description": "orderItemServiceId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "saleUserId",
+            "in": "query",
+            "description": "saleUserId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "deployUserId",
+            "in": "query",
+            "description": "deployUserId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "checkUserId",
+            "in": "query",
+            "description": "checkUserId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "query",
+            "description": "orderId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "clientId",
+            "in": "query",
+            "description": "clientId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "clientAgentId",
+            "in": "query",
+            "description": "clientAgentId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "saleServiceId",
+            "in": "query",
+            "description": "saleServiceId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateStart",
+            "in": "query",
+            "description": "dateStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateEnd",
+            "in": "query",
+            "description": "dateEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "finDateStart",
+            "in": "query",
+            "description": "finDateStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "finDateEnd",
+            "in": "query",
+            "description": "finDateEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/orderItemService/{orderItemServiceId}/status": {
+      "put": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Finds orderItemService and update",
+        "description": "update orderItemService status",
+        "operationId": "update orderItemService status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderItemServiceId",
+            "in": "path",
+            "description": "orderItemService unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
     "/user/{userId}/app": {
       "get": {
         "tags": [
@@ -8104,6 +8642,124 @@
       },
       "xml": {
         "name": "SaleServiceProdRel"
+      }
+    },
+    "Order": {
+      "type": "object",
+      "required": [
+        "reUserId",
+        "reUserName",
+        "clientRemark",
+        "opRemark",
+        "orderType",
+        "clientId",
+        "clientAgentId",
+        "transferPrice"
+      ],
+      "properties": {
+        "reUserId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "reUserName": {
+          "type": "string"
+        },
+        "clientRemark": {
+          "type": "string"
+        },
+        "opRemark": {
+          "type": "string"
+        },
+        "orderType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "clientId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "clientAgentId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "transferPrice": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "orderServiceList": {
+          "type": "array",
+          "items":{
+            "$ref": "#/definitions/OrderServiceArray"
+          }
+        }
+      },
+      "xml": {
+        "name": "Order"
+      }
+    },
+    "OrderServiceArray": {
+      "type": "object",
+      "required": [
+        "saleUserId",
+        "saleUserName",
+        "deployUserId",
+        "deployUserName",
+        "remark",
+        "orderItemType",
+        "saleServiceId",
+        "saleServiceName",
+        "prodId",
+        "prodName",
+        "discountServicePrice",
+        "discountProdPrice"
+      ],
+      "properties": {
+        "saleUserId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "saleUserName": {
+          "type": "string"
+        },
+        "deployUserId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "deployUserName": {
+          "type": "string"
+        },
+        "remark": {
+          "type": "string"
+        },
+        "orderItemType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "saleServiceId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "saleServiceName": {
+          "type": "string"
+        },
+        "prodId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "prodName": {
+          "type": "string"
+        },
+        "discountServicePrice": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "discountProdPrice": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "OrderServiceArray"
       }
     },
     "App": {

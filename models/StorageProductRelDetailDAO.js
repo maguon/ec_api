@@ -26,9 +26,9 @@ class StorageProductRelDetailDAO  {
             query += " and sprd.op_user = ${opUser} ";
             filterObj.opUser = params.opUser;
         }
-        if(params.reUser){
-            query += " and sprd.re_user_id = ${reUser} ";
-            filterObj.reUser = params.reUser;
+        if(params.reUserId){
+            query += " and sprd.re_user_id = ${reUserId} ";
+            filterObj.reUserId = params.reUserId;
         }
         if(params.storageId){
             query += " and sprd.storage_id = ${storageId} ";
