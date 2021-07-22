@@ -25,6 +25,7 @@ const product = require('./bl/Product');
 const purchase = require('./bl/Purchase');
 const purchaseItem = require('./bl/PurchaseItem');
 const purchaseRefund = require('./bl/PurchaseRefund');
+const client = require('./bl/Client');
 const clientAgent = require('./bl/ClientAgent');
 const clientAgentInvoice = require('./bl/ClientAgentInvoice');
 const saleService = require('./bl/SaleService');
@@ -223,6 +224,11 @@ const createServer=()=>{
     /**
      * Client Module
      */
+    server.get('/api/user/:userId/client', client.queryClient);
+    server.post({path:'/api/user/:userId/client',contentType: 'application/json'}, client.addClient);
+    server.put({path:'/api/user/:userId/client/:clientId',contentType: 'application/json'} ,client.updateClient);
+    server.put({path:'/api/user/:userId/client/:clientId/status',contentType: 'application/json'} ,client.updateStatus);
+
     server.get('/api/user/:userId/clientAgent', clientAgent.queryClientAgent);
     server.post({path:'/api/user/:userId/clientAgent',contentType: 'application/json'}, clientAgent.addClientAgent);
     server.put({path:'/api/user/:userId/clientAgent/:clientAgentId',contentType: 'application/json'} ,clientAgent.updateClientAgent);

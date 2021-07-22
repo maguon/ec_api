@@ -1,65 +1,64 @@
 
-const clientAgentDAO = require('../models/ClientAgentDAO');
+const clientDAO = require('../models/ClientDAO');
 const serverLogger = require('../util/ServerLogger.js');
 const moment = require('moment');
 const sysConst = require('../util/SystemConst.js');
 const resUtil = require('../util/ResponseUtil.js');
-const logger = serverLogger.createLogger('ClientAgent.js');
+const logger = serverLogger.createLogger('Client.js');
 
-const queryClientAgent = async (req,res,next)=>{
+const queryClient = async (req,res,next)=>{
     let query = req.query;
     try{
-        const rows = await clientAgentDAO.queryClientAgent(query);
-        const count = await clientAgentDAO.queryClientAgentCount(query);
-        logger.info(' queryClientAgent ' + 'success');
+        const rows = await clientDAO.queryClient(query);
+        const count = await clientDAO.queryClientCount(query);
+        logger.info(' queryClient ' + 'success');
         resUtil.resetQueryRes(res,rows,count);
         return next();
     }catch (e) {
-        logger.error(" queryClientAgent error",e.stack);
+        logger.error(" queryClient error",e.stack);
         resUtil.resInternalError(e,res,next);
     }
 }
 
-const addClientAgent = async (req,res,next)=>{
+const addClient = async (req,res,next)=>{
     let params = req.body;
     let path = req.params;
     if(path.userId){
         params.opUser = path.userId;
     }
-    params.status = sysConst.status.usable;
 
     let today = new Date();
     let date = moment(today).format('YYYYMMDD');
     params.dateId = date;
 
     try {
-        const rows = await clientAgentDAO.addClientAgent(params);
-        logger.info(' addClientAgent ' + 'success');
+        const rows = await clientDAO.addClient(params);
+        logger.info(' addClient ' + 'success');
         resUtil.resetCreateRes(res,rows);
         return next();
     }catch (e) {
-        logger.error(" addClientAgent error ",e.stack);
+        logger.error(" addClient error ",e.stack);
         resUtil.resInternalError(e,res,next);
     }
 }
 
-const updateClientAgent = async (req,res,next)=>{
+const updateClient = async (req,res,next)=>{
     let params = req.body;
     let path = req.params;
     if(path.userId){
         params.opUser = path.userId;
     }
-    if(path.clientAgentId){
-        params.clientAgentId = path.clientAgentId;
+    if(path.clientId){
+        params.clientId = path.clientId;
     }
     try{
-        const rows = await clientAgentDAO.updateClientAgent(params);
-        logger.info(' updateClientAgent ' + 'success');
+        const rows = await clientDAO.updateClient(params);
+        logger.info(' updateClient ' + 'success');
 
         resUtil.resetUpdateRes(res,rows);
         return next();
     }catch (e) {
-        logger.error(" updateClientAgent error ",e.stack);
+        logger.error(" updateClient error ",e.stack);
         resUtil.resInternalError(e,res,next);
     }
 }
@@ -70,11 +69,11 @@ const updateStatus = async (req,res,next)=>{
     if(path.userId){
         params.opUser = path.userId;
     }
-    if(path.clientAgentId ){
-        params.clientAgentId  = path.clientAgentId ;
+    if(path.clientId ){
+        params.clientId  = path.clientId ;
     }
     try{
-        const rows = await clientAgentDAO.updateStatus(params);
+        const rows = await clientDAO.updateStatus(params);
         logger.info(' updateStatus ' + 'success');
         resUtil.resetUpdateRes(res,rows);
         return next();
@@ -86,8 +85,8 @@ const updateStatus = async (req,res,next)=>{
 
 
 module.exports = {
-    queryClientAgent,
-    addClientAgent,
-    updateClientAgent,
+    queryClient,
+    addClient,
+    updateClient,
     updateStatus
 }
