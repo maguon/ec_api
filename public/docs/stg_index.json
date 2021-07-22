@@ -8654,7 +8654,9 @@
         "orderType",
         "clientId",
         "clientAgentId",
-        "transferPrice"
+        "transferPrice",
+        "OrderItemProdArray",
+        "OrderItemServiceArray"
       ],
       "properties": {
         "reUserId": {
@@ -8686,10 +8688,16 @@
           "type": "integer",
           "format": "int64"
         },
-        "orderServiceList": {
+        "OrderItemProdArray": {
           "type": "array",
           "items":{
-            "$ref": "#/definitions/OrderServiceArray"
+            "$ref": "#/definitions/OrderItemProdArray"
+          }
+        },
+        "OrderItemServiceArray": {
+          "type": "array",
+          "items":{
+            "$ref": "#/definitions/OrderItemServiceArray"
           }
         }
       },
@@ -8697,7 +8705,49 @@
         "name": "Order"
       }
     },
-    "OrderServiceArray": {
+    "OrderItemProdArray": {
+      "type": "object",
+      "required": [
+        "saleUserId",
+        "saleUserName",
+        "remark",
+        "orderItemType",
+        "prodId",
+        "prodName",
+        "discountProdPrice"
+      ],
+      "properties": {
+        "saleUserId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "saleUserName": {
+          "type": "string"
+        },
+        "remark": {
+          "type": "string"
+        },
+        "orderItemType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "prodId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "prodName": {
+          "type": "string"
+        },
+        "discountProdPrice": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "OrderItemProdArray"
+      }
+    },
+    "OrderItemServiceArray": {
       "type": "object",
       "required": [
         "saleUserId",
@@ -8708,10 +8758,7 @@
         "orderItemType",
         "saleServiceId",
         "saleServiceName",
-        "prodId",
-        "prodName",
-        "discountServicePrice",
-        "discountProdPrice"
+        "discountServicePrice"
       ],
       "properties": {
         "saleUserId": {
@@ -8742,24 +8789,13 @@
         "saleServiceName": {
           "type": "string"
         },
-        "prodId": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "prodName": {
-          "type": "string"
-        },
         "discountServicePrice": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "discountProdPrice": {
           "type": "integer",
           "format": "int64"
         }
       },
       "xml": {
-        "name": "OrderServiceArray"
+        "name": "OrderItemServiceArray"
       }
     },
     "App": {

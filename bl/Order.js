@@ -37,26 +37,34 @@ const addOrder = async (req,res,next)=>{
         //创建 order_info
         const rows = await orderDAO.addOrder(params);
 
-        //创建成功，创建 order_item_service / order_prod_service
-        for(var i=0;i<params.orderServiceList.length;i++){
+        //创建成功，创建 order_prod_service
+        for(var i=0;i<params.OrderItemProdArray.length;i++){
 
-            params.orderServiceList[i].opUser = path.userId;
-            params.orderServiceList[i].clientId = params.clientId;
-            params.orderServiceList[i].clientAgentId = params.clientAgentId;
-            params.orderServiceList[i].dateId = date;
-            params.orderServiceList[i].orderId = rows[0].id;
+            params.OrderItemProdArray[i].opUser = path.userId;
+            params.OrderItemProdArray[i].clientId = params.clientId;
+            params.OrderItemProdArray[i].clientAgentId = params.clientAgentId;
+            params.OrderItemProdArray[i].dateId = date;
+            params.OrderItemProdArray[i].orderId = rows[0].id;
 
-            if(params.orderServiceList[i].saleServiceId != undefined){
-                //创建 order_item_service
-                const rowsItem = await orderItemServiceDAO.addOrderItemService(params.orderServiceList[i]);
-                logger.info(' addOrder addOrderItemService success');
+            //创建 order_prod_service
+            const rowsItem = await orderItemProdDAO.addOrderItemProd(params.OrderItemProdArray[i]);
+            logger.info(' addOrder addOrderItemService success');
 
-            }else if(params.orderServiceList[i].prodId != undefined){
-                //创建 order_prod_service
-                const rowsItem = await orderItemProdDAO.addOrderItemProd(params.orderServiceList[i]);
-                logger.info(' addOrder addOrderItemService success');
+        }
 
-            }
+        //创建成功，创建 order_item_service
+        for(var i=0;i<params.OrderItemServiceArray.length;i++){
+
+            params.OrderItemServiceArray[i].opUser = path.userId;
+            params.OrderItemServiceArray[i].clientId = params.clientId;
+            params.OrderItemServiceArray[i].clientAgentId = params.clientAgentId;
+            params.OrderItemServiceArray[i].dateId = date;
+            params.OrderItemServiceArray[i].orderId = rows[0].id;
+
+            //创建 order_item_service
+            const rowsItem = await orderItemServiceDAO.addOrderItemService(params.OrderItemServiceArray[i]);
+            logger.info(' addOrder addOrderItemService success');
+
         }
 
         //更新 order_info : service_price , prod_price , discount_price , actual_price
