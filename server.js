@@ -30,6 +30,9 @@ const clientAgent = require('./bl/ClientAgent');
 const clientAgentInvoice = require('./bl/ClientAgentInvoice');
 const saleService = require('./bl/SaleService');
 const saleServiceProdRel = require('./bl/SaleServiceProdRel');
+const order = require('./bl/order');
+const orderItemProd = require('./bl/orderItemProd');
+const orderItemService = require('./bl/orderItemService');
 const statistics = require('./bl/Statistics');
 
 
@@ -249,6 +252,19 @@ const createServer=()=>{
     server.get('/api/user/:userId/saleServiceProdRel', saleServiceProdRel.querySaleServiceProdRel);
     server.post({path:'/api/user/:userId/saleService/:saleServiceId/product/:productId',contentType: 'application/json'}, saleServiceProdRel.addSaleServiceProdRel);
     server.del({path:'/api/user/:userId/saleService/:saleServiceId/product/:productId',contentType: 'application/json'}, saleServiceProdRel.deleteServiceProdRel);
+
+    /**
+     * Order Module
+     */
+    server.get('/api/user/:userId/order', order.queryOrder);
+    server.post({path:'/api/user/:userId/order',contentType: 'application/json'}, order.addOrder);
+    server.put({path:'/api/user/:userId/order/:orderId/status',contentType: 'application/json'} ,order.updateStatus);
+
+    server.get('/api/user/:userId/orderItemProd', orderItemProd.queryOrderItemProd);
+    server.put({path:'/api/user/:userId/orderItemProd/:orderItemProdId/status',contentType: 'application/json'} ,orderItemProd.updateStatus);
+
+    server.get('/api/user/:userId/orderItemService', orderItemService.queryOrderItemService);
+    server.put({path:'/api/user/:userId/orderItemService/:orderItemServiceId/status',contentType: 'application/json'} ,orderItemService.updateStatus);
 
     /**
      * App Module
