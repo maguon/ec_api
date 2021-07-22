@@ -690,8 +690,14 @@ CREATE TABLE IF NOT EXISTS public.order_info(
     "fin_date_id" integer ,
     "service_price" decimal(12,2) NOT NULL DEFAULT 0,
     "prod_price" decimal(12,2) NOT NULL DEFAULT 0,
-    "discount_price" decimal(12,2) NOT NULL DEFAULT 0,
-    "actual_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "discount_service_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "discount_prod_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "total_discount_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "actual_service_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "actual_prod_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "total_actual_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "transfer_price" decimal(12,2) NOT NULL DEFAULT 0,
+
     PRIMARY KEY (id)
 );
 COMMENT ON COLUMN public.order_info.re_user_id IS '接单人';
@@ -701,8 +707,13 @@ COMMENT ON COLUMN public.order_info.op_remark IS '操作备注';
 COMMENT ON COLUMN public.order_info.fin_date_id IS '完工日期';
 COMMENT ON COLUMN public.order_info.service_price IS '服务费';
 COMMENT ON COLUMN public.order_info.prod_price IS '商品费';
-COMMENT ON COLUMN public.order_info.discount_price IS '折扣金额';
-COMMENT ON COLUMN public.order_info.actual_price IS '实收金额';
+COMMENT ON COLUMN public.order_info.discount_service_price IS '服务折扣金额';
+COMMENT ON COLUMN public.order_info.discount_prod_price IS '服务折扣金额';
+COMMENT ON COLUMN public.order_info.total_discount_price IS '服务折扣金额';
+COMMENT ON COLUMN public.order_info.actual_service_price IS '折后服务金额';
+COMMENT ON COLUMN public.order_info.actual_prod_price IS '折后商品金额';
+COMMENT ON COLUMN public.order_info.total_actual_price IS '折后总金额';
+COMMENT ON COLUMN public.order_info.transfer_price IS '运费';
 create trigger order_info_upt before update on order_info for each row execute procedure update_timestamp_func();
 
 SELECT cron.schedule('order_id_sdl', '0 16 * * *', $$select setval(' order_info_id_seq',(CAST(to_char(current_timestamp, 'YYYYMMDD0001') AS BIGINT)),false);$$);
@@ -754,8 +765,8 @@ COMMENT ON COLUMN public.order_item_service.check_perf IS '验收提成';
 create trigger order_item_service_upt before update on order_item_service for each row execute procedure update_timestamp_func();
 select setval(' order_item_service_id_seq',10000,false);
 
---CREATE TABLE order_prod_service
-CREATE TABLE IF NOT EXISTS public.order_prod_service(
+--CREATE TABLE order_item_prod
+CREATE TABLE IF NOT EXISTS public.order_item_prod(
     "id" serial NOT NULL,
     "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
     "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
@@ -780,10 +791,10 @@ CREATE TABLE IF NOT EXISTS public.order_prod_service(
     PRIMARY KEY (id)
 );
 
-COMMENT ON COLUMN public.order_prod_service.sale_user_id IS '销售人';
-COMMENT ON COLUMN public.order_prod_service.discount_prod_price IS '折扣价';
-COMMENT ON COLUMN public.order_prod_service.actual_prod_price IS '实际价格';
-COMMENT ON COLUMN public.order_prod_service.sale_perf IS '销售提成';
+COMMENT ON COLUMN public.order_item_prod.sale_user_id IS '销售人';
+COMMENT ON COLUMN public.order_item_prod.discount_prod_price IS '折扣价';
+COMMENT ON COLUMN public.order_item_prod.actual_prod_price IS '实际价格';
+COMMENT ON COLUMN public.order_item_prod.sale_perf IS '销售提成';
 
-create trigger order_prod_service_upt before update on order_prod_service for each row execute procedure update_timestamp_func();
-select setval(' order_prod_service_id_seq',10000,false);
+create trigger order_item_prod_upt before update on order_prod_service for each row execute procedure update_timestamp_func();
+select setval(' order_item_prod_id_seq',10000,false);
