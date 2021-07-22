@@ -30,9 +30,9 @@ const clientAgent = require('./bl/ClientAgent');
 const clientAgentInvoice = require('./bl/ClientAgentInvoice');
 const saleService = require('./bl/SaleService');
 const saleServiceProdRel = require('./bl/SaleServiceProdRel');
-const order = require('./bl/order');
-const orderItemProd = require('./bl/orderItemProd');
-const orderItemService = require('./bl/orderItemService');
+const order = require('./bl/Order');
+const orderItemProd = require('./bl/OrderItemProd');
+const orderItemService = require('./bl/OrderItemService');
 const statistics = require('./bl/Statistics');
 
 
