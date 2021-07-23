@@ -3,7 +3,7 @@ const serverLogger = require('../util/ServerLogger.js');
 const logger = serverLogger.createLogger('OrderProdServiceDAO.js');
 
 class OrderItemProdDAO  {
-    static async queryOrderItemProd(params) {
+    static async queryItemProd(params) {
         let query = "select oip.* , ui.real_name " +
             " from order_item_prod oip " +
             " left join user_info ui on ui.id = oip.op_user " +
@@ -58,11 +58,11 @@ class OrderItemProdDAO  {
             query += " limit ${size} ";
             filterObj.size = params.size;
         }
-        logger.debug(' queryOrderItemProd ');
+        logger.debug(' queryItemProd ');
         return await pgDb.any(query,filterObj);
     }
 
-    static async queryOrderItemProdCount(params) {
+    static async queryItemProdCount(params) {
         let query = "select count(oip.id) from order_item_prod oip where oip.id is not null ";
         let filterObj = {};
         if(params.orderItemProdId){
@@ -105,11 +105,11 @@ class OrderItemProdDAO  {
             query += " and oip.date_id <= ${dateEnd} ";
             filterObj.dateEnd = params.dateEnd;
         }
-        logger.debug(' queryOrderItemProdCount ');
+        logger.debug(' queryItemProdCount ');
         return await pgDb.one(query,filterObj);
     }
 
-    static async addOrderItemProd(params) {
+    static async addItemProd(params) {
         const query = ' INSERT INTO order_item_prod( op_user, sale_user_id, sale_user_name, remark, ' +
             ' order_id, client_id, client_agent_id, order_item_type, ' +
             ' prod_id, prod_name, unit_price, prod_count, prod_price, ' +
@@ -135,7 +135,40 @@ class OrderItemProdDAO  {
         valueObj.discountProdPrice = params.discountProdPrice;
         valueObj.dateId = params.dateId;
         valueObj.productId = params.prodId;
-        logger.debug(' addOrderItemProd ');
+        logger.debug(' addItemProd ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    static async updateItemProd(params){
+        let query = 'update order_item_prod ' +
+            ' set op_user=${opUser} , remark = ${remark} ' ;
+        let valueObj = {};
+        valueObj.opUser = params.opUser;
+        valueObj.remark = params.remark;
+
+        if(params.prodCount){
+            query = query + ', prod_count = ${prodCount} , prod_price =  unit_price * ${prodCount} ' ;
+            valueObj.prodCount = params.prodCount;
+            valueObj.prodCount = params.prodCount;
+        }
+
+        if(params.discountProdPrice){
+            query = query + ' , discount_prod_price = ${discountProdPrice} ';
+            valueObj.discountProdPrice = params.discountProdPrice;
+
+            if(params.prodCount){
+                query = query + ' , actual_prod_price =  unit_price * ${prodCount} - ${discountProdPrice} ' ;
+                valueObj.prodCount = params.prodCount;
+                valueObj.discountProdPrice = params.discountProdPrice;
+            }else{
+                query = query + ' , actual_prod_price =  prod_price - ${discountProdPrice} ' ;
+                valueObj.discountProdPrice = params.discountProdPrice;
+            }
+        }
+
+        query = query +  ' where id=${orderItemProdId} RETURNING id ';
+        valueObj.orderItemProdId = params.orderItemProdId;
+        logger.debug(' updateItemProd ');
         return await pgDb.any(query,valueObj);
     }
 

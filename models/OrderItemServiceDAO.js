@@ -3,7 +3,7 @@ const serverLogger = require('../util/ServerLogger.js');
 const logger = serverLogger.createLogger('OrderItemServiceDAO.js');
 
 class OrderItemServiceDAO  {
-    static async queryOrderItemService(params) {
+    static async queryItemService(params) {
         let query = "select ois.* , ui.real_name " +
             " from order_item_service ois " +
             " left join user_info ui on ui.id = ois.op_user " +
@@ -70,11 +70,11 @@ class OrderItemServiceDAO  {
             query += " limit ${size} ";
             filterObj.size = params.size;
         }
-        logger.debug(' queryOrderItemService ');
+        logger.debug(' queryItemService ');
         return await pgDb.any(query,filterObj);
     }
 
-    static async queryOrderItemServiceCount(params) {
+    static async queryItemServiceCount(params) {
         let query = "select count(ois.id) from order_item_service ois where ois.id is not null ";
         let filterObj = {};
         if(params.orderItemServiceId){
@@ -130,11 +130,11 @@ class OrderItemServiceDAO  {
             filterObj.finDateEnd = params.finDateEnd;
         }
 
-        logger.debug(' queryOrderItemServiceCount ');
+        logger.debug(' queryItemServiceCount ');
         return await pgDb.one(query,filterObj);
     }
 
-    static async addOrderItemService(params) {
+    static async addItemService(params) {
         const query = 'INSERT INTO order_item_service ( ' +
             ' op_user, sale_user_id, sale_user_name, deploy_user_id, ' +
             ' deploy_user_name, remark, ' +
@@ -173,7 +173,35 @@ class OrderItemServiceDAO  {
         valueObj.discountServicePrice = params.discountServicePrice;
         valueObj.dateId = params.dateId;
         valueObj.saleServiceId = params.saleServiceId;
-        logger.debug(' addOrderItemService ');
+        logger.debug(' addItemService ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    static async updateItemService(params){
+        let query = 'update order_item_service set remark = ${remark}, order_item_type = ${orderItemType} ' ;
+        let valueObj = {};
+        valueObj.remark = params.remark;
+        valueObj.orderItemType = params.orderItemType;
+
+        if(params.serviceCount){
+            query = query + ' , service_count = ${serviceCount} , ' +
+                '   service_price = ( fixed_price + unit_price ) * ${serviceCount} ';
+            valueObj.serviceCount = params.serviceCount;
+            valueObj.serviceCount = params.serviceCount;
+        }
+
+        if(params.discountServicePrice){
+            query = query + ' , discount_service_price = ${discountServicePrice} , ' +
+                'actual_service_price = ( fixed_price + unit_price ) * ${serviceCount} - ${discountServicePrice} ' ;
+            valueObj.discountServicePrice = params.discountServicePrice;
+            valueObj.serviceCount = params.serviceCount;
+            valueObj.discountServicePrice = params.discountServicePrice;
+        }
+
+        query = query + ' where id = ${orderItemServiceId} RETURNING id ';
+        valueObj.discountServicePrice = params.discountServicePrice;
+        valueObj.orderItemServiceId = params.orderItemServiceId;
+        logger.debug(' updateItemService ');
         return await pgDb.any(query,valueObj);
     }
 

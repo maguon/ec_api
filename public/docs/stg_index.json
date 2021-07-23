@@ -6511,6 +6511,52 @@
         }
       }
     },
+    "/user/{userId}/order/{orderId}": {
+      "put": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Finds order and update ",
+        "description": "update order info ",
+        "operationId": "update order info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "order unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"orderInfo",
+            "description": "order object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrderPut"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
     "/user/{userId}/order/{orderId}/status": {
       "put": {
         "tags": [
@@ -6660,6 +6706,52 @@
         "responses": {
           "400": {
             "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/orderItemProd/{orderItemProdId}": {
+      "put": {
+        "tags": [
+          "order"
+        ],
+        "summary": " Finds orderItemProd and update ",
+        "description": " update orderItemProd info ",
+        "operationId": " update orderItemProd info by id ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderItemProdId",
+            "in": "path",
+            "description": "orderItemProd unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"orderInfo",
+            "description": "order object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrderItemProdPut"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
           }
         }
       }
@@ -6834,6 +6926,52 @@
         "responses": {
           "400": {
             "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/orderItemService/{orderItemServiceId}": {
+      "put": {
+        "tags": [
+          "order"
+        ],
+        "summary": " Finds orderItemService and update ",
+        "description": " update orderItemService info ",
+        "operationId": " update orderItemService info by id ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderItemServiceId",
+            "in": "path",
+            "description": "orderItemService unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"orderInfo",
+            "description": "order object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrderItemServicePut"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
           }
         }
       }
@@ -8705,6 +8843,33 @@
         "name": "Order"
       }
     },
+    "OrderPut": {
+      "type": "object",
+      "required": [
+        "reUserId",
+        "reUserName",
+        "clientRemark",
+        "opRemark"
+      ],
+      "properties": {
+        "reUserId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "reUserName": {
+          "type": "string"
+        },
+        "clientRemark": {
+          "type": "string"
+        },
+        "opRemark": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "OrderPut"
+      }
+    },
     "OrderItemProdArray": {
       "type": "object",
       "required": [
@@ -8745,6 +8910,30 @@
       },
       "xml": {
         "name": "OrderItemProdArray"
+      }
+    },
+    "OrderItemProdPut": {
+      "type": "object",
+      "required": [
+        "remark",
+        "prodCount",
+        "discountProdPrice"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "prodCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "discountProdPrice": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "OrderItemProdPut"
       }
     },
     "OrderItemServiceArray": {
@@ -8796,6 +8985,35 @@
       },
       "xml": {
         "name": "OrderItemServiceArray"
+      }
+    },
+    "OrderItemServicePut": {
+      "type": "object",
+      "required": [
+        "remark",
+        "orderItemType",
+        "serviceCount",
+        "discountServicePrice"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "orderItemType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "serviceCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "discountServicePrice": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "OrderItemServicePut"
       }
     },
     "App": {

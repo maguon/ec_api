@@ -258,12 +258,15 @@ const createServer=()=>{
      */
     server.get('/api/user/:userId/order', order.queryOrder);
     server.post({path:'/api/user/:userId/order',contentType: 'application/json'}, order.addOrder);
+    server.put({path:'/api/user/:userId/order/:orderId',contentType: 'application/json'} ,order.updateOrder);
     server.put({path:'/api/user/:userId/order/:orderId/status',contentType: 'application/json'} ,order.updateStatus);
 
-    server.get('/api/user/:userId/orderItemProd', orderItemProd.queryOrderItemProd);
+    server.get('/api/user/:userId/orderItemProd', orderItemProd.queryItemProd);
+    server.put({path:'/api/user/:userId/orderItemProd/:orderItemProdId',contentType: 'application/json'} ,orderItemProd.updateItemProd);
     server.put({path:'/api/user/:userId/orderItemProd/:orderItemProdId/status',contentType: 'application/json'} ,orderItemProd.updateStatus);
 
-    server.get('/api/user/:userId/orderItemService', orderItemService.queryOrderItemService);
+    server.get('/api/user/:userId/orderItemService', orderItemService.queryItemService);
+    server.put({path:'/api/user/:userId/orderItemService/:orderItemServiceId',contentType: 'application/json'} ,orderItemService.updateItemService);
     server.put({path:'/api/user/:userId/orderItemService/:orderItemServiceId/status',contentType: 'application/json'} ,orderItemService.updateStatus);
 
     /**

@@ -1,23 +1,48 @@
 
 const orderDAO = require('../models/OrderDAO');
-const orderItemServiceDAO = require('../models/OrderItemServiceDAO');
 const orderItemProdDAO = require('../models/OrderItemProdDAO');
 const serverLogger = require('../util/ServerLogger.js');
-const moment = require('moment');
-const sysConst = require('../util/SystemConst.js');
 const resUtil = require('../util/ResponseUtil.js');
 const logger = serverLogger.createLogger('OrderItemProd.js');
 
-const queryOrderItemProd = async (req,res,next)=>{
+const queryItemProd = async (req,res,next)=>{
     let query = req.query;
     try{
-        const rows = await orderItemProdDAO.queryOrderItemProd(query);
-        const count = await orderItemProdDAO.queryOrderItemProdCount(query);
-        logger.info(' queryPurchase ' + 'success');
+        const rows = await orderItemProdDAO.queryItemProd(query);
+        const count = await orderItemProdDAO.queryItemProdCount(query);
+        logger.info(' queryItemProd ' + 'success');
         resUtil.resetQueryRes(res,rows,count);
         return next();
     }catch (e) {
-        logger.error(" queryOrderItemProd error",e.stack);
+        logger.error(" queryItemProd error",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
+const updateItemProd = async (req,res,next)=>{
+    let params = req.body;
+    let path = req.params;
+    if(path.userId){
+        params.opUser = path.userId;
+    }
+    if(path.orderItemProdId ){
+        params.orderItemProdId  = path.orderItemProdId ;
+    }
+    try{
+        const rows = await orderItemProdDAO.updateItemProd(params);
+        logger.info(' updateItemProd ' + 'success');
+
+        const rowsOrderId = await orderItemProdDAO.queryItemProd(params);
+        logger.info(' updateItemProd queryItemProd ' + 'success');
+
+        //更新 order_info : service_price , prod_price , discount_price , actual_price
+        const updateRows = await orderDAO.updatePrice({orderId:rowsOrderId[0].orderId});
+        logger.info(' updateItemProd updatePrice success');
+
+        resUtil.resetUpdateRes(res,rows);
+        return next();
+    }catch (e) {
+        logger.error(" updateItemProd error ",e.stack);
         resUtil.resInternalError(e,res,next);
     }
 }
@@ -43,6 +68,7 @@ const updateStatus = async (req,res,next)=>{
 }
 
 module.exports = {
-    queryOrderItemProd,
+    queryItemProd,
+    updateItemProd,
     updateStatus
 }

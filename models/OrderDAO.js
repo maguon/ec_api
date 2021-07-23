@@ -4,8 +4,7 @@ const logger = serverLogger.createLogger('OrderDAO.js');
 
 class OrderDAO  {
     static async queryOrder(params) {
-        let query = "select oi.* , ui.real_name , rui.real_name as re_user_name , " +
-            " cui.real_name as check_user_name " +
+        let query = "select oi.* , ui.real_name " +
             " from order_info oi " +
             " left join user_info ui on ui.id = oi.op_user " +
             " left join user_info rui on rui.id = oi.re_user_id " +
@@ -152,6 +151,23 @@ class OrderDAO  {
         valueObj.dateId = params.dateId;
         valueObj.clientId = params.clientId;
         logger.debug(' addOrder ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    static async updateOrder(params){
+        const query = ' UPDATE order_info ' +
+            ' SET op_user=${opUser} , re_user_id = ${reUserId}, re_user_name = ${reUserName}, ' +
+            ' client_remark = ${clientRemark}, op_remark = ${opRemark} ' +
+            ' where id = ${orderId}  ' +
+            ' RETURNING id ';
+        let valueObj = {};
+        valueObj.opUser = params.opUser;
+        valueObj.reUserId = params.reUserId;
+        valueObj.reUserName = params.reUserName;
+        valueObj.clientRemark = params.clientRemark;
+        valueObj.opRemark = params.opRemark;
+        valueObj.orderId = params.orderId;
+        logger.debug(' updateOrder ');
         return await pgDb.any(query,valueObj);
     }
 
