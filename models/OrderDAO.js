@@ -15,6 +15,10 @@ class OrderDAO  {
             query += " and oi.id = ${orderId} ";
             filterObj.orderId = params.orderId;
         }
+        if(params.reUserId){
+            query += " and oi.re_user_id = ${reUserId} ";
+            filterObj.reUserId = params.reUserId;
+        }
         if(params.status){
             query += " and oi.status = ${status} ";
             filterObj.status = params.status;
@@ -34,6 +38,12 @@ class OrderDAO  {
         if(params.clientId){
             query += " and oi.client_id = ${clientId} ";
             filterObj.clientId = params.clientId;
+        }
+        if(params.clientTel){
+            query += " and oi.client_tel like '%" + params.clientTel + "%' ";
+        }
+        if(params.clientSerial){
+            query += " and oi.client_serial like '%" + params.clientSerial + "%' ";
         }
         if(params.clientAgentId){
             query += " and oi.client_agent_id = ${clientAgentId} ";

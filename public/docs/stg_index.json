@@ -6408,6 +6408,13 @@
             "type": "integer"
           },
           {
+            "name": "reUserId",
+            "in": "query",
+            "description": "reUserId",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "orderId",
             "in": "query",
             "description": "orderId",
@@ -6446,6 +6453,20 @@
             "name": "clientId",
             "in": "query",
             "description": "clientId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "clientTel",
+            "in": "query",
+            "description": "clientTel",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "clientSerial",
+            "in": "query",
+            "description": "clientSerial",
             "required": false,
             "type": "integer"
           },
