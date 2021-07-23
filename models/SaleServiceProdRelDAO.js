@@ -4,9 +4,10 @@ const logger = serverLogger.createLogger('SaleServiceProdRelDAO.js');
 
 class SaleServiceProdRelDAO  {
     static async querySaleServiceProdRel(params) {
-        let query = "select sspr.* , ui.real_name " +
+        let query = "select sspr.* , ui.real_name , pi.price , pi.unit_name " +
             " from sale_service_prod_rel sspr " +
             " left join user_info ui on ui.id = sspr.op_user " +
+            " left join product_info pi on pi.id = sspr.product_id " +
             " where sale_service_id is not null";
         let filterObj = {};
         if(params.saleServiceId){
