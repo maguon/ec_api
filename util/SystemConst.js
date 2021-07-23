@@ -47,6 +47,29 @@ const storageCheckStatus = {
     not_normal:2,//不正常
 }
 
+const serviceItemStatus = {
+    unprocessed: 1 ,//未处理
+    processing :3 ,//处理中，以派工
+    processed :5 ,//施工完，未验收
+    checked:7 ,  //验收完成
+}
+
+const prodItemStatus = {
+    normal : 1 ,//未领取
+    complete :3 ,//已领取
+}
+
+const orderStatus = {
+    normal: 1 ,//未处理
+    processing :3 ,//处理中
+    checking : 5 ,//处理完，未结算
+    complete :7 //处理完成
+}
+
+const orderPaymentStatus = {
+    normal :1 ,//未付款
+    complete :7 //付款完成
+}
 module.exports = {
     status,
     purchaseStatus,
@@ -55,5 +78,10 @@ module.exports = {
     storageType,
     storageImportType,
     storageExportType,
-    storageCheckStatus
+    storageCheckStatus,
+    orderStatus,
+    serviceItemStatus,
+    prodItemStatus,
+    orderPaymentStatus
+
 }
