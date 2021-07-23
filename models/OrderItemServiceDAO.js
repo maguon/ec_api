@@ -4,10 +4,14 @@ const logger = serverLogger.createLogger('OrderItemServiceDAO.js');
 
 class OrderItemServiceDAO  {
     static async queryItemService(params) {
-        let query = "select ois.* , ui.real_name " +
-            " from order_item_service ois " +
-            " left join user_info ui on ui.id = ois.op_user " +
-            " where ois.id is not null ";
+        let query = "select ois.* , ui.real_name ," +
+            "   oi.status as or_status , oi.payment_status as or_payment_status , oi.re_user_id as or_re_user_id , " +
+            "   oi.re_user_name as or_re_user_name , oi.order_type as or_order_type , oi.client_name as or_client_name , " +
+            "   oi.date_id as or_date_id , oi.fin_date_id as or_fin_date_id " +
+            "   from order_item_service ois " +
+            "   left join user_info ui on ui.id = ois.op_user " +
+            "   left join order_info oi on oi.id = ois.order_id " +
+            "   where ois.id is not null ";
         let filterObj = {};
         if(params.orderItemServiceId){
             query += " and ois.id = ${orderItemServiceId} ";

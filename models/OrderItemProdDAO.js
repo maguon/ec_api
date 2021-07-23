@@ -4,10 +4,15 @@ const logger = serverLogger.createLogger('OrderProdServiceDAO.js');
 
 class OrderItemProdDAO  {
     static async queryItemProd(params) {
-        let query = "select oip.* , ui.real_name " +
-            " from order_item_prod oip " +
-            " left join user_info ui on ui.id = oip.op_user " +
-            " where oip.id is not null ";
+        let query = "select oip.* , ui.real_name , " +
+            "   oi.status as or_status , oi.payment_status as or_payment_status , oi.re_user_id as or_re_user_id ," +
+            "   oi.re_user_name as or_re_user_name , oi.order_type as or_order_type , oi.client_id as or_client_id , " +
+            "   oi.client_agent_id as or_client_agent_id , oi.client_name as or_client_name , " +
+            "   oi.date_id as or_date_id , oi.fin_date_id as or_fin_date_id  " +
+            "   from order_item_prod oip " +
+            "   left join user_info ui on ui.id = oip.op_user " +
+            "   left join order_info oi on oi.id = oip.order_id " +
+            "   where oip.id is not null ";
         let filterObj = {};
         if(params.orderItemProdId){
             query += " and oip.id = ${orderItemProdId} ";
