@@ -4,11 +4,12 @@ const logger = serverLogger.createLogger('OrderDAO.js');
 
 class OrderDAO  {
     static async queryOrder(params) {
-        let query = "select oi.* , ui.real_name " +
+        let query = "select oi.* , ui.real_name , ca.name as client_agent_name " +
             " from order_info oi " +
             " left join user_info ui on ui.id = oi.op_user " +
             " left join user_info rui on rui.id = oi.re_user_id " +
             " left join user_info cui on cui.id = oi.check_user_id " +
+            " left join client_agent ca on ca.id = oi.client_agent_id " +
             " where oi.id is not null ";
         let filterObj = {};
         if(params.orderId){
