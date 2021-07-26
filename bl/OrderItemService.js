@@ -123,10 +123,48 @@ const updateStatus = async (req,res,next)=>{
     }
 }
 
+const deleteItemService = async (req,res,next)=>{
+    let params = req.query
+    let path = req.params;
+    if(path.userId){
+        params.userId = path.userId;
+    }
+    if(path.orderItemServiceId){
+        params.orderItemServiceId = path.orderItemServiceId;
+    }
+    if(path.orderId){
+        params.orderId = path.orderId;
+    }
+    try{
+        //判断订单状态是否在处理以上
+        const rowsStatus = await orderDAO.queryOrder(params);
+        logger.info(' deleteItemService queryOrder ' + 'success');
+
+        if(rowsStatus > 5){
+            resUtil.resetFailedRes(res,{message:'删除失败！'});
+            return next();
+        }
+
+        const rows = await orderItemServiceDAO.deleteItemService(params);
+        logger.info(' deleteItemService ' + 'success');
+
+        //更新 order_info : service_price , prod_price , discount_price , actual_price
+        const updateRows = await orderDAO.updatePrice({orderId:params.orderId});
+        logger.info(' deleteItemService updatePrice success');
+
+        resUtil.resetUpdateRes(res,rows);
+        return next();
+    }catch (e) {
+        logger.error(" deleteItemService error ",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 module.exports = {
     queryItemService,
     addItemService,
     updateItemService,
     updateDeployAndStatus,
-    updateStatus
+    updateStatus,
+    deleteItemService
 }

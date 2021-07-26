@@ -6309,9 +6309,9 @@
         "tags": [
           "service"
         ],
-        "summary": "SaleServiceProdRel app",
-        "description": "SaleServiceProdRel app",
-        "operationId": "SaleServiceProdRel app by id",
+        "summary": " Delete SaleServiceProdRel",
+        "description": " Delete SaleServiceProdRel ",
+        "operationId": " Delete SaleServiceProdRel by id",
         "produces": [
           "application/json"
         ],
@@ -6343,7 +6343,7 @@
             "description": "Invalid params "
           },
           "404": {
-            "description": "SaleServiceProdRelId or appId not found"
+            "description": "SaleServiceProdRelId not found"
           }
         }
       }
@@ -6870,6 +6870,50 @@
         }
       }
     },
+    "/user/{userId}/order/{orderId}/orderItemProd/{orderItemProdId}": {
+      "delete": {
+        "tags": [
+          "order"
+        ],
+        "summary": " Delete orderItemProd",
+        "description": " Delete orderItemProd ",
+        "operationId": " Delete orderItemProd  by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "orderId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderItemProdId",
+            "in": "path",
+            "description": "orderItemProdId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "orderItemProdId not found"
+          }
+        }
+      }
+    },
 
     "/user/{userId}/order/{orderId}/orderItemService": {
       "post": {
@@ -7181,6 +7225,50 @@
           },
           "400": {
             "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/order/{orderId}/orderItemService/{orderItemServiceId}": {
+      "delete": {
+        "tags": [
+          "order"
+        ],
+        "summary": " Delete orderItemService ",
+        "description": " Delete orderItemService ",
+        "operationId": " Delete orderItemService by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "orderId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderItemServiceId",
+            "in": "path",
+            "description": "orderItemServiceId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "orderItemServiceId not found"
           }
         }
       }
@@ -9093,6 +9181,7 @@
         "orderItemType",
         "prodId",
         "prodName",
+        "prodCount",
         "discountProdPrice"
       ],
       "properties": {
@@ -9124,6 +9213,10 @@
         },
         "prodName": {
           "type": "string"
+        },
+        "prodCount": {
+          "type": "integer",
+          "format": "int64"
         },
         "discountProdPrice": {
           "type": "integer",

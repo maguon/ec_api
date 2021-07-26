@@ -101,9 +101,47 @@ const updateStatus = async (req,res,next)=>{
     }
 }
 
+const deleteItemProd = async (req,res,next)=>{
+    let params = req.query
+    let path = req.params;
+    if(path.userId){
+        params.userId = path.userId;
+    }
+    if(path.orderItemProdId){
+        params.orderItemProdId = path.orderItemProdId;
+    }
+    if(path.orderId){
+        params.orderId = path.orderId;
+    }
+    try{
+        //判断订单状态是否在处理以上
+        const rowsStatus = await orderDAO.queryOrder(params);
+        logger.info(' deleteItemProd queryOrder ' + 'success');
+
+        if(rowsStatus > 5){
+            resUtil.resetFailedRes(res,{message:'删除失败！'});
+            return next();
+        }
+
+        const rows = await orderItemProdDAO.deleteItemProd(params);
+        logger.info(' deleteItemProd ' + 'success');
+
+        //更新 order_info : service_price , prod_price , discount_price , actual_price
+        const updateRows = await orderDAO.updatePrice({orderId:params.orderId});
+        logger.info(' deleteItemProd updatePrice success');
+
+        resUtil.resetUpdateRes(res,rows);
+        return next();
+    }catch (e) {
+        logger.error(" deleteItemProd error ",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 module.exports = {
     queryItemProd,
     addItemProd,
     updateItemProd,
-    updateStatus
+    updateStatus,
+    deleteItemProd
 }
