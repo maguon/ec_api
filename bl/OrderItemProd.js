@@ -2,6 +2,7 @@
 const orderDAO = require('../models/OrderDAO');
 const orderItemProdDAO = require('../models/OrderItemProdDAO');
 const serverLogger = require('../util/ServerLogger.js');
+const moment = require('moment');
 const resUtil = require('../util/ResponseUtil.js');
 const logger = serverLogger.createLogger('OrderItemProd.js');
 
@@ -15,6 +16,39 @@ const queryItemProd = async (req,res,next)=>{
         return next();
     }catch (e) {
         logger.error(" queryItemProd error",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
+const addItemProd = async (req,res,next)=>{
+    let params = req.body;
+    let path = req.params;
+    if(path.userId){
+        params.opUser = path.userId;
+    }
+    if(path.orderId){
+        params.orderId = path.orderId;
+    }
+    let today = new Date();
+    let date = moment(today).format('YYYYMMDD');
+    params.dateId = date;
+
+    try {
+
+        //创建 order_prod_service
+        const rowsItem = await orderItemProdDAO.addItemProd(params);
+        logger.info(' addOrder addItemProd success');
+
+        //更新 order_info : service_price , prod_price , discount_price , actual_price
+        const updateRows = await orderDAO.updatePrice({orderId:path.orderId});
+        logger.info(' addOrder updatePrice success');
+
+        logger.info(' addOrder ' + 'success');
+        resUtil.resetCreateRes(res,rowsItem);
+        return next();
+
+    }catch (e) {
+        logger.error(" addOrder error ",e.stack);
         resUtil.resInternalError(e,res,next);
     }
 }
@@ -69,6 +103,7 @@ const updateStatus = async (req,res,next)=>{
 
 module.exports = {
     queryItemProd,
+    addItemProd,
     updateItemProd,
     updateStatus
 }

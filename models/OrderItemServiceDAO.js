@@ -143,27 +143,44 @@ class OrderItemServiceDAO  {
             ' op_user ';
         let valueObj = {};
         valueObj.opUser = params.opUser;
+
         if(params.saleUserId){
             query = query + ' , sale_user_id ';
-            valueObj.saleUserId = params.saleUserId;
         }
         if(params.saleUserName){
             query = query + ' , sale_user_name ';
-            valueObj.saleUserName = params.saleUserName;
         }
         if(params.deployUserId){
             query = query + ' , deploy_user_id ';
-            valueObj.deployUserId = params.deployUserId;
         }
         if(params.deployUserName){
             query = query + ' , deploy_user_name ';
-            valueObj.deployUserName = params.deployUserName;
         }
+
         query = query + ' , remark, order_id, client_id, client_agent_id, order_item_type, ' +
             ' sale_service_id, sale_service_name, fixed_price, unit_price, ' +
             ' service_count, service_price, discount_service_price, ' +
             ' actual_service_price, date_id ) ' +
-            ' ( select ${opUser} , ${remark} , ' +
+            ' ( select ${opUser} ';
+
+        if(params.saleUserId){
+            query = query + ' , ${saleUserId} ';
+            valueObj.saleUserId = params.saleUserId;
+        }
+        if(params.saleUserName){
+            query = query + ' , ${saleUserName} ';
+            valueObj.saleUserName = params.saleUserName;
+        }
+        if(params.deployUserId){
+            query = query + ' , ${deployUserId} ';
+            valueObj.deployUserId = params.deployUserId;
+        }
+        if(params.deployUserName){
+            query = query + ' , ${deployUserName} ';
+            valueObj.deployUserName = params.deployUserName;
+        }
+
+        query = query + ' , ${remark} , ' +
             ' ${orderId} , ${clientId} , ${clientAgentId} , ${orderItemType} , ' +
             ' ssi.id , ssi.service_name , ssi.fixed_price , ssi.unit_price , ' +
             ' ssi.service_price_count , ' +
@@ -214,9 +231,20 @@ class OrderItemServiceDAO  {
         }
 
         query = query + ' where id = ${orderItemServiceId} RETURNING id ';
-        valueObj.discountServicePrice = params.discountServicePrice;
         valueObj.orderItemServiceId = params.orderItemServiceId;
         logger.debug(' updateItemService ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    static async updateDeployAndStatus(params){
+        let query = 'update order_item_service set deploy_user_id = ${deployUserId}, deploy_user_name = ${deployUserName} , status = ${status}' +
+            ' where id = ${orderItemServiceId} RETURNING id ';
+        let valueObj = {};
+        valueObj.deployUserId = params.deployUserId;
+        valueObj.deployUserName = params.deployUserName;
+        valueObj.status = params.status;
+        valueObj.orderItemServiceId = params.orderItemServiceId;
+        logger.debug(' updateDeployAndStatus ');
         return await pgDb.any(query,valueObj);
     }
 

@@ -119,13 +119,15 @@ class OrderItemProdDAO  {
             ' order_id, client_id, client_agent_id, order_item_type, ' +
             ' prod_id, prod_name, unit_price, prod_count, prod_price, ' +
             ' discount_prod_price, actual_prod_price, date_id) ' +
-            ' ( select ${opUser} , ${saleUserId} , ${saleUserName} , ${remark} , ' +
-            ' ${orderId} , ${clientId} , ${clientAgentId} , ${orderItemType} , ' +
-            ' pi.id , pi.product_name , pi.price , COALESCE(sspl.product_count,0) , COALESCE(pi.price,0)*COALESCE(sspl.product_count,0), ' +
-            ' ${discountProdPrice} , COALESCE(pi.price,0)*COALESCE(sspl.product_count,0)-${discountProdPrice} , ${dateId} ' +
-            ' from product_info pi' +
-            ' left join sale_service_prod_rel sspl on sspl.product_id = pi.id ' +
-            ' where pi.id is not null and pi.id = ${productId})  ' +
+            ' ( select ${opUser} , ${saleUserId} , ${saleUserName} , ${remark} ,${orderId} , ' +
+            '   ${clientId} , ${clientAgentId} , ${orderItemType} , ' +
+            '   pi.id , pi.product_name , pi.price , ' +
+            '   ${prodCount} , COALESCE(pi.price,0)*COALESCE(sspl.product_count,0), ' +
+            '   ${discountProdPrice} , ' +
+            '   COALESCE(pi.price,0)*COALESCE(sspl.product_count,0)-${discountProdPrice} ,  ${dateId} ' +
+            '   from product_info pi ' +
+            '   left join sale_service_prod_rel sspl on sspl.product_id = pi.id ' +
+            '   where pi.id is not null and pi.id = ${productId} )  ' +
             ' RETURNING id ';
         let valueObj = {};
         valueObj.opUser = params.opUser;
@@ -136,6 +138,7 @@ class OrderItemProdDAO  {
         valueObj.clientId = params.clientId;
         valueObj.clientAgentId = params.clientAgentId;
         valueObj.orderItemType = params.orderItemType;
+        valueObj.prodCount = params.prodCount;
         valueObj.discountProdPrice = params.discountProdPrice;
         valueObj.discountProdPrice = params.discountProdPrice;
         valueObj.dateId = params.dateId;
