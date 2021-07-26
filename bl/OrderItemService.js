@@ -70,7 +70,7 @@ const updateItemService = async (req,res,next)=>{
         logger.info(' updateItemService queryItemService ' + 'success');
 
         //更新 order_info : service_price , prod_price , discount_price , actual_price
-        const updateRows = await orderDAO.updatePrice({orderId:rowsOrderId[0].orderId});
+        const updateRows = await orderDAO.updatePrice({orderId:rowsOrderId[0].order_id});
         logger.info(' updateItemService updatePrice success');
 
 
