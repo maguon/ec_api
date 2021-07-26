@@ -139,15 +139,31 @@ class OrderItemServiceDAO  {
     }
 
     static async addItemService(params) {
-        const query = 'INSERT INTO order_item_service ( ' +
-            ' op_user, sale_user_id, sale_user_name, deploy_user_id, ' +
-            ' deploy_user_name, remark, ' +
-            ' order_id, client_id, client_agent_id, order_item_type, ' +
+        let query = 'INSERT INTO order_item_service ( ' +
+            ' op_user ';
+        let valueObj = {};
+        valueObj.opUser = params.opUser;
+        if(params.saleUserId){
+            query = query + ' , sale_user_id ';
+            valueObj.saleUserId = params.saleUserId;
+        }
+        if(params.saleUserName){
+            query = query + ' , sale_user_name ';
+            valueObj.saleUserName = params.saleUserName;
+        }
+        if(params.deployUserId){
+            query = query + ' , deploy_user_id ';
+            valueObj.deployUserId = params.deployUserId;
+        }
+        if(params.deployUserName){
+            query = query + ' , deploy_user_name ';
+            valueObj.deployUserName = params.deployUserName;
+        }
+        query = query + ' , remark, order_id, client_id, client_agent_id, order_item_type, ' +
             ' sale_service_id, sale_service_name, fixed_price, unit_price, ' +
             ' service_count, service_price, discount_service_price, ' +
             ' actual_service_price, date_id ) ' +
-            ' ( select ${opUser} , ${saleUserId} , ${saleUserName} , ${deployUserId} , ' +
-            ' ${deployUserName} , ${remark} , ' +
+            ' ( select ${opUser} , ${remark} , ' +
             ' ${orderId} , ${clientId} , ${clientAgentId} , ${orderItemType} , ' +
             ' ssi.id , ssi.service_name , ssi.fixed_price , ssi.unit_price , ' +
             ' ssi.service_price_count , ' +
@@ -161,12 +177,7 @@ class OrderItemServiceDAO  {
             ' ${dateId} ' +
             ' from sale_service_info ssi ' +
             ' where ssi.id = ${saleServiceId}) RETURNING id ';
-        let valueObj = {};
-        valueObj.opUser = params.opUser;
-        valueObj.saleUserId = params.saleUserId;
-        valueObj.saleUserName = params.saleUserName;
-        valueObj.deployUserId = params.deployUserId;
-        valueObj.deployUserName = params.deployUserName;
+
         valueObj.remark = params.remark;
         valueObj.orderId = params.orderId;
         valueObj.clientId = params.clientId;
