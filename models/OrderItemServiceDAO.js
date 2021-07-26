@@ -215,18 +215,10 @@ class OrderItemServiceDAO  {
         valueObj.remark = params.remark;
         valueObj.orderItemType = params.orderItemType;
 
-        if(params.serviceCount){
-            query = query + ' , service_count = ${serviceCount} , ' +
-                '   service_price = ( fixed_price + unit_price ) * ${serviceCount} ';
-            valueObj.serviceCount = params.serviceCount;
-            valueObj.serviceCount = params.serviceCount;
-        }
-
         if(params.discountServicePrice){
             query = query + ' , discount_service_price = ${discountServicePrice} , ' +
-                'actual_service_price = ( fixed_price + unit_price ) * ${serviceCount} - ${discountServicePrice} ' ;
+                'actual_service_price = ( fixed_price + unit_price ) * service_count - ${discountServicePrice} ' ;
             valueObj.discountServicePrice = params.discountServicePrice;
-            valueObj.serviceCount = params.serviceCount;
             valueObj.discountServicePrice = params.discountServicePrice;
         }
 

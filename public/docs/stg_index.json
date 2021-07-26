@@ -9368,7 +9368,6 @@
       "required": [
         "remark",
         "orderItemType",
-        "serviceCount",
         "discountServicePrice"
       ],
       "properties": {
@@ -9376,10 +9375,6 @@
           "type": "string"
         },
         "orderItemType": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "serviceCount": {
           "type": "integer",
           "format": "int64"
         },
