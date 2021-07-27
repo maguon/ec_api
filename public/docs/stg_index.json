@@ -8498,7 +8498,8 @@
         "remark",
         "storageCount",
         "storageType",
-        "storageSubType"
+        "storageSubType",
+        "orderId"
       ],
       "properties": {
         "remark": {
@@ -8513,6 +8514,10 @@
           "format": "int64"
         },
         "storageSubType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "orderId": {
           "type": "integer",
           "format": "int64"
         }

@@ -1,5 +1,6 @@
 const pgDb = require('../db/connections/PgConnection');
 const serverLogger = require('../util/ServerLogger.js');
+const sysConst = require('../util/SystemConst.js');
 const logger = serverLogger.createLogger('StorageProductRelDetailDAO.js');
 
 class StorageProductRelDetailDAO  {
@@ -151,17 +152,14 @@ class StorageProductRelDetailDAO  {
         return await pgDb.one(query,filterObj);
     }
 
-    // 根据 storage_product_rel 查询结果，判断是否可以出入库，创建信息 (领料、退料)
+    // 根据 storage_product_rel 查询结果，判断是否可以出入库，创建信息 (领料、退料、订单出库、退单入库)
     static async addStorageProductRelDetail(params) {
-        const query = 'INSERT INTO storage_product_rel_detail (status , op_user , remark , storage_id , storage_area_id , ' +
+        let query = 'INSERT INTO storage_product_rel_detail (status , op_user , remark , storage_id , storage_area_id , ' +
             ' storage_product_rel_id , supplier_id , product_id , purchase_id , purchase_item_id , storage_type , ' +
             ' storage_sub_type , storage_count , date_id , order_id ) ' +
             ' select ${status} , ${opUser} , ${remark} , storage_id , storage_area_id , ${storageProductRelId} , ' +
             ' supplier_id , product_id , purchase_id , purchase_item_id , ${storageType} , ${storageSubType} , ' +
-            ' ${storageCount} , ${dateId} ,order_id ' +
-            ' from storage_product_rel ' +
-            ' where storage_product_rel.id= ${storageProductRelId} and storage_product_rel.storage_count - ${storageCount} >= 0 ' +
-            ' RETURNING id ';
+            ' ${storageCount} , ${dateId} ' ;
         let valueObj = {};
         valueObj.status = params.status;
         valueObj.opUser = params.opUser;
@@ -171,6 +169,22 @@ class StorageProductRelDetailDAO  {
         valueObj.storageSubType = params.storageSubType;
         valueObj.storageCount = params.storageCount;
         valueObj.dateId = params.dateId;
+
+        if(params.orderId){
+            query = query + ' , ${orderId} ' ;
+            valueObj.orderId = params.orderId;
+        }else{
+            query = query + ' , order_id ' ;
+        }
+
+        query = query + ' from storage_product_rel ' +
+            ' where storage_product_rel.id= ${storageProductRelId} ' ;
+
+        if(params.storageType == sysConst.storageType.export){
+            query = query + ' and storage_product_rel.storage_count - ${storageCount} >= 0 ';
+        }
+
+        query = query +' RETURNING id ';
         valueObj.storageProductRelId = params.storageProductRelId;
         valueObj.storageCount = params.storageCount;
         logger.debug(' addStorageProductRelDetail ');
