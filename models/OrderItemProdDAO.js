@@ -131,8 +131,16 @@ class OrderItemProdDAO  {
             ' RETURNING id ';
         let valueObj = {};
         valueObj.opUser = params.opUser;
-        valueObj.saleUserId = params.saleUserId;
-        valueObj.saleUserName = params.saleUserName;
+        if(params.saleUserId){
+            valueObj.saleUserId = params.saleUserId;
+        }else{
+            valueObj.saleUserId = 1;
+        }
+        if(params.saleUserName){
+            valueObj.saleUserName = params.saleUserName;
+        }else{
+            valueObj.saleUserName = '';
+        }
         valueObj.remark = params.remark;
         valueObj.orderId = params.orderId;
         valueObj.clientId = params.clientId;
