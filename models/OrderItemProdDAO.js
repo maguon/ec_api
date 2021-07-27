@@ -122,9 +122,9 @@ class OrderItemProdDAO  {
             ' ( select ${opUser} , ${saleUserId} , ${saleUserName} , ${remark} ,${orderId} , ' +
             '   ${clientId} , ${clientAgentId} , ${orderItemType} , ' +
             '   pi.id , pi.product_name , pi.price , ' +
-            '   ${prodCount} , COALESCE(pi.price,0)*COALESCE(sspl.product_count,0), ' +
+            '   ${prodCount} , COALESCE(pi.price,0)*${prodCount}, ' +
             '   ${discountProdPrice} , ' +
-            '   COALESCE(pi.price,0)*COALESCE(sspl.product_count,0)-${discountProdPrice} ,  ${dateId} ' +
+            '   COALESCE(pi.price,0)*${prodCount}-${discountProdPrice} ,  ${dateId} ' +
             '   from product_info pi ' +
             '   left join sale_service_prod_rel sspl on sspl.product_id = pi.id ' +
             '   where pi.id is not null and pi.id = ${productId} )  ' +
@@ -147,7 +147,9 @@ class OrderItemProdDAO  {
         valueObj.clientAgentId = params.clientAgentId;
         valueObj.orderItemType = params.orderItemType;
         valueObj.prodCount = params.prodCount;
+        valueObj.prodCount = params.prodCount;
         valueObj.discountProdPrice = params.discountProdPrice;
+        valueObj.prodCount = params.prodCount;
         valueObj.discountProdPrice = params.discountProdPrice;
         valueObj.dateId = params.dateId;
         valueObj.productId = params.prodId;
