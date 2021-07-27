@@ -157,32 +157,17 @@ class OrderItemProdDAO  {
 
     static async updateItemProd(params){
         let query = 'update order_item_prod ' +
-            ' set op_user=${opUser} , remark = ${remark} ' ;
+            ' set op_user=${opUser} , remark = ${remark} , prod_count = ${prodCount} , prod_price =  unit_price * ${prodCount} ' +
+            '  , discount_prod_price = ${discountProdPrice} , actual_prod_price =  unit_price * ${prodCount} - ${discountProdPrice} ' +
+            '  where id=${orderItemProdId} RETURNING id ';
         let valueObj = {};
         valueObj.opUser = params.opUser;
         valueObj.remark = params.remark;
-
-        if(params.prodCount){
-            query = query + ', prod_count = ${prodCount} , prod_price =  unit_price * ${prodCount} ' ;
-            valueObj.prodCount = params.prodCount;
-            valueObj.prodCount = params.prodCount;
-        }
-
-        if(params.discountProdPrice || params.discountProdPrice ==0){
-            query = query + ' , discount_prod_price = ${discountProdPrice} ';
-            valueObj.discountProdPrice = params.discountProdPrice;
-
-            if(params.prodCount){
-                query = query + ' , actual_prod_price =  unit_price * ${prodCount} - ${discountProdPrice} ' ;
-                valueObj.prodCount = params.prodCount;
-                valueObj.discountProdPrice = params.discountProdPrice;
-            }else{
-                query = query + ' , actual_prod_price =  prod_price - ${discountProdPrice} ' ;
-                valueObj.discountProdPrice = params.discountProdPrice;
-            }
-        }
-
-        query = query +  ' where id=${orderItemProdId} RETURNING id ';
+        valueObj.prodCount = params.prodCount;
+        valueObj.prodCount = params.prodCount;
+        valueObj.discountProdPrice = params.discountProdPrice;
+        valueObj.prodCount = params.prodCount;
+        valueObj.discountProdPrice = params.discountProdPrice;
         valueObj.orderItemProdId = params.orderItemProdId;
         logger.debug(' updateItemProd ');
         return await pgDb.any(query,valueObj);
