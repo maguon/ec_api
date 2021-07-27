@@ -160,7 +160,7 @@ class OrderItemProdDAO  {
             valueObj.prodCount = params.prodCount;
         }
 
-        if(params.discountProdPrice){
+        if(params.discountProdPrice || params.discountProdPrice ==0){
             query = query + ' , discount_prod_price = ${discountProdPrice} ';
             valueObj.discountProdPrice = params.discountProdPrice;
 

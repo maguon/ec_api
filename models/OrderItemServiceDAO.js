@@ -189,8 +189,8 @@ class OrderItemServiceDAO  {
             '        else ssi.unit_price*ssi.service_price_count end )as service_price , ' +
             ' ${discountServicePrice} , ' +
             '   ( case when ssi.service_cost_type = 1 ' +
-            '       then ssi.fixed_price*ssi.service_price_count-${discountServicePrice} ' +
-            '       else ssi.unit_price*ssi.service_price_count-${discountServicePrice} end )as service_price , ' +
+            '       then ssi.fixed_price - ${discountServicePrice} ' +
+            '       else ssi.unit_price*ssi.service_price_count-${discountServicePrice} end )as actual_service_price , ' +
             ' ${dateId} ' +
             ' from sale_service_info ssi ' +
             ' where ssi.id = ${saleServiceId}) RETURNING id ';
@@ -215,9 +215,9 @@ class OrderItemServiceDAO  {
         valueObj.remark = params.remark;
         valueObj.orderItemType = params.orderItemType;
 
-        if(params.discountServicePrice){
+        if(params.discountServicePrice || params.discountServicePrice ==0){
             query = query + ' , discount_service_price = ${discountServicePrice} , ' +
-                'actual_service_price = ( fixed_price + unit_price ) * service_count - ${discountServicePrice} ' ;
+                'actual_service_price = ( fixed_price + unit_price  * service_count ) - ${discountServicePrice} ' ;
             valueObj.discountServicePrice = params.discountServicePrice;
             valueObj.discountServicePrice = params.discountServicePrice;
         }
