@@ -185,7 +185,7 @@ class OrderItemServiceDAO  {
             ' ssi.id , ssi.service_name , ssi.fixed_price , ssi.unit_price , ' +
             ' ssi.service_price_count , ' +
             '   ( case when ssi.service_cost_type = 1 ' +
-            '        then ssi.fixed_price*ssi.service_price_count ' +
+            '        then ssi.fixed_price ' +
             '        else ssi.unit_price*ssi.service_price_count end )as service_price , ' +
             ' ${discountServicePrice} , ' +
             '   ( case when ssi.service_cost_type = 1 ' +
