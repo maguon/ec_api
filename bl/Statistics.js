@@ -6,6 +6,7 @@ const sysConst = require('../util/SystemConst.js');
 const resUtil = require('../util/ResponseUtil.js');
 const logger = serverLogger.createLogger('Statistics.js');
 
+//采购统计
 const queryPurchaseStatByMonth = async (req,res,next)=>{
     let query = req.query;
     try{
@@ -32,7 +33,36 @@ const queryPurchaseStatByDay = async (req,res,next)=>{
     }
 }
 
+//用户统计
+const queryClientStatByMonth = async (req,res,next)=>{
+    let query = req.query;
+    try{
+        const rows = await statisticsDAO.queryClientStatByMonth(query);
+        logger.info(' queryClientStatByMonth ' + 'success');
+        resUtil.resetQueryRes(res,rows,1);
+        return next();
+    }catch (e) {
+        logger.error(" queryClientStatByMonth error",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
+const queryClientStatByDay = async (req,res,next)=>{
+    let query = req.query;
+    try{
+        const rows = await statisticsDAO.queryClientStatByDay(query);
+        logger.info(' queryClientStatByDay ' + 'success');
+        resUtil.resetQueryRes(res,rows,1);
+        return next();
+    }catch (e) {
+        logger.error(" queryClientStatByDay error",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 module.exports = {
     queryPurchaseStatByMonth,
-    queryPurchaseStatByDay
+    queryPurchaseStatByDay,
+    queryClientStatByMonth,
+    queryClientStatByDay
 }
