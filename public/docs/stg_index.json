@@ -5405,6 +5405,13 @@
             "type": "integer"
           },
           {
+            "name": "clientAgentId",
+            "in": "query",
+            "description": "clientAgentId",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "tel",
             "in": "query",
             "description": "tel",

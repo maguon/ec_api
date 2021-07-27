@@ -16,6 +16,10 @@ class ClientDAO  {
             query += " and ci.id = ${clientId} ";
             filterObj.clientId = params.clientId;
         }
+        if(params.clientAgentId){
+            query += " and ci.client_agent_id = ${clientAgentId} ";
+            filterObj.clientAgentId = params.clientAgentId;
+        }
         if(params.status){
             query += " and ci.status = ${status} ";
             filterObj.status = params.status;
