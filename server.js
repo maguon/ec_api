@@ -293,6 +293,9 @@ const createServer=()=>{
     server.get('/api/user/:userId/statClientByMonth', statistics.queryClientStatByMonth);
     server.get('/api/user/:userId/statClientByDay', statistics.queryClientStatByDay);
 
+    server.get('/api/user/:userId/statOrderByMonth', statistics.queryOrderStatByMonth);
+    server.get('/api/user/:userId/statOrderByDay', statistics.queryOrderStatByDay);
+
 
 
     server.on('NotFound', function (req, res ,err,next) {

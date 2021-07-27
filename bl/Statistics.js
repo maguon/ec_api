@@ -60,9 +60,38 @@ const queryClientStatByDay = async (req,res,next)=>{
     }
 }
 
+//订单统计
+const queryOrderStatByMonth = async (req,res,next)=>{
+    let query = req.query;
+    try{
+        const rows = await statisticsDAO.queryOrderStatByMonth(query);
+        logger.info(' queryOrderStatByMonth ' + 'success');
+        resUtil.resetQueryRes(res,rows,1);
+        return next();
+    }catch (e) {
+        logger.error(" queryOrderStatByMonth error",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
+const queryOrderStatByDay = async (req,res,next)=>{
+    let query = req.query;
+    try{
+        const rows = await statisticsDAO.queryOrderStatByDay(query);
+        logger.info(' queryOrderStatByDay ' + 'success');
+        resUtil.resetQueryRes(res,rows,1);
+        return next();
+    }catch (e) {
+        logger.error(" queryOrderStatByDay error",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 module.exports = {
     queryPurchaseStatByMonth,
     queryPurchaseStatByDay,
     queryClientStatByMonth,
-    queryClientStatByDay
+    queryClientStatByDay,
+    queryOrderStatByMonth,
+    queryOrderStatByDay
 }
