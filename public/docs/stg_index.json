@@ -7282,14 +7282,14 @@
         }
       }
     },
-    "/user/{userId}/orderItemService/{orderItemServiceId}/deployAndStatus": {
+    "/user/{userId}/orderItemService/{orderItemServiceId}/deploy": {
       "put": {
         "tags": [
           "order"
         ],
-        "summary": " Finds orderItemService and status update ",
-        "description": " update orderItemService info and status",
-        "operationId": " update orderItemService info and status by id ",
+        "summary": " Finds orderItemService deploy update ",
+        "description": " update orderItemService deploy ",
+        "operationId": " update orderItemService deploy by id ",
         "produces": [
           "application/json"
         ],
@@ -7310,11 +7310,11 @@
           },
           {
             "in": "body",
-            "name":"orderDeployAndStatus",
+            "name":"orderDeploy",
             "description": "order object that needs to be added to the store",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/OrderServiceDeployAndStatus"
+              "$ref": "#/definitions/OrderServiceDeploy"
             }
           }
         ],
@@ -8011,6 +8011,7 @@
         }
       }
     }
+
   },
   "definitions": {
     "UserLogin": {
@@ -9752,12 +9753,11 @@
         "name": "OrderItemServicePut"
       }
     },
-    "OrderServiceDeployAndStatus": {
+    "OrderServiceDeploy": {
       "type": "object",
       "required": [
         "deployUserId",
-        "deployUserName",
-        "status"
+        "deployUserName"
       ],
       "properties": {
         "deployUserId": {
@@ -9766,14 +9766,10 @@
         },
         "deployUserName": {
           "type": "string"
-        },
-        "status": {
-          "type": "integer",
-          "format": "int64"
         }
       },
       "xml": {
-        "name": "OrderServiceDeployAndStatus"
+        "name": "OrderServiceDeploy"
       }
     },
     "App": {

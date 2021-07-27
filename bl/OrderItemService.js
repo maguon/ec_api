@@ -82,7 +82,7 @@ const updateItemService = async (req,res,next)=>{
     }
 }
 
-const updateDeployAndStatus = async (req,res,next)=>{
+const updateDeploy = async (req,res,next)=>{
     let params = req.body;
     let path = req.params;
     if(path.userId){
@@ -92,13 +92,13 @@ const updateDeployAndStatus = async (req,res,next)=>{
         params.orderItemServiceId = path.orderItemServiceId;
     }
     try{
-        const rows = await orderItemServiceDAO.updateDeployAndStatus(params);
-        logger.info(' updateDeployAndStatus ' + 'success');
+        const rows = await orderItemServiceDAO.updateDeploy(params);
+        logger.info(' updateDeploy ' + 'success');
 
         resUtil.resetUpdateRes(res,rows);
         return next();
     }catch (e) {
-        logger.error(" updateDeployAndStatus error ",e.stack);
+        logger.error(" updateDeploy error ",e.stack);
         resUtil.resInternalError(e,res,next);
     }
 }
@@ -164,7 +164,7 @@ module.exports = {
     queryItemService,
     addItemService,
     updateItemService,
-    updateDeployAndStatus,
+    updateDeploy,
     updateStatus,
     deleteItemService
 }

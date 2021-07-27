@@ -228,13 +228,12 @@ class OrderItemServiceDAO  {
         return await pgDb.any(query,valueObj);
     }
 
-    static async updateDeployAndStatus(params){
-        let query = 'update order_item_service set deploy_user_id = ${deployUserId}, deploy_user_name = ${deployUserName} , status = ${status}' +
+    static async updateDeploy(params){
+        let query = 'update order_item_service set deploy_user_id = ${deployUserId}, deploy_user_name = ${deployUserName} , status = 3' +
             ' where id = ${orderItemServiceId} RETURNING id ';
         let valueObj = {};
         valueObj.deployUserId = params.deployUserId;
         valueObj.deployUserName = params.deployUserName;
-        valueObj.status = params.status;
         valueObj.orderItemServiceId = params.orderItemServiceId;
         logger.debug(' updateDeployAndStatus ');
         return await pgDb.any(query,valueObj);
