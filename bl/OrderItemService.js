@@ -103,6 +103,27 @@ const updateDeploy = async (req,res,next)=>{
     }
 }
 
+const updateCheck = async (req,res,next)=>{
+    let params = req.body;
+    let path = req.params;
+    if(path.userId){
+        params.opUser = path.userId;
+    }
+    if(path.orderItemServiceId){
+        params.orderItemServiceId = path.orderItemServiceId;
+    }
+    try{
+        const rows = await orderItemServiceDAO.updateCheck(params);
+        logger.info(' updateCheck ' + 'success');
+
+        resUtil.resetUpdateRes(res,rows);
+        return next();
+    }catch (e) {
+        logger.error(" updateCheck error ",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 const updateStatus = async (req,res,next)=>{
     let params = req.query;
     let path = req.params;
@@ -165,6 +186,7 @@ module.exports = {
     addItemService,
     updateItemService,
     updateDeploy,
+    updateCheck,
     updateStatus,
     deleteItemService
 }

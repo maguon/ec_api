@@ -7335,6 +7335,52 @@
         }
       }
     },
+    "/user/{userId}/orderItemService/{orderItemServiceId}/check": {
+      "put": {
+        "tags": [
+          "order"
+        ],
+        "summary": " Finds orderItemService check update ",
+        "description": " update orderItemService check ",
+        "operationId": " update orderItemService check by id ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderItemServiceId",
+            "in": "path",
+            "description": "orderItemService unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"orderDeploy",
+            "description": "order object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrderServiceCheck"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
     "/user/{userId}/orderItemService/{orderItemServiceId}/status": {
       "put": {
         "tags": [
@@ -9782,6 +9828,25 @@
       },
       "xml": {
         "name": "OrderServiceDeploy"
+      }
+    },
+    "OrderServiceCheck": {
+      "type": "object",
+      "required": [
+        "checkUserId",
+        "checkUserName"
+      ],
+      "properties": {
+        "checkUserId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "checkUserName": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "OrderServiceCheck"
       }
     },
     "App": {
