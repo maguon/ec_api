@@ -257,6 +257,7 @@ const createServer=()=>{
      * Order Module
      */
     server.get('/api/user/:userId/order', order.queryOrder);
+    server.get('/api/user/:userId/order.csv', order.queryOrderCsv);
     server.post({path:'/api/user/:userId/order',contentType: 'application/json'}, order.addOrder);
     server.put({path:'/api/user/:userId/order/:orderId',contentType: 'application/json'} ,order.updateOrder);
     server.put({path:'/api/user/:userId/order/:orderId/status',contentType: 'application/json'} ,order.updateStatus);
