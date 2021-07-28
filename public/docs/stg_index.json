@@ -7054,6 +7054,13 @@
             "type": "integer"
           },
           {
+            "name": "reUserId",
+            "in": "query",
+            "description": "reUserId",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "in": "query",
             "name": "start",
             "required": false,
