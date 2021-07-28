@@ -20,6 +20,20 @@ const queryItemProd = async (req,res,next)=>{
     }
 }
 
+const queryItemProdStorage = async (req,res,next)=>{
+    let query = req.query;
+    try{
+        const rows = await orderItemProdDAO.queryItemProdStorage(query);
+        const count = await orderItemProdDAO.queryItemProdStorageCount(query);
+        logger.info(' queryItemProdStorage ' + 'success');
+        resUtil.resetQueryRes(res,rows,count);
+        return next();
+    }catch (e) {
+        logger.error(" queryItemProdStorage error",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 const addItemProd = async (req,res,next)=>{
     let params = req.body;
     let path = req.params;
@@ -140,6 +154,7 @@ const deleteItemProd = async (req,res,next)=>{
 
 module.exports = {
     queryItemProd,
+    queryItemProdStorage,
     addItemProd,
     updateItemProd,
     updateStatus,
