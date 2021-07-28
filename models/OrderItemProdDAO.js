@@ -121,8 +121,9 @@ class OrderItemProdDAO  {
             "   oi.client_agent_id as or_client_agent_id , oi.client_name as or_client_name , " +
             "   oi.date_id as or_date_id , oi.fin_date_id as or_fin_date_id , " +
             "   sprd.op_user as st_op_user , sprd.remark as st_remark , " +
-            "   sprd.storage_id as st_storage_id , sprd.storage_area_id as st_storage_area_id ," +
-            "   sprd.storage_product_rel_id as st_storage_product_rel_id , sprd.supplier_id as st_supplier_id ," +
+            "   sprd.storage_id as st_storage_id , sti.storage_name as st_storage_name , " +
+            "   sprd.storage_area_id as st_storage_area_id , stai.storage_area_name as st_storage_area_name , " +
+            "   sprd.storage_product_rel_id as st_storage_product_rel_id , sprd.supplier_id as st_supplier_id , si.supplier_name as st_supplier_name ," +
             "   sprd.product_id as st_product_id , sprd.purchase_id as st_purchase_id , sprd.purchase_item_id as st_purchase_item_id ," +
             "   sprd.storage_type as st_storage_type , sprd.storage_sub_type as st_storage_sub_type , " +
             "   sprd.storage_count as st_storage_count , sprd.date_id as st_date_id , sprd.re_user_id as st_re_user_id , " +
@@ -132,6 +133,9 @@ class OrderItemProdDAO  {
             "   left join order_info oi on oi.id = oip.order_id " +
             "   left join storage_product_rel_detail sprd on sprd.order_prod_id = oip.id " +
             "   left join user_info sui on sui.id = sprd.re_user_id " +
+            "   left join supplier_info si on si.id = sprd.supplier_id " +
+            "   left join storage_info sti on sti.id = sprd.storage_id " +
+            "   left join storage_area_info stai on stai.id = sprd.storage_area_id " +
             "   where oip.id is not null ";
         let filterObj = {};
         if(params.orderItemProdId){
