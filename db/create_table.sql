@@ -447,6 +447,7 @@ CREATE TABLE IF NOT EXISTS public.storage_product_rel_detail
     "date_id" integer ,
     "re_user_id" smallint ,
     "order_id" bigint ,
+    "order_prod_id" integer ,
     PRIMARY KEY (id)
 );
 
@@ -664,7 +665,7 @@ select setval(' storage_check_rel_id_seq',10000,false);
 
 --CREATE TABLE order_info
 CREATE TABLE IF NOT EXISTS public.order_info(
-    "id" serial NOT NULL,
+    "id" bigserial NOT NULL,
     "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
     "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
     "status" smallint NOT NULL DEFAULT 1,
