@@ -8696,7 +8696,8 @@
         "storageType",
         "storageSubType",
         "orderId",
-        "orderProdId"
+        "orderProdId",
+        "reUserId"
       ],
       "properties": {
         "remark": {
@@ -8719,6 +8720,10 @@
           "format": "int64"
         },
         "orderProdId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "reUserId": {
           "type": "integer",
           "format": "int64"
         }

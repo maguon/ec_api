@@ -156,13 +156,13 @@ class StorageProductRelDetailDAO  {
     static async addStorageProductRelDetail(params) {
         let query = 'INSERT INTO storage_product_rel_detail (status , op_user , remark , storage_id , storage_area_id , ' +
             ' storage_product_rel_id , supplier_id , product_id , purchase_id , purchase_item_id , storage_type , ' +
-            ' storage_sub_type , storage_count , date_id , order_id ';
+            ' storage_sub_type , storage_count , date_id , re_user_id , order_id ';
         if(params.orderProdId){
             query = query + ' , order_prod_id ' ;
         }
         query =  query + ' )select ${status} , ${opUser} , ${remark} , storage_id , storage_area_id , ${storageProductRelId} , ' +
             ' supplier_id , product_id , purchase_id , purchase_item_id , ${storageType} , ${storageSubType} , ' +
-            ' ${storageCount} , ${dateId} ' ;
+            ' ${storageCount} , ${dateId} , ${reUserId}' ;
         let valueObj = {};
         valueObj.status = params.status;
         valueObj.opUser = params.opUser;
@@ -172,6 +172,7 @@ class StorageProductRelDetailDAO  {
         valueObj.storageSubType = params.storageSubType;
         valueObj.storageCount = params.storageCount;
         valueObj.dateId = params.dateId;
+        valueObj.reUserId = params.reUserId;
 
         if(params.orderId){
             query = query + ' , ${orderId} ' ;
