@@ -194,6 +194,10 @@ class OrderItemProdDAO  {
             query += " and sprd.purchase_id = ${purchaseId} ";
             filterObj.purchaseId = params.purchaseId;
         }
+        if(params.reUserId){
+            query += " and sprd.re_user_id = ${reUserId} ";
+            filterObj.reUserId = params.reUserId;
+        }
         query = query + '  order by OiP.id desc ';
         if(params.start){
             query += " offset ${start} ";
