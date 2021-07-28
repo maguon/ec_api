@@ -66,6 +66,11 @@ const orderStatus = {
     complete :7 //处理完成
 }
 
+const orderType = {
+    interior: 1 ,//内部
+    without :2 //外部
+}
+
 const orderPaymentStatus = {
     normal :1 ,//未付款
     complete :7 //付款完成
@@ -80,6 +85,7 @@ module.exports = {
     storageExportType,
     storageCheckStatus,
     orderStatus,
+    orderType,
     serviceItemStatus,
     prodItemStatus,
     orderPaymentStatus

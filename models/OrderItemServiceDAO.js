@@ -3,11 +3,15 @@ const serverLogger = require('../util/ServerLogger.js');
 const logger = serverLogger.createLogger('OrderItemServiceDAO.js');
 
 class OrderItemServiceDAO  {
-    static async queryOrderItemService(params) {
-        let query = "select ois.* , ui.real_name " +
-            " from order_item_service ois " +
-            " left join user_info ui on ui.id = ois.op_user " +
-            " where ois.id is not null ";
+    static async queryItemService(params) {
+        let query = "select ois.* , ui.real_name ," +
+            "   oi.status as or_status , oi.payment_status as or_payment_status , oi.re_user_id as or_re_user_id , " +
+            "   oi.re_user_name as or_re_user_name , oi.order_type as or_order_type , oi.client_name as or_client_name , " +
+            "   oi.date_id as or_date_id , oi.fin_date_id as or_fin_date_id " +
+            "   from order_item_service ois " +
+            "   left join user_info ui on ui.id = ois.op_user " +
+            "   left join order_info oi on oi.id = ois.order_id " +
+            "   where ois.id is not null ";
         let filterObj = {};
         if(params.orderItemServiceId){
             query += " and ois.id = ${orderItemServiceId} ";
@@ -70,11 +74,11 @@ class OrderItemServiceDAO  {
             query += " limit ${size} ";
             filterObj.size = params.size;
         }
-        logger.debug(' queryOrderItemService ');
+        logger.debug(' queryItemService ');
         return await pgDb.any(query,filterObj);
     }
 
-    static async queryOrderItemServiceCount(params) {
+    static async queryItemServiceCount(params) {
         let query = "select count(ois.id) from order_item_service ois where ois.id is not null ";
         let filterObj = {};
         if(params.orderItemServiceId){
@@ -130,39 +134,67 @@ class OrderItemServiceDAO  {
             filterObj.finDateEnd = params.finDateEnd;
         }
 
-        logger.debug(' queryOrderItemServiceCount ');
+        logger.debug(' queryItemServiceCount ');
         return await pgDb.one(query,filterObj);
     }
 
-    static async addOrderItemService(params) {
-        const query = 'INSERT INTO order_item_service ( ' +
-            ' op_user, sale_user_id, sale_user_name, deploy_user_id, ' +
-            ' deploy_user_name, remark, ' +
-            ' order_id, client_id, client_agent_id, order_item_type, ' +
+    static async addItemService(params) {
+        let query = 'INSERT INTO order_item_service ( ' +
+            ' op_user ';
+        let valueObj = {};
+        valueObj.opUser = params.opUser;
+
+        if(params.saleUserId){
+            query = query + ' , sale_user_id ';
+        }
+        if(params.saleUserName){
+            query = query + ' , sale_user_name ';
+        }
+        if(params.deployUserId){
+            query = query + ' , deploy_user_id ';
+        }
+        if(params.deployUserName){
+            query = query + ' , deploy_user_name ';
+        }
+
+        query = query + ' , remark, order_id, client_id, client_agent_id, order_item_type, ' +
             ' sale_service_id, sale_service_name, fixed_price, unit_price, ' +
             ' service_count, service_price, discount_service_price, ' +
             ' actual_service_price, date_id ) ' +
-            ' ( select ${opUser} , ${saleUserId} , ${saleUserName} , ${deployUserId} , ' +
-            ' ${deployUserName} , ${remark} , ' +
+            ' ( select ${opUser} ';
+
+        if(params.saleUserId){
+            query = query + ' , ${saleUserId} ';
+            valueObj.saleUserId = params.saleUserId;
+        }
+        if(params.saleUserName){
+            query = query + ' , ${saleUserName} ';
+            valueObj.saleUserName = params.saleUserName;
+        }
+        if(params.deployUserId){
+            query = query + ' , ${deployUserId} ';
+            valueObj.deployUserId = params.deployUserId;
+        }
+        if(params.deployUserName){
+            query = query + ' , ${deployUserName} ';
+            valueObj.deployUserName = params.deployUserName;
+        }
+
+        query = query + ' , ${remark} , ' +
             ' ${orderId} , ${clientId} , ${clientAgentId} , ${orderItemType} , ' +
             ' ssi.id , ssi.service_name , ssi.fixed_price , ssi.unit_price , ' +
             ' ssi.service_price_count , ' +
             '   ( case when ssi.service_cost_type = 1 ' +
-            '        then ssi.fixed_price*ssi.service_price_count ' +
+            '        then ssi.fixed_price ' +
             '        else ssi.unit_price*ssi.service_price_count end )as service_price , ' +
             ' ${discountServicePrice} , ' +
             '   ( case when ssi.service_cost_type = 1 ' +
-            '       then ssi.fixed_price*ssi.service_price_count-${discountServicePrice} ' +
-            '       else ssi.unit_price*ssi.service_price_count-${discountServicePrice} end )as service_price , ' +
+            '       then ssi.fixed_price - ${discountServicePrice} ' +
+            '       else ssi.unit_price*ssi.service_price_count-${discountServicePrice} end )as actual_service_price , ' +
             ' ${dateId} ' +
             ' from sale_service_info ssi ' +
             ' where ssi.id = ${saleServiceId}) RETURNING id ';
-        let valueObj = {};
-        valueObj.opUser = params.opUser;
-        valueObj.saleUserId = params.saleUserId;
-        valueObj.saleUserName = params.saleUserName;
-        valueObj.deployUserId = params.deployUserId;
-        valueObj.deployUserName = params.deployUserName;
+
         valueObj.remark = params.remark;
         valueObj.orderId = params.orderId;
         valueObj.clientId = params.clientId;
@@ -173,7 +205,48 @@ class OrderItemServiceDAO  {
         valueObj.discountServicePrice = params.discountServicePrice;
         valueObj.dateId = params.dateId;
         valueObj.saleServiceId = params.saleServiceId;
-        logger.debug(' addOrderItemService ');
+        logger.debug(' addItemService ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    static async updateItemService(params){
+        let query = 'update order_item_service set remark = ${remark}, order_item_type = ${orderItemType} ' ;
+        let valueObj = {};
+        valueObj.remark = params.remark;
+        valueObj.orderItemType = params.orderItemType;
+
+        if(params.discountServicePrice || params.discountServicePrice ==0){
+            query = query + ' , discount_service_price = ${discountServicePrice} , ' +
+                'actual_service_price = ( fixed_price + unit_price  * service_count ) - ${discountServicePrice} ' ;
+            valueObj.discountServicePrice = params.discountServicePrice;
+            valueObj.discountServicePrice = params.discountServicePrice;
+        }
+
+        query = query + ' where id = ${orderItemServiceId} RETURNING id ';
+        valueObj.orderItemServiceId = params.orderItemServiceId;
+        logger.debug(' updateItemService ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    static async updateDeploy(params){
+        let query = 'update order_item_service set deploy_user_id = ${deployUserId}, deploy_user_name = ${deployUserName} , status = 3' +
+            ' where id = ${orderItemServiceId} RETURNING id ';
+        let valueObj = {};
+        valueObj.deployUserId = params.deployUserId;
+        valueObj.deployUserName = params.deployUserName;
+        valueObj.orderItemServiceId = params.orderItemServiceId;
+        logger.debug(' updateDeployAndStatus ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    static async updateCheck(params){
+        let query = 'update order_item_service set check_user_id = ${checkUserId}, check_user_name = ${checkUserName} , status = 7' +
+            ' where id = ${orderItemServiceId} RETURNING id ';
+        let valueObj = {};
+        valueObj.checkUserId = params.checkUserId;
+        valueObj.checkUserName = params.checkUserName;
+        valueObj.orderItemServiceId = params.orderItemServiceId;
+        logger.debug(' updateDeployAndStatus ');
         return await pgDb.any(query,valueObj);
     }
 
@@ -185,6 +258,16 @@ class OrderItemServiceDAO  {
         valueObj.opUser = params.opUser;
         valueObj.orderItemServiceId = params.orderItemServiceId;
         logger.debug(' updateStatus ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    static async deleteItemService(params){
+        const query = 'delete from order_item_service ' +
+            ' where id = ${orderItemServiceId} ' +
+            ' RETURNING id ';
+        let valueObj = {};
+        valueObj.orderItemServiceId =params.orderItemServiceId;
+        logger.debug(' deleteItemService ');
         return await pgDb.any(query,valueObj);
     }
 

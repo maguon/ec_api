@@ -257,14 +257,25 @@ const createServer=()=>{
      * Order Module
      */
     server.get('/api/user/:userId/order', order.queryOrder);
+    server.get('/api/user/:userId/order.csv', order.queryOrderCsv);
     server.post({path:'/api/user/:userId/order',contentType: 'application/json'}, order.addOrder);
+    server.put({path:'/api/user/:userId/order/:orderId',contentType: 'application/json'} ,order.updateOrder);
     server.put({path:'/api/user/:userId/order/:orderId/status',contentType: 'application/json'} ,order.updateStatus);
 
-    server.get('/api/user/:userId/orderItemProd', orderItemProd.queryOrderItemProd);
+    server.get('/api/user/:userId/orderItemProd', orderItemProd.queryItemProd);
+    server.get('/api/user/:userId/orderItemProdStorage', orderItemProd.queryItemProdStorage);
+    server.post({path:'/api/user/:userId/order/:orderId/orderItemProd',contentType: 'application/json'}, orderItemProd.addItemProd);
+    server.put({path:'/api/user/:userId/orderItemProd/:orderItemProdId',contentType: 'application/json'} ,orderItemProd.updateItemProd);
     server.put({path:'/api/user/:userId/orderItemProd/:orderItemProdId/status',contentType: 'application/json'} ,orderItemProd.updateStatus);
+    server.del({path:'/api/user/:userId/order/:orderId/orderItemProd/:orderItemProdId',contentType: 'application/json'}, orderItemProd.deleteItemProd);
 
-    server.get('/api/user/:userId/orderItemService', orderItemService.queryOrderItemService);
+    server.get('/api/user/:userId/orderItemService', orderItemService.queryItemService);
+    server.post({path:'/api/user/:userId/order/:orderId/orderItemService',contentType: 'application/json'}, orderItemService.addItemService);
+    server.put({path:'/api/user/:userId/orderItemService/:orderItemServiceId',contentType: 'application/json'} ,orderItemService.updateItemService);
+    server.put({path:'/api/user/:userId/orderItemService/:orderItemServiceId/deploy',contentType: 'application/json'} ,orderItemService.updateDeploy);
+    server.put({path:'/api/user/:userId/orderItemService/:orderItemServiceId/check',contentType: 'application/json'} ,orderItemService.updateCheck);
     server.put({path:'/api/user/:userId/orderItemService/:orderItemServiceId/status',contentType: 'application/json'} ,orderItemService.updateStatus);
+    server.del({path:'/api/user/:userId/order/:orderId/orderItemService/:orderItemServiceId',contentType: 'application/json'}, orderItemService.deleteItemService);
 
     /**
      * App Module
@@ -280,6 +291,12 @@ const createServer=()=>{
      */
     server.get('/api/user/:userId/statPurchaseByMonth', statistics.queryPurchaseStatByMonth);
     server.get('/api/user/:userId/statPurchaseByDay', statistics.queryPurchaseStatByDay);
+
+    server.get('/api/user/:userId/statClientByMonth', statistics.queryClientStatByMonth);
+    server.get('/api/user/:userId/statClientByDay', statistics.queryClientStatByDay);
+
+    server.get('/api/user/:userId/statOrderByMonth', statistics.queryOrderStatByMonth);
+    server.get('/api/user/:userId/statOrderByDay', statistics.queryOrderStatByDay);
 
 
 

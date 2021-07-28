@@ -4,17 +4,21 @@ const logger = serverLogger.createLogger('OrderDAO.js');
 
 class OrderDAO  {
     static async queryOrder(params) {
-        let query = "select oi.* , ui.real_name , rui.real_name as re_user_name , " +
-            " cui.real_name as check_user_name " +
+        let query = "select oi.* , ui.real_name , ca.name as client_agent_name " +
             " from order_info oi " +
             " left join user_info ui on ui.id = oi.op_user " +
             " left join user_info rui on rui.id = oi.re_user_id " +
             " left join user_info cui on cui.id = oi.check_user_id " +
+            " left join client_agent ca on ca.id = oi.client_agent_id " +
             " where oi.id is not null ";
         let filterObj = {};
         if(params.orderId){
             query += " and oi.id = ${orderId} ";
             filterObj.orderId = params.orderId;
+        }
+        if(params.reUserId){
+            query += " and oi.re_user_id = ${reUserId} ";
+            filterObj.reUserId = params.reUserId;
         }
         if(params.status){
             query += " and oi.status = ${status} ";
@@ -35,6 +39,12 @@ class OrderDAO  {
         if(params.clientId){
             query += " and oi.client_id = ${clientId} ";
             filterObj.clientId = params.clientId;
+        }
+        if(params.clientTel){
+            query += " and oi.client_tel like '%" + params.clientTel + "%' ";
+        }
+        if(params.clientSerial){
+            query += " and oi.client_serial like '%" + params.clientSerial + "%' ";
         }
         if(params.clientAgentId){
             query += " and oi.client_agent_id = ${clientAgentId} ";
@@ -152,6 +162,23 @@ class OrderDAO  {
         valueObj.dateId = params.dateId;
         valueObj.clientId = params.clientId;
         logger.debug(' addOrder ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    static async updateOrder(params){
+        const query = ' UPDATE order_info ' +
+            ' SET op_user=${opUser} , re_user_id = ${reUserId}, re_user_name = ${reUserName}, ' +
+            ' client_remark = ${clientRemark}, op_remark = ${opRemark} ' +
+            ' where id = ${orderId}  ' +
+            ' RETURNING id ';
+        let valueObj = {};
+        valueObj.opUser = params.opUser;
+        valueObj.reUserId = params.reUserId;
+        valueObj.reUserName = params.reUserName;
+        valueObj.clientRemark = params.clientRemark;
+        valueObj.opRemark = params.opRemark;
+        valueObj.orderId = params.orderId;
+        logger.debug(' updateOrder ');
         return await pgDb.any(query,valueObj);
     }
 
