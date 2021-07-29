@@ -75,10 +75,13 @@ class StorageProductRelDetailDAO  {
             query += " and sprd.date_id <= ${dateIdEnd} ";
             filterObj.dateIdEnd = params.dateIdEnd;
         }
-
         if(params.orderId){
             query += " and sprd.order_id = ${orderId} ";
             filterObj.orderId = params.orderId;
+        }
+        if(params.orderProdId){
+            query += " and sprd.order_prod_id = ${orderProdId} ";
+            filterObj.orderProdId = params.orderProdId;
         }
         query = query + '  order by sprd.id desc ';
         if(params.start){

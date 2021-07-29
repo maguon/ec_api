@@ -2662,6 +2662,13 @@
             "type": "string"
           },
           {
+            "name": "orderProdId",
+            "in": "query",
+            "description": "orderProdId",
+            "required": false,
+            "type": "string"
+          },
+          {
             "name": "status",
             "in": "query",
             "description": "status",
