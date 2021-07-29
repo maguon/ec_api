@@ -198,6 +198,9 @@ const addStorageProductRelDetail = async (req,res,next)=>{
             }
             const rowsRel = await storageProductRelDAO.updateStorageCount(params);
             logger.info(' addStorageProductRelDetail updateStorageCount ' + 'success');
+        }else{
+            resUtil.resetFailedRes(res,{message:'创建失败！'});
+            return next();
         }
 
         if(params.orderProdId){
