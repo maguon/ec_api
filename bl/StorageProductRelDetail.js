@@ -200,7 +200,7 @@ const addStorageProductRelDetail = async (req,res,next)=>{
             logger.info(' addStorageProductRelDetail updateStorageCount ' + 'success');
         }
 
-        if(params.orderItemProdId){
+        if(params.orderProdId){
             params.orderItemProdId = params.orderProdId;
             params.status = sysConst.prodItemStatus.complete;
             //更新 order_item_prod status
