@@ -445,7 +445,7 @@ CREATE TABLE IF NOT EXISTS public.storage_product_rel_detail
     "storage_sub_type" smallint NOT NULL DEFAULT 0,
     "storage_count" smallint NOT NULL DEFAULT 0,
     "date_id" integer ,
-    "re_user_id" smallint ,
+    "apply_user_id" smallint ,
     "order_id" bigint ,
     "order_prod_id" integer ,
     PRIMARY KEY (id)
