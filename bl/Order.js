@@ -272,6 +272,11 @@ const updateStatus = async (req,res,next)=>{
     if(path.orderId){
         params.orderId = path.orderId;
     }
+    if(params.status == systemConst.orderStatus.complete){
+        let today = new Date();
+        let date = moment(today).format('YYYYMMDD');
+        params.finDateId = date;
+    }
     try{
         const rows = await orderDAO.updateStatus(params);
         logger.info(' updateStatus ' + 'success');

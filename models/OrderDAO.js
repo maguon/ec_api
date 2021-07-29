@@ -213,11 +213,17 @@ class OrderDAO  {
     }
 
     static async updateStatus(params){
-        const query = 'update order_info set status=${status} , op_user=${opUser} ' +
-            ' where id=${orderId} RETURNING id ';
+        let query = 'update order_info set status=${status} , op_user=${opUser} ' ;
         let valueObj = {};
         valueObj.status = params.status;
         valueObj.opUser = params.opUser;
+
+        if(params.finDateId){
+            query = query + ' , fin_date_id = ${finDateId} ';
+            valueObj.finDateId = params.finDateId;
+        }
+
+        query = query + ' where id=${orderId} RETURNING id ';
         valueObj.orderId = params.orderId;
         logger.debug(' updateStatus ');
         return await pgDb.any(query,valueObj);
