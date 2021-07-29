@@ -1,6 +1,7 @@
 
 const storageProductRelDAO = require('../models/StorageProductRelDAO');
 const storageProductRelDetailDAO = require('../models/StorageProductRelDetailDAO');
+const orderItemProdDAO = require('../models/OrderItemProdDAO');
 const serverLogger = require('../util/ServerLogger.js');
 const sysConst = require('../util/SystemConst.js');
 const moment = require('moment');
@@ -197,7 +198,19 @@ const addStorageProductRelDetail = async (req,res,next)=>{
             }
             const rowsRel = await storageProductRelDAO.updateStorageCount(params);
             logger.info(' addStorageProductRelDetail updateStorageCount ' + 'success');
+        }else{
+            resUtil.resetFailedRes(res,{message:'创建失败！'});
+            return next();
         }
+
+        if(params.orderProdId){
+            params.orderItemProdId = params.orderProdId;
+            params.status = sysConst.prodItemStatus.complete;
+            //更新 order_item_prod status
+            const rowsStatus = await orderItemProdDAO.updateStatus(params);
+            logger.info(' addStorageProductRelDetail updateStatus ' + 'success');
+        }
+
         resUtil.resetCreateRes(res,rows);
         return next();
     }catch (e) {

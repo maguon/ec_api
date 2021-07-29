@@ -2564,9 +2564,9 @@
             "type": "integer"
           },
           {
-            "name": "reUserId",
+            "name": "applyUserId",
             "in": "query",
-            "description": "reUserId",
+            "description": "applyUserId",
             "required": false,
             "type": "integer"
           },
@@ -2658,6 +2658,13 @@
             "name": "orderId",
             "in": "query",
             "description": "orderId",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "orderProdId",
+            "in": "query",
+            "description": "orderProdId",
             "required": false,
             "type": "string"
           },
@@ -7054,9 +7061,9 @@
             "type": "integer"
           },
           {
-            "name": "reUserId",
+            "name": "applyUserId",
             "in": "query",
-            "description": "reUserId",
+            "description": "applyUserId",
             "required": false,
             "type": "integer"
           },
@@ -8696,7 +8703,8 @@
         "storageType",
         "storageSubType",
         "orderId",
-        "orderProdId"
+        "orderProdId",
+        "applyUserId"
       ],
       "properties": {
         "remark": {
@@ -8719,6 +8727,10 @@
           "format": "int64"
         },
         "orderProdId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "applyUserId": {
           "type": "integer",
           "format": "int64"
         }
