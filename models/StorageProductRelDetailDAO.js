@@ -5,7 +5,7 @@ const logger = serverLogger.createLogger('StorageProductRelDetailDAO.js');
 
 class StorageProductRelDetailDAO  {
     static async queryStorageProductRelDetail(params) {
-        let query = "select sprd.* , ui.real_name  , uire.real_name as re_real_name , si.storage_name , sai.storage_area_name , sui.supplier_name , pi.product_name " +
+        let query = "select sprd.* , ui.real_name  , uire.real_name as apply_real_name , si.storage_name , sai.storage_area_name , sui.supplier_name , pi.product_name " +
             " from storage_product_rel_detail sprd " +
             " left join user_info ui on ui.id = sprd.op_user " +
             " left join user_info uire on uire.id = sprd.apply_user_id " +
