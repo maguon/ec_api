@@ -8,7 +8,7 @@ class StorageProductRelDetailDAO  {
         let query = "select sprd.* , ui.real_name  , uire.real_name as re_real_name , si.storage_name , sai.storage_area_name , sui.supplier_name , pi.product_name " +
             " from storage_product_rel_detail sprd " +
             " left join user_info ui on ui.id = sprd.op_user " +
-            " left join user_info uire on uire.id = sprd.re_user_id " +
+            " left join user_info uire on uire.id = sprd.apply_user_id " +
             " left join storage_info si on si.id = sprd.storage_id " +
             " left join storage_area_info sai on sai.id = sprd.storage_area_id " +
             " left join supplier_info sui on sui.id = sprd.supplier_id " +
@@ -27,9 +27,9 @@ class StorageProductRelDetailDAO  {
             query += " and sprd.op_user = ${opUser} ";
             filterObj.opUser = params.opUser;
         }
-        if(params.reUserId){
-            query += " and sprd.re_user_id = ${reUserId} ";
-            filterObj.reUserId = params.reUserId;
+        if(params.applyUserId){
+            query += " and sprd.apply_user_id = ${applyUserId} ";
+            filterObj.applyUserId = params.applyUserId;
         }
         if(params.storageId){
             query += " and sprd.storage_id = ${storageId} ";
@@ -159,13 +159,13 @@ class StorageProductRelDetailDAO  {
     static async addStorageProductRelDetail(params) {
         let query = 'INSERT INTO storage_product_rel_detail (status , op_user , remark , storage_id , storage_area_id , ' +
             ' storage_product_rel_id , supplier_id , product_id , purchase_id , purchase_item_id , storage_type , ' +
-            ' storage_sub_type , storage_count , date_id , re_user_id , order_id ';
+            ' storage_sub_type , storage_count , date_id , apply_user_id , order_id ';
         if(params.orderProdId){
             query = query + ' , order_prod_id ' ;
         }
         query =  query + ' )select ${status} , ${opUser} , ${remark} , storage_id , storage_area_id , ${storageProductRelId} , ' +
             ' supplier_id , product_id , purchase_id , purchase_item_id , ${storageType} , ${storageSubType} , ' +
-            ' ${storageCount} , ${dateId} , ${reUserId}' ;
+            ' ${storageCount} , ${dateId} , ${applyUserId}' ;
         let valueObj = {};
         valueObj.status = params.status;
         valueObj.opUser = params.opUser;
@@ -175,7 +175,7 @@ class StorageProductRelDetailDAO  {
         valueObj.storageSubType = params.storageSubType;
         valueObj.storageCount = params.storageCount;
         valueObj.dateId = params.dateId;
-        valueObj.reUserId = params.reUserId;
+        valueObj.applyUserId = params.applyUserId;
 
         if(params.orderId){
             query = query + ' , ${orderId} ' ;

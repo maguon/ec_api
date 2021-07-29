@@ -2564,9 +2564,9 @@
             "type": "integer"
           },
           {
-            "name": "reUserId",
+            "name": "applyUserId",
             "in": "query",
-            "description": "reUserId",
+            "description": "applyUserId",
             "required": false,
             "type": "integer"
           },
@@ -7061,9 +7061,9 @@
             "type": "integer"
           },
           {
-            "name": "reUserId",
+            "name": "applyUserId",
             "in": "query",
-            "description": "reUserId",
+            "description": "applyUserId",
             "required": false,
             "type": "integer"
           },
@@ -8704,7 +8704,7 @@
         "storageSubType",
         "orderId",
         "orderProdId",
-        "reUserId"
+        "applyUserId"
       ],
       "properties": {
         "remark": {
@@ -8730,7 +8730,7 @@
           "type": "integer",
           "format": "int64"
         },
-        "reUserId": {
+        "applyUserId": {
           "type": "integer",
           "format": "int64"
         }

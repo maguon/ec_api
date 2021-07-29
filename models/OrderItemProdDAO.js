@@ -126,13 +126,13 @@ class OrderItemProdDAO  {
             "   sprd.storage_product_rel_id as st_storage_product_rel_id , sprd.supplier_id as st_supplier_id , si.supplier_name as st_supplier_name ," +
             "   sprd.product_id as st_product_id , sprd.purchase_id as st_purchase_id , sprd.purchase_item_id as st_purchase_item_id ," +
             "   sprd.storage_type as st_storage_type , sprd.storage_sub_type as st_storage_sub_type , " +
-            "   sprd.storage_count as st_storage_count , sprd.date_id as st_date_id , sprd.re_user_id as st_re_user_id , " +
-            "   sui.real_name as st_re_user_name " +
+            "   sprd.storage_count as st_storage_count , sprd.date_id as st_date_id , sprd.apply_user_id as st_apply_user_id , " +
+            "   sui.real_name as st_apply_user_name " +
             "   from order_item_prod oip " +
             "   left join user_info ui on ui.id = oip.op_user " +
             "   left join order_info oi on oi.id = oip.order_id " +
             "   left join storage_product_rel_detail sprd on sprd.order_prod_id = oip.id " +
-            "   left join user_info sui on sui.id = sprd.re_user_id " +
+            "   left join user_info sui on sui.id = sprd.apply_user_id " +
             "   left join supplier_info si on si.id = sprd.supplier_id " +
             "   left join storage_info sti on sti.id = sprd.storage_id " +
             "   left join storage_area_info stai on stai.id = sprd.storage_area_id " +
@@ -198,9 +198,9 @@ class OrderItemProdDAO  {
             query += " and sprd.purchase_id = ${purchaseId} ";
             filterObj.purchaseId = params.purchaseId;
         }
-        if(params.reUserId){
-            query += " and sprd.re_user_id = ${reUserId} ";
-            filterObj.reUserId = params.reUserId;
+        if(params.applyUserId){
+            query += " and sprd.apply_user_id = ${applyUserId} ";
+            filterObj.applyUserId = params.applyUserId;
         }
         query = query + '  order by OiP.id desc ';
         if(params.start){
@@ -220,7 +220,7 @@ class OrderItemProdDAO  {
             "   left join user_info ui on ui.id = oip.op_user " +
             "   left join order_info oi on oi.id = oip.order_id " +
             "   left join storage_product_rel_detail sprd on sprd.order_prod_id = oip.id " +
-            "   left join user_info sui on sui.id = sprd.re_user_id " +
+            "   left join user_info sui on sui.id = sprd.apply_user_id " +
             "   where oip.id is not null";
         let filterObj = {};
         if(params.orderItemProdId){
