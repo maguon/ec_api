@@ -4,11 +4,13 @@ const logger = serverLogger.createLogger('PurchaseRefundDAO.js');
 
 class PurchaseRefundDAO  {
     static async queryPurchaseRefund(params) {
-        let query = "select pr.* , ui.real_name , si.supplier_name , sprd.remark as storage_rel_remark" +
+        let query = "select pr.* , ui.real_name , si.supplier_name , sprd.remark as storage_rel_remark , " +
+            " pi.unit_cost " +
             " from purchase_refund pr " +
             " left join user_info ui on ui.id = pr.op_user " +
             " left join supplier_info si on si.id = pr.supplier_id " +
             " left join storage_product_rel_detail sprd on sprd.id = pr.storage_rel_id " +
+            " left join purchase_item pi on pi.id = pr.purchase_item_id " +
             " where pr.id is not null ";
         let filterObj = {};
         if(params.purchaseRefundId){
@@ -91,6 +93,7 @@ class PurchaseRefundDAO  {
             " left join user_info ui on ui.id = pr.op_user " +
             " left join supplier_info si on si.id = pr.supplier_id " +
             " left join storage_product_rel_detail sprd on sprd.id = pr.storage_rel_id " +
+            " left join purchase_item pi on pi.id = pr.purchase_item_id " +
             " where pr.id is not null ";
         let filterObj = {};
         if(params.purchaseRefundId){
