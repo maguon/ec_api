@@ -133,7 +133,6 @@ const addStorageCheckRel = async (req,res,next)=>{
         let date = moment(today).format('YYYYMMDD');
         params.dateId = date;
         params.storageProductRelId = rowsProductRel[0].id;
-        params.status = 2;
         params.checkStatus = systemConst.storageCheckStatus.not_normal;
         //创建 storage_check_rel
         const rowsRel = await storageCheckRelDAO.addStorageCheckRel(params);

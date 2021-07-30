@@ -108,7 +108,7 @@ class StorageCheckRelDAO  {
         let query = 'INSERT INTO storage_check_rel ( check_status , op_user , ' +
             ' remark , storage_check_id , date_id , storage_count , check_count , storage_product_rel_id ,' +
             ' storage_id , storage_area_id , product_id ) ' +
-            ' VALUES ( ${status} , ${checkStatus}  , ${opUser} , ${remark} , ${storageCheckId} , ${dateId} ,  ' +
+            ' VALUES ( ${checkStatus}  , ${opUser} , ${remark} , ${storageCheckId} , ${dateId} ,  ' +
             ' ${storageCount} , ${checkCount} , ${storageProductRelId} , ${storageId} , ${storageAreaId} , ' +
             ' ${productId} ) ';
         let valueObj = {};
