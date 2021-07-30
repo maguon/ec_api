@@ -69,33 +69,36 @@ class UserDAO  {
     }
 
     static async queryUserCount(params) {
-        let query = "select count(id) from user_info where id is not null ";
+        let query = "select count(ui.id) " +
+            " from user_info ui " +
+            " left join user_type_menu utm " +
+            " on utm.id = ui.type " +
+            " where ui.id is not null ";
         let filterObj = {};
         if(params.id){
-            query += " and id = ${id} ";
+            query += " and ui.id = ${id} ";
             filterObj.id = params.id;
         }
         if(params.status){
-            query += " and status = ${status} ";
+            query += " and ui.status = ${status} ";
             filterObj.status = params.status;
         }
-        if(params.userName){
-            query += " and user_name like  '%" + params.userName + "%' ";
+        if(params.realName){
+            query += " and ui.real_name like  '%" + params.realName + "%' ";
         }
         if(params.password){
-            query += " and password = ${password} ";
+            query += " and ui.password = ${password} ";
             filterObj.password = params.password;
         }
         if(params.phone){
-            query += " and phone = ${phone} ";
-            filterObj.phone = params.phone;
+            query += " and ui.phone like  '%" + params.phone + "%' ";
         }
         if(params.gender){
-            query += " and gender = ${gender} ";
+            query += " and ui.gender = ${gender} ";
             filterObj.gender = params.gender;
         }
         if(params.type){
-            query += " and type = ${type} ";
+            query += " and ui.type = ${type} ";
             filterObj.type = params.type;
         }
         logger.debug(' queryUserCount ');

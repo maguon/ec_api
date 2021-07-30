@@ -58,6 +58,10 @@ class PurchaseItemDAO  {
             query += " and status = ${status} ";
             filterObj.status = params.status;
         }
+        if(params.storageStatus){
+            query += " and pit.storage_tatus = ${storageStatus} ";
+            filterObj.storageStatus = params.storageStatus;
+        }
         if(params.supplierId){
             query += " and supplier_id = ${supplierId} ";
             filterObj.supplierId = params.supplierId;
@@ -128,13 +132,34 @@ class PurchaseItemDAO  {
             " from purchase_item pi " +
             " left join storage_product_rel spr on spr.purchase_item_id = pi.id" +
             " left join storage_info si on si.id = spr.storage_id" +
-            " left join storage_area_info sai on sai.id = spr.storage_area_id  " +
+            " left join storage_area_info sai on sai.id = spr.storage_area_id " +
             " left join supplier_info sui on sui.id = pi.supplier_id " +
+            " left join user_info ui on ui.id = pi.op_user " +
             " where pi.id is not null ";
         let filterObj = {};
         if(params.purchaseId){
             query += " and pi.purchase_id = ${purchaseId} ";
             filterObj.purchaseId = params.purchaseId;
+        }
+        if(params.storageStatus){
+            query += " and pi.storage_status = ${storageStatus} ";
+            filterObj.storageStatus = params.storageStatus;
+        }
+        if(params.supplierId){
+            query += " and pi.supplier_id = ${supplierId} ";
+            filterObj.supplierId = params.supplierId;
+        }
+        if(params.productId){
+            query += " and pi.product_id = ${productId} ";
+            filterObj.productId = params.productId;
+        }
+        if(params.storageId){
+            query += " and spr.storage_id = ${storageId} ";
+            filterObj.storageId = params.storageId;
+        }
+        if(params.storageAreaId){
+            query += " and spr.storage_area_id = ${storageAreaId} ";
+            filterObj.storageAreaId = params.storageAreaId;
         }
         logger.debug(' queryPurchaseItemStorageCount ');
         return await pgDb.one(query,filterObj);

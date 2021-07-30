@@ -87,61 +87,73 @@ class PurchaseRefundDAO  {
     }
 
     static async queryPurchaseRefundCount(params) {
-        let query = "select count(id) from purchase_refund where id is not null ";
+        let query = "select count(pr.id) from purchase_refund pr " +
+            " left join user_info ui on ui.id = pr.op_user " +
+            " left join supplier_info si on si.id = pr.supplier_id " +
+            " left join storage_product_rel_detail sprd on sprd.id = pr.storage_rel_id " +
+            " where pr.id is not null ";
         let filterObj = {};
         if(params.purchaseRefundId){
-            query += " and id = ${purchaseRefundId} ";
+            query += " and pr.id = ${purchaseRefundId} ";
             filterObj.purchaseRefundId = params.purchaseRefundId;
         }
         if(params.status){
-            query += " and status = ${status} ";
+            query += " and pr.status = ${status} ";
             filterObj.status = params.status;
         }
         if(params.supplierId){
-            query += " and supplier_id = ${supplierId} ";
+            query += " and pr.supplier_id = ${supplierId} ";
             filterObj.supplierId = params.supplierId;
         }
         if(params.purchaseId){
-            query += " and purchase_id = ${purchaseId} ";
+            query += " and pr.purchase_id = ${purchaseId} ";
             filterObj.purchaseId = params.purchaseId;
         }
         if(params.purchaseItemId){
-            query += " and purchase_item_id = ${purchaseItemId} ";
+            query += " and pr.purchase_item_id = ${purchaseItemId} ";
             filterObj.purchaseItemId = params.purchaseItemId;
         }
         if(params.productId){
-            query += " and product_id = ${productId} ";
+            query += " and pr.product_id = ${productId} ";
             filterObj.productId = params.productId;
+        }
+        if(params.storageType){
+            query += " and pr.storage_type = ${storageType} ";
+            filterObj.storageType = params.storageType;
+        }
+        if(params.storageRelId){
+            query += " and pr.storage_rel_id = ${storageRelId} ";
+            filterObj.storageRelId = params.storageRelId;
+        }
+        if(params.paymentStatus){
+            query += " and pr.payment_status = ${paymentStatus} ";
+            filterObj.paymentStatus = params.paymentStatus;
+        }
+        if(params.dateIdStart){
+            query += " and pr.date_id >= ${dateIdStart} ";
+            filterObj.dateIdStart = params.dateIdStart;
+        }
+        if(params.dateIdEnd){
+            query += " and pr.date_id <= ${dateIdEnd} ";
+            filterObj.dateIdEnd = params.dateIdEnd;
         }
         if(params.refundStorageFlag){
             if(params.refundStorageFlag == 1){
-                query += " and storage_rel_id is null ";
+                query += " and pr.storage_rel_id is null ";
                 filterObj.refundStorageFlag = params.refundStorageFlag;
             }
             if(params.refundStorageFlag == 2){
-                query += " and storage_rel_id is not null ";
+                query += " and pr.storage_rel_id is not null ";
                 filterObj.refundStorageFlag = params.refundStorageFlag;
             }
         }
         if(params.storageType){
-            query += " and storage_type = ${storageType} ";
+            query += " and pr.storage_type = ${storageType} ";
             filterObj.storageType = params.storageType;
         }
-        if(params.storageRelId){
-            query += " and storage_rel_id = ${storageRelId} ";
-            filterObj.storageRelId = params.storageRelId;
-        }
-        if(params.paymentStatus){
-            query += " and payment_status = ${paymentStatus} ";
-            filterObj.paymentStatus = params.paymentStatus;
-        }
-        if(params.dateIdStart){
-            query += " and date_id >= ${dateIdStart} ";
-            filterObj.dateIdStart = params.dateIdStart;
-        }
-        if(params.dateIdEnd){
-            query += " and date_id <= ${dateIdEnd} ";
-            filterObj.dateIdEnd = params.dateIdEnd;
+        if(params.transferCostType){
+            query += " and pr.transfer_cost_type = ${transferCostType} ";
+            filterObj.transferCostType = params.transferCostType;
         }
         logger.debug(' queryPurchaseRefundCount ');
         return await pgDb.one(query,filterObj);

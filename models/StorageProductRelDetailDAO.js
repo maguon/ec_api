@@ -97,59 +97,83 @@ class StorageProductRelDetailDAO  {
     }
 
     static async queryStorageProductRelDetailCount(params) {
-        let query = "select count(id) from storage_product_rel_detail where id is not null ";
+        let query = "select count(sprd.id) " +
+            " from storage_product_rel_detail sprd " +
+            " left join user_info ui on ui.id = sprd.op_user " +
+            " left join user_info uire on uire.id = sprd.apply_user_id " +
+            " left join storage_info si on si.id = sprd.storage_id " +
+            " left join storage_area_info sai on sai.id = sprd.storage_area_id " +
+            " left join supplier_info sui on sui.id = sprd.supplier_id " +
+            " left join product_info pi on pi.id = sprd.product_id " +
+            " where sprd.id is not null ";
         let filterObj = {};
         if(params.storageProductRelDetailId){
-            query += " and id = ${storageProductRelDetailId} ";
+            query += " and sprd.id = ${storageProductRelDetailId} ";
             filterObj.storageProductRelDetailId = params.storageProductRelDetailId;
         }
         if(params.status){
-            query += " and status = ${status} ";
+            query += " and sprd.status = ${status} ";
             filterObj.status = params.status;
         }
         if(params.opUser){
-            query += " and op_user = ${opUser} ";
+            query += " and sprd.op_user = ${opUser} ";
             filterObj.opUser = params.opUser;
         }
+        if(params.applyUserId){
+            query += " and sprd.apply_user_id = ${applyUserId} ";
+            filterObj.applyUserId = params.applyUserId;
+        }
         if(params.storageId){
-            query += " and storage_id = ${storageId} ";
+            query += " and sprd.storage_id = ${storageId} ";
             filterObj.storageId = params.storageId;
         }
         if(params.storageAreaId){
-            query += " and storage_area_id = ${storageAreaId} ";
+            query += " and sprd.storage_area_id = ${storageAreaId} ";
             filterObj.storageAreaId = params.storageAreaId;
         }
         if(params.storageProductRelId){
-            query += " and storage_product_rel_id = ${storageProductRelId} ";
+            query += " and sprd.storage_product_rel_id = ${storageProductRelId} ";
             filterObj.storageProductRelId = params.storageProductRelId;
         }
         if(params.supplierId){
-            query += " and supplier_id = ${supplierId} ";
+            query += " and sprd.supplier_id = ${supplierId} ";
             filterObj.supplierId = params.supplierId;
         }
         if(params.productId){
-            query += " and product_id = ${productId} ";
+            query += " and sprd.product_id = ${productId} ";
             filterObj.productId = params.productId;
         }
         if(params.purchaseId){
-            query += " and purchase_id = ${purchaseId} ";
+            query += " and sprd.purchase_id = ${purchaseId} ";
             filterObj.purchaseId = params.purchaseId;
         }
         if(params.purchaseItemId){
-            query += " and purchase_item_id = ${purchaseItemId} ";
+            query += " and sprd.purchase_item_id = ${purchaseItemId} ";
             filterObj.purchaseItemId = params.purchaseItemId;
         }
+        if(params.storageType){
+            query += " and sprd.storage_type = ${storageType} ";
+            filterObj.storageType = params.storageType;
+        }
+        if(params.storageSubType){
+            query += " and sprd.storage_sub_type = ${storageSubType} ";
+            filterObj.storageSubType = params.storageSubType;
+        }
         if(params.dateIdStart){
-            query += " and date_id >= ${dateIdStart} ";
+            query += " and sprd.date_id >= ${dateIdStart} ";
             filterObj.dateIdStart = params.dateIdStart;
         }
         if(params.dateIdEnd){
-            query += " and date_id <= ${dateIdEnd} ";
+            query += " and sprd.date_id <= ${dateIdEnd} ";
             filterObj.dateIdEnd = params.dateIdEnd;
         }
         if(params.orderId){
-            query += " and order_id = ${orderId} ";
+            query += " and sprd.order_id = ${orderId} ";
             filterObj.orderId = params.orderId;
+        }
+        if(params.orderProdId){
+            query += " and sprd.order_prod_id = ${orderProdId} ";
+            filterObj.orderProdId = params.orderProdId;
         }
         logger.debug(' queryStorageProductRelDetailCount ');
         return await pgDb.one(query,filterObj);

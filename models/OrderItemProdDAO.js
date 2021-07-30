@@ -283,6 +283,10 @@ class OrderItemProdDAO  {
             query += " and sprd.purchase_id = ${purchaseId} ";
             filterObj.purchaseId = params.purchaseId;
         }
+        if(params.applyUserId){
+            query += " and sprd.apply_user_id = ${applyUserId} ";
+            filterObj.applyUserId = params.applyUserId;
+        }
         logger.debug(' queryItemProdStorageCount ');
         return await pgDb.one(query,filterObj);
     }

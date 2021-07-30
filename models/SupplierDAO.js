@@ -41,22 +41,18 @@ class SupplierDAO  {
         let query = "select count(id) from supplier_info where id is not null ";
         let filterObj = {};
         if(params.supplierId){
-            query += " and id = ${supplierId} ";
+            query += " and si.id = ${supplierId} ";
             filterObj.supplierId = params.supplierId;
         }
         if(params.status){
-            query += " and status = ${status} ";
+            query += " and si.status = ${status} ";
             filterObj.status = params.status;
         }
-        if(params.opUser){
-            query += " and op_user = ${opUser} ";
-            filterObj.opUser = params.opUser;
-        }
         if(params.supplierName){
-            query += " and supplier_name like '%" + params.supplierName + "%' ";
+            query += " and si.supplier_name like '%" + params.supplierName + "%' ";
         }
         if(params.supplierType){
-            query += " and supplier_type = ${supplierType} ";
+            query += " and si.supplier_type = ${supplierType} ";
             filterObj.supplierType = params.supplierType;
         }
         logger.debug(' querySupplierCount ');
