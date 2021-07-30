@@ -131,9 +131,9 @@ class StorageCheckRelDAO  {
     //根据 storage_product_rel 新建 rel
     static async addStorageCheckRelByProductRel(params) {
         let query = 'INSERT INTO storage_check_rel (op_user , ' +
-            ' remark , storage_check_id , date_id , storage_count , check_count , storage_product_rel_id ,' +
+            ' storage_check_id , date_id , storage_count , check_count , storage_product_rel_id ,' +
             ' storage_id , storage_area_id , product_id ) ' +
-            ' (select ${opUser} , ${remark} , ${storageCheckId} , ${dateId} , spr.storage_count , 0 , spr.id , ' +
+            ' (select ${opUser} , ${storageCheckId} , ${dateId} , spr.storage_count , 0 , spr.id , ' +
             ' spr.storage_id , spr.storage_area_id , spr.product_id ' +
             ' from storage_product_rel spr ' +
             ' left join product_info pi on pi.id = spr.product_id ' +
@@ -141,7 +141,6 @@ class StorageCheckRelDAO  {
 
         let valueObj = {};
         valueObj.opUser = params.opUser;
-        valueObj.remark = params.remark;
         valueObj.storageCheckId = params.storageCheckId;
         valueObj.dateId = params.dateId;
         if(params.storageId){
