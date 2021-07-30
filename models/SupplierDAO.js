@@ -38,7 +38,10 @@ class SupplierDAO  {
     }
 
     static async querySupplierCount(params) {
-        let query = "select count(id) from supplier_info where id is not null ";
+        let query = "select count(si.id) " +
+            " from supplier_info si " +
+            " left join user_info ui on ui.id = si.op_user " +
+            " where si.id is not null ";
         let filterObj = {};
         if(params.supplierId){
             query += " and si.id = ${supplierId} ";
