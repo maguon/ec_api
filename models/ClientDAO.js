@@ -125,7 +125,11 @@ class ClientDAO  {
         valueObj.modelName = params.modelName;
         valueObj.clientAgentId = params.clientAgentId;
         valueObj.dateId = params.dateId;
-        valueObj.referUser = params.referUser;
+        if(params.referUser){
+            valueObj.referUser = params.referUser;
+        }else{
+            valueObj.referUser = 1;
+        }
         valueObj.sourceType = params.sourceType;
         logger.debug(' addClient ');
         return await pgDb.any(query,valueObj);
