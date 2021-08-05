@@ -803,3 +803,113 @@ COMMENT ON COLUMN public.order_item_prod.sale_perf IS '销售提成';
 
 create trigger order_item_prod_upt before update on order_prod_service for each row execute procedure update_timestamp_func();
 select setval(' order_item_prod_id_seq',10000,false);
+
+--CREATE TABLE payment_info
+CREATE TABLE IF NOT EXISTS public.payment_info(
+    "id" bigserial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 0 ,
+    "op_user" smallint NOT NULL DEFAULT 1 ,
+    "remark" character varying(200) ,
+    "type" smallint NOT NULL DEFAULT 1 ,
+    "payment_type" smallint ,
+    "order_id" smallint NOT NULL DEFAULT 0 ,
+    "order_refund_id" smallint ,
+    "total_fee" decimal(12,2) ,
+    "date_id" integer ,
+
+    PRIMARY KEY (id)
+);
+
+COMMENT ON COLUMN public.payment_info.status IS '状态(0.未，1.已)';
+COMMENT ON COLUMN public.payment_info.type IS '付款类型(1.支付 2.退款)';
+COMMENT ON COLUMN public.payment_info.payment_type IS '支付方式(1.挂账 2.现金)';
+
+create trigger payment_info_upt before update on payment_info for each row execute procedure update_timestamp_func();
+select setval(' payment_info_id_seq',10000,false);
+
+--CREATE TABLE order_payment_rel
+CREATE TABLE IF NOT EXISTS public.order_payment_rel(
+    "id" bigserial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 0,
+    "op_user" smallint NOT NULL DEFAULT 1,
+    "remark" character varying(200) ,
+    "order_id" smallint NOT NULL DEFAULT 0,
+    "order_refund_id" smallint NOT NULL DEFAULT 0,
+    "payment_id" smallint NOT NULL DEFAULT 0,
+    "date_id" integer ,
+
+    PRIMARY KEY (id)
+);
+
+create trigger order_payment_rel_upt before update on order_payment_rel for each row execute procedure update_timestamp_func();
+select setval(' order_payment_rel_id_seq',10000,false);
+
+
+--CREATE TABLE order_refund
+CREATE TABLE IF NOT EXISTS public.order_refund(
+    "id" bigserial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1,
+    "payment_status" smallint NOT NULL DEFAULT 1,
+    "op_user" smallint NOT NULL DEFAULT 1,
+    "refund_user_id" smallint NOT NULL DEFAULT 1,
+    "refund_user_name" character varying(20),
+    "remark" character varying(200) ,
+    "payment_type" smallint NOT NULL DEFAULT 1,
+    "order_id" smallint NOT NULL DEFAULT 0,
+    "date_id" integer ,
+    "service_refund_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "prod_refund_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "transfer_refund_price" decimal(12,2) NOT NULL DEFAULT 0,
+
+    PRIMARY KEY (id)
+);
+COMMENT ON COLUMN public.payment_info.payment_status IS '支付状态(0.未退，1.已退)';
+COMMENT ON COLUMN public.payment_info.refund_user_id IS '退款处理人';
+COMMENT ON COLUMN public.payment_info.payment_type IS '支付方式(1.挂账 2.现金)';
+
+create trigger order_refund_upt before update on order_refund for each row execute procedure update_timestamp_func();
+
+
+--CREATE TABLE order_refund_service
+CREATE TABLE IF NOT EXISTS public.order_refund_service(
+    "id" serial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1,
+    "op_user" smallint NOT NULL DEFAULT 1,
+    "remark" character varying(200) ,
+    "order_refund_id" bigint NOT NULL,
+    "order_id" bigint NOT NULL,
+    "order_item_service" bigint NOT NULL,
+    "service_refund_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "date_id" integer
+    PRIMARY KEY (id)
+);
+create trigger order_refund_service_upt before update on order_refund_service for each row execute procedure update_timestamp_func();
+
+
+--CREATE TABLE order_refund_prod
+CREATE TABLE IF NOT EXISTS public.order_refund_prod(
+    "id" serial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1,
+    "op_user" smallint NOT NULL DEFAULT 1,
+    "remark" character varying(200) ,
+    "order_refund_id" bigint NOT NULL,
+    "order_id" bigint NOT NULL,
+    "order_item_peod" bigint NOT NULL,
+    "order_item_type" smallint NOT NULL,
+    "prod_id" integer NOT NULL,
+    "prod_name" character varying(20),
+    "prod_refund_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "date_id" integer,
+    PRIMARY KEY (id)
+);
+create trigger order_refund_prod_upt before update on order_refund_prod for each row execute procedure update_timestamp_func();
