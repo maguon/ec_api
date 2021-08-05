@@ -303,7 +303,6 @@ class OrderItemProdDAO  {
             '   ${discountProdPrice} , ' +
             '   COALESCE(pi.price,0)*${prodCount}-${discountProdPrice} ,  ${dateId} ' +
             '   from product_info pi ' +
-            '   left join sale_service_prod_rel sspl on sspl.product_id = pi.id ' +
             '   where pi.id is not null and pi.id = ${productId} )  ' +
             ' RETURNING id ';
         let valueObj = {};
