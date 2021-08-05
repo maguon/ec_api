@@ -197,7 +197,7 @@ class StorageProductRelDetailDAO  {
         }
         query =  query + ' )select  ${opUser} , ${remark} , storage_id , storage_area_id , ${storageProductRelId} , ' +
             ' supplier_id , product_id , purchase_id , purchase_item_id , ${storageType} , ${storageSubType} , ' +
-            ' ${storageCount} , ${dateId} , ${applyUserId} , ${oldFlag}' ;
+            ' ${storageCount} , ${dateId} , ${applyUserId} , oldFlag ' ;
         let valueObj = {};
         valueObj.opUser = params.opUser;
         valueObj.remark = params.remark;
@@ -207,11 +207,6 @@ class StorageProductRelDetailDAO  {
         valueObj.storageCount = params.storageCount;
         valueObj.dateId = params.dateId;
         valueObj.applyUserId = params.applyUserId;
-        if(params.oldFlag){
-            valueObj.oldFlag = params.oldFlag;
-        }else{
-            valueObj.oldFlag = 0;
-        }
 
         if(params.orderId){
             query = query + ' , ${orderId} ' ;
