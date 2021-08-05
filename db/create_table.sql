@@ -415,12 +415,14 @@ CREATE TABLE IF NOT EXISTS public.storage_product_rel
     "storage_count" smallint NOT NULL DEFAULT 0,
     "date_id" integer ,
     "order_id" bigint ,
+    "old_flag" smallint NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 
 COMMENT ON COLUMN public.storage_product_rel.unit_cost IS '入库单价';
 COMMENT ON COLUMN public.storage_product_rel.storage_count IS '库存量';
 COMMENT ON COLUMN public.storage_product_rel.date_id IS '入库日期';
+COMMENT ON COLUMN public.storage_product_rel.old_flag IS '是否旧货';
 
 create trigger storage_product_rel_upt before update on storage_product_rel for each row execute procedure update_timestamp_func();
 select setval(' storage_product_rel_id_seq',10000,false);
