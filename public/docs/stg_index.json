@@ -2690,6 +2690,13 @@
             "type": "integer"
           },
           {
+            "name": "oldFlag",
+            "in": "query",
+            "description": "oldFlag",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "in": "query",
             "name": "start",
             "required": false,
