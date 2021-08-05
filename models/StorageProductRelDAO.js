@@ -4,7 +4,7 @@ const logger = serverLogger.createLogger('StorageProductRelDAO.js');
 
 class StorageProductRelDAO  {
     static async queryStorageProductRel(params) {
-        let query = "select spr.* ,ui.real_name , si.storage_name , sai.storage_area_name , sui.supplier_name  " +
+        let query = "select spr.* , ui.real_name , si.storage_name , sai.storage_area_name , sui.supplier_name " +
             " from storage_product_rel spr " +
             " left join user_info ui on ui.id = spr.op_user " +
             " left join storage_info si on si.id = spr.storage_id " +
@@ -59,6 +59,10 @@ class StorageProductRelDAO  {
         if(params.orderId){
             query += " and spr.order_id = ${orderId} ";
             filterObj.orderId = params.orderId;
+        }
+        if(params.oldFlag){
+            query += " and spr.old_flag = ${oldFlag} ";
+            filterObj.oldFlag = params.oldFlag;
         }
         query = query + '  order by spr.id desc ';
         if(params.start){
@@ -131,10 +135,10 @@ class StorageProductRelDAO  {
     static async addStorageProductRel(params) {
         const query = 'INSERT INTO storage_product_rel ( op_user , remark , storage_id , storage_area_id , ' +
             ' supplier_id , product_id , product_name , purchase_id , purchase_item_id , unit_cost , storage_count , ' +
-            ' date_id , order_id ) ' +
+            ' date_id , order_id , old_flag) ' +
             ' VALUES ( ${opUser} , ${remark} , ${storageId} , ${storageAreaId} , ${supplierId} , ' +
             ' ${productId} , ${productName} ,${purchaseId} , ${purchaseItemId} , ${unitCost} , ${storageCount} , ' +
-            ' ${dateId} , ${orderId}) RETURNING id ';
+            ' ${dateId} , ${orderId} , ${oldFlag} ) RETURNING id ';
         let valueObj = {};
         valueObj.opUser = params.opUser;
         valueObj.remark = params.remark;
@@ -149,6 +153,11 @@ class StorageProductRelDAO  {
         valueObj.storageCount = params.storageCount;
         valueObj.dateId = params.dateId;
         valueObj.orderId = params.orderId;
+        if(params.oldFlag){
+            valueObj.oldFlag = params.oldFlag;
+        }else{
+            valueObj.oldFlag = 0;
+        }
         logger.debug(' addStorageProductRel ');
         return await pgDb.any(query,valueObj);
     }

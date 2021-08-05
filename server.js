@@ -164,7 +164,8 @@ const createServer=()=>{
 
     server.get('/api/user/:userId/storageProductRelDetail', storageProductRelDetail.queryStorageProductRelDetail);
     server.get('/api/user/:userId/storageProductRelDetail.csv', storageProductRelDetail.queryStorageProductRelDetailCsv);
-    server.post({path:'/api/user/:userId/storageProductRel/:storageProductRelId/storageProductRelDetail',contentType: 'application/json'}, storageProductRelDetail.addStorageProductRelDetail);
+    server.post({path:'/api/user/:userId/storageProductRel/:storageProductRelId/storProdRelDetailImport',contentType: 'application/json'}, storageProductRelDetail.addRelDetailImport);
+    server.post({path:'/api/user/:userId/storageProductRel/:storageProductRelId/storProdRelDetailExport',contentType: 'application/json'}, storageProductRelDetail.addRelDetailExport);
 
     server.get('/api/user/:userId/storageCheck', storageCheck.queryStorageCheck);
     server.post({path:'/api/user/:userId/storageCheck',contentType: 'application/json'}, storageCheck.addStorageCheck);

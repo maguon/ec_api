@@ -173,7 +173,8 @@ function stroageTypeConst(storageSubType){
     return returnMsg;
 }
 
-const addStorageProductRelDetail = async (req,res,next)=>{
+//退料、退单入库
+const addRelDetailImport = async (req,res,next)=>{
     let params = req.body;
     let path = req.params;
     if(path.userId){
@@ -182,7 +183,6 @@ const addStorageProductRelDetail = async (req,res,next)=>{
     if(path.storageProductRelId){
         params.storageProductRelId = path.storageProductRelId;
     }
-    params.status = sysConst.status.usable;
 
     let today = new Date();
     let date = moment(today).format('YYYYMMDD');
@@ -190,14 +190,38 @@ const addStorageProductRelDetail = async (req,res,next)=>{
 
     try {
         const rows = await storageProductRelDetailDAO.addStorageProductRelDetail(params);
-        logger.info(' addStorageProductRelDetail ' + 'success');
+        logger.info(' addRelDetailImport ' + 'success');
 
         if(rows.length >= 1){
-            if(params.storageType == sysConst.storageType.export){
-                params.storageCount = -params.storageCount;
+            //查询storage_product_rel 原库是否存在旧货
+            if(params.oldFlag == undefined){
+                params.oldFlag = 0;
             }
-            const rowsRel = await storageProductRelDAO.updateStorageCount(params);
-            logger.info(' addStorageProductRelDetail updateStorageCount ' + 'success');
+            const rowsOld = await storageProductRelDAO.queryStorageProductRel({storageProductRelId:path.storageProductRelId});
+            logger.info(' addRelDetailImport queryStorageProductRel ' + 'success');
+
+            if(rowsOld[0].old_flag == params.oldFlag){
+                //返回原来仓位
+                const rowsRel = await storageProductRelDAO.updateStorageCount(params);
+                logger.info(' addRelDetailImport updateStorageCount ' + 'success');
+            }else{
+                //与原仓位，商品旧货状态不同，创建新仓库信息
+                params.opUser = path.userId;
+                params.remark = params.remark;
+                params.storageId = rowsOld[0].storage_id;
+                params.storageAreaId = rowsOld[0].storage_area_id;
+                params.supplierId = rowsOld[0].supplier_id;
+                params.productId = rowsOld[0].product_id;
+                params.productName = rowsOld[0].product_name;
+                params.purchaseId = rowsOld[0].purchase_id;
+                params.purchaseItemId = rowsOld[0].purchase_item_id;
+                params.unitCost = rowsOld[0].unit_cost;
+                params.orderId = rowsOld[0].order_id;
+
+                const rowsAddRel = await storageProductRelDAO.addStorageProductRel(params);
+                logger.info(' addRelDetailImport addStorageProductRel ' + 'success');
+            }
+
         }else{
             resUtil.resetFailedRes(res,{message:'创建失败！'});
             return next();
@@ -208,13 +232,57 @@ const addStorageProductRelDetail = async (req,res,next)=>{
             params.status = sysConst.prodItemStatus.complete;
             //更新 order_item_prod status
             const rowsStatus = await orderItemProdDAO.updateStatus(params);
-            logger.info(' addStorageProductRelDetail updateStatus ' + 'success');
+            logger.info(' addRelDetailImport updateStatus ' + 'success');
         }
 
         resUtil.resetCreateRes(res,rows);
         return next();
     }catch (e) {
-        logger.error(" addStorageProductRelDetail error ",e.stack);
+        logger.error(" addRelDetailImport error ",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
+//领料、订单出库
+const addRelDetailExport = async (req,res,next)=>{
+    let params = req.body;
+    let path = req.params;
+    if(path.userId){
+        params.opUser = path.userId;
+    }
+    if(path.storageProductRelId){
+        params.storageProductRelId = path.storageProductRelId;
+    }
+
+    let today = new Date();
+    let date = moment(today).format('YYYYMMDD');
+    params.dateId = date;
+
+    try {
+        const rows = await storageProductRelDetailDAO.addStorageProductRelDetail(params);
+        logger.info(' addRelDetailExport ' + 'success');
+
+        if(rows.length >= 1){
+            params.storageCount = -params.storageCount;
+            const rowsRel = await storageProductRelDAO.updateStorageCount(params);
+            logger.info(' addRelDetailExport updateStorageCount ' + 'success');
+        }else{
+            resUtil.resetFailedRes(res,{message:'创建失败！'});
+            return next();
+        }
+
+        if(params.orderProdId){
+            params.orderItemProdId = params.orderProdId;
+            params.status = sysConst.prodItemStatus.complete;
+            //更新 order_item_prod status
+            const rowsStatus = await orderItemProdDAO.updateStatus(params);
+            logger.info(' addRelDetailExport updateStatus ' + 'success');
+        }
+
+        resUtil.resetCreateRes(res,rows);
+        return next();
+    }catch (e) {
+        logger.error(" addRelDetailExport error ",e.stack);
         resUtil.resInternalError(e,res,next);
     }
 }
@@ -222,5 +290,6 @@ const addStorageProductRelDetail = async (req,res,next)=>{
 module.exports = {
     queryStorageProductRelDetail,
     queryStorageProductRelDetailCsv,
-    addStorageProductRelDetail
+    addRelDetailImport,
+    addRelDetailExport
 }

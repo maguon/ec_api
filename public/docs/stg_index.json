@@ -2262,6 +2262,13 @@
             "type": "integer"
           },
           {
+            "name": "oldFlag",
+            "in": "query",
+            "description": "oldFlag",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "in": "query",
             "name": "start",
             "required": false,
@@ -2373,6 +2380,13 @@
             "name": "status",
             "in": "query",
             "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "oldFlag",
+            "in": "query",
+            "description": "oldFlag",
             "required": false,
             "type": "integer"
           },
@@ -2831,14 +2845,14 @@
         }
       }
     },
-    "/user/{userId}/storageProductRel/{storageProductRelId}/storageProductRelDetail": {
+    "/user/{userId}/storageProductRel/{storageProductRelId}/storProdRelDetailImport": {
       "post": {
         "tags": [
           "storage"
         ],
-        "summary": "Add a new storageProductRelDetail info ",
-        "description": "",
-        "operationId": "Add storageProductRelDetail info ",
+        "summary": "Add a new storProdRelDetailImport info ",
+        "description": "Add storProdRelDetailImport info",
+        "operationId": "Add storProdRelDetailImport info ",
         "consumes": [
           "application/json"
         ],
@@ -2862,11 +2876,60 @@
           },
           {
             "in": "body",
-            "name":"storageProductRelDetail",
-            "description": "StorageProductRelDetail object that needs to be added to the store",
+            "name":"storProdRelDetailImport",
+            "description": "storProdRelDetailImport object that needs to be added to the store",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/StorageProductRelDetail"
+              "$ref": "#/definitions/storProdRelDetailImport"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/user/{userId}/storageProductRel/{storageProductRelId}/storProdRelDetailExport": {
+      "post": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Add a new storProdRelDetailExport info ",
+        "description": "Add storProdRelDetailExport info",
+        "operationId": "Add storProdRelDetailExport info ",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "storageProductRelId",
+            "in": "path",
+            "description": "storageProductRelId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"storProdRelDetailExport",
+            "description": "storProdRelDetailExport object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/storProdRelDetailExport"
             }
           }
         ],
@@ -8602,7 +8665,8 @@
         "storageCount",
         "orderId",
         "storageType",
-        "storageSubType"
+        "storageSubType",
+        "oldFlag"
       ],
       "properties": {
         "remark": {
@@ -8644,6 +8708,10 @@
           "format": "int64"
         },
         "storageSubType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "oldFlag": {
           "type": "integer",
           "format": "int64"
         }
@@ -8695,7 +8763,56 @@
         "name": "storageMoveInfo"
       }
     },
-    "StorageProductRelDetail": {
+    "storProdRelDetailImport": {
+      "type": "object",
+      "required": [
+        "remark",
+        "storageCount",
+        "storageType",
+        "storageSubType",
+        "orderId",
+        "orderProdId",
+        "applyUserId",
+        "oldFlag"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "storageCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "storageType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "storageSubType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "orderId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "orderProdId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "applyUserId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "oldFlag": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "StorageProductRelDetail"
+      }
+    },
+    "storProdRelDetailExport": {
       "type": "object",
       "required": [
         "remark",
@@ -8736,7 +8853,7 @@
         }
       },
       "xml": {
-        "name": "StorageProductRelDetail"
+        "name": "storProdRelDetailExport"
       }
     },
     "StorageCheck": {
