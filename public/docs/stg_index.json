@@ -8821,7 +8821,8 @@
         "storageSubType",
         "orderId",
         "orderProdId",
-        "applyUserId"
+        "applyUserId",
+        "oldFlag"
       ],
       "properties": {
         "remark": {
@@ -8848,6 +8849,10 @@
           "format": "int64"
         },
         "applyUserId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "oldFlag": {
           "type": "integer",
           "format": "int64"
         }

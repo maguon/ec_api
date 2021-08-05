@@ -450,6 +450,7 @@ CREATE TABLE IF NOT EXISTS public.storage_product_rel_detail
     "apply_user_id" smallint ,
     "order_id" bigint ,
     "order_prod_id" integer ,
+    "old_flag" smallint NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 
@@ -457,6 +458,7 @@ COMMENT ON COLUMN public.storage_product_rel_detail.storage_type IS '入库=1出
 COMMENT ON COLUMN public.storage_product_rel_detail.storage_sub_type IS '出入库原因';
 COMMENT ON COLUMN public.storage_product_rel_detail.storage_count IS '出入库量';
 COMMENT ON COLUMN public.storage_product_rel_detail.date_id IS '出入库日期';
+COMMENT ON COLUMN public.storage_product_rel.old_flag IS '是否旧货';
 
 create trigger storage_product_rel_detail_upt before update on storage_product_rel_detail for each row execute procedure update_timestamp_func();
 

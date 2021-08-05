@@ -83,6 +83,10 @@ class StorageProductRelDetailDAO  {
             query += " and sprd.order_prod_id = ${orderProdId} ";
             filterObj.orderProdId = params.orderProdId;
         }
+        if(params.oldFlag){
+            query += " and sprd.old_flag = ${oldFlag} ";
+            filterObj.oldFlag = params.oldFlag;
+        }
         query = query + '  order by sprd.id desc ';
         if(params.start){
             query += " offset ${start} ";
@@ -175,6 +179,10 @@ class StorageProductRelDetailDAO  {
             query += " and sprd.order_prod_id = ${orderProdId} ";
             filterObj.orderProdId = params.orderProdId;
         }
+        if(params.oldFlag){
+            query += " and sprd.old_flag = ${oldFlag} ";
+            filterObj.oldFlag = params.oldFlag;
+        }
         logger.debug(' queryStorageProductRelDetailCount ');
         return await pgDb.one(query,filterObj);
     }
@@ -183,13 +191,13 @@ class StorageProductRelDetailDAO  {
     static async addStorageProductRelDetail(params) {
         let query = 'INSERT INTO storage_product_rel_detail ( op_user , remark , storage_id , storage_area_id , ' +
             ' storage_product_rel_id , supplier_id , product_id , purchase_id , purchase_item_id , storage_type , ' +
-            ' storage_sub_type , storage_count , date_id , apply_user_id , order_id ';
+            ' storage_sub_type , storage_count , date_id , apply_user_id , old_flag , order_id ';
         if(params.orderProdId){
             query = query + ' , order_prod_id ' ;
         }
         query =  query + ' )select  ${opUser} , ${remark} , storage_id , storage_area_id , ${storageProductRelId} , ' +
             ' supplier_id , product_id , purchase_id , purchase_item_id , ${storageType} , ${storageSubType} , ' +
-            ' ${storageCount} , ${dateId} , ${applyUserId}' ;
+            ' ${storageCount} , ${dateId} , ${applyUserId} , ${oldFlag}' ;
         let valueObj = {};
         valueObj.opUser = params.opUser;
         valueObj.remark = params.remark;
@@ -199,6 +207,11 @@ class StorageProductRelDetailDAO  {
         valueObj.storageCount = params.storageCount;
         valueObj.dateId = params.dateId;
         valueObj.applyUserId = params.applyUserId;
+        if(params.oldFlag){
+            valueObj.oldFlag = params.oldFlag;
+        }else{
+            valueObj.oldFlag = 0;
+        }
 
         if(params.orderId){
             query = query + ' , ${orderId} ' ;
