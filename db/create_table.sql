@@ -694,7 +694,9 @@ CREATE TABLE IF NOT EXISTS public.order_info(
     "date_id" integer ,
     "fin_date_id" integer ,
     "service_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "service_count" decimal(12,2) NOT NULL DEFAULT 0,
     "prod_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "prod_count" decimal(12,2) NOT NULL DEFAULT 0,
     "discount_service_price" decimal(12,2) NOT NULL DEFAULT 0,
     "discount_prod_price" decimal(12,2) NOT NULL DEFAULT 0,
     "total_discount_price" decimal(12,2) NOT NULL DEFAULT 0,
@@ -814,9 +816,20 @@ CREATE TABLE IF NOT EXISTS public.payment_info(
     "remark" character varying(200) ,
     "type" smallint NOT NULL DEFAULT 1 ,
     "payment_type" smallint ,
-    "order_id" smallint NOT NULL DEFAULT 0 ,
-    "order_refund_id" smallint ,
-    "total_fee" decimal(12,2) ,
+    "order_count" decimal(12,2) NOT NULL DEFAULT 0,
+    "prod_count" decimal(12,2) NOT NULL DEFAULT 0,
+    "prod_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "service_count" decimal(12,2) NOT NULL DEFAULT 0,
+    "service_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "total_order_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "order_refund_count" decimal(12,2) NOT NULL DEFAULT 0,
+    "refund_prod_count" decimal(12,2) NOT NULL DEFAULT 0,
+    "refund_prod_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "refund_service_count" decimal(12,2) NOT NULL DEFAULT 0,
+    "refund_service_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "total_refund_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "plan_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "actual_price" decimal(12,2) NOT NULL DEFAULT 0,
     "date_id" integer ,
 
     PRIMARY KEY (id)
@@ -825,6 +838,10 @@ CREATE TABLE IF NOT EXISTS public.payment_info(
 COMMENT ON COLUMN public.payment_info.status IS '状态(0.未，1.已)';
 COMMENT ON COLUMN public.payment_info.type IS '付款类型(1.支付 2.退款)';
 COMMENT ON COLUMN public.payment_info.payment_type IS '支付方式(1.挂账 2.现金)';
+COMMENT ON COLUMN public.payment_info.total_order_price IS '订单总金额';
+COMMENT ON COLUMN public.payment_info.total_refund_price IS '退款总金额';
+COMMENT ON COLUMN public.payment_info.plan_price IS '预计收款';
+COMMENT ON COLUMN public.payment_info.actual_price IS '实收金额';
 
 create trigger payment_info_upt before update on payment_info for each row execute procedure update_timestamp_func();
 select setval(' payment_info_id_seq',10000,false);
@@ -869,12 +886,12 @@ CREATE TABLE IF NOT EXISTS public.order_refund(
 
     PRIMARY KEY (id)
 );
-COMMENT ON COLUMN public.payment_info.payment_status IS '支付状态(0.未退，1.已退)';
-COMMENT ON COLUMN public.payment_info.refund_user_id IS '退款处理人';
-COMMENT ON COLUMN public.payment_info.payment_type IS '支付方式(1.挂账 2.现金)';
+COMMENT ON COLUMN public.order_refund.payment_status IS '支付状态(0.未退，1.已退)';
+COMMENT ON COLUMN public.order_refund.refund_user_id IS '退款处理人';
+COMMENT ON COLUMN public.order_refund.payment_type IS '支付方式(1.挂账 2.现金)';
 
 create trigger order_refund_upt before update on order_refund for each row execute procedure update_timestamp_func();
-
+select setval(' order_refund_id_seq',10000,false);
 
 --CREATE TABLE order_refund_service
 CREATE TABLE IF NOT EXISTS public.order_refund_service(
@@ -887,12 +904,13 @@ CREATE TABLE IF NOT EXISTS public.order_refund_service(
     "order_refund_id" bigint NOT NULL,
     "order_id" bigint NOT NULL,
     "order_item_service" bigint NOT NULL,
+    "service_refund_count" decimal(12,2) NOT NULL DEFAULT 0,
     "service_refund_price" decimal(12,2) NOT NULL DEFAULT 0,
-    "date_id" integer
+    "date_id" integer,
     PRIMARY KEY (id)
 );
 create trigger order_refund_service_upt before update on order_refund_service for each row execute procedure update_timestamp_func();
-
+select setval(' order_refund_service_id_seq',10000,false);
 
 --CREATE TABLE order_refund_prod
 CREATE TABLE IF NOT EXISTS public.order_refund_prod(
@@ -908,8 +926,10 @@ CREATE TABLE IF NOT EXISTS public.order_refund_prod(
     "order_item_type" smallint NOT NULL,
     "prod_id" integer NOT NULL,
     "prod_name" character varying(20),
+    "prod_refund_count" decimal(12,2) NOT NULL DEFAULT 0,
     "prod_refund_price" decimal(12,2) NOT NULL DEFAULT 0,
     "date_id" integer,
     PRIMARY KEY (id)
 );
 create trigger order_refund_prod_upt before update on order_refund_prod for each row execute procedure update_timestamp_func();
+select setval(' order_refund_prod_id_seq',10000,false);
