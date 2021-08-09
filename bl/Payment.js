@@ -97,8 +97,14 @@ const deletePayment = async (req,res,next)=>{
     }
     try{
         const rows = await paymentDAO.deletePayment(params);
-        logger.info(' deletePayment ' + 'success');
-        resUtil.resetUpdateRes(res,rows);
+
+        if(rows.length >= 1){
+            logger.info(' deletePayment ' + 'success');
+            resUtil.resetUpdateRes(res,rows);
+        }else{
+            logger.info(' deletePayment ' + ' Delete failed! ');
+            resUtil.resetFailedRes(res,{message:'删除失败！'});
+        }
         return next();
     }catch (e) {
         logger.error(" deletePayment error ",e.stack);
