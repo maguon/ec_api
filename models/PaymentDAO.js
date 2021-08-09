@@ -93,7 +93,7 @@ class PaymentDAO  {
             '  COALESCE(sum(oi.service_price),0) as service_price, ' +
             '  COALESCE(sum(oi.prod_price) + sum(oi.service_price),0) as total_order_price ' +
             '  from order_info oi ' +
-            '  where oi.id in (${orderId:csv}) ' +
+            '  where oi.id in (${orderIds:csv}) ' +
             '   and oi.payment_status = 1 ' +
             '  ) as or_in, ' +
             '  (  ' +
@@ -104,7 +104,7 @@ class PaymentDAO  {
             '  COALESCE(sum(of.service_refund_price),0) as refund_service_price,  ' +
             '  COALESCE(sum(of.prod_refund_price) + sum(of.service_refund_price),0) as total_refund_price  ' +
             '  from order_refund of  ' +
-            '  where of.order_id in (${orderId:csv}) ' +
+            '  where of.order_id in (${orderRefundIds:csv}) ' +
             '   and of.payment_status = 1' +
             '  ) as or_re ' +
             ' ) RETURNING id ';
@@ -115,8 +115,8 @@ class PaymentDAO  {
         valueObj.paymentType = params.paymentType;
         valueObj.actualPrice = params.actualPrice;
         valueObj.dateId = params.dateId;
-        valueObj.orderId = params.orderId.split(',');
-        valueObj.orderId = params.orderId.split(',');
+        valueObj.orderIds = params.orderIds;
+        valueObj.orderRefundIds = params.orderRefundIds;
 
         logger.debug(' addPayment ');
         return await pgDb.any(query,valueObj);

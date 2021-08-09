@@ -10516,7 +10516,8 @@
         "remark",
         "type",
         "paymentType",
-        "orderId",
+        "orderIds",
+        "orderRefundIds",
         "actualPrice"
       ],
       "properties": {
@@ -10531,9 +10532,19 @@
           "type": "integer",
           "format": "int64"
         },
-        "orderId": {
-          "type": "integer",
-          "format": "int64"
+        "orderIds": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "orderRefundIds": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
         },
         "actualPrice": {
           "type": "integer",

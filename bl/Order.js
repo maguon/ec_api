@@ -187,6 +187,11 @@ const addOrder = async (req,res,next)=>{
         //创建 order_info
         const rows = await orderDAO.addOrder(params);
 
+        if(rows.length < 1){
+            logger.info(' addOrder ' + ' failed! ');
+            resUtil.resetFailedRes(res,{message:'创建订单失败！'});
+            return next();
+        }
         //创建成功，创建 order_prod_service
         for(var i=0;i<params.OrderItemProdArray.length;i++){
 

@@ -241,17 +241,15 @@ class OrderDAO  {
 
     //根据 payment_order_rel 的 payment_id 更新 payment_status
     static async updatePaymentStatus(params){
-        let query = 'update order_info set payment_status=${paymentStatus} , op_user=${opUser} ' ;
+        let query = 'update order_info oi set payment_status=${paymentStatus} , ' +
+            ' op_user=${opUser} ' ;
         if(params.finDateId){
             query = query + ' ,  fin_date_id = ${finDateId} ' ;
         }
-        query = query + ' WHERE id in ( ' +
-            ' select por.order_id ' +
-            ' from payment_order_rel por ' +
-            ' left join payment_info pi on pi.id = por.payment_id ' +
-            ' where por.payment_id = ${paymentId} ' +
-            ' and por.order_refund_id is null ' +
-            ' ) ' ;
+        query = query + ' from payment_order_rel por ' +
+            ' where por.order_id = oi.id ' +
+            ' and por.payment_id = ${paymentId} ' +
+            ' and por.order_refund_id = 0 ' ;
         let valueObj = {};
         valueObj.paymentStatus = params.paymentStatus;
         valueObj.opUser = params.opUser;
@@ -259,7 +257,7 @@ class OrderDAO  {
             valueObj.finDateId = params.finDateId;
         }
         valueObj.paymentId = params.paymentId;
-        logger.debug(' updateStatus ');
+        logger.debug(' updatePaymentStatus ');
         return await pgDb.any(query,valueObj);
     }
 

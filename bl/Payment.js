@@ -37,8 +37,17 @@ const addPayment = async (req,res,next)=>{
 
         //创建关联信息
         params.paymentId = rows[0].id;
-        const rowsRel = await orderPaymentRelDAO.addPaymentOrderRel(params);
-        logger.info(' addPayment addPaymentOrderRel ' + 'success');
+        if(params.orderIds.length > 0){
+            //根据 orderIds 创建关联信息
+            const rowsOrderRel = await orderPaymentRelDAO.addPaymentOrderRelByOrder(params);
+            logger.info(' addPayment addPaymentOrderRelByOrder ' + 'success');
+
+        }
+        if(params.orderRefundIds.length > 0){
+            //根据 orderRefundIds 创建关联信息
+            const rowsRefundRel = await orderPaymentRelDAO.addPaymentOrderRelByRefund(params);
+            logger.info(' addPayment addPaymentOrderRelByRefund ' + 'success');
+        }
 
         //根据 rowsRel 返回结果， 更新order_info payment_status 为
         params.paymentStatus = sysConst.orderPaymentStatus.in;

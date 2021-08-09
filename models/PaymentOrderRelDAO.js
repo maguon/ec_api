@@ -84,20 +84,38 @@ class PaymentOrderRelDAO  {
         return await pgDb.one(query,filterObj);
     }
 
-    static async addPaymentOrderRel(params) {
+    //根据 orderIds 创建关联信息
+    static async addPaymentOrderRelByOrder(params) {
         let query = ' INSERT INTO payment_order_rel( ' +
-            ' op_user, order_id, order_refund_id, payment_id ) ' +
-            ' ( select ${opUser} , oi.id as order_id , of.id as order_refund_id , ${paymentId} ' +
+            ' op_user, order_id, payment_id ) ' +
+            ' ( select ${opUser} , oi.id as order_id , ${paymentId} ' +
             ' from order_info oi ' +
-            ' left join order_refund of on of.order_id = oi.id ' +
-            ' where oi.id in (${orderId:csv})' +
+            ' where oi.id in (${orderIds:csv})' +
             ' ) RETURNING id ';
         let valueObj = {};
         valueObj.opUser = params.opUser;
         valueObj.paymentId = params.paymentId;
-        valueObj.orderId = params.orderId.split(',');
+        valueObj.orderIds = params.orderIds;
 
-        logger.debug(' addPayment ');
+        logger.debug(' addPaymentOrderRelByOrder ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    //根据 orderRefundIds 创建关联信息
+    static async addPaymentOrderRelByRefund(params) {
+        let query = ' INSERT INTO payment_order_rel( ' +
+            ' op_user, order_id, order_refund_id, payment_id ) ' +
+            ' ( select ${opUser} , orf.order_id as order_id , ' +
+            ' orf.id as order_refund_id , ${paymentId} ' +
+            ' from order_refund orf ' +
+            ' where orf.order_id in (${orderRefundIds:csv})' +
+            ' ) RETURNING id ';
+        let valueObj = {};
+        valueObj.opUser = params.opUser;
+        valueObj.paymentId = params.paymentId;
+        valueObj.orderRefundIds = params.orderRefundIds;
+
+        logger.debug(' addPaymentOrderRelByRefund ');
         return await pgDb.any(query,valueObj);
     }
 
