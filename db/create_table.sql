@@ -846,8 +846,8 @@ COMMENT ON COLUMN public.payment_info.actual_price IS '实收金额';
 create trigger payment_info_upt before update on payment_info for each row execute procedure update_timestamp_func();
 select setval(' payment_info_id_seq',10000,false);
 
---CREATE TABLE order_payment_rel
-CREATE TABLE IF NOT EXISTS public.order_payment_rel(
+--CREATE TABLE payment_order_rel
+CREATE TABLE IF NOT EXISTS public.payment_order_rel(
     "id" bigserial NOT NULL,
     "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
     "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
@@ -855,15 +855,15 @@ CREATE TABLE IF NOT EXISTS public.order_payment_rel(
     "op_user" smallint NOT NULL DEFAULT 1,
     "remark" character varying(200) ,
     "order_id" smallint NOT NULL DEFAULT 0,
-    "order_refund_id" smallint NOT NULL DEFAULT 0,
+    "order_refund_id" smallint DEFAULT 0,
     "payment_id" smallint NOT NULL DEFAULT 0,
     "date_id" integer ,
 
     PRIMARY KEY (id)
 );
 
-create trigger order_payment_rel_upt before update on order_payment_rel for each row execute procedure update_timestamp_func();
-select setval(' order_payment_rel_id_seq',10000,false);
+create trigger payment_order_rel_upt before update on payment_order_rel for each row execute procedure update_timestamp_func();
+select setval(' payment_order_rel_id_seq',10000,false);
 
 
 --CREATE TABLE order_refund
@@ -883,6 +883,8 @@ CREATE TABLE IF NOT EXISTS public.order_refund(
     "service_refund_price" decimal(12,2) NOT NULL DEFAULT 0,
     "prod_refund_price" decimal(12,2) NOT NULL DEFAULT 0,
     "transfer_refund_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "prod_refund_count" decimal(12,2) NOT NULL DEFAULT 0,
+    "service_refund_count" decimal(12,2) NOT NULL DEFAULT 0,
 
     PRIMARY KEY (id)
 );

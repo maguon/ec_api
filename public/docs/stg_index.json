@@ -60,6 +60,10 @@
       "description": "order base info api"
     },
     {
+      "name": "payment",
+      "description": "payment base info api"
+    },
+    {
       "name": "app",
       "description": "app version"
     },
@@ -7697,6 +7701,372 @@
       }
     },
 
+    "/user/{userId}/payment": {
+      "get": {
+        "tags": [
+          "payment"
+        ],
+        "summary": "Select payment Info",
+        "description": "Get payment info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "paymentId",
+            "in": "query",
+            "description": "paymentId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "type",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "paymentType",
+            "in": "query",
+            "description": "paymentType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateStart",
+            "in": "query",
+            "description": "dateStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateEnd",
+            "in": "query",
+            "description": "dateEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "payment"
+        ],
+        "summary": "Add a new payment info",
+        "description": "Add payment info",
+        "operationId": "Add payment info",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"paymentInfo",
+            "description": "payment object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Payment"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/user/{userId}/payment/{paymentId}": {
+      "put": {
+        "tags": [
+          "payment"
+        ],
+        "summary": " Finds payment and update ",
+        "description": " update payment info ",
+        "operationId": " update payment info by id ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "paymentId",
+            "in": "path",
+            "description": "payment unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"paymentInfo",
+            "description": "payment object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PaymentPut"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "payment"
+        ],
+        "summary": " Delete payment ",
+        "description": " Delete payment ",
+        "operationId": " Delete payment by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "paymentId",
+            "in": "path",
+            "description": "paymentId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "payment not found"
+          }
+        }
+      }
+    },
+    "/user/{userId}/payment/{paymentId}/status": {
+      "put": {
+        "tags": [
+          "payment"
+        ],
+        "summary": "Finds payment and update",
+        "description": "update payment status",
+        "operationId": "update payment status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "paymentId",
+            "in": "path",
+            "description": "payment unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
+    "/user/{userId}/paymentOrderRel": {
+      "get": {
+        "tags": [
+          "payment"
+        ],
+        "summary": "Select paymentOrderRel Info",
+        "description": "Get paymentOrderRel info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "paymentOrderRelId",
+            "in": "query",
+            "description": "paymentOrderRelId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "query",
+            "description": "orderId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderRefundId",
+            "in": "query",
+            "description": "orderRefundId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "paymentId",
+            "in": "query",
+            "description": "paymentId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/paymentOrderRel/{paymentOrderRelId}": {
+      "put": {
+        "tags": [
+          "payment"
+        ],
+        "summary": " Finds paymentOrderRel and update ",
+        "description": " update paymentOrderRel info ",
+        "operationId": " update paymentOrderRel info by id ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "paymentOrderRelId",
+            "in": "path",
+            "description": "paymentOrderRelId unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"paymentOrderRelId",
+            "description": "paymentOrderRelId object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Remark"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
     "/user/{userId}/app": {
       "get": {
         "tags": [
@@ -10138,6 +10508,64 @@
       },
       "xml": {
         "name": "OrderServiceCheck"
+      }
+    },
+    "Payment": {
+      "type": "object",
+      "required": [
+        "remark",
+        "type",
+        "paymentType",
+        "orderId",
+        "actualPrice"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "paymentType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "orderId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "actualPrice": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "Payment"
+      }
+    },
+    "PaymentPut": {
+      "type": "object",
+      "required": [
+        "remark",
+        "paymentType",
+        "actualPrice"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "paymentType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "actualPrice": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "PaymentPut"
       }
     },
     "App": {

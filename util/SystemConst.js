@@ -73,6 +73,7 @@ const orderType = {
 
 const orderPaymentStatus = {
     normal :1 ,//未付款
+    in : 5,//支付中
     complete :7 //付款完成
 }
 module.exports = {

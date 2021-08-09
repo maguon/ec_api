@@ -33,6 +33,8 @@ const saleServiceProdRel = require('./bl/SaleServiceProdRel');
 const order = require('./bl/Order');
 const orderItemProd = require('./bl/OrderItemProd');
 const orderItemService = require('./bl/OrderItemService');
+const payment = require('./bl/Payment');
+const orderPaymentRel = require('./bl/PaymentOrderRel');
 const statistics = require('./bl/Statistics');
 
 
@@ -277,6 +279,22 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/orderItemService/:orderItemServiceId/check',contentType: 'application/json'} ,orderItemService.updateCheck);
     server.put({path:'/api/user/:userId/orderItemService/:orderItemServiceId/status',contentType: 'application/json'} ,orderItemService.updateStatus);
     server.del({path:'/api/user/:userId/order/:orderId/orderItemService/:orderItemServiceId',contentType: 'application/json'}, orderItemService.deleteItemService);
+
+    /**
+     * Payment Module
+     */
+    server.get('/api/user/:userId/payment', payment.queryPayment);
+    server.post({path:'/api/user/:userId/payment',contentType: 'application/json'}, payment.addPayment);
+    server.put({path:'/api/user/:userId/payment/:paymentId/status',contentType: 'application/json'} ,payment.updateStatus);
+    server.put({path:'/api/user/:userId/payment/:paymentId',contentType: 'application/json'} ,payment.updatePayment);
+    server.del({path:'/api/user/:userId/payment/:paymentId',contentType: 'application/json'}, payment.deletePayment);
+
+    /**
+     * OrderPaymentRel Module
+     */
+    server.get('/api/user/:userId/paymentOrderRel', orderPaymentRel.queryPaymentOrderRel);
+    server.put({path:'/api/user/:userId/paymentOrderRel/:paymentOrderRelId',contentType: 'application/json'} ,orderPaymentRel.updatePaymentOrderRel);
+
 
     /**
      * App Module
