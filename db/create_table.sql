@@ -811,7 +811,7 @@ CREATE TABLE IF NOT EXISTS public.payment_info(
     "id" bigserial NOT NULL,
     "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
     "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
-    "status" smallint NOT NULL DEFAULT 1 ,
+    "status" smallint NOT NULL DEFAULT 0 ,
     "op_user" smallint NOT NULL DEFAULT 1 ,
     "remark" character varying(200) ,
     "type" smallint NOT NULL DEFAULT 1 ,
