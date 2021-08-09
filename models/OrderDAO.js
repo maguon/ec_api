@@ -239,6 +239,30 @@ class OrderDAO  {
         return await pgDb.any(query,valueObj);
     }
 
+    //根据 payment_order_rel 的 payment_id 更新 payment_status
+    static async updatePaymentStatus(params){
+        let query = 'update order_info set payment_status=${paymentStatus} , op_user=${opUser} ' ;
+        if(params.finDateId){
+            query = query + ' ,  fin_date_id = ${finDateId} ' ;
+        }
+        query = query + ' WHERE id in ( ' +
+            ' select por.order_id ' +
+            ' from payment_order_rel por ' +
+            ' left join payment_info pi on pi.id = por.payment_id ' +
+            ' where por.payment_id = ${paymentId} ' +
+            ' and por.order_refund_id is null ' +
+            ' ) ' ;
+        let valueObj = {};
+        valueObj.paymentStatus = params.paymentStatus;
+        valueObj.opUser = params.opUser;
+        if(params.finDateId){
+            valueObj.finDateId = params.finDateId;
+        }
+        valueObj.paymentId = params.paymentId;
+        logger.debug(' updateStatus ');
+        return await pgDb.any(query,valueObj);
+    }
+
 }
 
 module.exports = OrderDAO;

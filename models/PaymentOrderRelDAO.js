@@ -111,6 +111,15 @@ class PaymentOrderRelDAO  {
         logger.debug(' updatePaymentOrderRel ');
         return await pgDb.any(query,valueObj);
     }
+
+    //根据 paymentId 删除关联信息
+    static async deletePayment(params){
+        const query = 'delete from payment_order_rel where payment_id =${paymentId} RETURNING id ';
+        let valueObj = {};
+        valueObj.paymentId =params.paymentId;
+        logger.debug(' deletePayment ');
+        return await pgDb.any(query,valueObj);
+    }
 }
 
 module.exports = PaymentOrderRelDAO;

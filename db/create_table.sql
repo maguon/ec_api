@@ -888,7 +888,7 @@ CREATE TABLE IF NOT EXISTS public.order_refund(
 
     PRIMARY KEY (id)
 );
-COMMENT ON COLUMN public.order_refund.payment_status IS '支付状态(0.未退，1.已退)';
+COMMENT ON COLUMN public.order_refund.payment_status IS '支付状态(1.未退，5.退款中，7.已退)';
 COMMENT ON COLUMN public.order_refund.refund_user_id IS '退款处理人';
 COMMENT ON COLUMN public.order_refund.payment_type IS '支付方式(1.挂账 2.现金)';
 
