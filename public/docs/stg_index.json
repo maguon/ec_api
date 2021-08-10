@@ -7928,6 +7928,369 @@
       }
     },
 
+    "/user/{userId}/orderRefundProd": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Select orderRefundProd Info",
+        "description": "Get orderRefundProd info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderRefundProdId",
+            "in": "query",
+            "description": "orderRefundProdId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderRefundId",
+            "in": "query",
+            "description": "orderRefundId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "query",
+            "description": "orderId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "itemProdId",
+            "in": "query",
+            "description": "itemProdId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "prodId",
+            "in": "query",
+            "description": "prodId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateStart",
+            "in": "query",
+            "description": "dateStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateEnd",
+            "in": "query",
+            "description": "dateEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/orderRefundProd/{orderRefundProdId}": {
+      "put": {
+        "tags": [
+          "order"
+        ],
+        "summary": " Finds orderRefundProd and update ",
+        "description": " update orderRefundProd info ",
+        "operationId": " update orderRefundProd info by id ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderRefundProdId",
+            "in": "path",
+            "description": "orderRefundProd unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"orderRefundProdInfo",
+            "description": "orderRefundProd object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrderRefundProdPut"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/orderRefundProd/{orderRefundProdId}/status": {
+      "put": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Finds orderRefundProd and update",
+        "description": "update orderRefundProd status",
+        "operationId": "update orderRefundProd status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderRefundProdId",
+            "in": "path",
+            "description": "orderRefundProd unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
+    "/user/{userId}/orderRefundService": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Select orderRefundService Info",
+        "description": "Get orderRefundService info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderRefundServiceId",
+            "in": "query",
+            "description": "orderRefundServiceId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderRefundId",
+            "in": "query",
+            "description": "orderRefundId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "query",
+            "description": "orderId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "itemServiceId",
+            "in": "query",
+            "description": "itemServiceId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateStart",
+            "in": "query",
+            "description": "dateStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateEnd",
+            "in": "query",
+            "description": "dateEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/orderRefundService/{orderRefundServiceId}": {
+      "put": {
+        "tags": [
+          "order"
+        ],
+        "summary": " Finds orderRefundService and update ",
+        "description": " update orderRefundService info ",
+        "operationId": " update orderRefundService info by id ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderRefundServiceId",
+            "in": "path",
+            "description": "orderRefundService unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"orderRefundServiceInfo",
+            "description": "orderRefundService object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrderRefundServicePut"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/orderRefundService/{orderRefundServiceId}/status": {
+      "put": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Finds orderRefundService and update",
+        "description": "update orderRefundService status",
+        "operationId": "update orderRefundService status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderRefundServiceId",
+            "in": "path",
+            "description": "orderRefundService unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
     "/user/{userId}/payment": {
       "get": {
         "tags": [
@@ -10818,12 +11181,35 @@
         "name": "OrderRefundProdArray"
       }
     },
+    "OrderRefundProdPut": {
+      "type": "object",
+      "required": [
+        "remark",
+        "prodRefundCount",
+        "prodRefundPrice"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "prodRefundCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "prodRefundPrice": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "OrderRefundProdPut"
+      }
+    },
     "OrderRefundServiceArray": {
       "type": "object",
       "required": [
         "remark",
         "itemServiceId",
-        "serviceRefundCount",
         "serviceRefundPrice"
       ],
       "properties": {
@@ -10834,10 +11220,6 @@
           "type": "integer",
           "format": "int64"
         },
-        "serviceRefundCount": {
-          "type": "integer",
-          "format": "int64"
-        },
         "serviceRefundPrice": {
           "type": "integer",
           "format": "int64"
@@ -10845,6 +11227,25 @@
       },
       "xml": {
         "name": "OrderRefundServiceArray"
+      }
+    },
+    "OrderRefundServicePut": {
+      "type": "object",
+      "required": [
+        "remark",
+        "serviceRefundPrice"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "serviceRefundPrice": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "OrderRefundServicePut"
       }
     },
     "Payment": {

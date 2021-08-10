@@ -34,6 +34,8 @@ const order = require('./bl/Order');
 const orderItemProd = require('./bl/OrderItemProd');
 const orderItemService = require('./bl/OrderItemService');
 const orderRefund = require('./bl/OrderRefund');
+const orderRefundProd = require('./bl/OrderRefundProd');
+const orderRefundService = require('./bl/OrderRefundService');
 const payment = require('./bl/Payment');
 const orderPaymentRel = require('./bl/PaymentOrderRel');
 const statistics = require('./bl/Statistics');
@@ -285,6 +287,14 @@ const createServer=()=>{
     server.post({path:'/api/user/:userId/order/:orderId/orderRefund',contentType: 'application/json'}, orderRefund.addOrderRefund);
     server.put({path:'/api/user/:userId/orderRefund/:orderRefundId',contentType: 'application/json'} ,orderRefund.updateOrderRefund);
     server.put({path:'/api/user/:userId/orderRefund/:orderRefundId/status',contentType: 'application/json'} ,orderRefund.updateStatus);
+
+    server.get('/api/user/:userId/orderRefundProd', orderRefundProd.queryRefundProd);
+    server.put({path:'/api/user/:userId/orderRefundProd/:orderRefundProdId',contentType: 'application/json'} ,orderRefundProd.updateRefundProd);
+    server.put({path:'/api/user/:userId/orderRefundProd/:orderRefundProdId/status',contentType: 'application/json'} ,orderRefundProd.updateStatus);
+
+    server.get('/api/user/:userId/orderRefundService', orderRefundService.queryRefundService);
+    server.put({path:'/api/user/:userId/orderRefundService/:orderRefundServiceId',contentType: 'application/json'} ,orderRefundService.updateRefundService);
+    server.put({path:'/api/user/:userId/orderRefundService/:orderRefundServiceId/status',contentType: 'application/json'} ,orderRefundService.updateStatus);
 
     /**
      * Payment Module

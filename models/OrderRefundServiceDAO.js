@@ -4,68 +4,40 @@ const logger = serverLogger.createLogger('OrderItemServiceDAO.js');
 
 class OrderRefundServiceDAO  {
     static async queryRefundService(params) {
-        let query = "select ois.* , ui.real_name ," +
-            "   oi.status as or_status , oi.payment_status as or_payment_status , oi.re_user_id as or_re_user_id , " +
-            "   oi.re_user_name as or_re_user_name , oi.order_type as or_order_type , oi.client_name as or_client_name , " +
-            "   oi.date_id as or_date_id , oi.fin_date_id as or_fin_date_id " +
-            "   from order_refund_service ois " +
-            "   left join user_info ui on ui.id = ois.op_user " +
-            "   left join order_info oi on oi.id = ois.order_id " +
-            "   where ois.id is not null ";
+        let query = "select ors.* , ui.real_name " +
+            "   from order_refund_service ors " +
+            "   left join user_info ui on ui.id = ors.op_user " +
+            "   where ors.id is not null ";
         let filterObj = {};
-        if(params.orderItemServiceId){
-            query += " and ois.id = ${orderItemServiceId} ";
-            filterObj.orderItemServiceId = params.orderItemServiceId;
+        if(params.orderRefundServiceId){
+            query += " and ors.id = ${orderRefundServiceId} ";
+            filterObj.orderRefundServiceId = params.orderRefundServiceId;
         }
         if(params.status){
-            query += " and ois.status = ${status} ";
+            query += " and ors.status = ${status} ";
             filterObj.status = params.status;
         }
-        if(params.saleUserId){
-            query += " and ois.sale_user_id = ${saleUserId} ";
-            filterObj.saleUserId = params.saleUserId;
-        }
-        if(params.deployUserId){
-            query += " and ois.deploy_user_id = ${deployUserId} ";
-            filterObj.deployUserId = params.deployUserId;
-        }
-        if(params.checkUserId){
-            query += " and ois.check_user_id = ${checkUserId} ";
-            filterObj.checkUserId = params.checkUserId;
+        if(params.orderRefundId){
+            query += " and ors.order_refund_id = ${orderRefundId} ";
+            filterObj.orderRefundId = params.orderRefundId;
         }
         if(params.orderId){
-            query += " and ois.order_id = ${orderId} ";
+            query += " and ors.order_id = ${orderId} ";
             filterObj.orderId = params.orderId;
         }
-        if(params.clientId){
-            query += " and ois.client_id = ${clientId} ";
-            filterObj.clientId = params.clientId;
-        }
-        if(params.clientAgentId){
-            query += " and ois.client_agent_id = ${clientAgentId} ";
-            filterObj.clientAgentId = params.clientAgentId;
-        }
-        if(params.saleServiceId){
-            query += " and ois.sale_service_id = ${saleServiceId} ";
-            filterObj.saleServiceId = params.saleServiceId;
+        if(params.itemServiceId){
+            query += " and ors.item_service_id = ${itemServiceId} ";
+            filterObj.itemServiceId = params.itemServiceId;
         }
         if(params.dateStart){
-            query += " and ois.date_id >= ${dateStart} ";
+            query += " and ors.date_id >= ${dateStart} ";
             filterObj.dateStart = params.dateStart;
         }
         if(params.dateEnd){
-            query += " and ois.date_id <= ${dateEnd} ";
+            query += " and ors.date_id <= ${dateEnd} ";
             filterObj.dateEnd = params.dateEnd;
         }
-        if(params.finDateStart){
-            query += " and ois.fin_date_id >= ${finDateStart} ";
-            filterObj.finDateStart = params.finDateStart;
-        }
-        if(params.finDateEnd){
-            query += " and ois.fin_date_id <= ${finDateEnd} ";
-            filterObj.finDateEnd = params.finDateEnd;
-        }
-        query = query + '  order by ois.id desc ';
+        query = query + '  order by ors.id desc ';
         if(params.start){
             query += " offset ${start} ";
             filterObj.start = params.start;
@@ -79,61 +51,39 @@ class OrderRefundServiceDAO  {
     }
 
     static async queryRefundServiceCount(params) {
-        let query = "select count(ois.id) from order_refund_service ois where ois.id is not null ";
+        let query = "select count(ors.id) " +
+            "   from order_refund_service ors " +
+            "   left join user_info ui on ui.id = ors.op_user " +
+            "   where ors.id is not null ";
         let filterObj = {};
-        if(params.orderItemServiceId){
-            query += " and ois.id = ${orderItemServiceId} ";
-            filterObj.orderItemServiceId = params.orderItemServiceId;
+        if(params.orderRefundServiceId){
+            query += " and ors.id = ${orderRefundServiceId} ";
+            filterObj.orderRefundServiceId = params.orderRefundServiceId;
         }
         if(params.status){
-            query += " and ois.status = ${status} ";
+            query += " and ors.status = ${status} ";
             filterObj.status = params.status;
         }
-        if(params.saleUserId){
-            query += " and ois.sale_user_id = ${saleUserId} ";
-            filterObj.saleUserId = params.saleUserId;
-        }
-        if(params.deployUserId){
-            query += " and ois.deploy_user_id = ${deployUserId} ";
-            filterObj.deployUserId = params.deployUserId;
-        }
-        if(params.checkUserId){
-            query += " and ois.check_user_id = ${checkUserId} ";
-            filterObj.checkUserId = params.checkUserId;
+        if(params.orderRefundId){
+            query += " and ors.order_refund_id = ${orderRefundId} ";
+            filterObj.orderRefundId = params.orderRefundId;
         }
         if(params.orderId){
-            query += " and ois.order_id = ${orderId} ";
+            query += " and ors.order_id = ${orderId} ";
             filterObj.orderId = params.orderId;
         }
-        if(params.clientId){
-            query += " and ois.client_id = ${clientId} ";
-            filterObj.clientId = params.clientId;
-        }
-        if(params.clientAgentId){
-            query += " and ois.client_agent_id = ${clientAgentId} ";
-            filterObj.clientAgentId = params.clientAgentId;
-        }
-        if(params.saleServiceId){
-            query += " and ois.sale_service_id = ${saleServiceId} ";
-            filterObj.saleServiceId = params.saleServiceId;
+        if(params.itemServiceId){
+            query += " and ors.item_service_id = ${itemServiceId} ";
+            filterObj.itemServiceId = params.itemServiceId;
         }
         if(params.dateStart){
-            query += " and ois.date_id >= ${dateStart} ";
+            query += " and ors.date_id >= ${dateStart} ";
             filterObj.dateStart = params.dateStart;
         }
         if(params.dateEnd){
-            query += " and ois.date_id <= ${dateEnd} ";
+            query += " and ors.date_id <= ${dateEnd} ";
             filterObj.dateEnd = params.dateEnd;
         }
-        if(params.finDateStart){
-            query += " and ois.fin_date_id >= ${finDateStart} ";
-            filterObj.finDateStart = params.finDateStart;
-        }
-        if(params.finDateEnd){
-            query += " and ois.fin_date_id <= ${finDateEnd} ";
-            filterObj.finDateEnd = params.finDateEnd;
-        }
-
         logger.debug(' queryRefundServiceCount ');
         return await pgDb.one(query,filterObj);
     }
@@ -163,42 +113,24 @@ class OrderRefundServiceDAO  {
     }
 
     static async updateRefundService(params){
-        let query = 'update order_refund_service set remark = ${remark}, order_item_type = ${orderItemType} ' ;
+        let query = 'update order_refund_service set remark = ${remark}, service_refund_price = ${serviceRefundPrice} ' +
+            ' where id = ${orderRefundServiceId} RETURNING id ';
         let valueObj = {};
         valueObj.remark = params.remark;
-        valueObj.orderItemType = params.orderItemType;
-
-        if(params.discountServicePrice || params.discountServicePrice ==0){
-            query = query + ' , discount_service_price = ${discountServicePrice} , ' +
-                'actual_service_price = ( fixed_price + unit_price  * service_count ) - ${discountServicePrice} ' ;
-            valueObj.discountServicePrice = params.discountServicePrice;
-            valueObj.discountServicePrice = params.discountServicePrice;
-        }
-
-        query = query + ' where id = ${orderItemServiceId} RETURNING id ';
-        valueObj.orderItemServiceId = params.orderItemServiceId;
+        valueObj.serviceRefundPrice = params.serviceRefundPrice;
+        valueObj.orderRefundServiceId  = params.orderRefundServiceId ;
         logger.debug(' updateRefundService ');
         return await pgDb.any(query,valueObj);
     }
 
     static async updateStatus(params){
-        const query = 'update order_item_service set status=${status} , op_user=${opUser} ' +
-            ' where id=${orderItemServiceId} RETURNING id ';
+        const query = 'update order_refund_service set status=${status} , op_user=${opUser} ' +
+            ' where id=${orderRefundServiceId } RETURNING id ';
         let valueObj = {};
         valueObj.status = params.status;
         valueObj.opUser = params.opUser;
-        valueObj.orderItemServiceId = params.orderItemServiceId;
+        valueObj.orderRefundServiceId   = params.orderRefundServiceId  ;
         logger.debug(' updateStatus ');
-        return await pgDb.any(query,valueObj);
-    }
-
-    static async deleteItemService(params){
-        const query = 'delete from order_item_service ' +
-            ' where id = ${orderItemServiceId} ' +
-            ' RETURNING id ';
-        let valueObj = {};
-        valueObj.orderItemServiceId =params.orderItemServiceId;
-        logger.debug(' deleteItemService ');
         return await pgDb.any(query,valueObj);
     }
 
