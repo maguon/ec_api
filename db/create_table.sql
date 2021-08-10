@@ -874,8 +874,6 @@ CREATE TABLE IF NOT EXISTS public.order_refund(
     "status" smallint NOT NULL DEFAULT 1,
     "payment_status" smallint NOT NULL DEFAULT 1,
     "op_user" smallint NOT NULL DEFAULT 1,
-    "refund_user_id" smallint NOT NULL DEFAULT 1,
-    "refund_user_name" character varying(20),
     "remark" character varying(200) ,
     "payment_type" smallint NOT NULL DEFAULT 1,
     "order_id" bigint NOT NULL DEFAULT 0,
@@ -889,7 +887,6 @@ CREATE TABLE IF NOT EXISTS public.order_refund(
     PRIMARY KEY (id)
 );
 COMMENT ON COLUMN public.order_refund.payment_status IS '支付状态(1.未退，5.退款中，7.已退)';
-COMMENT ON COLUMN public.order_refund.refund_user_id IS '退款处理人';
 COMMENT ON COLUMN public.order_refund.payment_type IS '支付方式(1.挂账 2.现金)';
 
 create trigger order_refund_upt before update on order_refund for each row execute procedure update_timestamp_func();
@@ -905,8 +902,7 @@ CREATE TABLE IF NOT EXISTS public.order_refund_service(
     "remark" character varying(200) ,
     "order_refund_id" bigint NOT NULL,
     "order_id" bigint NOT NULL,
-    "order_item_service" bigint NOT NULL,
-    "service_refund_count" decimal(12,2) NOT NULL DEFAULT 0,
+    "item_service_id" bigint NOT NULL,
     "service_refund_price" decimal(12,2) NOT NULL DEFAULT 0,
     "date_id" integer,
     PRIMARY KEY (id)
@@ -924,12 +920,12 @@ CREATE TABLE IF NOT EXISTS public.order_refund_prod(
     "remark" character varying(200) ,
     "order_refund_id" bigint NOT NULL,
     "order_id" bigint NOT NULL,
-    "order_item_peod" bigint NOT NULL,
-    "order_item_type" smallint NOT NULL,
+    "item_prod_id" bigint NOT NULL,
     "prod_id" integer NOT NULL,
     "prod_name" character varying(20),
     "prod_refund_count" decimal(12,2) NOT NULL DEFAULT 0,
     "prod_refund_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "total_refund_price" decimal(12,2) NOT NULL DEFAULT 0,
     "date_id" integer,
     PRIMARY KEY (id)
 );

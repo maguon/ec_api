@@ -1,6 +1,6 @@
 const pgDb = require('../db/connections/PgConnection');
 const serverLogger = require('../util/ServerLogger.js');
-const logger = serverLogger.createLogger('OrderProdServiceDAO.js');
+const logger = serverLogger.createLogger('OrderItemProdDAO.js');
 
 class OrderItemProdDAO  {
     static async queryItemProd(params) {
