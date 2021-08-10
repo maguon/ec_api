@@ -9,9 +9,9 @@ class PaymentDAO  {
             " left join user_info ui on ui.id = pi.op_user " +
             " where pi.id is not null ";
         let filterObj = {};
-        if(params.id){
-            query += " and pi.id = ${id} ";
-            filterObj.id = params.id;
+        if(params.paymentId){
+            query += " and pi.id = ${paymentId} ";
+            filterObj.paymentId = params.paymentId;
         }
         if(params.type){
             query += " and pi.type = ${type} ";
@@ -49,9 +49,9 @@ class PaymentDAO  {
     static async queryPaymentCount(params) {
         let query = "select count(id) from payment_info pi where pi.id is not null ";
         let filterObj = {};
-        if(params.id){
-            query += " and pi.id = ${id} ";
-            filterObj.id = params.id;
+        if(params.paymentId){
+            query += " and pi.id = ${paymentId} ";
+            filterObj.paymentId = params.paymentId;
         }
         if(params.type){
             query += " and pi.type = ${type} ";

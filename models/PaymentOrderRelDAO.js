@@ -32,7 +32,7 @@ class PaymentOrderRelDAO  {
             filterObj.orderRefundId = params.orderRefundId;
         }
         if(params.paymentId){
-            query += " and por.payment_idd = ${paymentId} ";
+            query += " and por.payment_id = ${paymentId} ";
             filterObj.paymentId = params.paymentId;
         }
         if(params.status){
@@ -60,9 +60,9 @@ class PaymentOrderRelDAO  {
             " left join order_refund orf on orf.id = por.order_refund_id " +
             " where por.id is not null ";
         let filterObj = {};
-        if(params.id){
-            query += " and por.id = ${id} ";
-            filterObj.id = params.id;
+        if(params.paymentOrderRelId){
+            query += " and por.id = ${paymentOrderRelId} ";
+            filterObj.paymentOrderRelId = params.paymentOrderRelId;
         }
         if(params.orderId){
             query += " and por.order_id = ${orderId} ";
@@ -73,7 +73,7 @@ class PaymentOrderRelDAO  {
             filterObj.orderRefundId = params.orderRefundId;
         }
         if(params.paymentId){
-            query += " and por.payment_idd = ${paymentId} ";
+            query += " and por.payment_id = ${paymentId} ";
             filterObj.paymentId = params.paymentId;
         }
         if(params.status){
