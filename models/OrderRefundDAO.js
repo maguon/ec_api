@@ -112,7 +112,11 @@ class OrderRefundDAO  {
         let valueObj = {};
         valueObj.opUser = params.opUser;
         valueObj.remark = params.remark;
-        valueObj.paymentType = params.paymentType;
+        if(params.paymentType){
+            valueObj.paymentType = params.paymentType;
+        }else{
+            valueObj.paymentType = 1;
+        }
         valueObj.orderRefundId  = params.orderRefundId ;
         logger.debug(' updateOrderRefund ');
         return await pgDb.any(query,valueObj);
