@@ -4,9 +4,12 @@ const logger = serverLogger.createLogger('OrderItemServiceDAO.js');
 
 class OrderRefundServiceDAO  {
     static async queryRefundService(params) {
-        let query = "select ors.* , ui.real_name " +
+        let query = "select ors.* , ui.real_name , " +
+            "   ois.sale_service_name , ois.fixed_price , ois.unit_price , ois.service_count , " +
+            "   ois.service_price , ois.discount_service_price , ois.actual_service_price " +
             "   from order_refund_service ors " +
             "   left join user_info ui on ui.id = ors.op_user " +
+            "   left join order_item_service ois on ois.id = ors.item_service_id " +
             "   where ors.id is not null ";
         let filterObj = {};
         if(params.orderRefundServiceId){
@@ -54,6 +57,7 @@ class OrderRefundServiceDAO  {
         let query = "select count(ors.id) " +
             "   from order_refund_service ors " +
             "   left join user_info ui on ui.id = ors.op_user " +
+            "   left join order_item_service ois on ois.id = ors.item_service_id " +
             "   where ors.id is not null ";
         let filterObj = {};
         if(params.orderRefundServiceId){

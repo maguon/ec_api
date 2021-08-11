@@ -4,9 +4,12 @@ const logger = serverLogger.createLogger('OrderRefundProdDAO.js');
 
 class OrderRefundProdDAO  {
     static async queryRefundProd(params) {
-        let query = "select orp.* , ui.real_name " +
+        let query = "select orp.* , ui.real_name , " +
+            "   oip.unit_price , oip.prod_count , oip.prod_price , " +
+            "   oip.discount_prod_price , oip.actual_prod_price" +
             "   from order_refund_prod orp " +
             "   left join user_info ui on ui.id = orp.op_user " +
+            "   left join order_item_prod oip on oip.id = orp.item_prod_id " +
             "   where orp.id is not null ";
         let filterObj = {};
         if(params.orderRefundProdId){
@@ -57,6 +60,8 @@ class OrderRefundProdDAO  {
     static async queryRefundProdCount(params) {
         let query = "select count(orp.id)" +
             "   from order_refund_prod orp " +
+            "   left join user_info ui on ui.id = orp.op_user " +
+            "   left join order_item_prod oip on oip.id = orp.item_prod_id " +
             "   where orp.id is not null ";
         let filterObj = {};
         if(params.orderRefundProdId){
