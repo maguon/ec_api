@@ -11105,6 +11105,7 @@
       "required": [
         "remark",
         "paymentType",
+        "transferRefundPrice",
         "OrderRefundProdArray",
         "OrderRefundServiceArray"
       ],
@@ -11113,6 +11114,10 @@
           "type": "string"
         },
         "paymentType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "transferRefundPrice": {
           "type": "integer",
           "format": "int64"
         },

@@ -880,6 +880,7 @@ CREATE TABLE IF NOT EXISTS public.order_refund(
     "date_id" integer ,
     "service_refund_price" decimal(12,2) NOT NULL DEFAULT 0,
     "prod_refund_price" decimal(12,2) NOT NULL DEFAULT 0,
+    "total_refund_price" decimal(12,2) NOT NULL DEFAULT 0,
     "transfer_refund_price" decimal(12,2) NOT NULL DEFAULT 0,
     "prod_refund_count" decimal(12,2) NOT NULL DEFAULT 0,
     "service_refund_count" decimal(12,2) NOT NULL DEFAULT 0,

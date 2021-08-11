@@ -87,14 +87,19 @@ class OrderRefundDAO  {
 
     static async addOrderRefund(params) {
         const query = 'INSERT INTO order_refund( ' +
-            ' op_user, remark, payment_type, order_id, date_id ) ' +
-            ' VALUES ( ${opUser} , ${remark} , ${paymentType} , ${orderId} , ${dateId} ) RETURNING id ';
+            ' op_user, remark, payment_type, order_id, date_id ,transfer_refund_price) ' +
+            ' VALUES ( ${opUser} , ${remark} , ${paymentType} , ${orderId} , ${dateId} , ${transferRefundPrice}) RETURNING id ';
         let valueObj = {};
         valueObj.opUser = params.opUser;
         valueObj.remark = params.remark;
-        valueObj.paymentType = params.paymentType;
+        if(params.paymentType){
+            valueObj.paymentType = params.paymentType;
+        }else{
+            valueObj.paymentType = 1;
+        }
         valueObj.orderId = params.orderId;
         valueObj.dateId = params.dateId;
+        valueObj.transferRefundPrice = params.transferRefundPrice;
         logger.debug(' addOrderRefund ');
         return await pgDb.any(query,valueObj);
     }
@@ -116,7 +121,7 @@ class OrderRefundDAO  {
     static async updatePrice(params){
         const query = ' UPDATE order_refund ' +
             ' SET service_refund_price = COALESCE(ors.service_refund_price,0) , prod_refund_price = COALESCE(orp.prod_refund_price,0) , ' +
-            ' transfer_refund_price = COALESCE(ors.service_refund_price,0) + COALESCE(orp.prod_refund_price,0) , ' +
+            ' total_refund_price = COALESCE(ors.service_refund_price,0) + COALESCE(orp.prod_refund_price,0) , ' +
             ' prod_refund_count = COALESCE(orp.prod_refund_count,0) , service_refund_count = COALESCE(ors.service_refund_count,0) ' +
             ' from ( ' +
             '  select order_Refund_id, sum(prod_refund_count) as prod_refund_count , ' +
