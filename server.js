@@ -297,8 +297,10 @@ const createServer=()=>{
     server.del({path:'/api/user/:userId/order/:orderId/orderRefund/:orderRefundId/itemProd/:itemProdId/orderRefundProd/:orderRefundProdId',contentType: 'application/json'}, orderRefundProd.deleteRefundProd);
 
     server.get('/api/user/:userId/orderRefundService', orderRefundService.queryRefundService);
+    server.post({path:'/api/user/:userId/order/:orderId/orderRefund/:orderRefundId/itemService/:itemServiceId/orderRefundService',contentType: 'application/json'}, orderRefundService.addRefundService);
     server.put({path:'/api/user/:userId/orderRefundService/:orderRefundServiceId',contentType: 'application/json'} ,orderRefundService.updateRefundService);
     server.put({path:'/api/user/:userId/orderRefundService/:orderRefundServiceId/status',contentType: 'application/json'} ,orderRefundService.updateStatus);
+    server.del({path:'/api/user/:userId/order/:orderId/orderRefund/:orderRefundId/itemService/:itemServiceId/orderRefundService/:orderRefundServiceId',contentType: 'application/json'}, orderRefundService.deleteRefundService);
 
     /**
      * Payment Module

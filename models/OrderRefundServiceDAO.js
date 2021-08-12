@@ -138,6 +138,22 @@ class OrderRefundServiceDAO  {
         return await pgDb.any(query,valueObj);
     }
 
+    static async deleteRefundService(params){
+        const query = 'delete from order_refund_service ' +
+            ' where id = ${orderRefundServiceId} ' +
+            ' and order_id = ${orderId} ' +
+            ' and order_refund_id = ${orderRefundId} ' +
+            ' and item_service_id = ${itemServiceId} ' +
+            ' RETURNING id ';
+        let valueObj = {};
+        valueObj.orderRefundServiceId =params.orderRefundServiceId ;
+        valueObj.orderId =params.orderId ;
+        valueObj.orderRefundId =params.orderRefundId ;
+        valueObj.itemServiceId =params.itemServiceId ;
+        logger.debug(' deleteRefundService ');
+        return await pgDb.any(query,valueObj);
+    }
+
 }
 
 module.exports = OrderRefundServiceDAO;

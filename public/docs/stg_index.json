@@ -8234,6 +8234,69 @@
       }
     },
 
+    "/user/{userId}/order/{orderId}/orderRefund/{orderRefundId}/itemService/{itemServiceId}/orderRefundService": {
+      "post": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Add a new orderRefundService info",
+        "description": "",
+        "operationId": "Add orderRefundService info",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "orderId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderRefundId",
+            "in": "path",
+            "description": "orderRefundId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "itemServiceId",
+            "in": "path",
+            "description": "itemServiceId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"orderRefundServiceInfo",
+            "description": "orderRefundService object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrderRefundService"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
     "/user/{userId}/orderRefundService": {
       "get": {
         "tags": [
@@ -8407,6 +8470,64 @@
           },
           "400": {
             "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/order/{orderId}/orderRefund/{orderRefundId}/itemService/{itemServiceId}/orderRefundService/{orderRefundServiceId}": {
+      "delete": {
+        "tags": [
+          "order"
+        ],
+        "summary": " Delete orderRefundService",
+        "description": " Delete orderRefundService ",
+        "operationId": " Delete orderRefundService by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "orderId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderRefundId",
+            "in": "path",
+            "description": "orderRefundId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "itemServiceId",
+            "in": "path",
+            "description": "itemServiceId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderRefundServiceId",
+            "in": "path",
+            "description": "orderRefundServiceId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "orderRefundServiceId not found"
           }
         }
       }
@@ -11353,6 +11474,25 @@
       },
       "xml": {
         "name": "OrderRefundProdPut"
+      }
+    },
+    "OrderRefundService": {
+      "type": "object",
+      "required": [
+        "remark",
+        "serviceRefundPrice"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "serviceRefundPrice": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "OrderRefundService"
       }
     },
     "OrderRefundServiceArray": {

@@ -54,7 +54,7 @@ const addRefundProd = async (req,res,next)=>{
         return next();
 
     }catch (e) {
-        logger.error(" addOrder error ",e.stack);
+        logger.error(" addRefundProd error ",e.stack);
         resUtil.resInternalError(e,res,next);
     }
 }

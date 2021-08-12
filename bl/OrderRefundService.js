@@ -20,6 +20,45 @@ const queryRefundService = async (req,res,next)=>{
     }
 }
 
+const addRefundService = async (req,res,next)=>{
+    let params = req.body;
+    let path = req.params;
+    if(path.userId){
+        params.opUser = path.userId;
+    }
+    if(path.orderId){
+        params.orderId = path.orderId;
+    }
+    if(path.orderRefundId){
+        params.orderRefundId = path.orderRefundId;
+    }
+    if(path.itemServiceId){
+        params.itemServiceId = path.itemServiceId;
+    }
+    let today = new Date();
+    let date = moment(today).format('YYYYMMDD');
+    params.dateId = date;
+
+    try {
+
+        //创建 order_refund_Service
+        const rowsItem = await orderRefundServiceDAO.addRefundService(params);
+        logger.info(' addRefundService addRefundService success');
+
+        //更新 order_refund
+        const updateRows = await orderRefundDAO.updatePrice({orderRefundId:path.orderRefundId});
+        logger.info(' addRefundService updatePrice success');
+
+        logger.info(' addRefundService ' + 'success');
+        resUtil.resetCreateRes(res,rowsItem);
+        return next();
+
+    }catch (e) {
+        logger.error(" addRefundService error ",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 const updateRefundService = async (req,res,next)=>{
     let params = req.body;
     let path = req.params;
@@ -68,8 +107,58 @@ const updateStatus = async (req,res,next)=>{
     }
 }
 
+const deleteRefundService = async (req,res,next)=>{
+    let params = req.query
+    let path = req.params;
+    if(path.userId){
+        params.userId = path.userId;
+    }
+    if(path.orderId){
+        params.orderId = path.orderId;
+    }
+    if(path.orderRefundId){
+        params.orderRefundId = path.orderRefundId;
+    }
+    if(path.itemServiceId){
+        params.itemServiceId = path.itemServiceId;
+    }
+    if(path.orderRefundServiceId){
+        params.orderRefundServiceId = path.orderRefundServiceId;
+    }
+    try{
+        //判断订单状态是否在处理以上
+        const rowsStatus = await orderRefundDAO.queryOrderRefund(params);
+        logger.info(' deleteRefundService queryOrderRefund ' + 'success');
+
+        if(rowsStatus[0].status > 5){
+            resUtil.resetFailedRes(res,{message:'删除失败！'});
+            return next();
+        }
+
+        const rows = await orderRefundServiceDAO.deleteRefundService(params);
+        logger.info(' deleteRefundService ' + 'success');
+
+        if(rows.length <= 0){
+            resUtil.resetFailedRes(res,{message:'删除失败！'});
+            return next();
+        }
+
+        //更新 order_refund
+        const updateRows = await orderRefundDAO.updatePrice({orderRefundId:params.orderRefundId});
+        logger.info(' deleteRefundService updatePrice success');
+
+        resUtil.resetUpdateRes(res,rows);
+        return next();
+    }catch (e) {
+        logger.error(" deleteRefundService error ",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 module.exports = {
     queryRefundService,
+    addRefundService,
     updateRefundService,
-    updateStatus
+    updateStatus,
+    deleteRefundService
 }
