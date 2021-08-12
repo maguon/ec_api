@@ -285,6 +285,10 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/orderItemService/:orderItemServiceId/status',contentType: 'application/json'} ,orderItemService.updateStatus);
     server.del({path:'/api/user/:userId/order/:orderId/orderItemService/:orderItemServiceId',contentType: 'application/json'}, orderItemService.deleteItemService);
 
+    server.get('/api/user/:userId/orderStat' ,order.queryStat);
+    /**
+     * OrderRefund Module
+     */
     server.get('/api/user/:userId/orderRefund', orderRefund.queryOrderRefund);
     server.post({path:'/api/user/:userId/order/:orderId/orderRefund',contentType: 'application/json'}, orderRefund.addOrderRefund);
     server.put({path:'/api/user/:userId/orderRefund/:orderRefundId',contentType: 'application/json'} ,orderRefund.updateOrderRefund);

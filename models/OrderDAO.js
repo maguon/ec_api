@@ -261,6 +261,80 @@ class OrderDAO  {
         return await pgDb.any(query,valueObj);
     }
 
+    static async queryStat(params) {
+        let query = "select COALESCE(sum(service_price),0) as service_price , " +
+            " COALESCE(sum(prod_price),0) as prod_price , " +
+            " COALESCE(sum(total_discount_price),0) as total_discount_price , " +
+            " COALESCE(sum(total_actual_price),0) as total_actual_price " +
+            " from order_info oi " +
+            " left join user_info ui on ui.id = oi.op_user " +
+            " left join user_info rui on rui.id = oi.re_user_id " +
+            " left join user_info cui on cui.id = oi.check_user_id " +
+            " left join client_agent ca on ca.id = oi.client_agent_id " +
+            " where oi.id is not null ";
+        let filterObj = {};
+        if(params.orderId){
+            query += " and oi.id = ${orderId} ";
+            filterObj.orderId = params.orderId;
+        }
+        if(params.reUserId){
+            query += " and oi.re_user_id = ${reUserId} ";
+            filterObj.reUserId = params.reUserId;
+        }
+        if(params.status){
+            query += " and oi.status = ${status} ";
+            filterObj.status = params.status;
+        }
+        if(params.paymentStatus){
+            query += " and oi.payment_status = ${paymentStatus} ";
+            filterObj.paymentStatus = params.paymentStatus;
+        }
+        if(params.orderType){
+            query += " and oi.order_type = ${orderType} ";
+            filterObj.orderType = params.orderType;
+        }
+        if(params.checkUserId){
+            query += " and oi.check_user_id = ${checkUserId} ";
+            filterObj.checkUserId = params.checkUserId;
+        }
+        if(params.clientId){
+            query += " and oi.client_id = ${clientId} ";
+            filterObj.clientId = params.clientId;
+        }
+        if(params.clientTel){
+            query += " and oi.client_tel like '%" + params.clientTel + "%' ";
+        }
+        if(params.clientSerial){
+            query += " and oi.client_serial like '%" + params.clientSerial + "%' ";
+        }
+        if(params.clientAgentId){
+            query += " and oi.client_agent_id = ${clientAgentId} ";
+            filterObj.clientAgentId = params.clientAgentId;
+        }
+        if(params.modelId){
+            query += " and oi.model_id = ${modelId} ";
+            filterObj.modelId = params.modelId;
+        }
+        if(params.dateStart){
+            query += " and oi.date_id >= ${dateStart} ";
+            filterObj.dateStart = params.dateStart;
+        }
+        if(params.dateEnd){
+            query += " and oi.date_id <= ${dateEnd} ";
+            filterObj.dateEnd = params.dateEnd;
+        }
+        if(params.finDateStart){
+            query += " and oi.fin_date_id >= ${finDateStart} ";
+            filterObj.finDateStart = params.finDateStart;
+        }
+        if(params.finDateEnd){
+            query += " and oi.fin_date_id <= ${finDateEnd} ";
+            filterObj.finDateEnd = params.finDateEnd;
+        }
+        logger.debug(' queryStat ');
+        return await pgDb.any(query,filterObj);
+    }
+
 }
 
 module.exports = OrderDAO;
