@@ -365,9 +365,11 @@ class OrderItemProdDAO  {
     static async deleteItemProd(params){
         const query = 'delete from order_item_prod ' +
             ' where id = ${orderItemProdId} ' +
+            ' and order_id = ${orderId}' +
             ' RETURNING id ';
         let valueObj = {};
-        valueObj.orderItemProdId =params.orderItemProdId ;
+        valueObj.orderItemProdId = params.orderItemProdId ;
+        valueObj.orderId = params.orderId ;
         logger.debug(' deleteItemProd ');
         return await pgDb.any(query,valueObj);
     }

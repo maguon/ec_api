@@ -264,9 +264,11 @@ class OrderItemServiceDAO  {
     static async deleteItemService(params){
         const query = 'delete from order_item_service ' +
             ' where id = ${orderItemServiceId} ' +
+            ' and order_id = ${orderId}' +
             ' RETURNING id ';
         let valueObj = {};
         valueObj.orderItemServiceId =params.orderItemServiceId;
+        valueObj.orderId =params.orderId;
         logger.debug(' deleteItemService ');
         return await pgDb.any(query,valueObj);
     }
