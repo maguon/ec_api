@@ -122,9 +122,23 @@ const updateStatus = async (req,res,next)=>{
     }
 }
 
+const queryStat = async (req,res,next)=>{
+    let query = req.query;
+    try{
+        const rows = await orderRefundDAO.queryStat(query);
+        logger.info(' queryStat ' + 'success');
+        resUtil.resetQueryRes(res,rows,1);
+        return next();
+    }catch (e) {
+        logger.error(" queryStat error",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 module.exports = {
     queryOrderRefund,
     addOrderRefund,
     updateOrderRefund,
-    updateStatus
+    updateStatus,
+    queryStat
 }

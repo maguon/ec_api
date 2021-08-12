@@ -184,6 +184,49 @@ class OrderRefundDAO  {
         return await pgDb.any(query,valueObj);
     }
 
+    static async queryStat(params) {
+        let query = "select COALESCE(sum(service_refund_price),0) as service_refund_price , " +
+            " COALESCE(sum(prod_refund_price),0) as prod_refund_price , " +
+            " COALESCE(sum(transfer_refund_price),0) as transfer_refund_price ," +
+            " COALESCE(sum(prod_refund_count),0) as prod_refund_count , " +
+            " COALESCE(sum(service_refund_count),0) as service_refund_count , " +
+            " COALESCE(sum(total_refund_price),0) as total_refund_price " +
+            " from order_refund orf " +
+            " left join user_info ui on ui.id = orf.op_user " +
+            " where orf.id is not null ";
+        let filterObj = {};
+        if(params.orderRefundId){
+            query += " and orf.id = ${orderRefundId} ";
+            filterObj.orderRefundId = params.orderRefundId;
+        }
+        if(params.orderId){
+            query += " and orf.order_id = ${orderId} ";
+            filterObj.orderId = params.orderId;
+        }
+        if(params.status){
+            query += " and orf.status = ${status} ";
+            filterObj.status = params.status;
+        }
+        if(params.paymentStatus){
+            query += " and orf.payment_status = ${paymentStatus} ";
+            filterObj.paymentStatus = params.paymentStatus;
+        }
+        if(params.paymentType){
+            query += " and orf.payment_type = ${paymentType} ";
+            filterObj.paymentType = params.paymentType;
+        }
+        if(params.dateStart){
+            query += " and orf.date_id >= ${dateStart} ";
+            filterObj.dateStart = params.dateStart;
+        }
+        if(params.dateEnd){
+            query += " and orf.date_id <= ${dateEnd} ";
+            filterObj.dateEnd = params.dateEnd;
+        }
+        logger.debug(' queryOrderRefund ');
+        return await pgDb.any(query,filterObj);
+    }
+
 }
 
 module.exports = OrderRefundDAO;

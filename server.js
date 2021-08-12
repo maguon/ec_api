@@ -306,6 +306,7 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/orderRefundService/:orderRefundServiceId/status',contentType: 'application/json'} ,orderRefundService.updateStatus);
     server.del({path:'/api/user/:userId/order/:orderId/orderRefund/:orderRefundId/itemService/:itemServiceId/orderRefundService/:orderRefundServiceId',contentType: 'application/json'}, orderRefundService.deleteRefundService);
 
+    server.get('/api/user/:userId/orderRefundStat' ,orderRefund.queryStat);
     /**
      * Payment Module
      */
