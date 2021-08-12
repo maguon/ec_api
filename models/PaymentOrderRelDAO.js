@@ -12,7 +12,24 @@ class PaymentOrderRelDAO  {
             " pi.order_refund_count as p_order_refund_count , pi.refund_prod_count as p_refund_prod_count, " +
             " pi.refund_prod_price as p_refund_prod_price, pi.refund_service_count as p_refund_service_count , " +
             " pi.refund_service_price as p_refund_service_price, pi.total_refund_price as p_total_refund_price , " +
-            " pi.plan_price as p_plan_price, pi.actual_price as p_actual_price, pi.date_id as p_date_id " +
+            " pi.plan_price as p_plan_price, pi.actual_price as p_actual_price, pi.date_id as p_date_id , " +
+            " oi.status as o_status , oi.payment_status as o_payment_status , oi.order_type as o_order_type , " +
+            " oi.date_id as o_date_id , oi.fin_date_id as o_fin_date_id , " +
+            " oi.service_price as o_service_price , oi.prod_price as o_prod_price , " +
+            " oi.discount_service_price as o_discount_service_price , oi.discount_prod_price as o_discount_prod_price , " +
+            " oi.total_discount_price as o_total_discount_price , " +
+            " oi.actual_service_price as o_actual_service_price , oi.actual_prod_price as o_actual_prod_price , " +
+            " oi.total_actual_price as o_total_actual_price , " +
+            " oi.transfer_price as o_transfer_price , " +
+            " oi.service_count as o_service_count , oi.prod_count as o_prod_count , " +
+            " orf.status as orf_status , orf.payment_status as orf_payment_status , " +
+            " orf.payment_type as orf_payment_type , orf.date_id as orf_date_id ," +
+            " orf.service_refund_price as orf_service_refund_price ," +
+            " orf.prod_refund_price as orf_prod_refund_price , " +
+            " orf.total_refund_price as orf_total_refund_price , " +
+            " orf.transfer_refund_price as orf_transfer_refund_price ," +
+            " orf.prod_refund_count as orf_prod_refund_count ," +
+            " orf.service_refund_count as orf_service_refund_count  " +
             " FROM payment_order_rel por " +
             " left join order_info oi on oi.id = por.order_id " +
             " left join payment_info pi on pi.id = por.payment_id " +
