@@ -49,7 +49,7 @@ const addItemProd = async (req,res,next)=>{
 
     try {
 
-        //创建 order_prod_service
+        //创建 order_item_prod
         const rowsItem = await orderItemProdDAO.addItemProd(params);
         logger.info(' addOrder addItemProd success');
 
@@ -132,13 +132,18 @@ const deleteItemProd = async (req,res,next)=>{
         const rowsStatus = await orderDAO.queryOrder(params);
         logger.info(' deleteItemProd queryOrder ' + 'success');
 
-        if(rowsStatus > 5){
+        if(rowsStatus[0].status > 5){
             resUtil.resetFailedRes(res,{message:'删除失败！'});
             return next();
         }
 
         const rows = await orderItemProdDAO.deleteItemProd(params);
         logger.info(' deleteItemProd ' + 'success');
+
+        if(rows.length <= 0){
+            resUtil.resetFailedRes(res,{message:'删除失败！'});
+            return next();
+        }
 
         //更新 order_info : service_price , prod_price , discount_price , actual_price
         const updateRows = await orderDAO.updatePrice({orderId:params.orderId});

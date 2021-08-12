@@ -127,21 +127,23 @@ class OrderRefundDAO  {
             ' SET service_refund_price = COALESCE(ors.service_refund_price,0) , prod_refund_price = COALESCE(orp.prod_refund_price,0) , ' +
             ' total_refund_price = COALESCE(ors.service_refund_price,0) + COALESCE(orp.prod_refund_price,0) , ' +
             ' prod_refund_count = COALESCE(orp.prod_refund_count,0) , service_refund_count = COALESCE(ors.service_refund_count,0) ' +
-            ' from ( ' +
+            ' from order_refund orf ' +
+            ' left join (  ' +
             '  select order_Refund_id, sum(prod_refund_count) as prod_refund_count , ' +
             '  sum(total_refund_price) as prod_refund_price ' +
             '  from order_refund_prod  ' +
             '  where order_refund_id = ${orderRefundId} ' +
             '  group by order_refund_id ' +
-            ' ) as orp ' +
+            ' ) as orp on orp.order_refund_id = orf.id ' +
             ' left join ( ' +
             '  select order_refund_id, count(id) as service_refund_count , ' +
             '  sum(service_refund_price) as service_refund_price ' +
             '  from order_refund_service ' +
             '  where order_refund_id = ${orderRefundId} ' +
             '  group by order_refund_id ' +
-            ' ) as ors on ors.order_refund_id = orp.order_refund_id ' +
+            ' ) as ors on ors.order_refund_id = orf.id ' +
             ' where order_refund.id = ${orderRefundId} ' +
+            ' and order_refund.id = orf.id ' +
             ' RETURNING order_refund.id ';
         let valueObj = {};
         valueObj.orderRefundId = params.orderRefundId;

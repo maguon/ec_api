@@ -111,7 +111,7 @@ class OrderRefundProdDAO  {
         valueObj.remark = params.remark;
         valueObj.orderRefundId = params.orderRefundId;
         valueObj.orderId = params.orderId;
-        valueObj.orderItemId = params.orderItemId;
+        valueObj.itemProdId = params.itemProdId;
         valueObj.prodRefundCount = params.prodRefundCount;
         valueObj.prodRefundPrice = params.prodRefundPrice;
         valueObj.totalRefundPrice = params.prodRefundCount * params.prodRefundPrice;
@@ -150,6 +150,21 @@ class OrderRefundProdDAO  {
         return await pgDb.any(query,valueObj);
     }
 
+    static async deleteRefundProd(params){
+        const query = 'delete from order_refund_prod ' +
+            ' where id = ${orderRefundProdId} ' +
+            ' and order_id = ${orderId} ' +
+            ' and order_refund_id = ${orderRefundId} ' +
+            ' and item_prod_id = ${itemProdId} ' +
+            ' RETURNING id ';
+        let valueObj = {};
+        valueObj.orderRefundProdId =params.orderRefundProdId ;
+        valueObj.orderId =params.orderId ;
+        valueObj.orderRefundId =params.orderRefundId ;
+        valueObj.itemProdId =params.itemProdId ;
+        logger.debug(' deleteRefundProd ');
+        return await pgDb.any(query,valueObj);
+    }
 }
 
 module.exports = OrderRefundProdDAO;

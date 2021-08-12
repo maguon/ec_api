@@ -1,3 +1,4 @@
+
 const path = require('path');
 const restify = require('restify');
 const Errors = require('restify-errors');
@@ -5,6 +6,7 @@ const corsMiddleware = require('restify-cors-middleware');
 
 const serverLogger = require('./util/ServerLogger');
 const logger = serverLogger.createLogger('Server');
+
 
 const app = require('./bl/App');
 const sms = require('./bl/Sms');
@@ -289,8 +291,10 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/orderRefund/:orderRefundId/status',contentType: 'application/json'} ,orderRefund.updateStatus);
 
     server.get('/api/user/:userId/orderRefundProd', orderRefundProd.queryRefundProd);
+    server.post({path:'/api/user/:userId/order/:orderId/orderRefund/:orderRefundId/itemProd/:itemProdId/orderRefundProd',contentType: 'application/json'}, orderRefundProd.addRefundProd);
     server.put({path:'/api/user/:userId/orderRefundProd/:orderRefundProdId',contentType: 'application/json'} ,orderRefundProd.updateRefundProd);
     server.put({path:'/api/user/:userId/orderRefundProd/:orderRefundProdId/status',contentType: 'application/json'} ,orderRefundProd.updateStatus);
+    server.del({path:'/api/user/:userId/order/:orderId/orderRefund/:orderRefundId/itemProd/:itemProdId/orderRefundProd/:orderRefundProdId',contentType: 'application/json'}, orderRefundProd.deleteRefundProd);
 
     server.get('/api/user/:userId/orderRefundService', orderRefundService.queryRefundService);
     server.put({path:'/api/user/:userId/orderRefundService/:orderRefundServiceId',contentType: 'application/json'} ,orderRefundService.updateRefundService);
