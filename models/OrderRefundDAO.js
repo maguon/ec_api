@@ -5,9 +5,16 @@ const logger = serverLogger.createLogger('OrderRefundDAO.js');
 class OrderRefundDAO  {
 
     static async queryOrderRefund(params) {
-        let query = "select orf.* , ui.real_name " +
+        let query = "select orf.* , ui.real_name , " +
+            " oi.client_id as o_client_id , oi.client_agent_id as o_client_agent_id , " +
+            " oi.client_name as o_client_name , ca.name as o_client_agent_name , " +
+            " oi.client_tel as o_client_tel , " +
+            " oi.client_address as o_client_address , oi.client_serial as o_client_serial , " +
+            " oi.client_serial_detail as o_client_serial_detail  " +
             " from order_refund orf " +
             " left join user_info ui on ui.id = orf.op_user " +
+            " left join order_info oi on oi.id = orf.order_id " +
+            " left join client_agent ca on ca.id = oi.client_agent_id " +
             " where orf.id is not null ";
         let filterObj = {};
         if(params.orderRefundId){
@@ -55,6 +62,8 @@ class OrderRefundDAO  {
         let query = "select count(orf.id) " +
             " from order_refund orf " +
             " left join user_info ui on ui.id = orf.op_user " +
+            " left join order_info oi on oi.id = orf.order_id " +
+            " left join client_agent ca on ca.id = oi.client_agent_id " +
             " where orf.id is not null ";
         let filterObj = {};
         if(params.orderRefundId){
