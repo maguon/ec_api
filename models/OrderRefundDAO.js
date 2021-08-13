@@ -25,6 +25,14 @@ class OrderRefundDAO  {
             query += " and orf.order_id = ${orderId} ";
             filterObj.orderId = params.orderId;
         }
+        if(params.clientId){
+            query += " and oi.client_id = ${clientId} ";
+            filterObj.clientId = params.clientId;
+        }
+        if(params.clientAgentId){
+            query += " and oi.client_agent_id = ${clientAgentId} ";
+            filterObj.clientAgentId = params.clientAgentId;
+        }
         if(params.status){
             query += " and orf.status = ${status} ";
             filterObj.status = params.status;

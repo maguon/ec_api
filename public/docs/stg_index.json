@@ -2875,8 +2875,8 @@
         "tags": [
           "storage"
         ],
-        "summary": "Add a new storProdRelDetailImport info ",
-        "description": "Add storProdRelDetailImport info",
+        "summary": "Add a new storProdRelDetailImport info(退料、退单入库)",
+        "description": "Add storProdRelDetailImport info(退料、退单入库)",
         "operationId": "Add storProdRelDetailImport info ",
         "consumes": [
           "application/json"
@@ -2924,8 +2924,8 @@
         "tags": [
           "storage"
         ],
-        "summary": "Add a new storProdRelDetailExport info ",
-        "description": "Add storProdRelDetailExport info",
+        "summary": "Add a new storProdRelDetailExport info(领料、订单出库)",
+        "description": "Add storProdRelDetailExport info(领料、订单出库)",
         "operationId": "Add storProdRelDetailExport info ",
         "consumes": [
           "application/json"
@@ -7732,6 +7732,20 @@
             "name": "orderId",
             "in": "query",
             "description": "orderId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "clientId",
+            "in": "query",
+            "description": "clientId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "clientAgentId",
+            "in": "query",
+            "description": "clientAgentId",
             "required": false,
             "type": "integer"
           },
