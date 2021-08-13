@@ -2687,6 +2687,20 @@
             "type": "string"
           },
           {
+            "name": "orderRefundId",
+            "in": "query",
+            "description": "orderRefundId",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "orderRefundProdId",
+            "in": "query",
+            "description": "orderRefundProdId",
+            "required": false,
+            "type": "string"
+          },
+          {
             "name": "status",
             "in": "query",
             "description": "status",

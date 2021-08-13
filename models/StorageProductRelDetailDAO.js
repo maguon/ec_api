@@ -83,6 +83,14 @@ class StorageProductRelDetailDAO  {
             query += " and sprd.order_prod_id = ${orderProdId} ";
             filterObj.orderProdId = params.orderProdId;
         }
+        if(params.orderRefundId){
+            query += " and sprd.order_refund_id = ${orderRefundId} ";
+            filterObj.orderRefundId = params.orderRefundId;
+        }
+        if(params.orderRefundProdId){
+            query += " and sprd.order_refund_prod_id = ${orderRefundProdId} ";
+            filterObj.orderRefundProdId = params.orderRefundProdId;
+        }
         if(params.oldFlag){
             query += " and sprd.old_flag = ${oldFlag} ";
             filterObj.oldFlag = params.oldFlag;
@@ -178,6 +186,14 @@ class StorageProductRelDetailDAO  {
         if(params.orderProdId){
             query += " and sprd.order_prod_id = ${orderProdId} ";
             filterObj.orderProdId = params.orderProdId;
+        }
+        if(params.orderRefundId){
+            query += " and sprd.order_refund_id = ${orderRefundId} ";
+            filterObj.orderRefundId = params.orderRefundId;
+        }
+        if(params.orderRefundProdId){
+            query += " and sprd.order_refund_prod_id = ${orderRefundProdId} ";
+            filterObj.orderRefundProdId = params.orderRefundProdId;
         }
         if(params.oldFlag){
             query += " and sprd.old_flag = ${oldFlag} ";
