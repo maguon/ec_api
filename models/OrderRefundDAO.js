@@ -82,6 +82,14 @@ class OrderRefundDAO  {
             query += " and orf.order_id = ${orderId} ";
             filterObj.orderId = params.orderId;
         }
+        if(params.clientId){
+            query += " and oi.client_id = ${clientId} ";
+            filterObj.clientId = params.clientId;
+        }
+        if(params.clientAgentId){
+            query += " and oi.client_agent_id = ${clientAgentId} ";
+            filterObj.clientAgentId = params.clientAgentId;
+        }
         if(params.status){
             query += " and orf.status = ${status} ";
             filterObj.status = params.status;
@@ -210,6 +218,8 @@ class OrderRefundDAO  {
             " COALESCE(sum(total_refund_price),0) as total_refund_price " +
             " from order_refund orf " +
             " left join user_info ui on ui.id = orf.op_user " +
+            " left join order_info oi on oi.id = orf.order_id " +
+            " left join client_agent ca on ca.id = oi.client_agent_id " +
             " where orf.id is not null ";
         let filterObj = {};
         if(params.orderRefundId){
@@ -219,6 +229,14 @@ class OrderRefundDAO  {
         if(params.orderId){
             query += " and orf.order_id = ${orderId} ";
             filterObj.orderId = params.orderId;
+        }
+        if(params.clientId){
+            query += " and oi.client_id = ${clientId} ";
+            filterObj.clientId = params.clientId;
+        }
+        if(params.clientAgentId){
+            query += " and oi.client_agent_id = ${clientAgentId} ";
+            filterObj.clientAgentId = params.clientAgentId;
         }
         if(params.status){
             query += " and orf.status = ${status} ";
