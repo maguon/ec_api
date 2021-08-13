@@ -10175,7 +10175,8 @@
         "storageType",
         "storageSubType",
         "orderId",
-        "orderProdId",
+        "orderRefundId",
+        "orderRefundProdId",
         "applyUserId",
         "oldFlag"
       ],
@@ -10199,7 +10200,11 @@
           "type": "integer",
           "format": "int64"
         },
-        "orderProdId": {
+        "orderRefundId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "orderRefundProdId": {
           "type": "integer",
           "format": "int64"
         },

@@ -191,13 +191,14 @@ class StorageProductRelDetailDAO  {
     static async addStorageProductRelDetail(params) {
         let query = 'INSERT INTO storage_product_rel_detail ( op_user , remark , storage_id , storage_area_id , ' +
             ' storage_product_rel_id , supplier_id , product_id , purchase_id , purchase_item_id , storage_type , ' +
-            ' storage_sub_type , storage_count , date_id , apply_user_id , old_flag , order_id ';
-        if(params.orderProdId){
-            query = query + ' , order_prod_id ' ;
-        }
-        query =  query + ' )select  ${opUser} , ${remark} , storage_id , storage_area_id , ${storageProductRelId} , ' +
+            ' storage_sub_type , storage_count , date_id , apply_user_id , old_flag , order_id , order_prod_id , ' +
+            ' order_refund_id , order_refund_prod_id )' +
+            ' (select  ${opUser} , ${remark} , storage_id , storage_area_id , ${storageProductRelId} , ' +
             ' supplier_id , product_id , purchase_id , purchase_item_id , ${storageType} , ${storageSubType} , ' +
-            ' ${storageCount} , ${dateId} , ${applyUserId} , oldFlag ' ;
+            ' ${storageCount} , ${dateId} , ${applyUserId} , old_flag , ${orderId} , ${orderProdId} , ' +
+            ' ${orderRefundId} , ${orderRefundProdId} ' +
+            ' from storage_product_rel ' +
+            ' where storage_product_rel.id= ${storageProductRelId} ' ;
         let valueObj = {};
         valueObj.opUser = params.opUser;
         valueObj.remark = params.remark;
@@ -207,27 +208,15 @@ class StorageProductRelDetailDAO  {
         valueObj.storageCount = params.storageCount;
         valueObj.dateId = params.dateId;
         valueObj.applyUserId = params.applyUserId;
-
-        if(params.orderId){
-            query = query + ' , ${orderId} ' ;
-            valueObj.orderId = params.orderId;
-        }else{
-            query = query + ' , order_id ' ;
-        }
-
-        if(params.orderProdId){
-            query = query + ' , ${orderProdId} ' ;
-            valueObj.orderProdId = params.orderProdId;
-        }
-
-        query = query + ' from storage_product_rel ' +
-            ' where storage_product_rel.id= ${storageProductRelId} ' ;
+        valueObj.orderId = params.orderId;
+        valueObj.orderProdId = params.orderProdId;
+        valueObj.orderRefundId = params.orderRefundId;
+        valueObj.orderRefundProdId = params.orderRefundProdId;
 
         if(params.storageType == sysConst.storageType.export){
             query = query + ' and storage_product_rel.storage_count - ${storageCount} >= 0 ';
         }
-
-        query = query +' RETURNING id ';
+        query = query +') RETURNING id ';
         valueObj.storageProductRelId = params.storageProductRelId;
         valueObj.storageCount = params.storageCount;
         logger.debug(' addStorageProductRelDetail ');

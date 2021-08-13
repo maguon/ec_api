@@ -451,6 +451,8 @@ CREATE TABLE IF NOT EXISTS public.storage_product_rel_detail
     "order_id" bigint ,
     "order_prod_id" integer ,
     "old_flag" smallint NOT NULL DEFAULT 0,
+    "order_refund_id" bigint ,
+    "order_refund_prod_id" integer ,
     PRIMARY KEY (id)
 );
 

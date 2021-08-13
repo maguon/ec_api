@@ -2,6 +2,7 @@
 const storageProductRelDAO = require('../models/StorageProductRelDAO');
 const storageProductRelDetailDAO = require('../models/StorageProductRelDetailDAO');
 const orderItemProdDAO = require('../models/OrderItemProdDAO');
+const orderRefundProdDAO = require('../models/OrderRefundProdDAO');
 const serverLogger = require('../util/ServerLogger.js');
 const sysConst = require('../util/SystemConst.js');
 const moment = require('moment');
@@ -189,6 +190,31 @@ const addRelDetailImport = async (req,res,next)=>{
     params.dateId = date;
 
     try {
+        if(params.storageSubType == sysConst.storageImportType.orderBackImport){
+            //退单入库
+            if(params.orderRefundId){
+                if(params.orderRefundProdId){
+                    params.orderRefundProdId = params.orderRefundProdId;
+                    params.status = sysConst.prodRefundStatus.complete;
+                    //更新 order_refund_prod status
+                    const rowsStatus = await orderRefundProdDAO.updateStatus(params);
+                    logger.info(' addRelDetailImport updateStatus ' + 'success');
+                }else{
+                    resUtil.resetFailedRes(res,{message:'缺少退单商品编号，入库失败！'});
+                    return next();
+                }
+
+            }else{
+                resUtil.resetFailedRes(res,{message:'缺少退单号，入库失败！'});
+                return next();
+            }
+        }else{
+            //退料
+            params.orderId = null;
+            params.orderRefundId = null;
+            params.orderRefundProdId = null;
+        }
+        params.orderProdId = null;
         const rows = await storageProductRelDetailDAO.addStorageProductRelDetail(params);
         logger.info(' addRelDetailImport ' + 'success');
 
@@ -227,14 +253,6 @@ const addRelDetailImport = async (req,res,next)=>{
             return next();
         }
 
-        if(params.orderProdId){
-            params.orderItemProdId = params.orderProdId;
-            params.status = sysConst.prodItemStatus.complete;
-            //更新 order_item_prod status
-            const rowsStatus = await orderItemProdDAO.updateStatus(params);
-            logger.info(' addRelDetailImport updateStatus ' + 'success');
-        }
-
         resUtil.resetCreateRes(res,rows);
         return next();
     }catch (e) {
@@ -259,6 +277,32 @@ const addRelDetailExport = async (req,res,next)=>{
     params.dateId = date;
 
     try {
+        if(params.storageSubType == sysConst.storageExportType.orderExport){
+            //订单出库
+            if(params.orderId){
+                if(params.orderProdId){
+                    params.orderItemProdId = params.orderProdId;
+                    params.status = sysConst.prodItemStatus.complete;
+                    //更新 order_item_prod status
+                    const rowsStatus = await orderItemProdDAO.updateStatus(params);
+                    logger.info(' addRelDetailExport updateStatus ' + 'success');
+                }else{
+                    resUtil.resetFailedRes(res,{message:'缺少商品编号，出库失败！'});
+                    return next();
+                }
+
+            }else{
+                resUtil.resetFailedRes(res,{message:'缺少单号，出库失败！'});
+                return next();
+            }
+        }else{
+            //领料
+            params.orderId = null;
+            params.orderProdId = null;
+        }
+
+        params.orderRefundId = null;
+        params.orderRefundProdId = null;
         const rows = await storageProductRelDetailDAO.addStorageProductRelDetail(params);
         logger.info(' addRelDetailExport ' + 'success');
 
@@ -269,14 +313,6 @@ const addRelDetailExport = async (req,res,next)=>{
         }else{
             resUtil.resetFailedRes(res,{message:'创建失败！'});
             return next();
-        }
-
-        if(params.orderProdId){
-            params.orderItemProdId = params.orderProdId;
-            params.status = sysConst.prodItemStatus.complete;
-            //更新 order_item_prod status
-            const rowsStatus = await orderItemProdDAO.updateStatus(params);
-            logger.info(' addRelDetailExport updateStatus ' + 'success');
         }
 
         resUtil.resetCreateRes(res,rows);

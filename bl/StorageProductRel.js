@@ -120,6 +120,11 @@ const addStorageProductRel = async (req,res,next)=>{
 
         //新增 storage_product_rel_detail
         params.storageProductRelId = rows[0].id;
+        params.orderId = null;
+        params.orderProdId = null;
+        params.orderRefundId = null;
+        params.orderRefundProdId = null;
+
         const rowsDetail = await storageProductRelDetailDAO.addStorageProductRelDetail(params);
         logger.info(' addStorageProductRel addStorageProductRelDetail ' + 'success');
 

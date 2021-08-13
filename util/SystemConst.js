@@ -59,6 +59,11 @@ const prodItemStatus = {
     complete :3 ,//已领取
 }
 
+const prodRefundStatus = {
+    normal : 1 ,//未退回
+    complete :3 ,//已退回
+}
+
 const orderStatus = {
     normal: 1 ,//未处理
     processing :3 ,//处理中
@@ -100,6 +105,7 @@ module.exports = {
     orderType,
     serviceItemStatus,
     prodItemStatus,
+    prodRefundStatus,
     orderPaymentStatus,
     orderRefundPaymentStatus,
     paymentInfoStatus
