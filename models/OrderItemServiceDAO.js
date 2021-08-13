@@ -229,8 +229,17 @@ class OrderItemServiceDAO  {
     }
 
     static async updateDeploy(params){
-        let query = 'update order_item_service set deploy_user_id = ${deployUserId}, deploy_user_name = ${deployUserName} , status = 3' +
-            ' where id = ${orderItemServiceId} RETURNING id ';
+        let query = 'update order_item_service set deploy_user_id = ${deployUserId}, ' +
+            ' deploy_user_name = ${deployUserName} , status = 3 , deploy_perf = ssi.deploy_perf ' +
+            ' from order_item_service ois ' +
+            ' left join ( select id,( case ' +
+            ' when deploy_perf_type=2 then deploy_perf_fixed ' +
+            ' when deploy_perf_type=3 then deploy_perf_fixed * deploy_perf_ratio ' +
+            '  else 0 end ) as deploy_perf ' +
+            ' from sale_service_info ' +
+            ' where id is not null ' +
+            ' ) as ssi on ssi.id = ois.sale_service_id' +
+            ' where order_item_service.id = ${orderItemServiceId} RETURNING order_item_service.id ';
         let valueObj = {};
         valueObj.deployUserId = params.deployUserId;
         valueObj.deployUserName = params.deployUserName;
@@ -240,8 +249,17 @@ class OrderItemServiceDAO  {
     }
 
     static async updateCheck(params){
-        let query = 'update order_item_service set check_user_id = ${checkUserId}, check_user_name = ${checkUserName} , status = 7' +
-            ' where id = ${orderItemServiceId} RETURNING id ';
+        let query = 'update order_item_service set check_user_id = ${checkUserId}, ' +
+            ' check_user_name = ${checkUserName} , status = 7 , check_perf = ssi.check_perf' +
+            ' from order_item_service ois ' +
+            ' left join ( select id,( case ' +
+            ' when deploy_perf_type=2 then check_perf_fixed ' +
+            ' when deploy_perf_type=3 then check_perf_fixed * check_perf_ratio ' +
+            '  else 0 end ) as check_perf ' +
+            ' from sale_service_info ' +
+            ' where id is not null ' +
+            ' ) as ssi on ssi.id = ois.sale_service_id' +
+            ' where order_item_service.id = ${orderItemServiceId} RETURNING order_item_service.id ';
         let valueObj = {};
         valueObj.checkUserId = params.checkUserId;
         valueObj.checkUserName = params.checkUserName;
