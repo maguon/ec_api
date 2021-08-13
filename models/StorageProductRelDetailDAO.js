@@ -195,7 +195,14 @@ class StorageProductRelDetailDAO  {
             ' order_refund_id , order_refund_prod_id )' +
             ' (select  ${opUser} , ${remark} , storage_id , storage_area_id , ${storageProductRelId} , ' +
             ' supplier_id , product_id , purchase_id , purchase_item_id , ${storageType} , ${storageSubType} , ' +
-            ' ${storageCount} , ${dateId} , ${applyUserId} , old_flag , ${orderId} , ${orderProdId} , ' +
+            ' ${storageCount} , ${dateId} , ${applyUserId} ' ;
+        if(params.storageType == sysConst.storageType.import){
+            query = query + ' , ${oldFlag} ' ;
+        }else{
+            query = query + ' , old_flag ' ;
+        }
+
+        query = query +  ' , ${orderId} , ${orderProdId} , ' +
             ' ${orderRefundId} , ${orderRefundProdId} ' +
             ' from storage_product_rel ' +
             ' where storage_product_rel.id= ${storageProductRelId} ' ;
@@ -208,6 +215,9 @@ class StorageProductRelDetailDAO  {
         valueObj.storageCount = params.storageCount;
         valueObj.dateId = params.dateId;
         valueObj.applyUserId = params.applyUserId;
+        if(params.storageType == sysConst.storageType.import){
+            valueObj.oldFlag = params.oldFlag;
+        }
         valueObj.orderId = params.orderId;
         valueObj.orderProdId = params.orderProdId;
         valueObj.orderRefundId = params.orderRefundId;
