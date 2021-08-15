@@ -306,11 +306,25 @@ const queryStat = async (req,res,next)=>{
     }
 }
 
+const queryPerfStat = async (req,res,next)=>{
+    let query = req.query;
+    try{
+        const rows = await orderDAO.queryPerfStat(query);
+        logger.info(' queryPerfStat ' + 'success');
+        resUtil.resetQueryRes(res,rows,1);
+        return next();
+    }catch (e) {
+        logger.error(" queryPerfStat error",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 module.exports = {
     queryOrder,
     queryOrderCsv,
     addOrder,
     updateOrder,
     updateStatus,
-    queryStat
+    queryStat,
+    queryPerfStat
 }

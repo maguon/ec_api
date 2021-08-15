@@ -286,6 +286,7 @@ const createServer=()=>{
     server.del({path:'/api/user/:userId/order/:orderId/orderItemService/:orderItemServiceId',contentType: 'application/json'}, orderItemService.deleteItemService);
 
     server.get('/api/user/:userId/orderStat' ,order.queryStat);
+    server.get('/api/user/:userId/orderPerfStat' ,order.queryPerfStat);
     /**
      * OrderRefund Module
      */

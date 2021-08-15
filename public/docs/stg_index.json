@@ -8680,6 +8680,39 @@
         }
       }
     },
+    "/user/{userId}/orderPerfStat": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Select orderPerfStat Info",
+        "description": "Get orderPerfStat info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "reUserId",
+            "in": "query",
+            "description": "reUserId",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
     "/user/{userId}/orderRefundStat": {
       "get": {
         "tags": [

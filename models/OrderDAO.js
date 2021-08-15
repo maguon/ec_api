@@ -335,6 +335,23 @@ class OrderDAO  {
         return await pgDb.any(query,filterObj);
     }
 
+    static async queryPerfStat(params) {
+        let query = " select u.id as user_id , u.real_name, " +
+            " count(oisd.id) as deploy_count , sum(oisd.deploy_perf) as deploy_perf , " +
+            " count(oisc.id) as check_count , sum(oisc.check_perf) as check_perf " +
+            " from user_info u " +
+            " left join order_item_service oisd on u.id = oisd.deploy_user_id " +
+            " left join order_item_service oisc on u.id = oisc.check_user_id " +
+            " where u.id is not null ";
+        let filterObj = {};
+        if(params.reUserId){
+            query += " and u.id = ${reUserId} ";
+            filterObj.reUserId = params.reUserId;
+        }
+        query = query + ' group by u.id ';
+        logger.debug(' queryPerfStat ');
+        return await pgDb.any(query,filterObj);
+    }
 }
 
 module.exports = OrderDAO;
