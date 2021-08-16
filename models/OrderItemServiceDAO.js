@@ -58,11 +58,11 @@ class OrderItemServiceDAO  {
             filterObj.dateEnd = params.dateEnd;
         }
         if(params.finDateStart){
-            query += " and ois.fin_date_id >= ${finDateStart} ";
+            query += " and oi.fin_date_id >= ${finDateStart} ";
             filterObj.finDateStart = params.finDateStart;
         }
         if(params.finDateEnd){
-            query += " and ois.fin_date_id <= ${finDateEnd} ";
+            query += " and oi.fin_date_id <= ${finDateEnd} ";
             filterObj.finDateEnd = params.finDateEnd;
         }
         query = query + '  order by ois.id desc ';
@@ -126,11 +126,11 @@ class OrderItemServiceDAO  {
             filterObj.dateEnd = params.dateEnd;
         }
         if(params.finDateStart){
-            query += " and ois.fin_date_id >= ${finDateStart} ";
+            query += " and oi.fin_date_id >= ${finDateStart} ";
             filterObj.finDateStart = params.finDateStart;
         }
         if(params.finDateEnd){
-            query += " and ois.fin_date_id <= ${finDateEnd} ";
+            query += " and oi.fin_date_id <= ${finDateEnd} ";
             filterObj.finDateEnd = params.finDateEnd;
         }
 
