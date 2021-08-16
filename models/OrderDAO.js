@@ -383,7 +383,15 @@ class OrderDAO  {
             query += " and u.type = ${userType} ";
             filterObj.userType = params.userType;
         }
-
+        query = query + '  order by u.id desc ';
+        if(params.start){
+            query += " offset ${start} ";
+            filterObj.start = params.start;
+        }
+        if(params.size){
+            query += " limit ${size} ";
+            filterObj.size = params.size;
+        }
         logger.debug(' queryPerfStat ');
         return await pgDb.any(query,filterObj);
     }
