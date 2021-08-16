@@ -348,10 +348,77 @@ class OrderDAO  {
             query += " and u.id = ${reUserId} ";
             filterObj.reUserId = params.reUserId;
         }
-        query = query + ' group by u.id ';
+        query = query + ' group by u.id ' +
+            ' HAVING count(oisd.id) + count(oisc.id) >0 ';
         logger.debug(' queryPerfStat ');
         return await pgDb.any(query,filterObj);
     }
+
+    static async queryPerfStatCount(params) {
+        let query = " select count(u.id) " +
+            " from user_info u " +
+            " left join order_item_service oisd on u.id = oisd.deploy_user_id " +
+            " left join order_item_service oisc on u.id = oisc.check_user_id " +
+            " where u.id is not null ";
+        let filterObj = {};
+        if(params.reUserId){
+            query += " and u.id = ${reUserId} ";
+            filterObj.reUserId = params.reUserId;
+        }
+        query = query + ' group by u.id ' +
+            ' HAVING count(oisd.id) + count(oisc.id) >0 ';
+        logger.debug(' queryPerfStatCount ');
+        return await pgDb.any(query,filterObj);
+    }
+
+    static async queryPerfDateStat(params) {
+        let query = " select oi.fin_date_id , " +
+            " count(oisd.id) as deploy_count , " +
+            " sum(oisd.deploy_perf) as deploy_perf , " +
+            " count(oisc.id) as check_count , " +
+            " sum(oisc.check_perf) as check_perf   " +
+            " from order_info oi " +
+            " left join order_item_service oisd on oi.id = oisd.order_id " +
+            " left join order_item_service oisc on oi.id = oisc.order_id " +
+            " where oi.id is not null " ;
+        let filterObj = {};
+        if(params.finDateStart){
+            query += " and oi.fin_date_id >= ${finDateStart} ";
+            filterObj.finDateStart = params.finDateStart;
+        }
+        if(params.finDateEnd){
+            query += " and oi.fin_date_id <= ${finDateEnd} ";
+            filterObj.finDateEnd = params.finDateEnd;
+        }
+        query = query + " group by oi.fin_date_id "+
+            " HAVING oi.fin_date_id >0 " +
+            " ORDER BY oi.fin_date_id desc " ;
+        logger.debug(' queryPerfDateStat ');
+        return await pgDb.any(query,filterObj);
+    }
+
+    static async queryPerfDateStatCount(params) {
+        let query = " select count(oi.id) " +
+            " from order_info oi " +
+            " left join order_item_service oisd on oi.id = oisd.order_id " +
+            " left join order_item_service oisc on oi.id = oisc.order_id " +
+            " where oi.id is not null " ;
+        let filterObj = {};
+        if(params.finDateStart){
+            query += " and oi.fin_date_id >= ${finDateStart} ";
+            filterObj.finDateStart = params.finDateStart;
+        }
+        if(params.finDateEnd){
+            query += " and oi.fin_date_id <= ${finDateEnd} ";
+            filterObj.finDateEnd = params.finDateEnd;
+        }
+        query = query + " group by oi.fin_date_id "+
+            " HAVING oi.fin_date_id >0 " +
+            " ORDER BY oi.fin_date_id desc " ;
+        logger.debug(' queryPerfDateStatCount ');
+        return await pgDb.any(query,filterObj);
+    }
+
 }
 
 module.exports = OrderDAO;

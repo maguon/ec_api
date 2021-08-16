@@ -8713,6 +8713,46 @@
         }
       }
     },
+    "/user/{userId}/orderPerfDateStat": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Select orderPerfDateStat Info",
+        "description": "Get orderPerfDateStat info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "finDateStart",
+            "in": "query",
+            "description": "finDateStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "finDateEnd",
+            "in": "query",
+            "description": "finDateEnd",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
     "/user/{userId}/orderRefundStat": {
       "get": {
         "tags": [

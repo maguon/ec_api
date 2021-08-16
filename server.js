@@ -287,6 +287,7 @@ const createServer=()=>{
 
     server.get('/api/user/:userId/orderStat' ,order.queryStat);
     server.get('/api/user/:userId/orderPerfStat' ,order.queryPerfStat);
+    server.get('/api/user/:userId/orderPerfDateStat' ,order.queryPerfDateStat);
     /**
      * OrderRefund Module
      */
