@@ -79,7 +79,11 @@ class OrderItemServiceDAO  {
     }
 
     static async queryItemServiceCount(params) {
-        let query = "select count(ois.id) from order_item_service ois where ois.id is not null ";
+        let query = "select count(ois.id) " +
+            "   from order_item_service ois " +
+            "   left join user_info ui on ui.id = ois.op_user " +
+            "   left join order_info oi on oi.id = ois.order_id " +
+            "   where ois.id is not null ";
         let filterObj = {};
         if(params.orderItemServiceId){
             query += " and ois.id = ${orderItemServiceId} ";
