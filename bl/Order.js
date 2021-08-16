@@ -310,9 +310,8 @@ const queryPerfStat = async (req,res,next)=>{
     let query = req.query;
     try{
         const rows = await orderDAO.queryPerfStat(query);
-        const rowsCount = await orderDAO.queryPerfStatCount(query);
         logger.info(' queryPerfStat ' + 'success');
-        resUtil.resetQueryRes(res,rows,{"count": rowsCount.length});
+        resUtil.resetQueryRes(res,rows,{"count": rows.length});
         return next();
     }catch (e) {
         logger.error(" queryPerfStat error",e.stack);
@@ -324,9 +323,8 @@ const queryPerfDateStat = async (req,res,next)=>{
     let query = req.query;
     try{
         const rows = await orderDAO.queryPerfDateStat(query);
-        const rowsCount = await orderDAO.queryPerfDateStatCount(query);
         logger.info(' queryPerfDateStat ' + 'success');
-        resUtil.resetQueryRes(res,rows,{"count": rowsCount.length});
+        resUtil.resetQueryRes(res,rows,1);
         return next();
     }catch (e) {
         logger.error(" queryPerfDateStat error",e.stack);

@@ -8704,6 +8704,27 @@
             "description": "reUserId",
             "required": false,
             "type": "integer"
+          },
+          {
+            "name": "userType",
+            "in": "query",
+            "description": "userType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "finDateStart",
+            "in": "query",
+            "description": "finDateStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "finDateEnd",
+            "in": "query",
+            "description": "finDateEnd",
+            "required": false,
+            "type": "integer"
           }
         ],
         "responses": {

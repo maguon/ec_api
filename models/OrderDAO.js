@@ -336,50 +336,66 @@ class OrderDAO  {
     }
 
     static async queryPerfStat(params) {
-        let query = " select u.id as user_id , u.real_name, " +
-            " count(oisd.id) as deploy_count , sum(oisd.deploy_perf) as deploy_perf , " +
-            " count(oisc.id) as check_count , sum(oisc.check_perf) as check_perf " +
+        let query = " select u.id,u.real_name,dp.deploy_count,dp.deploy_perf,cp.check_count ,cp.check_perf " +
             " from user_info u " +
-            " left join order_item_service oisd on u.id = oisd.deploy_user_id " +
-            " left join order_item_service oisc on u.id = oisc.check_user_id " +
-            " where u.id is not null ";
+            " left join ( " +
+            " select ois1.deploy_user_id, " +
+            " count(ois1.id) as deploy_count, " +
+            " sum(ois1.deploy_perf) as deploy_perf " +
+            " from order_info oi1 " +
+            " left join order_item_service ois1 on oi1.id =ois1.order_id " +
+            " where ois1.deploy_user_id >1 ";
         let filterObj = {};
+        if(params.finDateStart){
+            query += " and oi1.fin_date_id >= ${finDateStart} ";
+            filterObj.finDateStart = params.finDateStart;
+        }
+        if(params.finDateEnd){
+            query += " and oi1.fin_date_id <= ${finDateEnd} ";
+            filterObj.finDateEnd = params.finDateEnd;
+        }
+        query = query + " group by ois1.deploy_user_id " +
+            " ) as dp on dp.deploy_user_id = u.id " +
+            " left join ( " +
+            " select ois2.check_user_id, " +
+            " count(ois2.id) as check_count, " +
+            " sum(ois2.check_perf) as  check_perf " +
+            " from order_info oi2 " +
+            " left join order_item_service ois2 on oi2.id =ois2.order_id " +
+            " where ois2.check_user_id >1 ";
+        if(params.finDateStart){
+            query += " and oi2.fin_date_id >= ${finDateStart} ";
+            filterObj.finDateStart = params.finDateStart;
+        }
+        if(params.finDateEnd){
+            query += " and oi2.fin_date_id <= ${finDateEnd} ";
+            filterObj.finDateEnd = params.finDateEnd;
+        }
+        query = query + " group by ois2.check_user_id " +
+            " ) as cp on cp.check_user_id = u.id " +
+            " where dp.deploy_count + cp.check_count > 0 ";
+
         if(params.reUserId){
             query += " and u.id = ${reUserId} ";
             filterObj.reUserId = params.reUserId;
         }
-        query = query + ' group by u.id ' +
-            ' HAVING count(oisd.id) + count(oisc.id) >0 ';
+        if(params.userType){
+            query += " and u.type = ${userType} ";
+            filterObj.userType = params.userType;
+        }
+
         logger.debug(' queryPerfStat ');
         return await pgDb.any(query,filterObj);
     }
 
-    static async queryPerfStatCount(params) {
-        let query = " select count(u.id) " +
-            " from user_info u " +
-            " left join order_item_service oisd on u.id = oisd.deploy_user_id " +
-            " left join order_item_service oisc on u.id = oisc.check_user_id " +
-            " where u.id is not null ";
-        let filterObj = {};
-        if(params.reUserId){
-            query += " and u.id = ${reUserId} ";
-            filterObj.reUserId = params.reUserId;
-        }
-        query = query + ' group by u.id ' +
-            ' HAVING count(oisd.id) + count(oisc.id) >0 ';
-        logger.debug(' queryPerfStatCount ');
-        return await pgDb.any(query,filterObj);
-    }
-
     static async queryPerfDateStat(params) {
-        let query = " select oi.fin_date_id , " +
-            " count(oisd.id) as deploy_count , " +
-            " sum(oisd.deploy_perf) as deploy_perf , " +
-            " count(oisc.id) as check_count , " +
-            " sum(oisc.check_perf) as check_perf   " +
+        let query = " select " +
+            " count(ois.deploy_user_id) FILTER (WHERE ois.deploy_user_id  > 1) AS deploy_user_count, " +
+            " sum(ois.deploy_perf) FILTER (WHERE ois.deploy_user_id  > 1) AS deploy_perf, " +
+            " count(ois.check_user_id) FILTER (WHERE ois.check_user_id  > 1) AS check_user_count, " +
+            " sum(ois.check_perf) FILTER (WHERE ois.check_user_id  > 1) AS check_perf " +
             " from order_info oi " +
-            " left join order_item_service oisd on oi.id = oisd.order_id " +
-            " left join order_item_service oisc on oi.id = oisc.order_id " +
+            " left join order_item_service ois on oi.id = ois.order_id " +
             " where oi.id is not null " ;
         let filterObj = {};
         if(params.finDateStart){
@@ -390,32 +406,6 @@ class OrderDAO  {
             query += " and oi.fin_date_id <= ${finDateEnd} ";
             filterObj.finDateEnd = params.finDateEnd;
         }
-        query = query + " group by oi.fin_date_id "+
-            " HAVING oi.fin_date_id >0 " +
-            " ORDER BY oi.fin_date_id desc " ;
-        logger.debug(' queryPerfDateStat ');
-        return await pgDb.any(query,filterObj);
-    }
-
-    static async queryPerfDateStatCount(params) {
-        let query = " select count(oi.id) " +
-            " from order_info oi " +
-            " left join order_item_service oisd on oi.id = oisd.order_id " +
-            " left join order_item_service oisc on oi.id = oisc.order_id " +
-            " where oi.id is not null " ;
-        let filterObj = {};
-        if(params.finDateStart){
-            query += " and oi.fin_date_id >= ${finDateStart} ";
-            filterObj.finDateStart = params.finDateStart;
-        }
-        if(params.finDateEnd){
-            query += " and oi.fin_date_id <= ${finDateEnd} ";
-            filterObj.finDateEnd = params.finDateEnd;
-        }
-        query = query + " group by oi.fin_date_id "+
-            " HAVING oi.fin_date_id >0 " +
-            " ORDER BY oi.fin_date_id desc " ;
-        logger.debug(' queryPerfDateStatCount ');
         return await pgDb.any(query,filterObj);
     }
 
