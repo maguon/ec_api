@@ -8996,14 +8996,14 @@
         }
       }
     },
-    "/user/{userId}/customerAgent": {
+    "/user/{userId}/clientAgent/{clientAgentId}/customerAgentPayment": {
       "post": {
         "tags": [
           "payment"
         ],
-        "summary": "Add a new customerAgent info",
-        "description": "Add customerAgent info",
-        "operationId": "Add customerAgent info",
+        "summary": "Add a new customerAgentPayment info",
+        "description": "Add customerAgentPayment info",
+        "operationId": "Add customerAgentPayment info",
         "consumes": [
           "application/json"
         ],
@@ -9014,7 +9014,14 @@
           {
             "name": "userId",
             "in": "path",
-            "description": "用户ID",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "clientAgentId",
+            "in": "path",
+            "description": "clientAgentId",
             "required": true,
             "type": "integer"
           },
@@ -11984,7 +11991,6 @@
         "remark",
         "type",
         "paymentType",
-        "clientAgentId",
         "finDateStart",
         "finDateEnd",
         "actualPrice"
@@ -11998,10 +12004,6 @@
           "format": "int64"
         },
         "paymentType": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "clientAgentId": {
           "type": "integer",
           "format": "int64"
         },

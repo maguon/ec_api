@@ -315,7 +315,7 @@ const createServer=()=>{
      */
     server.get('/api/user/:userId/payment', payment.queryPayment);
     server.post({path:'/api/user/:userId/payment',contentType: 'application/json'}, payment.addPayment);
-    server.post({path:'/api/user/:userId/customerAgent',contentType: 'application/json'}, payment.addCustomerAgent);
+    server.post({path:'/api/user/:userId/clientAgent/:clientAgentId/customerAgentPayment',contentType: 'application/json'}, payment.addCustomerAgentPayment);
     server.put({path:'/api/user/:userId/payment/:paymentId/status',contentType: 'application/json'} ,payment.updateStatus);
     server.put({path:'/api/user/:userId/payment/:paymentId',contentType: 'application/json'} ,payment.updatePayment);
     server.del({path:'/api/user/:userId/payment/:paymentId',contentType: 'application/json'}, payment.deletePayment);

@@ -65,40 +65,43 @@ const addPayment = async (req,res,next)=>{
     }
 }
 
-const addCustomerAgent = async (req,res,next)=>{
+const addCustomerAgentPayment = async (req,res,next)=>{
     let params = req.body;
     let path = req.params;
     if(path.userId){
         params.opUser = path.userId;
     }
+    if(path.clientAgentId){
+        params.clientAgentId = path.clientAgentId;
+    }
 
     try{
         //创建支付信息
         const rows = await paymentDAO.addCustomerAgent(params);
-        logger.info(' addCustomerAgent ' + 'success');
+        logger.info(' addCustomerAgentPayment ' + 'success');
 
         params.paymentId = rows[0].id;
         //根据 ClientAgentId 创建关联信息
         const rowsOrderRel = await orderPaymentRelDAO.addPayOrdRelByClientAgent(params);
-        logger.info(' addCustomerAgent addPayOrdRelByClientAgent ' + 'success');
+        logger.info(' addCustomerAgentPayment addPayOrdRelByClientAgent ' + 'success');
 
         //根据 ClientAgentId 创建退单关联信息
         const rowsRefundRel = await orderPaymentRelDAO.addPayOrdRelRefundByClientAgent(params);
-        logger.info(' addCustomerAgent addPayOrdRelRefundByClientAgent ' + 'success');
+        logger.info(' addCustomerAgentPayment addPayOrdRelRefundByClientAgent ' + 'success');
 
         //根据 rows 返回结果 , 更新order_info payment_status 为
         params.paymentStatus = sysConst.orderPaymentStatus.in;
         const rowsOrder = await orderDAO.updatePaymentStatus(params);
-        logger.info(' addCustomerAgent orderInfo updatePaymentStatus ' + 'success');
+        logger.info(' addCustomerAgentPayment orderInfo updatePaymentStatus ' + 'success');
 
         //根据 rows 返回结果 , 更新order_refund payment_status 为
         const rowsRefund = await orderRefundDAO.updatePaymentStatus(params);
-        logger.info(' addCustomerAgent orderRefund updatePaymentStatus ' + 'success');
+        logger.info(' addCustomerAgentPayment orderRefund updatePaymentStatus ' + 'success');
 
         resUtil.resetCreateRes(res,rows);
         return next();
     }catch (e) {
-        logger.error(" addCustomerAgent error ",e.stack);
+        logger.error(" addCustomerAgentPayment error ",e.stack);
         resUtil.resInternalError(e,res,next);
     }
 }
@@ -219,7 +222,7 @@ const deletePayment = async (req,res,next)=>{
 module.exports = {
     queryPayment,
     addPayment,
-    addCustomerAgent,
+    addCustomerAgentPayment,
     updatePayment,
     updateStatus,
     deletePayment
