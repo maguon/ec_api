@@ -8902,6 +8902,13 @@
             "type": "integer"
           },
           {
+            "name": "clientAgentId",
+            "in": "query",
+            "description": "clientAgentId",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "status",
             "in": "query",
             "description": "status",

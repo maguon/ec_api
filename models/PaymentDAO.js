@@ -4,14 +4,23 @@ const logger = serverLogger.createLogger('PaymentDAO.js');
 
 class PaymentDAO  {
     static async queryPayment(params) {
-        let query = "select pi.*, ui.real_name " +
+        let query = "select pi.*, ui.real_name , " +
+            " ca.client_type as c_client_type , ca.tel as c_tel , " +
+            " ca.address as c_address , ca.id_serial as c_id_serial , " +
+            " ca.sales_user_id as c_sales_user_id , ca.source_type as c_source_type , " +
+            " ca.name as c_name " +
             " from payment_info pi " +
             " left join user_info ui on ui.id = pi.op_user " +
+            " left join client_agent ca on ca.id = pi.client_agent_id " +
             " where pi.id is not null ";
         let filterObj = {};
         if(params.paymentId){
             query += " and pi.id = ${paymentId} ";
             filterObj.paymentId = params.paymentId;
+        }
+        if(params.clientAgentId){
+            query += " and pi.client_agent_id = ${clientAgentId} ";
+            filterObj.clientAgentId = params.clientAgentId;
         }
         if(params.type){
             query += " and pi.type = ${type} ";
@@ -47,11 +56,19 @@ class PaymentDAO  {
     }
 
     static async queryPaymentCount(params) {
-        let query = "select count(id) from payment_info pi where pi.id is not null ";
+        let query = "select count(pi.id) " +
+            " from payment_info pi " +
+            " left join user_info ui on ui.id = pi.op_user " +
+            " left join client_agent ca on ca.id = pi.client_agent_id " +
+            " where pi.id is not null ";
         let filterObj = {};
         if(params.paymentId){
             query += " and pi.id = ${paymentId} ";
             filterObj.paymentId = params.paymentId;
+        }
+        if(params.clientAgentId){
+            query += " and pi.client_agent_id = ${clientAgentId} ";
+            filterObj.clientAgentId = params.clientAgentId;
         }
         if(params.type){
             query += " and pi.type = ${type} ";
