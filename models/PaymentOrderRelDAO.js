@@ -142,12 +142,16 @@ class PaymentOrderRelDAO  {
             ' op_user, order_id, payment_id ) ' +
             ' ( select ${opUser} , oi.id as order_id , ${paymentId} ' +
             ' from order_info oi ' +
-            ' where oi.client_agent_id = ${clientAgentId}' +
+            ' where oi.payment_status = 1 ' +
+            '  and oi.fin_date_id >= ${finDateStart}' +
+            '  and oi.fin_date_id <= ${finDateEnd} ' +
             ' ) RETURNING id ';
         let valueObj = {};
         valueObj.opUser = params.opUser;
         valueObj.paymentId = params.paymentId;
         valueObj.clientAgentId = params.clientAgentId;
+        valueObj.finDateStart = params.finDateStart;
+        valueObj.finDateEnd = params.finDateEnd;
 
         logger.debug(' addPayOrdRelByClientAgent ');
         return await pgDb.any(query,valueObj);
@@ -161,12 +165,17 @@ class PaymentOrderRelDAO  {
             ' orf.id as order_refund_id , ${paymentId} ' +
             ' from order_refund orf ' +
             ' left join order_info oi on oi.id = orf.order_id ' +
-            ' where oi.client_agent_id = ${clientAgentId}' +
+            ' where oi.client_agent_id = ${clientAgentId} ' +
+            ' and orf.payment_status = 1 ' +
+            ' and orf.date_id >= ${finDateStart} ' +
+            ' and orf.date_id <= ${finDateEnd} ' +
             ' ) RETURNING id ';
         let valueObj = {};
         valueObj.opUser = params.opUser;
         valueObj.paymentId = params.paymentId;
         valueObj.clientAgentId = params.clientAgentId;
+        valueObj.finDateStart = params.finDateStart;
+        valueObj.finDateEnd = params.finDateEnd;
 
         logger.debug(' addPayOrdRelRefundByClientAgent ');
         return await pgDb.any(query,valueObj);
