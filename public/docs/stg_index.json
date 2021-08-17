@@ -8996,7 +8996,7 @@
         }
       }
     },
-    "/user/{userId}/clientAgent/{clientAgentId}/customerAgentPayment": {
+    "/user/{userId}/clientAgent/{clientAgentId}/payment": {
       "post": {
         "tags": [
           "payment"
