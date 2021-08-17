@@ -309,11 +309,13 @@ const createServer=()=>{
     server.del({path:'/api/user/:userId/order/:orderId/orderRefund/:orderRefundId/itemService/:itemServiceId/orderRefundService/:orderRefundServiceId',contentType: 'application/json'}, orderRefundService.deleteRefundService);
 
     server.get('/api/user/:userId/orderRefundStat' ,orderRefund.queryStat);
+
     /**
      * Payment Module
      */
     server.get('/api/user/:userId/payment', payment.queryPayment);
     server.post({path:'/api/user/:userId/payment',contentType: 'application/json'}, payment.addPayment);
+    server.post({path:'/api/user/:userId/customerAgent',contentType: 'application/json'}, payment.addCustomerAgent);
     server.put({path:'/api/user/:userId/payment/:paymentId/status',contentType: 'application/json'} ,payment.updateStatus);
     server.put({path:'/api/user/:userId/payment/:paymentId',contentType: 'application/json'} ,payment.updatePayment);
     server.del({path:'/api/user/:userId/payment/:paymentId',contentType: 'application/json'}, payment.deletePayment);

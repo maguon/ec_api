@@ -118,7 +118,7 @@ class PaymentOrderRelDAO  {
         return await pgDb.any(query,valueObj);
     }
 
-    //根据 orderRefundIds 创建关联信息
+    //根据 orderRefundIds 创建退款关联信息
     static async addPaymentOrderRelByRefund(params) {
         let query = ' INSERT INTO payment_order_rel( ' +
             ' op_user, order_id, order_refund_id, payment_id ) ' +
@@ -133,6 +133,42 @@ class PaymentOrderRelDAO  {
         valueObj.orderRefundIds = params.orderRefundIds;
 
         logger.debug(' addPaymentOrderRelByRefund ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    //根据 ClientAgentId 创建关联信息
+    static async addPayOrdRelByClientAgent(params) {
+        let query = ' INSERT INTO payment_order_rel( ' +
+            ' op_user, order_id, payment_id ) ' +
+            ' ( select ${opUser} , oi.id as order_id , ${paymentId} ' +
+            ' from order_info oi ' +
+            ' where oi.client_agent_id = ${clientAgentId}' +
+            ' ) RETURNING id ';
+        let valueObj = {};
+        valueObj.opUser = params.opUser;
+        valueObj.paymentId = params.paymentId;
+        valueObj.clientAgentId = params.clientAgentId;
+
+        logger.debug(' addPayOrdRelByClientAgent ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    //根据 ClientAgentId 创建退款关联信息
+    static async addPayOrdRelRefundByClientAgent(params) {
+        let query = ' INSERT INTO payment_order_rel( ' +
+            ' op_user, order_id, order_refund_id, payment_id ) ' +
+            ' ( select ${opUser} , orf.order_id as order_id , ' +
+            ' orf.id as order_refund_id , ${paymentId} ' +
+            ' from order_refund orf ' +
+            ' left join order_info oi on oi.id = orf.order_id ' +
+            ' where oi.client_agent_id = ${clientAgentId}' +
+            ' ) RETURNING id ';
+        let valueObj = {};
+        valueObj.opUser = params.opUser;
+        valueObj.paymentId = params.paymentId;
+        valueObj.clientAgentId = params.clientAgentId;
+
+        logger.debug(' addPayOrdRelRefundByClientAgent ');
         return await pgDb.any(query,valueObj);
     }
 

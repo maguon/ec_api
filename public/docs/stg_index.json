@@ -8996,6 +8996,48 @@
         }
       }
     },
+    "/user/{userId}/customerAgent": {
+      "post": {
+        "tags": [
+          "payment"
+        ],
+        "summary": "Add a new customerAgent info",
+        "description": "Add customerAgent info",
+        "operationId": "Add customerAgent info",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"paymentInfo",
+            "description": "payment object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CustomerAgent"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
     "/user/{userId}/payment/{paymentId}": {
       "put": {
         "tags": [
@@ -11892,6 +11934,7 @@
         "remark",
         "type",
         "paymentType",
+        "clientAgentId",
         "orderIds",
         "orderRefundIds",
         "actualPrice"
@@ -11905,6 +11948,10 @@
           "format": "int64"
         },
         "paymentType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "clientAgentId": {
           "type": "integer",
           "format": "int64"
         },
@@ -11929,6 +11976,50 @@
       },
       "xml": {
         "name": "Payment"
+      }
+    },
+    "CustomerAgent": {
+      "type": "object",
+      "required": [
+        "remark",
+        "type",
+        "paymentType",
+        "clientAgentId",
+        "finDateStart",
+        "finDateEnd",
+        "actualPrice"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "paymentType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "clientAgentId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "finDateStart": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "finDateEnd": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "actualPrice": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "CustomerAgent"
       }
     },
     "PaymentPut": {

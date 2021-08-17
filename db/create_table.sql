@@ -833,6 +833,7 @@ CREATE TABLE IF NOT EXISTS public.payment_info(
     "plan_price" decimal(12,2) NOT NULL DEFAULT 0,
     "actual_price" decimal(12,2) NOT NULL DEFAULT 0,
     "date_id" integer ,
+    "client_agent_id" smallint NOT NULL DEFAULT 0,
 
     PRIMARY KEY (id)
 );
