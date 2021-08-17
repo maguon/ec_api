@@ -142,7 +142,8 @@ class PaymentOrderRelDAO  {
             ' op_user, order_id, payment_id ) ' +
             ' ( select ${opUser} , oi.id as order_id , ${paymentId} ' +
             ' from order_info oi ' +
-            ' where oi.payment_status = 1 ' +
+            ' where oi.client_agent_id = ${clientAgentId} ' +
+            '  and oi.payment_status = 1 ' +
             '  and oi.fin_date_id >= ${finDateStart}' +
             '  and oi.fin_date_id <= ${finDateEnd} ' +
             ' ) RETURNING id ';
