@@ -3295,6 +3295,13 @@
             "type": "integer"
           },
           {
+            "name": "oldFlag",
+            "in": "query",
+            "description": "oldFlag",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "in": "query",
             "name": "start",
             "required": false,
@@ -10558,7 +10565,8 @@
         "supplierId",
         "productId",
         "productName",
-        "unitCost"
+        "unitCost",
+        "oldFlag"
       ],
       "properties": {
         "remark": {
@@ -10596,6 +10604,10 @@
           "type": "string"
         },
         "unitCost": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "oldFlag": {
           "type": "integer",
           "format": "int64"
         }

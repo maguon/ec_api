@@ -631,6 +631,7 @@ CREATE TABLE IF NOT EXISTS public.storage_check(
     "plan_check_count" smallint  NOT NULL DEFAULT 0,
     "checked_count" smallint  NOT NULL DEFAULT 0,
     "check_desc" character varying(200),
+    "old_flag" smallint NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 COMMENT ON COLUMN public.storage_check.status IS '1:未完成2:已完成';
@@ -639,6 +640,7 @@ COMMENT ON COLUMN public.storage_check.date_id IS '盘点完成日期';
 COMMENT ON COLUMN public.storage_check.plan_check_count IS '计划盘点数量';
 COMMENT ON COLUMN public.storage_check.checked_count IS '已盘点数量';
 COMMENT ON COLUMN public.storage_check.check_desc IS '盘点描述';
+COMMENT ON COLUMN public.storage_check.old_flag IS '是否旧货';
 
 create trigger storage_check_upt before update on storage_check for each row execute procedure update_timestamp_func();
 select setval(' storage_check_id_seq',10000,false);

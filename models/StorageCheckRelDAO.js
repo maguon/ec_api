@@ -48,6 +48,10 @@ class StorageCheckRelDAO  {
             query += " and sc.date_id <= ${dateIdEnd} ";
             filterObj.dateIdEnd = params.dateIdEnd;
         }
+        if(params.oldFlag){
+            query += " and sc.old_flag = ${oldFlag} ";
+            filterObj.oldFlag = params.oldFlag;
+        }
         query = query + '  order by sc.id desc ';
         if(params.start){
             query += " offset ${start} ";
@@ -100,6 +104,10 @@ class StorageCheckRelDAO  {
             query += " and date_id <= ${dateIdEnd} ";
             filterObj.dateIdEnd = params.dateIdEnd;
         }
+        if(params.oldFlag){
+            query += " and sc.old_flag = ${oldFlag} ";
+            filterObj.oldFlag = params.oldFlag;
+        }
         logger.debug(' queryStorageRelCount ');
         return await pgDb.one(query,filterObj);
     }
@@ -107,10 +115,10 @@ class StorageCheckRelDAO  {
     static async addStorageCheckRel(params) {
         let query = 'INSERT INTO storage_check_rel ( check_status , op_user , ' +
             ' remark , storage_check_id , date_id , storage_count , check_count , storage_product_rel_id ,' +
-            ' storage_id , storage_area_id , product_id ) ' +
+            ' storage_id , storage_area_id , product_id , old_flag  ) ' +
             ' VALUES ( ${checkStatus}  , ${opUser} , ${remark} , ${storageCheckId} , ${dateId} ,  ' +
             ' ${storageCount} , ${checkCount} , ${storageProductRelId} , ${storageId} , ${storageAreaId} , ' +
-            ' ${productId} ) ';
+            ' ${productId} , ${oldFlag} ) ';
         let valueObj = {};
         valueObj.checkStatus = params.checkStatus;
         valueObj.opUser = params.opUser;
@@ -123,6 +131,7 @@ class StorageCheckRelDAO  {
         valueObj.storageId = params.storageId;
         valueObj.storageAreaId = params.storageAreaId;
         valueObj.productId = params.productId;
+        valueObj.oldFlag = params.oldFlag;
         query += " RETURNING id ";
         logger.debug(' addStorageCheckRel ');
         return await pgDb.any(query,valueObj);
@@ -132,9 +141,9 @@ class StorageCheckRelDAO  {
     static async addStorageCheckRelByProductRel(params) {
         let query = 'INSERT INTO storage_check_rel (op_user , ' +
             ' storage_check_id , date_id , storage_count , check_count , storage_product_rel_id ,' +
-            ' storage_id , storage_area_id , product_id ) ' +
+            ' storage_id , storage_area_id , product_id , old_flag ) ' +
             ' (select ${opUser} , ${storageCheckId} , ${dateId} , spr.storage_count , 0 , spr.id , ' +
-            ' spr.storage_id , spr.storage_area_id , spr.product_id ' +
+            ' spr.storage_id , spr.storage_area_id , spr.product_id , spr.old_flag' +
             ' from storage_product_rel spr ' +
             ' left join product_info pi on pi.id = spr.product_id ' +
             ' where spr.id is not null ';
