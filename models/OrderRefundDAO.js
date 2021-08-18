@@ -35,11 +35,11 @@ class OrderRefundDAO  {
         }
         if(params.status){
             query += " and orf.status in (${status:csv}) ";
-            filterObj.status = params.status;
+            filterObj.status = params.status.split(',');
         }
         if(params.paymentStatus){
             query += " and orf.payment_status in (${status:csv}) ";
-            filterObj.paymentStatus = params.paymentStatus;
+            filterObj.paymentStatus = params.paymentStatus.split(',');
         }
         if(params.paymentType){
             query += " and orf.payment_type = ${paymentType} ";
