@@ -373,7 +373,7 @@ class OrderDAO  {
         }
         query = query + " group by ois2.check_user_id " +
             " ) as cp on cp.check_user_id = u.id " +
-            " where dp.deploy_count + cp.check_count > 0 ";
+            " where COALESCE(dp.deploy_count,0) + COALESCE(cp.check_count,0) > 0 ";
 
         if(params.reUserId){
             query += " and u.id = ${reUserId} ";
