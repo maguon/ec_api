@@ -38,7 +38,7 @@ class OrderRefundDAO  {
             filterObj.status = params.status;
         }
         if(params.paymentStatus){
-            query += " and orf.payment_status = ${paymentStatus} ";
+            query += " and orf.payment_status in (${status:csv}) ";
             filterObj.paymentStatus = params.paymentStatus;
         }
         if(params.paymentType){
