@@ -34,7 +34,7 @@ class OrderRefundDAO  {
             filterObj.clientAgentId = params.clientAgentId;
         }
         if(params.status){
-            query += " and orf.status = ${status} ";
+            query += " and orf.status in (${status:csv}) ";
             filterObj.status = params.status;
         }
         if(params.paymentStatus){
