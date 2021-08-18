@@ -81,6 +81,10 @@ const orderPaymentStatus = {
     in : 5,//支付中
     complete :7 //付款完成
 }
+const orderRefundStatus = {
+    normal: 1 ,//未处理
+    complete :7 //处理完成
+}
 
 const orderRefundPaymentStatus = {
     normal :1 ,//未退款
@@ -106,6 +110,7 @@ module.exports = {
     serviceItemStatus,
     prodItemStatus,
     prodRefundStatus,
+    orderRefundStatus,
     orderPaymentStatus,
     orderRefundPaymentStatus,
     paymentInfoStatus
