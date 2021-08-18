@@ -7761,14 +7761,14 @@
             "in": "query",
             "description": "status",
             "required": false,
-            "type": "integer"
+            "type": "string"
           },
           {
             "name": "paymentStatus",
             "in": "query",
             "description": "paymentStatus",
             "required": false,
-            "type": "integer"
+            "type": "string"
           },
           {
             "name": "paymentType",
