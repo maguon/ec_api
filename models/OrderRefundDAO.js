@@ -38,7 +38,7 @@ class OrderRefundDAO  {
             filterObj.status = params.status.split(',');
         }
         if(params.paymentStatus){
-            query += " and orf.payment_status in (${status:csv}) ";
+            query += " and orf.payment_status in (${paymentStatus:csv}) ";
             filterObj.paymentStatus = params.paymentStatus.split(',');
         }
         if(params.paymentType){
@@ -91,12 +91,16 @@ class OrderRefundDAO  {
             filterObj.clientAgentId = params.clientAgentId;
         }
         if(params.status){
-            query += " and orf.status = ${status} ";
-            filterObj.status = params.status;
+            query += " and orf.status in (${status:csv}) ";
+            filterObj.status = params.status.split(',');
+        }
+        if(params.paymentStatus){
+            query += " and orf.payment_status in (${paymentStatus:csv}) ";
+            filterObj.paymentStatus = params.paymentStatus.split(',');
         }
         if(params.paymentType){
-            query += " and orf.payment_type = ${paymentType} ";
-            filterObj.paymentType = params.paymentType;
+            query += " and orf.payment_type in ${paymentType} ";
+            filterObj.paymentStatus = params.paymentStatus.split(',');
         }
         if(params.dateStart){
             query += " and orf.date_id >= ${dateStart} ";
