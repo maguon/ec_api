@@ -215,7 +215,8 @@ class OrderRefundDAO  {
             " COALESCE(sum(transfer_refund_price),0) as transfer_refund_price ," +
             " COALESCE(sum(prod_refund_count),0) as prod_refund_count , " +
             " COALESCE(sum(service_refund_count),0) as service_refund_count , " +
-            " COALESCE(sum(total_refund_price),0) as total_refund_price " +
+            " COALESCE(sum(total_refund_price),0) as total_refund_price , " +
+            " count(orf.id) as order_refund_count " +
             " from order_refund orf " +
             " left join user_info ui on ui.id = orf.op_user " +
             " left join order_info oi on oi.id = orf.order_id " +

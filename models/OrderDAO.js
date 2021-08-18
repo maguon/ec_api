@@ -265,7 +265,8 @@ class OrderDAO  {
         let query = "select COALESCE(sum(service_price),0) as service_price , " +
             " COALESCE(sum(prod_price),0) as prod_price , " +
             " COALESCE(sum(total_discount_price),0) as total_discount_price , " +
-            " COALESCE(sum(total_actual_price),0) as total_actual_price " +
+            " COALESCE(sum(total_actual_price),0) as total_actual_price , " +
+            " count(oi.id) as order_count " +
             " from order_info oi " +
             " left join user_info ui on ui.id = oi.op_user " +
             " left join user_info rui on rui.id = oi.re_user_id " +
