@@ -201,10 +201,10 @@ class StorageProductRelDAO  {
     static async addStorageProductRelByMove(params) {
         const query = 'INSERT INTO storage_product_rel ( op_user , remark , storage_id , storage_area_id , ' +
             ' supplier_id , product_id , product_name , purchase_id , purchase_item_id , unit_cost , storage_count , ' +
-            ' date_id , order_id ) ' +
+            ' date_id , order_id , old_flag) ' +
             ' ( SELECT ${opUser} , ${remark} , ${storageId} , ${storageAreaId} , ' +
             ' sprs.supplier_id , sprs.product_id , sprs.product_name , sprs.purchase_id , ' +
-            ' sprs.purchase_item_id , sprs.unit_cost , ${moveCount} , ${dateId} , sprs.order_id ' +
+            ' sprs.purchase_item_id , sprs.unit_cost , ${moveCount} , ${dateId} , sprs.order_id , sprs.old_flag' +
             ' FROM storage_product_rel sprs ' +
             ' WHERE sprs.id is not null and sprs.id = ${storageProductRelId}) RETURNING id ';
         let valueObj = {};
