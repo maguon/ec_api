@@ -3,6 +3,48 @@ var serverLogger = require('../util/ServerLogger.js');
 var logger = serverLogger.createLogger('UserTypeMenuDAO.js');
 
 class UserTypeMenuDAO  {
+
+    static async queryUserTypeList(params) {
+        let query = "SELECT id,type_name, status , remarks " +
+            " FROM user_type_menu " +
+            " where id is not null ";
+        let filterObj = {};
+        if(params.typeId){
+            query += " and id = ${typeId} ";
+            filterObj.typeId = params.typeId;
+        }
+        if(params.status){
+            query += " and status = ${status} ";
+            filterObj.status = params.status;
+        }
+        query = query + '  order by id desc ';
+        if(params.start){
+            query += " offset ${start} ";
+            filterObj.start = params.start;
+        }
+        if(params.size){
+            query += " limit ${size} ";
+            filterObj.size = params.size;
+        }
+        logger.debug(' queryUserTypeList ');
+        return await pgDb.any(query,filterObj);
+    }
+
+    static async queryUserTypeListCount(params) {
+        let query = "select count(id) from user_type_menu where id is not null ";
+        let filterObj = {};
+        if(params.typeId){
+            query += " and id = ${typeId} ";
+            filterObj.typeId = params.typeId;
+        }
+        if(params.status){
+            query += " and status = ${status} ";
+            filterObj.status = params.status;
+        }
+        logger.debug(' queryUserTypeListCount ');
+        return await pgDb.one(query,filterObj);
+    }
+
     static async queryUserTypeMenu(params) {
         let query = "select * from user_type_menu where id is not null ";
         let filterObj = {};
@@ -25,21 +67,6 @@ class UserTypeMenuDAO  {
         }
         logger.debug(' queryUserTypeMenu ');
         return await pgDb.any(query,filterObj);
-    }
-
-    static async queryUserTypeMenuCount(params) {
-        let query = "select count(id) from user_type_menu where id is not null ";
-        let filterObj = {};
-        if(params.typeId){
-            query += " and id = ${typeId} ";
-            filterObj.typeId = params.typeId;
-        }
-        if(params.status){
-            query += " and status = ${status} ";
-            filterObj.status = params.status;
-        }
-        logger.debug(' queryUserTypeMenuCount ');
-        return await pgDb.one(query,filterObj);
     }
 
     static async addUserTypeMenu(params) {
@@ -76,6 +103,15 @@ class UserTypeMenuDAO  {
         logger.debug(' updateStatus ');
         return await pgDb.any(query,valueObj);
     }
+
+    static async deleteUserTypeMenu(params){
+        const query = 'delete from user_type_menu where id =${typeId} RETURNING id ';
+        let valueObj = {};
+        valueObj.typeId =params.typeId;
+        logger.debug(' deleteUserTypeMenu ');
+        return await pgDb.any(query,valueObj);
+    }
+
 }
 
 module.exports = UserTypeMenuDAO;

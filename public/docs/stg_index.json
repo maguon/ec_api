@@ -576,53 +576,13 @@
       }
     },
 
-    "/user/{userId}/typeMenu": {
-      "post": {
-        "tags": [
-          "userTypeMenu"
-        ],
-        "summary": "Add a new userTypeMenu info",
-        "description": "",
-        "operationId": "AddUser",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "用户ID",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "in": "body",
-            "name":"userInfo",
-            "description": "User object that needs to be added to the store",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UserMenuList"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid params "
-          },
-          "405": {
-            "description": "Validation exception"
-          }
-        }
-      },
+    "/user/{userId}/userTypeList": {
       "get": {
         "tags": [
           "userTypeMenu"
         ],
-        "summary": "Select userTypeMenu Info",
-        "description": "Get userTypeMenu info",
+        "summary": "Select userTypeList Info",
+        "description": "Get userTypeList info",
         "produces": [
           "application/json"
         ],
@@ -668,7 +628,136 @@
         }
       }
     },
-    "/user/{userId}/typeId/{typeId}/status": {
+    "/user/{userId}/type/{typeId}": {
+      "get": {
+        "tags": [
+          "userTypeMenu"
+        ],
+        "summary": "Select userTypeMenu Info",
+        "description": "Get userTypeMenu info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "typeId",
+            "in": "path",
+            "description": "typeId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "userTypeMenu"
+        ],
+        "summary": "Delete userType Menu",
+        "description": "Delete userType Menu",
+        "operationId": "Delete userType Menu by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "typeId",
+            "in": "path",
+            "description": "type Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "UserId or typeId not found"
+          }
+        }
+      }
+    },
+    "/user/{userId}/typeMenu": {
+      "post": {
+        "tags": [
+          "userTypeMenu"
+        ],
+        "summary": "Add a new userTypeMenu info",
+        "description": "",
+        "operationId": "AddUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"userInfo",
+            "description": "User object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserMenuList"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/user/{userId}/type/{typeId}/status": {
       "put": {
         "tags": [
           "userTypeMenu"

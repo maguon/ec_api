@@ -112,9 +112,11 @@ const createServer=()=>{
     /**
      * UserTypeMenu Module
      */
-    server.get('/api/user/:userId/typeMenu', userTypeMenu.queryUserTypeMenu);
+    server.get('/api/user/:userId/userTypeList', userTypeMenu.queryUserTypeList);
+    server.get('/api/user/:userId/type/:typeId', userTypeMenu.queryUserTypeMenu);
     server.post({path:'/api/user/:userId/typeMenu',contentType: 'application/json'}, userTypeMenu.addUserTypeMenu);
-    server.put({path:'/api/user/:userId/typeId/:typeId/status',contentType: 'application/json'} ,userTypeMenu.updateStatus);
+    server.put({path:'/api/user/:userId/type/:typeId/status',contentType: 'application/json'} ,userTypeMenu.updateStatus);
+    server.del({path:'/api/user/:userId/type/:typeId',contentType: 'application/json'},userTypeMenu.deleteUserTypeMenu);
 
     /**
      * Brand Module
