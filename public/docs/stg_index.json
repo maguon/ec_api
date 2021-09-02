@@ -4133,6 +4133,463 @@
       }
     },
 
+    "/user/{userId}/prodMatchBrand": {
+      "post": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Add a new prodMatchBrand info",
+        "description": "Add prodMatchBrand",
+        "operationId": "Add prodMatchBrand",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"matchBrandInfo",
+            "description": "MatchBrand object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ProdMatchBrand"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Select prodMatchBrand Info",
+        "description": "Get prodMatchBrand info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "prodMatchBrandId",
+            "in": "query",
+            "description": "prodMatchBrandId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "brandName",
+            "in": "query",
+            "description": "brandName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/prodMatchBrand/{prodMatchBrandId}": {
+      "put": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Finds prodMatchBrand info and update",
+        "description": "update prodMatchBrand info",
+        "operationId": "update prodMatchBrand info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "prodMatchBrandId",
+            "in": "path",
+            "description": "prodMatchBrandId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "prodMatchBrandInfo",
+            "in": "body",
+            "description": "Brand object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ProdMatchBrand"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Delete prodMatchBrand",
+        "description": "Delete prodMatchBrand",
+        "operationId": "Delete prodMatchBrand by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "prodMatchBrandId",
+            "in": "path",
+            "description": "prodMatchBrand Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "UserId or prodMatchBrandId not found"
+          }
+        }
+      }
+    },
+    "/user/{userId}/prodMatchBrand/{prodMatchBrandId}/status": {
+      "put": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Finds prodMatchBrand and update",
+        "description": "update prodMatchBrand status",
+        "operationId": "update prodMatchBrand status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "prodMatchBrandId",
+            "in": "path",
+            "description": "prodMatchBrand unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
+    "/user/{userId}/prodMatchModel": {
+      "post": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Add a new prodMatchModel info",
+        "description": "Add prodMatchModel",
+        "operationId": "Add prodMatchModel",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"matchModelInfo",
+            "description": "matchModel object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ProdMatchModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Select prodMatchModel Info",
+        "description": "Get prodMatchModel info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "matchBrandId",
+            "in": "query",
+            "description": "matchBrandId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "prodMatchModelId",
+            "in": "query",
+            "description": "prodMatchModelId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "matchModelName",
+            "in": "query",
+            "description": "matchModelName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/prodMatchModel/{prodMatchModelId}": {
+      "put": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Finds prodMatchModel info and update",
+        "description": "update prodMatchModel info",
+        "operationId": "update prodMatchModel info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "prodMatchModelId",
+            "in": "path",
+            "description": "prodMatchModel unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "matchModelInfo",
+            "in": "body",
+            "description": "MatchModel object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ProdMatchModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Delete prodMatchModel",
+        "description": "Delete prodMatchModel",
+        "operationId": "Delete prodMatchModel by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "prodMatchModelId",
+            "in": "path",
+            "description": "prodMatchModel Id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "UserId or brandModelId not found"
+          }
+        }
+      }
+    },
+    "/user/{userId}/prodMatchModel/{prodMatchModelId}/status": {
+      "put": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Finds prodMatchModel and update",
+        "description": "update prodMatchModel status",
+        "operationId": "update prodMatchModel status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "prodMatchModelId",
+            "in": "path",
+            "description": "prodMatchModel unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
     "/user/{userId}/purchase": {
       "post": {
         "tags": [
@@ -10867,6 +11324,46 @@
       },
       "xml": {
         "name": "Product"
+      }
+    },
+    "ProdMatchBrand": {
+      "type": "object",
+      "required": [
+        "remark",
+        "brandName"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "brandName": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "ProdMatchBrand"
+      }
+    },
+    "ProdMatchModel": {
+      "type": "object",
+      "required": [
+        "remark",
+        "matchModelName",
+        "matchBrandId"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "matchModelName": {
+          "type": "string"
+        },
+        "matchBrandId": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "ProdMatchModel"
       }
     },
     "Purchase": {

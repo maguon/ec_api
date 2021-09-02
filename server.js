@@ -24,6 +24,8 @@ const storageCheck = require('./bl/StorageCheck');
 const storageCheckRel = require('./bl/StorageCheckRel');
 const supplier = require('./bl/Supplier');
 const product = require('./bl/Product');
+const prodMatchBrand = require('./bl/ProdMatchBrand');
+const prodMatchModel = require('./bl/ProdMatchModel');
 const purchase = require('./bl/Purchase');
 const purchaseItem = require('./bl/PurchaseItem');
 const purchaseRefund = require('./bl/PurchaseRefund');
@@ -206,6 +208,18 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/product/:productId',contentType: 'application/json'} ,product.updateProduct);
     server.put({path:'/api/user/:userId/product/:productId/status',contentType: 'application/json'} ,product.updateStatus);
     server.del({path:'/api/user/:userId/product/:productId',contentType: 'application/json'},product.deleteProduct);
+
+    server.get('/api/user/:userId/prodMatchBrand', prodMatchBrand.queryProdMatchBrand);
+    server.post({path:'/api/user/:userId/prodMatchBrand',contentType: 'application/json'}, prodMatchBrand.addProdMatchBrand);
+    server.put({path:'/api/user/:userId/prodMatchBrand/:prodMatchBrandId',contentType: 'application/json'} ,prodMatchBrand.updateProdMatchBrand);
+    server.put({path:'/api/user/:userId/prodMatchBrand/:prodMatchBrandId/status',contentType: 'application/json'} ,prodMatchBrand.updateStatus);
+    server.del({path:'/api/user/:userId/prodMatchBrand/:prodMatchBrandId',contentType: 'application/json'},prodMatchBrand.deleteProdMatchBrand);
+
+    server.get('/api/user/:userId/prodMatchModel', prodMatchModel.queryProdMatchModel);
+    server.post({path:'/api/user/:userId/prodMatchModel',contentType: 'application/json'}, prodMatchModel.addProdMatchModel);
+    server.put({path:'/api/user/:userId/prodMatchModel/:prodMatchModelId',contentType: 'application/json'} ,prodMatchModel.updateProdMatchModel);
+    server.put({path:'/api/user/:userId/prodMatchModel/:prodMatchModelId/status',contentType: 'application/json'} ,prodMatchModel.updateStatus);
+    server.del({path:'/api/user/:userId/prodMatchModel/:prodMatchModelId',contentType: 'application/json'},prodMatchModel.deleteProdMatchModel);
 
     /**
      * Purchase Module
