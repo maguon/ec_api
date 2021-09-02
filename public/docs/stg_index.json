@@ -3981,6 +3981,13 @@
             "type": "integer"
           },
           {
+            "name": "priceType",
+            "in": "query",
+            "description": "priceType",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "status",
             "in": "query",
             "description": "status",
@@ -11270,7 +11277,13 @@
         "standardType",
         "barcode",
         "unitName",
-        "price"
+        "priceType",
+        "price",
+        "priceRaiseRatio",
+        "priceRaiseValue",
+        "lastPurchasePrice",
+        "storageMin",
+        "storageMax"
       ],
       "properties": {
         "remark": {
@@ -11317,7 +11330,31 @@
         "unitName": {
           "type": "string"
         },
+        "priceType": {
+          "type": "integer",
+          "format": "int64"
+        },
         "price": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "priceRaiseRatio": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "priceRaiseValue": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "lastPurchasePrice": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "storageMin": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "storageMax": {
           "type": "integer",
           "format": "int64"
         }

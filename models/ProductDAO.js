@@ -48,6 +48,10 @@ class ProductDAO  {
             query += " and pi.standard_type = ${standardType} ";
             filterObj.standardType = params.standardType;
         }
+        if(params.priceType){
+            query += " and pi.price_type = ${priceType} ";
+            filterObj.priceType = params.priceType;
+        }
         query = query + '  order by pi.id desc ';
         if(params.start){
             query += " offset ${start} ";
@@ -98,6 +102,10 @@ class ProductDAO  {
             query += " and standard_type = ${standardType} ";
             filterObj.standardType = params.standardType;
         }
+        if(params.priceType){
+            query += " and pi.price_type = ${priceType} ";
+            filterObj.priceType = params.priceType;
+        }
         logger.debug(' queryProductCount ');
         return await pgDb.one(query,filterObj);
     }
@@ -105,10 +113,12 @@ class ProductDAO  {
     static async addProduct(params) {
         const query = 'INSERT INTO product_info (status , op_user , remark , product_name , product_s_name , ' +
             ' product_serial , product_address , category_id , category_sub_id , brand_id , brand_model_id , image , standard_type , ' +
-            ' barcode , unit_name , price ) ' +
+            ' barcode , unit_name , price_type , price , price_raise_ratio , price_raise_value , last_purchase_price , ' +
+            ' storage_min , storage_max ) ' +
             ' VALUES (${status} , ${opUser} , ${remark} , ${productName} , ${productSName} , ${productSerial} ,' +
             ' ${productAddress} , ${categoryId} , ${categorySubId} , ${brandId} , ${brandModelId} , ${image} , ${standardType} ,' +
-            ' ${barcode} , ${unitName} , ${price} ) RETURNING id ';
+            ' ${barcode} , ${unitName} , ${priceType} , ${price} , ${priceRaiseRatio} , ${priceRaiseValue} , ${lastPurchasePrice} ,' +
+            ' ${storageMin} , ${storageMax} ) RETURNING id ';
         let valueObj = {};
         valueObj.status = params.status;
         valueObj.opUser = params.opUser;
@@ -125,7 +135,13 @@ class ProductDAO  {
         valueObj.standardType = params.standardType;
         valueObj.barcode = params.barcode;
         valueObj.unitName = params.unitName;
+        valueObj.priceType = params.priceType;
         valueObj.price = params.price;
+        valueObj.priceRaiseRatio = params.priceRaiseRatio;
+        valueObj.priceRaiseValue = params.priceRaiseValue;
+        valueObj.lastPurchasePrice = params.lastPurchasePrice;
+        valueObj.storageMin = params.storageMin;
+        valueObj.storageMax = params.storageMax;
         logger.debug(' addProduct ');
         return await pgDb.any(query,valueObj);
     }
@@ -137,7 +153,8 @@ class ProductDAO  {
             ' category_sub_id=${categorySubId} ,' +
             ' brand_id=${brandId} , brand_model_id=${brandModelId} , image=${image} , ' +
             ' standard_type=${standardType} , barcode=${barcode} , ' +
-            ' unit_name=${unitName} , price=${price} ' +
+            ' unit_name=${unitName} , price_type=${priceType} , price=${price} , price_raise_ratio=${priceRaiseRatio} ,' +
+            ' price_raise_value=${priceRaiseValue} , storage_min=${storageMin} , storage_max=${storageMax} ' +
             ' where id =${productId} RETURNING id ';
         let valueObj = {};
         valueObj.opUser = params.opUser;
@@ -154,7 +171,12 @@ class ProductDAO  {
         valueObj.standardType =params.standardType;
         valueObj.barcode =params.barcode;
         valueObj.unitName =params.unitName;
-        valueObj.price =params.price;
+        valueObj.priceType = params.priceType;
+        valueObj.price = params.price;
+        valueObj.priceRaiseRatio = params.priceRaiseRatio;
+        valueObj.priceRaiseValue = params.priceRaiseValue;
+        valueObj.storageMin = params.storageMin;
+        valueObj.storageMax = params.storageMax;
         valueObj.productId =params.productId;
         logger.debug(' updateProduct ');
         return await pgDb.any(query,valueObj);
