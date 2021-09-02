@@ -1,6 +1,7 @@
 
 const purchaseDAO = require('../models/PurchaseDAO');
 const purchaseItemDAO = require('../models/PurchaseItemDAO');
+const productDAO = require('../models/ProductDAO');
 const serverLogger = require('../util/ServerLogger.js');
 const moment = require('moment');
 const sysConst = require('../util/SystemConst.js');
@@ -170,6 +171,10 @@ const updateStatus = async (req,res,next)=>{
             params.finishDateId = date;
             const rowsDate = await purchaseDAO.updateFinishDateId(params);
             logger.info(' updateStatus updateFinishDateId ' + 'success');
+
+            //更新 product_info ：last_purchase_price
+            const rowsPrice = await productDAO.updateLastPrice(params);
+            logger.info(' updateStatus updateLastPrice ' + 'success');
         }
 
         resUtil.resetUpdateRes(res,rows);

@@ -160,6 +160,18 @@ class ProductDAO  {
         return await pgDb.any(query,valueObj);
     }
 
+    static async updateLastPrice(params){
+        const query = ' update product_info pti ' +
+            ' set last_purchase_price = pci.unit_cost ' +
+            ' from purchase_item pci ' +
+            ' where pci.product_id = pti.id and pci.purchase_id = ${purchaseId} ' +
+            ' RETURNING pti.id ';
+        let valueObj = {};
+        valueObj.purchaseId = params.purchaseId;
+        logger.debug(' updateLastPrice ');
+        return await pgDb.any(query,valueObj);
+    }
+
     static async updateStatus(params){
         const query = 'update product_info set status=${status} , op_user=${opUser} ' +
             ' where id=${productId} RETURNING id ';
