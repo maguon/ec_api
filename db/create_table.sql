@@ -223,7 +223,10 @@ CREATE TABLE IF NOT EXISTS public.product_info (
     "price" decimal(12,2),
     "price_raise_ratio" decimal(6,2) NOT NULL DEFAULT 1,
     "price_raise_value" decimal(12,2) DEFAULT 0,
-    "last_purchase_price" decimal(12,2) DEFAULT 0,,
+    "last_purchase_price" decimal(12,2) DEFAULT 0,
+    "storage_min" smallint ,
+    "storage_max" smallint ,
+    "match_model" smallint[],
 
     PRIMARY KEY ("id")
 );
