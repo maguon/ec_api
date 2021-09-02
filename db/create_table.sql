@@ -968,8 +968,8 @@ CREATE TABLE IF NOT EXISTS public.prod_match_model (
     "status" smallint NOT NULL DEFAULT 1,
     "op_user" smallint NOT NULL DEFAULT 0,
     "remark" character varying(200),
-    "brand_id" smallint NOT NULL DEFAULT 1,
-    "model_name" character varying(50),
+    "match_brand_id" smallint NOT NULL DEFAULT 1,
+    "match_model_name" character varying(50),
     PRIMARY KEY ("id")
 );
 create trigger prod_match_model_upt before update on prod_match_model for each row execute procedure update_timestamp_func();
