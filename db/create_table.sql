@@ -219,7 +219,11 @@ CREATE TABLE IF NOT EXISTS public.product_info (
     "standard_type" smallint,
     "barcode" character varying(30),
     "unit_name" character varying(10),
+    "price_type" smallint NOT NULL DEFAULT 1,
     "price" decimal(12,2),
+    "price_raise_ratio" decimal(6,2) NOT NULL DEFAULT 1,
+    "price_raise_value" decimal(12,2) DEFAULT 0,
+    "last_purchase_price" decimal(12,2) DEFAULT 0,,
 
     PRIMARY KEY ("id")
 );
@@ -230,6 +234,10 @@ COMMENT ON COLUMN public.product_info.product_address IS '产地';
 COMMENT ON COLUMN public.product_info.standard_type IS '标准类型';
 COMMENT ON COLUMN public.product_info.unit_name IS '单位';
 COMMENT ON COLUMN public.product_info.price IS '价格';
+COMMENT ON COLUMN public.product_info.price_type IS '定价类型';
+COMMENT ON COLUMN public.product_info.price_raise_ratio IS '加价率';
+COMMENT ON COLUMN public.product_info.price_raise_value IS '加价额';
+COMMENT ON COLUMN public.product_info.last_purchase_price IS '最后采购价';
 
 create trigger product_info_upt before update on product_info for each row execute procedure update_timestamp_func();
 select setval(' product_info_id_seq',1000,false);
@@ -937,3 +945,32 @@ CREATE TABLE IF NOT EXISTS public.order_refund_prod(
 );
 create trigger order_refund_prod_upt before update on order_refund_prod for each row execute procedure update_timestamp_func();
 select setval(' order_refund_prod_id_seq',10000,false);
+
+--CREATE TABLE prod_match_brand
+CREATE TABLE IF NOT EXISTS public.prod_match_brand (
+    "id" smallserial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1,
+    "op_user" smallint NOT NULL DEFAULT 0,
+    "remark" character varying(200),
+    "brand_name" character varying(50),
+    PRIMARY KEY ("id")
+);
+create trigger prod_match_brand_upt before update on prod_match_brand for each row execute procedure update_timestamp_func();
+select setval('prod_match_brand_id_seq',1000,false);
+
+--CREATE TABLE prod_match_model
+CREATE TABLE IF NOT EXISTS public.prod_match_model (
+    "id" smallserial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 1,
+    "op_user" smallint NOT NULL DEFAULT 0,
+    "remark" character varying(200),
+    "brand_id" smallint NOT NULL DEFAULT 1,
+    "model_name" character varying(50),
+    PRIMARY KEY ("id")
+);
+create trigger prod_match_model_upt before update on prod_match_model for each row execute procedure update_timestamp_func();
+select setval('prod_match_model_id_seq',1000,false);
