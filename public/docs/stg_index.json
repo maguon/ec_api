@@ -4160,7 +4160,7 @@
           },
           {
             "name": "productId",
-            "in": "query",
+            "in": "path",
             "description": "productId",
             "required": false,
             "type": "integer"

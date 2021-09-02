@@ -21,6 +21,10 @@ const queryProduct = async (req,res,next)=>{
 
 const queryMatchModel = async (req,res,next)=>{
     let query = req.query;
+    let path = req.params;
+    if(path.productId){
+        query.productId = path.productId;
+    }
     try{
         const rows = await productDAO.queryMatchModel(query);
         const count = await productDAO.queryMatchModelCount(query);
