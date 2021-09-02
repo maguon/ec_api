@@ -1,3 +1,8 @@
+### Add postgresql common  extension 
+
+```
+rpm -Uvh https://download.postgresql.org/pub/repos/yum/12/redhat/rhel-7-x86_64/postgresql12-contrib-12.4-1PGDG.rhel7.x86_64.rpm
+```
 ### Use postgresql plugin pg_cron
 
 1.Installing pg_cron
