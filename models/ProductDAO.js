@@ -110,6 +110,46 @@ class ProductDAO  {
         return await pgDb.one(query,filterObj);
     }
 
+    static async queryMatchModel(params) {
+        let query = "select pi.* , pmm.id as match_model_id , pmm.match_model_name , " +
+            " pmb.id as match_brand_id , pmb.brand_name as match_brand_name " +
+            " from product_info pi " +
+            " LEFT JOIN prod_match_model pmm ON array[pmm.id] && pi.match_model " +
+            " LEFT JOIN prod_match_brand pmb ON pmb.id = pmm.match_brand_id " +
+            " where pi.id is not null ";
+        let filterObj = {};
+        if(params.productId){
+            query += " and pi.id = ${productId} ";
+            filterObj.productId = params.productId;
+        }
+        query = query + '  order by pi.id desc ';
+        if(params.start){
+            query += " offset ${start} ";
+            filterObj.start = params.start;
+        }
+        if(params.size){
+            query += " limit ${size} ";
+            filterObj.size = params.size;
+        }
+        logger.debug(' queryMatchModel ');
+        return await pgDb.any(query,filterObj);
+    }
+
+    static async queryMatchModelCount(params) {
+        let query = "select count(pi.id) " +
+            " from product_info pi " +
+            " LEFT JOIN prod_match_model pmm ON array[pmm.id] && pi.match_model " +
+            " LEFT JOIN prod_match_brand pmb ON pmb.id = pmm.match_brand_id " +
+            " where pi.id is not null ";
+        let filterObj = {};
+        if(params.productId){
+            query += " and pi.id = ${productId} ";
+            filterObj.productId = params.productId;
+        }
+        logger.debug(' queryMatchModelCount ');
+        return await pgDb.one(query,filterObj);
+    }
+
     static async addProduct(params) {
         const query = 'INSERT INTO product_info (status , op_user , remark , product_name , product_s_name , ' +
             ' product_serial , product_address , category_id , category_sub_id , brand_id , brand_model_id , image , standard_type , ' +
@@ -179,6 +219,17 @@ class ProductDAO  {
         valueObj.storageMax = params.storageMax;
         valueObj.productId =params.productId;
         logger.debug(' updateProduct ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    static async updateMatchModel(params){
+        const query = 'update product_info set op_user=${opUser} , match_model=${matchModel} ' +
+            ' where id =${productId} RETURNING id ';
+        let valueObj = {};
+        valueObj.opUser = params.opUser;
+        valueObj.matchModel = params.matchModel;
+        valueObj.productId =params.productId;
+        logger.debug(' updateMatchModel ');
         return await pgDb.any(query,valueObj);
     }
 
