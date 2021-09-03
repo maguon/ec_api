@@ -296,13 +296,41 @@ class ProductDAO  {
     }
 
     static async queryProdStoreWarning(params) {
-        let query = " select pi.id,sum(spl.storage_count),pi.storage_min,pi.storage_max " +
+        let query = " select pi.*,sum(spl.storage_count),pi.storage_min,pi.storage_max " +
             " from product_info pi " +
             " left join storage_product_rel spl on pi.id = spl.product_id " +
-            " where spl.status = 1 and pi.status = 1 " +
-            " group by pi.id " +
-            " having sum(spl.storage_count) < pi.storage_min or sum(spl.storage_count) > pi.storage_max ";
+            " where spl.status = 1 and pi.status = 1 " ;
         let filterObj = {};
+        if(params.productId){
+            query += " and pi.id = ${productId} ";
+            filterObj.productId = params.productId;
+        }
+        if(params.categoryId){
+            query += " and pi.category_id = ${categoryId} ";
+            filterObj.categoryId = params.categoryId;
+        }
+        if(params.categorySubId){
+            query += " and pi.category_sub_id = ${categorySubId} ";
+            filterObj.categorySubId = params.categorySubId;
+        }
+        if(params.brandId){
+            query += " and pi.brand_id = ${brandId} ";
+            filterObj.brandId = params.brandId;
+        }
+        if(params.brandModelId){
+            query += " and pi.brand_model_id = ${brandModelId} ";
+            filterObj.brandModelId = params.brandModelId;
+        }
+        if(params.standardType){
+            query += " and pi.standard_type = ${standardType} ";
+            filterObj.standardType = params.standardType;
+        }
+        if(params.priceType){
+            query += " and pi.price_type = ${priceType} ";
+            filterObj.priceType = params.priceType;
+        }
+        query = query + " group by pi.id " +
+        " having sum(spl.storage_count) < pi.storage_min or sum(spl.storage_count) > pi.storage_max ";
         logger.debug(' queryProdStoreWarning ');
         return await pgDb.any(query,filterObj);
     }
