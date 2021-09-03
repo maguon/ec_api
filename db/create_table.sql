@@ -221,6 +221,7 @@ CREATE TABLE IF NOT EXISTS public.product_info (
     "unit_name" character varying(10),
     "price_type" smallint NOT NULL DEFAULT 1,
     "price" decimal(12,2),
+    "fixed_price" decimal(12,2),
     "price_raise_ratio" decimal(6,2) NOT NULL DEFAULT 1,
     "price_raise_value" decimal(12,2) DEFAULT 0,
     "last_purchase_price" decimal(12,2) DEFAULT 0,
