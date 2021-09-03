@@ -3981,6 +3981,13 @@
             "type": "integer"
           },
           {
+            "name": "priceType",
+            "in": "query",
+            "description": "priceType",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "status",
             "in": "query",
             "description": "status",
@@ -4120,6 +4127,103 @@
             "description": "状态",
             "required": true,
             "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
+    "/user/{userId}/product/{productId}/matchModel": {
+      "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Select product matchModel Info ",
+        "description": "Get product matchModel info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "productId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Finds product info and update matchModel",
+        "description": "update product info matchModel ",
+        "operationId": "update product info matchModel by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "product unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "matchModel",
+            "in": "body",
+            "description": "Product object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MatchModel"
+            }
           }
         ],
         "responses": {
@@ -11270,7 +11374,13 @@
         "standardType",
         "barcode",
         "unitName",
-        "price"
+        "priceType",
+        "price",
+        "priceRaiseRatio",
+        "priceRaiseValue",
+        "lastPurchasePrice",
+        "storageMin",
+        "storageMax"
       ],
       "properties": {
         "remark": {
@@ -11317,13 +11427,55 @@
         "unitName": {
           "type": "string"
         },
+        "priceType": {
+          "type": "integer",
+          "format": "int64"
+        },
         "price": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "priceRaiseRatio": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "priceRaiseValue": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "lastPurchasePrice": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "storageMin": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "storageMax": {
           "type": "integer",
           "format": "int64"
         }
       },
       "xml": {
         "name": "Product"
+      }
+    },
+    "MatchModel": {
+      "type": "object",
+      "required": [
+        "matchModel"
+      ],
+      "properties": {
+        "matchModel": {
+          "type": "array",
+          "items":{
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "xml": {
+        "name": "MatchModel"
       }
     },
     "ProdMatchBrand": {

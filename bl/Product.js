@@ -19,6 +19,24 @@ const queryProduct = async (req,res,next)=>{
     }
 }
 
+const queryMatchModel = async (req,res,next)=>{
+    let query = req.query;
+    let path = req.params;
+    if(path.productId){
+        query.productId = path.productId;
+    }
+    try{
+        const rows = await productDAO.queryMatchModel(query);
+        const count = await productDAO.queryMatchModelCount(query);
+        logger.info(' queryMatchModel ' + 'success');
+        resUtil.resetQueryRes(res,rows,count);
+        return next();
+    }catch (e) {
+        logger.error(" queryMatchModel error",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 const addProduct = async (req,res,next)=>{
     let params = req.body;
     let path = req.params;
@@ -53,6 +71,27 @@ const updateProduct = async (req,res,next)=>{
         return next();
     }catch (e) {
         logger.error(" updateProduct error ",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+
+}
+
+const updateMatchModel = async (req,res,next)=>{
+    let params = req.body;
+    let path = req.params;
+    if(path.userId){
+        params.opUser = path.userId;
+    }
+    if(path.productId){
+        params.productId = path.productId;
+    }
+    try{
+        const rows = await productDAO.updateMatchModel(params);
+        logger.info(' updateMatchModel ' + 'success');
+        resUtil.resetUpdateRes(res,rows);
+        return next();
+    }catch (e) {
+        logger.error(" updateMatchModel error ",e.stack);
         resUtil.resInternalError(e,res,next);
     }
 
@@ -98,8 +137,10 @@ const deleteProduct = async (req,res,next)=>{
 
 module.exports = {
     queryProduct,
+    queryMatchModel,
     addProduct,
     updateProduct,
+    updateMatchModel,
     updateStatus,
     deleteProduct
 }
