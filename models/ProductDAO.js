@@ -299,7 +299,7 @@ class ProductDAO  {
         let query = " select pi.id,sum(spl.storage_count),pi.storage_min,pi.storage_max " +
             " from product_info pi " +
             " left join storage_product_rel spl on pi.id = spl.product_id " +
-            " where spl.status = 1 , and pi.status = 1 " +
+            " where spl.status = 1 and pi.status = 1 " +
             " group by pi.id " +
             " having sum(spl.storage_count) < pi.storage_min or sum(spl.storage_count) > pi.storage_max ";
         let filterObj = {};
