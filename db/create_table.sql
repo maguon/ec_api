@@ -985,9 +985,8 @@ CREATE TABLE IF NOT EXISTS public.user_perf_level
     "id" smallserial NOT NULL,
     "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
     "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
-    "status" smallint NOT NULL,
+    "status" smallint NOT NULL DEFAULT 1,
     "perf_name" character varying(50),
-    "perf_level" smallint NOT NULL,
     "remark" character varying(50),
     "sale_ratio" decimal(12,2) NOT NULL DEFAULT 1,
     "deploy_ratio" decimal(12,2) NOT NULL DEFAULT 1,
@@ -997,7 +996,6 @@ CREATE TABLE IF NOT EXISTS public.user_perf_level
 
 COMMENT ON COLUMN public.user_perf_level.status IS '状态（0-停用，1-可用）';
 COMMENT ON COLUMN public.user_perf_level.perf_name IS '绩效等级名称';
-COMMENT ON COLUMN public.user_perf_level.perf_level IS '绩效等级';
 COMMENT ON COLUMN public.user_perf_level.remark IS '备注';
 COMMENT ON COLUMN public.user_perf_level.sale_ratio IS '销售提成比列';
 COMMENT ON COLUMN public.user_perf_level.deploy_ratio IS '施工提成比例';
