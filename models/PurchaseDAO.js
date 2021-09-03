@@ -407,6 +407,10 @@ class PurchaseDAO  {
             query += " and pi.status in (${status:csv})";
             filterObj.status = params.status.split(',');
         }
+        if(params.purchaseId){
+            query += " and pi.id = ${purchaseId} ";
+            filterObj.purchaseId = params.purchaseId;
+        }
         if(params.supplierId){
             query += " and pi.supplier_id = ${supplierId} ";
             filterObj.supplierId = params.supplierId;

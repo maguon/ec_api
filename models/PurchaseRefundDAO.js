@@ -286,6 +286,14 @@ class PurchaseRefundDAO  {
             query += " and pr.supplier_id = ${supplierId} ";
             filterObj.supplierId = params.supplierId;
         }
+        if(params.dateIdStart){
+            query += " and pr.date_id >= ${dateIdStart} ";
+            filterObj.dateIdStart = params.dateIdStart;
+        }
+        if(params.dateIdEnd){
+            query += " and pr.date_id <= ${dateIdEnd} ";
+            filterObj.dateIdEnd = params.dateIdEnd;
+        }
         if(params.purchaseId){
             query += " and pr.purchase_id = ${purchaseId} ";
             filterObj.purchaseId = params.purchaseId;

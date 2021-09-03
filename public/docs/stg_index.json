@@ -5913,6 +5913,13 @@
             "type": "integer"
           },
           {
+            "name": "purchaseId",
+            "in": "query",
+            "description": "purchaseId",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "supplierId",
             "in": "query",
             "description": "supplierId",
@@ -6108,6 +6115,20 @@
             "name": "productId",
             "in": "query",
             "description": "productId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateIdStart",
+            "in": "query",
+            "description": "dateIdStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateIdEnd",
+            "in": "query",
+            "description": "dateIdEnd",
             "required": false,
             "type": "integer"
           },
