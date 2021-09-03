@@ -106,8 +106,8 @@ class UserDAO  {
     }
 
     static async addUser(params) {
-        const query = 'INSERT INTO user_info (status , user_name , real_name , password , phone , email , gender , type) ' +
-            ' VALUES (${status} , ${userName} , ${realName} , ${password} , ${phone} , ${email} , ${gender} , ${type} ) ' +
+        const query = 'INSERT INTO user_info (status , user_name , real_name , password , phone , email , gender , type , perf_level_id) ' +
+            ' VALUES (${status} , ${userName} , ${realName} , ${password} , ${phone} , ${email} , ${gender} , ${type} ,${perfLevelId}) ' +
             ' on conflict(phone) DO NOTHING RETURNING id ';
         let valueObj = {};
         valueObj.status = params.status;
@@ -118,19 +118,22 @@ class UserDAO  {
         valueObj.email = params.email;
         valueObj.gender = params.gender;
         valueObj.type = params.type;
+        valueObj.perfLevelId = params.perfLevelId;
         logger.debug(' addUser ');
         return await pgDb.any(query,valueObj);
     }
 
     static async updateUser(params){
-        const query = 'update user_info set user_name= ${userName} , real_name=${realName} , email=${email} , gender=${gender} ,  type=${type} ' +
-            'where id =${userId} RETURNING id ';
+        const query = 'update user_info set user_name= ${userName} , real_name=${realName} , ' +
+            ' email=${email} , gender=${gender} , type=${type} , perf_level_id=${perfLevelId}' +
+            ' where id =${userId} RETURNING id ';
         let valueObj = {};
         valueObj.userName = params.userName;
         valueObj.realName = params.realName;
         valueObj.email = params.email;
         valueObj.gender = params.gender;
         valueObj.type = params.type;
+        valueObj.perfLevelId = params.perfLevelId;
         valueObj.userId =params.userId;
         logger.debug(' updateUser ');
         return await pgDb.any(query,valueObj);

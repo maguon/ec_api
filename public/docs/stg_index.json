@@ -10877,7 +10877,8 @@
         "email",
         "gender",
         "status",
-        "types"
+        "types",
+        "perfLevelId"
       ],
       "properties": {
         "userName": {
@@ -10907,6 +10908,10 @@
           ]
         },
         "type": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "perfLevelId": {
           "type": "integer",
           "format": "int64"
         }
@@ -10956,7 +10961,8 @@
         "email",
         "gender",
         "status",
-        "types"
+        "types",
+        "perfLevelId"
       ],
       "properties": {
         "userName": {
@@ -10980,6 +10986,10 @@
           ]
         },
         "type": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "perfLevelId": {
           "type": "integer",
           "format": "int64"
         }

@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS public.user_info
     email character varying(100),
     gender smallint,
     type integer NOT NULL,
+    perf_level_id smallint,
     PRIMARY KEY (id)
 );
 
@@ -37,6 +38,7 @@ COMMENT ON COLUMN public.user_info.phone IS '联系方式';
 COMMENT ON COLUMN public.user_info.email IS '邮箱';
 COMMENT ON COLUMN public.user_info.gender IS '性别（0-女，1-男）';
 COMMENT ON COLUMN public.user_info.type IS '用户类型（99-超级管理员）';
+COMMENT ON COLUMN public.user_info.perf_level_id IS '绩效提成ID';
 
 create trigger user_info_upt before update on user_info for each row execute procedure update_timestamp_func();
 select setval('user_info_id_seq',1000,false);
