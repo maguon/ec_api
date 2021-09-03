@@ -978,3 +978,30 @@ CREATE TABLE IF NOT EXISTS public.prod_match_model (
 );
 create trigger prod_match_model_upt before update on prod_match_model for each row execute procedure update_timestamp_func();
 select setval('prod_match_model_id_seq',1000,false);
+
+--CREATE TABLE user_perf_level
+CREATE TABLE IF NOT EXISTS public.user_perf_level
+(
+    "id" smallserial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL,
+    "perf_name" character varying(50),
+    "perf_level" smallint NOT NULL,
+    "remark" character varying(50),
+    "sale_ratio" decimal(12,2) NOT NULL DEFAULT 1,
+    "deploy_ratio" decimal(12,2) NOT NULL DEFAULT 1,
+    "check_ratio" decimal(12,2) NOT NULL DEFAULT 1,
+    PRIMARY KEY (id)
+);
+
+COMMENT ON COLUMN public.user_perf_level.status IS '状态（0-停用，1-可用）';
+COMMENT ON COLUMN public.user_perf_level.perf_name IS '绩效等级名称';
+COMMENT ON COLUMN public.user_perf_level.perf_level IS '绩效等级';
+COMMENT ON COLUMN public.user_perf_level.remark IS '备注';
+COMMENT ON COLUMN public.user_perf_level.sale_ratio IS '销售提成比列';
+COMMENT ON COLUMN public.user_perf_level.deploy_ratio IS '施工提成比例';
+COMMENT ON COLUMN public.user_perf_level.check_ratio IS '验收提成比例';
+
+create trigger user_perf_level_upt before update on user_perf_level for each row execute procedure update_timestamp_func();
+select setval('user_perf_level_id_seq',100,false);
