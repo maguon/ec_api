@@ -179,9 +179,9 @@ class ProductDAO  {
         if(params.priceType == 1 ){
             valueObj.price = params.fixedPrice;
         }else if(params.priceType == 2){
-            valueObj.price = params.lastPurchasePrice * params.priceRaiseRatio ;
+            valueObj.price = Number(params.lastPurchasePrice) * Number(params.priceRaiseRatio) ;
         }else if(params.priceType == 3){
-            valueObj.price = params.lastPurchasePrice + params.priceRaiseValue ;
+            valueObj.price = Number(params.lastPurchasePrice) + Number(params.priceRaiseValue) ;
         }else{
             valueObj.price = 0;
         }
