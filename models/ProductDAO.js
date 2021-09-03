@@ -296,7 +296,7 @@ class ProductDAO  {
     }
 
     static async queryProdStoreWarning(params) {
-        let query = " select pi.*,sum(spl.storage_count),pi.storage_min,pi.storage_max " +
+        let query = " select pi.*,sum(spl.storage_count) as storage_count ,pi.storage_min,pi.storage_max " +
             " from product_info pi " +
             " left join storage_product_rel spl on pi.id = spl.product_id " +
             " where spl.status = 1 and pi.status = 1 " ;
