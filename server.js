@@ -11,6 +11,7 @@ const logger = serverLogger.createLogger('Server');
 const app = require('./bl/App');
 const sms = require('./bl/Sms');
 const user = require('./bl/User');
+const userPerfLevel = require('./bl/UserPerfLevel');
 const userTypeMenu = require('./bl/UserTypeMenu');
 const brand = require('./bl/Brand');
 const brandModel = require('./bl/BrandModel');
@@ -104,6 +105,11 @@ const createServer=()=>{
     server.put({path:'/api/phone/:phone/changePhone',contentType: 'application/json'},user.updatePhone);
     server.put({path:'/api/user/:userId/type',contentType: 'application/json'} ,user.updateType);
     server.put({path:'/api/user/:userId/status',contentType: 'application/json'} ,user.updateStatus);
+
+    server.get('/api/user/:userId/userPerfLevel', userPerfLevel.queryUserPerfLevel);
+    server.post({path:'/api/user/:userId/userPerfLevel',contentType: 'application/json'}, userPerfLevel.addUserPerfLevel);
+    server.put({path:'/api/user/:userId/userPerfLevel/:userPerfLevelId',contentType: 'application/json'} ,userPerfLevel.updateUserPerfLevel);
+    server.put({path:'/api/user/:userId/userPerfLevel/:userPerfLevelId/status',contentType: 'application/json'} ,userPerfLevel.updateStatus);
 
     /**
      * SMS Module

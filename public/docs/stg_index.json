@@ -576,6 +576,192 @@
       }
     },
 
+    "/user/{userId}/userPerfLevel": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Add a new userPerfLevel ",
+        "description": "Add a new userPerfLevel",
+        "operationId": "Add a new userPerfLevel",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user id",
+            "required": true,
+            "type": "integer"
+
+          },
+          {
+            "in": "body",
+            "name":"userInfo",
+            "description": "User object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserPerfLevel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid userPerfLevel"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Select userPerfLevel Info",
+        "description": "Get userPerfLevel info",
+        "operationId": "Get userPerfLevel info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userPerfLevelId",
+            "in": "query",
+            "description": "userPerfLevelId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "perfName",
+            "in": "query",
+            "description": "perfName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/userPerfLevel/{userPerfLevelId}": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Finds userPerfLevel info and update",
+        "description": "update userPerfLevel info",
+        "operationId": "update userPerfLevel info by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userPerfLevelId",
+            "in": "path",
+            "description": "userPerfLevel unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "perfLevelInfo",
+            "in": "body",
+            "description": "Brand object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserPerfLevel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user/{userId}/userPerfLevel/{userPerfLevelId}/status": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Finds userPerfLevel status and update",
+        "description": "update userPerfLevel status",
+        "operationId": "update userPerfLevel status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userPerfLevelId",
+            "in": "path",
+            "description": "userPerfLevel unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
     "/user/{userId}/userTypeList": {
       "get": {
         "tags": [
@@ -10727,6 +10913,39 @@
       },
       "xml": {
         "name": "user"
+      }
+    },
+    "UserPerfLevel": {
+      "type": "object",
+      "required": [
+        "perfName",
+        "remark",
+        "saleRatio",
+        "deployRatio",
+        "checkRatio"
+      ],
+      "properties": {
+        "perfName": {
+          "type": "string"
+        },
+        "remark": {
+          "type": "string"
+        },
+        "saleRatio": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "deployRatio": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "checkRatio": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "UserPerfLevel"
       }
     },
     "UserPut": {
