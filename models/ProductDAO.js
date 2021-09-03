@@ -261,7 +261,12 @@ class ProductDAO  {
 
     static async updateLastPrice(params){
         const query = ' update product_info pti ' +
-            ' set last_purchase_price = pci.unit_cost ' +
+            ' set last_purchase_price = pci.unit_cost ,' +
+            ' price = ( case ' +
+            ' when price_type = 1 then fixed_price ' +
+            ' when price_type = 2 then  pci.unit_cost * price_raise_ratio ' +
+            ' when price_type = 3 then  pci.unit_cost + price_raise_value ' +
+            ' end )' +
             ' from purchase_item pci ' +
             ' where pci.product_id = pti.id and pci.purchase_id = ${purchaseId} ' +
             ' RETURNING pti.id ';
