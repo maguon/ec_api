@@ -4046,7 +4046,7 @@
             "description": "Product object that needs to be added to the store",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Product"
+              "$ref": "#/definitions/ProductPut"
             }
           }
         ],
@@ -11375,7 +11375,7 @@
         "barcode",
         "unitName",
         "priceType",
-        "price",
+        "fixedPrice",
         "priceRaiseRatio",
         "priceRaiseValue",
         "lastPurchasePrice",
@@ -11431,7 +11431,7 @@
           "type": "integer",
           "format": "int64"
         },
-        "price": {
+        "fixedPrice": {
           "type": "integer",
           "format": "int64"
         },
@@ -11458,6 +11458,103 @@
       },
       "xml": {
         "name": "Product"
+      }
+    },
+    "ProductPut": {
+      "type": "object",
+      "required": [
+        "remark",
+        "productName",
+        "productSName",
+        "productSerial",
+        "productAddress",
+        "categoryId",
+        "categorySubId",
+        "brandId",
+        "brandModelId",
+        "image",
+        "standardType",
+        "barcode",
+        "unitName",
+        "priceType",
+        "fixedPrice",
+        "priceRaiseRatio",
+        "priceRaiseValue",
+        "storageMin",
+        "storageMax"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "productName": {
+          "type": "string"
+        },
+        "productSName": {
+          "type": "string"
+        },
+        "productSerial": {
+          "type": "string"
+        },
+        "productAddress": {
+          "type": "string"
+        },
+        "categoryId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "categorySubId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "brandId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "brandModelId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "image": {
+          "type": "string"
+        },
+        "standardType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "barcode": {
+          "type": "string"
+        },
+        "unitName": {
+          "type": "string"
+        },
+        "priceType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "fixedPrice": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "priceRaiseRatio": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "priceRaiseValue": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "storageMin": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "storageMax": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "ProductPut"
       }
     },
     "MatchModel": {

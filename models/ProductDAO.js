@@ -153,11 +153,11 @@ class ProductDAO  {
     static async addProduct(params) {
         const query = 'INSERT INTO product_info (status , op_user , remark , product_name , product_s_name , ' +
             ' product_serial , product_address , category_id , category_sub_id , brand_id , brand_model_id , image , standard_type , ' +
-            ' barcode , unit_name , price_type , price , price_raise_ratio , price_raise_value , last_purchase_price , ' +
+            ' barcode , unit_name , price_type , price , fixed_price , price_raise_ratio , price_raise_value , last_purchase_price , ' +
             ' storage_min , storage_max ) ' +
             ' VALUES (${status} , ${opUser} , ${remark} , ${productName} , ${productSName} , ${productSerial} ,' +
             ' ${productAddress} , ${categoryId} , ${categorySubId} , ${brandId} , ${brandModelId} , ${image} , ${standardType} ,' +
-            ' ${barcode} , ${unitName} , ${priceType} , ${price} , ${priceRaiseRatio} , ${priceRaiseValue} , ${lastPurchasePrice} ,' +
+            ' ${barcode} , ${unitName} , ${priceType} , ${price} , ${fixedPrice} , ${priceRaiseRatio} , ${priceRaiseValue} , ${lastPurchasePrice} ,' +
             ' ${storageMin} , ${storageMax} ) RETURNING id ';
         let valueObj = {};
         valueObj.status = params.status;
@@ -176,7 +176,16 @@ class ProductDAO  {
         valueObj.barcode = params.barcode;
         valueObj.unitName = params.unitName;
         valueObj.priceType = params.priceType;
-        valueObj.price = params.price;
+        if(params.priceType == 1 ){
+            valueObj.price = params.fixedPrice;
+        }else if(params.priceType == 2){
+            valueObj.price = params.lastPurchasePrice * params.priceRaiseRatio ;
+        }else if(params.priceType == 3){
+            valueObj.price = params.lastPurchasePrice + params.priceRaiseValue ;
+        }else{
+            valueObj.price = 0;
+        }
+        valueObj.fixedPrice = params.fixedPrice;
         valueObj.priceRaiseRatio = params.priceRaiseRatio;
         valueObj.priceRaiseValue = params.priceRaiseValue;
         valueObj.lastPurchasePrice = params.lastPurchasePrice;
@@ -193,7 +202,13 @@ class ProductDAO  {
             ' category_sub_id=${categorySubId} ,' +
             ' brand_id=${brandId} , brand_model_id=${brandModelId} , image=${image} , ' +
             ' standard_type=${standardType} , barcode=${barcode} , ' +
-            ' unit_name=${unitName} , price_type=${priceType} , price=${price} , price_raise_ratio=${priceRaiseRatio} ,' +
+            ' unit_name=${unitName} , price_type=${priceType} , ' +
+            ' price=  ( case ' +
+            '   when price_type = 1 then ${fixedPrice} ' +
+            '   when price_type = 2 then last_purchase_price * ${priceRaiseRatio} ' +
+            '   when price_type = 3 then last_purchase_price + ${priceRaiseValue} ' +
+            ' end ), ' +
+            ' fixed_price=${fixedPrice} , price_raise_ratio=${priceRaiseRatio} ,' +
             ' price_raise_value=${priceRaiseValue} , storage_min=${storageMin} , storage_max=${storageMax} ' +
             ' where id =${productId} RETURNING id ';
         let valueObj = {};
@@ -201,23 +216,26 @@ class ProductDAO  {
         valueObj.remark = params.remark;
         valueObj.productName = params.productName;
         valueObj.productSName = params.productSName;
-        valueObj.productSerial =params.productSerial;
-        valueObj.productAddress =params.productAddress;
-        valueObj.categoryId =params.categoryId;
-        valueObj.categorySubId =params.categorySubId;
-        valueObj.brandId =params.brandId;
-        valueObj.brandModelId =params.brandModelId;
-        valueObj.image =params.image;
-        valueObj.standardType =params.standardType;
-        valueObj.barcode =params.barcode;
-        valueObj.unitName =params.unitName;
+        valueObj.productSerial = params.productSerial;
+        valueObj.productAddress = params.productAddress;
+        valueObj.categoryId = params.categoryId;
+        valueObj.categorySubId = params.categorySubId;
+        valueObj.brandId = params.brandId;
+        valueObj.brandModelId = params.brandModelId;
+        valueObj.image = params.image;
+        valueObj.standardType = params.standardType;
+        valueObj.barcode = params.barcode;
+        valueObj.unitName = params.unitName;
         valueObj.priceType = params.priceType;
-        valueObj.price = params.price;
+        valueObj.fixedPrice = params.fixedPrice;
+        valueObj.priceRaiseRatio = params.priceRaiseRatio;
+        valueObj.priceRaiseValue = params.priceRaiseValue;
+        valueObj.fixedPrice = params.fixedPrice;
         valueObj.priceRaiseRatio = params.priceRaiseRatio;
         valueObj.priceRaiseValue = params.priceRaiseValue;
         valueObj.storageMin = params.storageMin;
         valueObj.storageMax = params.storageMax;
-        valueObj.productId =params.productId;
+        valueObj.productId = params.productId;
         logger.debug(' updateProduct ');
         return await pgDb.any(query,valueObj);
     }
