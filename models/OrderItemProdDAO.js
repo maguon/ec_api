@@ -50,6 +50,14 @@ class OrderItemProdDAO  {
             query += " and oip.prod_id = ${prodId} ";
             filterObj.prodId = params.prodId;
         }
+        if(params.purchaseId){
+            query += " and sprd.purchase_id = ${purchaseId} ";
+            filterObj.purchaseId = params.purchaseId;
+        }
+        if(params.supplierId){
+            query += " and pi.supplier_id = ${supplierId} ";
+            filterObj.supplierId = params.supplierId;
+        }
         if(params.dateStart){
             query += " and oip.date_id >= ${dateStart} ";
             filterObj.dateStart = params.dateStart;
@@ -111,6 +119,14 @@ class OrderItemProdDAO  {
         if(params.prodId){
             query += " and oip.prod_id = ${prodId} ";
             filterObj.prodId = params.prodId;
+        }
+        if(params.purchaseId){
+            query += " and sprd.purchase_id = ${purchaseId} ";
+            filterObj.purchaseId = params.purchaseId;
+        }
+        if(params.supplierId){
+            query += " and pi.supplier_id = ${supplierId} ";
+            filterObj.supplierId = params.supplierId;
         }
         if(params.dateStart){
             query += " and oip.date_id >= ${dateStart} ";
