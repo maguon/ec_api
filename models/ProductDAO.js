@@ -196,21 +196,13 @@ class ProductDAO  {
     }
 
     static async updateProduct(params){
-        const query = 'update product_info set op_user=${opUser} , remark=${remark} , ' +
+        let query = 'update product_info set op_user=${opUser} , remark=${remark} , ' +
             ' product_name=${productName} ,  product_s_name=${productSName} , ' +
             ' product_serial=${productSerial} , product_address=${productAddress} , category_id=${categoryId} , ' +
             ' category_sub_id=${categorySubId} ,' +
             ' brand_id=${brandId} , brand_model_id=${brandModelId} , image=${image} , ' +
             ' standard_type=${standardType} , barcode=${barcode} , ' +
-            ' unit_name=${unitName} , price_type=${priceType} , ' +
-            ' price=  ( case ' +
-            '   when price_type = 1 then ${fixedPrice} ' +
-            '   when price_type = 2 then last_purchase_price * ${priceRaiseRatio} ' +
-            '   when price_type = 3 then last_purchase_price + ${priceRaiseValue} ' +
-            ' end ), ' +
-            ' fixed_price=${fixedPrice} , price_raise_ratio=${priceRaiseRatio} ,' +
-            ' price_raise_value=${priceRaiseValue} , storage_min=${storageMin} , storage_max=${storageMax} ' +
-            ' where id =${productId} RETURNING id ';
+            ' unit_name=${unitName} , price_type=${priceType} , ' ;
         let valueObj = {};
         valueObj.opUser = params.opUser;
         valueObj.remark = params.remark;
@@ -227,9 +219,25 @@ class ProductDAO  {
         valueObj.barcode = params.barcode;
         valueObj.unitName = params.unitName;
         valueObj.priceType = params.priceType;
-        valueObj.fixedPrice = params.fixedPrice;
-        valueObj.priceRaiseRatio = params.priceRaiseRatio;
-        valueObj.priceRaiseValue = params.priceRaiseValue;
+
+        if( params.priceType == 1 ){
+            query = query + ' price = ${fixedPrice} , ';
+            valueObj.fixedPrice = params.fixedPrice;
+        }else if(params.priceType == 2){
+            query = query + ' price = last_purchase_price * ${priceRaiseRatio} , ';
+            valueObj.priceRaiseRatio = params.priceRaiseRatio;
+        }else if(params.priceType == 3){
+            query = query + ' price = last_purchase_price + ${priceRaiseValue} , ';
+            valueObj.priceRaiseValue = params.priceRaiseValue;
+        }else{
+            query = query + ' price = 0 , ';
+        }
+
+        query = query +
+            ' fixed_price=${fixedPrice} , price_raise_ratio=${priceRaiseRatio} ,' +
+            ' price_raise_value=${priceRaiseValue} , storage_min=${storageMin} , storage_max=${storageMax} ' +
+            ' where id =${productId} RETURNING id ';
+
         valueObj.fixedPrice = params.fixedPrice;
         valueObj.priceRaiseRatio = params.priceRaiseRatio;
         valueObj.priceRaiseValue = params.priceRaiseValue;
