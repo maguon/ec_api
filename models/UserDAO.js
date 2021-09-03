@@ -54,7 +54,7 @@ class UserDAO  {
     static async queryUserSysInfo(params) {
         let query = "select ui.id, ui.created_on, ui.updated_on, ui.status, ui.user_name, " +
             " ui.real_name, ui.phone, ui.email,  ui.gender, ui.type, utm.type_name, " +
-            " utm.menu_list, utm.status as type_status, utm.remarks " +
+            " utm.menu_list, utm.status as type_status, utm.remarks , ui.perf_level_id " +
             " from user_info ui " +
             " left join user_type_menu utm " +
             " on utm.id = ui.type " +
