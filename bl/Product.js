@@ -37,6 +37,19 @@ const queryMatchModel = async (req,res,next)=>{
     }
 }
 
+const queryProdStoreWarning = async (req,res,next)=>{
+    let query = req.query;
+    try{
+        const rows = await productDAO.queryProdStoreWarning(query);
+        logger.info(' queryProdStoreWarning ' + 'success');
+        resUtil.resetQueryRes(res,rows,{count:1});
+        return next();
+    }catch (e) {
+        logger.error(" queryProdStoreWarning error",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 const addProduct = async (req,res,next)=>{
     let params = req.body;
     let path = req.params;
@@ -138,6 +151,7 @@ const deleteProduct = async (req,res,next)=>{
 module.exports = {
     queryProduct,
     queryMatchModel,
+    queryProdStoreWarning,
     addProduct,
     updateProduct,
     updateMatchModel,

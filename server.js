@@ -210,6 +210,7 @@ const createServer=()=>{
     server.del({path:'/api/user/:userId/product/:productId',contentType: 'application/json'},product.deleteProduct);
     server.get('/api/user/:userId/product/:productId/matchModel', product.queryMatchModel);
     server.put({path:'/api/user/:userId/product/:productId/matchModel',contentType: 'application/json'} ,product.updateMatchModel);
+    server.get('/api/user/:userId/prodStoreWarning', product.queryProdStoreWarning);
 
     server.get('/api/user/:userId/prodMatchBrand', prodMatchBrand.queryProdMatchBrand);
     server.post({path:'/api/user/:userId/prodMatchBrand',contentType: 'application/json'}, prodMatchBrand.addProdMatchBrand);

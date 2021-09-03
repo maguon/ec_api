@@ -294,6 +294,17 @@ class ProductDAO  {
         logger.debug(' deleteProduct ');
         return await pgDb.any(query,valueObj);
     }
+
+    static async queryProdStoreWarning(params) {
+        let query = " select pi.id,sum(spl.storage_count),pi.storage_min,pi.storage_max " +
+            " from product_info pi " +
+            " left join storage_product_rel spl on pi.id = spl.product_id " +
+            " group by pi.id " +
+            " having sum(spl.storage_count) < pi.storage_min or sum(spl.storage_count) > pi.storage_max ";
+        let filterObj = {};
+        logger.debug(' queryProdStoreWarning ');
+        return await pgDb.any(query,filterObj);
+    }
 }
 
 module.exports = ProductDAO;

@@ -4140,6 +4140,33 @@
       }
     },
 
+    "/user/{userId}/prodStoreWarning": {
+      "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Select prodStoreWarning",
+        "description": "Get prodStoreWarning",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+
     "/user/{userId}/product/{productId}/matchModel": {
       "get": {
         "tags": [
