@@ -6,10 +6,10 @@ class UserDAO  {
     static async queryUser(params) {
         let query = "select ui.id, ui.created_on, ui.updated_on, ui.status, ui.user_name, " +
             " ui.real_name, ui.phone, ui.email,  ui.gender, ui.type, utm.type_name, " +
-            " utm.status as type_status, utm.remarks , ui.perf_level_id " +
+            " utm.status as type_status, utm.remarks , ui.perf_level_id , upl.perf_name  " +
             " from user_info ui " +
-            " left join user_type_menu utm " +
-            " on utm.id = ui.type " +
+            " left join user_type_menu utm on utm.id = ui.type " +
+            " left join user_perf_level upl on upl.id = ui.perf_level_id  " +
             " where ui.id is not null ";
         let filterObj = {};
         if(params.id){
@@ -54,10 +54,11 @@ class UserDAO  {
     static async queryUserSysInfo(params) {
         let query = "select ui.id, ui.created_on, ui.updated_on, ui.status, ui.user_name, " +
             " ui.real_name, ui.phone, ui.email,  ui.gender, ui.type, utm.type_name, " +
-            " utm.menu_list, utm.status as type_status, utm.remarks , ui.perf_level_id " +
+            " utm.menu_list, utm.status as type_status, utm.remarks , ui.perf_level_id , upl.perf_name " +
             " from user_info ui " +
             " left join user_type_menu utm " +
             " on utm.id = ui.type " +
+            " left join user_perf_level upl on upl.id = ui.perf_level_id  " +
             " where ui.id is not null ";
         let filterObj = {};
         if(params.userId){
@@ -71,8 +72,8 @@ class UserDAO  {
     static async queryUserCount(params) {
         let query = "select count(ui.id) " +
             " from user_info ui " +
-            " left join user_type_menu utm " +
-            " on utm.id = ui.type " +
+            " left join user_type_menu utm on utm.id = ui.type " +
+            " left join user_perf_level upl on upl.id = ui.perf_level_id  " +
             " where ui.id is not null ";
         let filterObj = {};
         if(params.id){
