@@ -4424,7 +4424,7 @@
             "name": "productId",
             "in": "path",
             "description": "productId",
-            "required": false,
+            "required": true,
             "type": "integer"
           },
           {

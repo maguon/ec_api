@@ -5,13 +5,14 @@ const logger = serverLogger.createLogger('ProductDAO.js');
 class ProductDAO  {
     static async queryProduct(params) {
         let query = "select pi.* , ui.real_name , ci.category_name , " +
-            " csi.category_sub_name , bi.brand_name , bmi.brand_model_name" +
+            " csi.category_sub_name , bi.brand_name , bmi.brand_model_name , sum(spr.storage_count) as storage_count " +
             " from product_info pi " +
             " left join user_info ui on ui.id = pi.op_user " +
             " left join category_info ci on ci.id = pi.category_id " +
             " left join category_sub_info csi on csi.id = pi.category_sub_id " +
             " left join brand_info bi on bi.id = pi.brand_id " +
             " left join brand_model_info bmi on bmi.id = pi.brand_model_id " +
+            " left join storage_product_rel spr on spr.product_id = pi.id " +
             " where pi.id is not null ";
         let filterObj = {};
         if(params.productId){
@@ -52,7 +53,8 @@ class ProductDAO  {
             query += " and pi.price_type = ${priceType} ";
             filterObj.priceType = params.priceType;
         }
-        query = query + '  order by pi.id desc ';
+        query = query + ' group by pi.id, ui.id,ci.id,csi.id,bi.id,bmi.id ' +
+            ' order by pi.id desc ';
         if(params.start){
             query += " offset ${start} ";
             filterObj.start = params.start;
@@ -66,46 +68,56 @@ class ProductDAO  {
     }
 
     static async queryProductCount(params) {
-        let query = "select count(id) from product_info where id is not null ";
+        let query = "SELECT COUNT(group_pi.*) FROM ( select count(pi.id) " +
+            " from product_info pi " +
+            " left join user_info ui on ui.id = pi.op_user " +
+            " left join category_info ci on ci.id = pi.category_id " +
+            " left join category_sub_info csi on csi.id = pi.category_sub_id " +
+            " left join brand_info bi on bi.id = pi.brand_id " +
+            " left join brand_model_info bmi on bmi.id = pi.brand_model_id " +
+            " left join storage_product_rel spr on spr.product_id = pi.id " +
+            " where pi.id is not null ";
         let filterObj = {};
         if(params.productId){
-            query += " and id = ${productId} ";
+            query += " and pi.id = ${productId} ";
             filterObj.productId = params.productId;
         }
         if(params.status){
-            query += " and status = ${status} ";
+            query += " and pi.status = ${status} ";
             filterObj.status = params.status;
         }
         if(params.productName){
-            query += " and product_name like '%" + params.productName + "%' ";
+            query += " and pi.product_name like '%" + params.productName + "%' ";
         }
         if(params.productSName){
-            query += " and product_s_name like '%" + params.productSName + "%' ";
+            query += " and pi.product_s_name like '%" + params.productSName + "%' ";
         }
         if(params.categoryId){
-            query += " and category_id = ${categoryId} ";
+            query += " and pi.category_id = ${categoryId} ";
             filterObj.categoryId = params.categoryId;
         }
         if(params.categorySubId){
-            query += " and category_sub_id = ${categorySubId} ";
+            query += " and pi.category_sub_id = ${categorySubId} ";
             filterObj.categorySubId = params.categorySubId;
         }
         if(params.brandId){
-            query += " and brand_id = ${brandId} ";
+            query += " and pi.brand_id = ${brandId} ";
             filterObj.brandId = params.brandId;
         }
         if(params.brandModelId){
-            query += " and brand_model_id = ${brandModelId} ";
+            query += " and pi.brand_model_id = ${brandModelId} ";
             filterObj.brandModelId = params.brandModelId;
         }
         if(params.standardType){
-            query += " and standard_type = ${standardType} ";
+            query += " and pi.standard_type = ${standardType} ";
             filterObj.standardType = params.standardType;
         }
         if(params.priceType){
             query += " and pi.price_type = ${priceType} ";
             filterObj.priceType = params.priceType;
         }
+        query = query + ' group by pi.id, ui.id,ci.id,csi.id,bi.id,bmi.id ' +
+            ' order by pi.id desc ) group_pi';
         logger.debug(' queryProductCount ');
         return await pgDb.one(query,filterObj);
     }
