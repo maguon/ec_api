@@ -82,13 +82,12 @@ class PurchaseItemUniqueRelDAO  {
     }
 
     static async addUniqueRel(params) {
-        const query = 'INSERT INTO purchase_item_unique_rel ( op_user, remark, purchase_id, ' +
+        const query = 'INSERT INTO purchase_item_unique_rel ( op_user, purchase_id, ' +
             ' purchase_item_id, product_id, product_name, unique_id ) ' +
-            ' VALUES ( ${opUser} , ${remark} , ${purchaseId} , ${purchaseItemId} , ${productId} ,' +
+            ' VALUES ( ${opUser} , ${purchaseId} , ${purchaseItemId} , ${productId} ,' +
             ' ${productName} , ${uniqueId} ) RETURNING id ';
         let valueObj = {};
         valueObj.opUser = params.opUser;
-        valueObj.remark = params.remark;
         valueObj.purchaseId = params.purchaseId;
         valueObj.purchaseItemId = params.purchaseItemId;
         valueObj.productId = params.productId;

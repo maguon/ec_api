@@ -21,23 +21,33 @@ const queryUniqueRel = async (req,res,next)=>{
 const addUniqueRel = async (req,res,next)=>{
     let params = req.body;
     let path = req.params;
-    let returnRows = [];
+    let returnCount = 0;
     try {
-        for(let i=0; i < params.uniqueRelArray.length; i++){
+        for(let i=0; i < params.uniqueIdArray.length; i++){
+            let uniqueObj = {};
             if(path.userId){
-                params.uniqueRelArray[i].opUser = path.userId;
+                uniqueObj.opUser = path.userId;
             }
             if(path.purchaseItemId){
-                params.uniqueRelArray[i].purchaseItemId = path.purchaseItemId;
+                uniqueObj.purchaseItemId = path.purchaseItemId;
             }
             if(path.productId ){
-                params.uniqueRelArray[i].productId  = path.productId ;
+                uniqueObj.productId  = path.productId ;
             }
-            const rows = await purchaseItemUniqueRelDAO.addUniqueRel(params.uniqueRelArray[i]);
-            returnRows.push({"id":rows[0].id});
-            logger.info(' UniqueRel ' + 'success');
+            if(params.purchaseId){
+                uniqueObj.purchaseId = params.purchaseId;
+            }
+            if(params.productName ){
+                uniqueObj.productName  = params.productName ;
+            }
+            uniqueObj.uniqueId = params.uniqueIdArray[i]
+            const rows = await purchaseItemUniqueRelDAO.addUniqueRel(uniqueObj);
+            if(rows.length>=1){
+                returnCount += 1;
+                logger.info(' UniqueRel ' + 'success');
+            }
         }
-        resUtil.resetCreateRes(res,returnRows);
+        resUtil.resetCreateRes(res,returnCount);
         return next();
     }catch (e) {
         logger.error(" UniqueRel error ",e.stack);

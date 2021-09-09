@@ -12360,34 +12360,12 @@
     },
     "PurchaseItemUniqueRel": {
       "type": "object",
-      "required": [
-        "PurchaseItemUniqueRelArray"
-      ],
-      "properties": {
-        "uniqueRelArray": {
-          "type": "array",
-          "items":{
-            "$ref": "#/definitions/PurchaseItemUniqueRelArray"
-          }
-        }
-      },
-      "xml": {
-        "name": "PurchaseItemUniqueRel"
-      }
-    },
-    "PurchaseItemUniqueRelArray": {
-      "type": "object",
-      "required": [
-        "remark",
+      "required":[
         "purchaseId",
         "productName",
-        "uniqueId",
         "PurchaseItemUniqueRelArray"
       ],
       "properties": {
-        "remark": {
-          "type": "string"
-        },
         "purchaseId": {
           "type": "integer",
           "format": "int64"
@@ -12395,12 +12373,15 @@
         "productName": {
           "type": "string"
         },
-        "uniqueId": {
-          "type": "string"
+        "uniqueIdArray": {
+          "type": "array",
+          "items":{
+            "type": "string"
+          }
         }
       },
       "xml": {
-        "name": "PurchaseItemUniqueRelArray"
+        "name": "PurchaseItemUniqueRel"
       }
     },
     "UniqueRelArray": {
