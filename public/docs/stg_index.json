@@ -5880,7 +5880,7 @@
         }
       }
     },
-    "/user/{userId}/purchaseItemUniqueRel/{purchaseItemUniqueRelId}/status": {
+    "/user/{userId}/uniqueRelStatus": {
       "put": {
         "tags": [
           "purchase"
@@ -5900,18 +5900,13 @@
             "type": "integer"
           },
           {
-            "name": "purchaseItemUniqueRelId",
-            "in": "path",
-            "description": "purchaseItemUniqueRel unique id",
+            "in": "body",
+            "name":"uniqueRel",
+            "description": "purchase object that needs to be added to the store",
             "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "status",
-            "in": "query",
-            "description": "状态",
-            "required": true,
-            "type": "integer"
+            "schema": {
+              "$ref": "#/definitions/UniqueRelArray"
+            }
           }
         ],
         "responses": {
@@ -12378,6 +12373,29 @@
       },
       "xml": {
         "name": "PurchaseItemUniqueRelArray"
+      }
+    },
+    "UniqueRelArray": {
+      "type": "object",
+      "required": [
+        "status",
+        "UniqueRelArray"
+      ],
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "uniqueRelIdArray": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "xml": {
+        "name": "UniqueRelArray"
       }
     },
     "PurchaseRefund": {

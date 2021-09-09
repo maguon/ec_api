@@ -127,11 +127,11 @@ class PurchaseItemUniqueRelDAO  {
 
     static async updateStatus(params){
         const query = 'update purchase_item_unique_rel set status=${status} , op_user=${opUser} ' +
-            ' where id=${uniqueRelId} RETURNING id ';
+            ' where id in (${uniqueRelIdArray:csv}) RETURNING id ';
         let valueObj = {};
         valueObj.status = params.status;
         valueObj.opUser = params.opUser;
-        valueObj.uniqueRelId = params.uniqueRelId;
+        valueObj.uniqueRelIdArray = params.uniqueRelIdArray.join(',').split(',');
         logger.debug(' updateStatus ');
         return await pgDb.any(query,valueObj);
     }

@@ -46,13 +46,10 @@ const addUniqueRel = async (req,res,next)=>{
 }
 
 const updateStatus = async (req,res,next)=>{
-    let params = req.query;
+    let params = req.body;
     let path = req.params;
     if(path.userId){
         params.opUser = path.userId;
-    }
-    if(path.purchaseItemUniqueRelId){
-        params.uniqueRelId = path.purchaseItemUniqueRelId;
     }
     try{
         const rows = await purchaseItemUniqueRelDAO.updateStatus(params);

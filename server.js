@@ -249,7 +249,7 @@ const createServer=()=>{
 
     server.post({path:'/api/user/:userId/purchaseItem/:purchaseItemId/product/:productId/uniqueRel',contentType: 'application/json'}, purchaseItemUniqueRel.addUniqueRel);
     server.get('/api/user/:userId/purchaseItemUniqueRel', purchaseItemUniqueRel.queryUniqueRel);
-    server.put({path:'/api/user/:userId/purchaseItemUniqueRel/:purchaseItemUniqueRelId/status',contentType: 'application/json'} ,purchaseItemUniqueRel.updateStatus);
+    server.put({path:'/api/user/:userId/uniqueRelStatus',contentType: 'application/json'} ,purchaseItemUniqueRel.updateStatus);
     server.del({path:'/api/user/:userId/purchaseItemUniqueRel/:purchaseItemUniqueRelId',contentType: 'application/json'}, purchaseItemUniqueRel.deleteUniqueRel);
 
     server.get('/api/user/:userId/purchaseRefund', purchaseRefund.queryPurchaseRefund);
