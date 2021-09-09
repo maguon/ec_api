@@ -29,6 +29,7 @@ const prodMatchBrand = require('./bl/ProdMatchBrand');
 const prodMatchModel = require('./bl/ProdMatchModel');
 const purchase = require('./bl/Purchase');
 const purchaseItem = require('./bl/PurchaseItem');
+const purchaseItemUniqueRel = require('./bl/PurchaseItemUniqueRel');
 const purchaseRefund = require('./bl/PurchaseRefund');
 const client = require('./bl/Client');
 const clientAgent = require('./bl/ClientAgent');
@@ -245,6 +246,11 @@ const createServer=()=>{
     server.get('/api/user/:userId/purchaseItemStorage', purchaseItem.queryPurchaseItemStorage);
     server.put({path:'/api/user/:userId/purchaseItem/:purchaseItemId',contentType: 'application/json'} ,purchaseItem.updatePurchaseItem);
     server.put({path:'/api/user/:userId/purchase/:purchaseId/purchaseItem/:purchaseItemId/storageStatus',contentType: 'application/json'} ,purchaseItem.updateStorageStatus);
+
+    server.post({path:'/api/user/:userId/purchaseItem/:purchaseItemId/product/:productId/uniqueRel',contentType: 'application/json'}, purchaseItemUniqueRel.addUniqueRel);
+    server.get('/api/user/:userId/purchaseItemUniqueRel', purchaseItemUniqueRel.queryUniqueRel);
+    server.put({path:'/api/user/:userId/purchaseItemUniqueRel/:purchaseItemUniqueRelId/status',contentType: 'application/json'} ,purchaseItemUniqueRel.updateStatus);
+    server.del({path:'/api/user/:userId/purchaseItemUniqueRel/:purchaseItemUniqueRelId',contentType: 'application/json'}, purchaseItemUniqueRel.deleteUniqueRel);
 
     server.get('/api/user/:userId/purchaseRefund', purchaseRefund.queryPurchaseRefund);
     server.post({path:'/api/user/:userId/purchase/:purchaseId/purchaseItem/:purchaseItemId/purchaseRefund',contentType: 'application/json'}, purchaseRefund.addPurchaseRefund);

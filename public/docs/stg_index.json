@@ -5700,6 +5700,231 @@
       }
     },
 
+    "/user/{userId}/purchaseItem/{purchaseItemId}/product/{productId}/uniqueRel": {
+      "post": {
+        "tags": [
+          "purchase"
+        ],
+        "summary": "Add a new purchaseItemUniqueRel info",
+        "description": "Add a new purchaseItemUniqueRel",
+        "operationId": "Add purchaseItemUniqueRel",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseItemId",
+            "in": "path",
+            "description": "purchaseItemId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "productId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name":"purchaseInfo",
+            "description": "purchase object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PurchaseItemUniqueRel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/user/{userId}/purchaseItemUniqueRel": {
+      "get": {
+        "tags": [
+          "purchase"
+        ],
+        "summary": "Select purchaseItemUniqueRel Info",
+        "description": "Get purchaseItemUniqueRel info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "uniqueRelId",
+            "in": "query",
+            "description": "uniqueRelId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseId",
+            "in": "query",
+            "description": "purchaseId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseItemId",
+            "in": "query",
+            "description": "purchaseItemId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "query",
+            "description": "productId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "uniqueId",
+            "in": "query",
+            "description": "uniqueId",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "productName",
+            "in": "query",
+            "description": "productName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
+    "/user/{userId}/purchaseItemUniqueRel/{purchaseItemUniqueRelId}": {
+      "delete": {
+        "tags": [
+          "purchase"
+        ],
+        "summary": " Delete purchaseItemUniqueRel",
+        "description": " Delete purchaseItemUniqueRel ",
+        "operationId": " Delete purchaseItemUniqueRel by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseItemUniqueRelId",
+            "in": "path",
+            "description": "purchaseItemUniqueRelId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params "
+          },
+          "404": {
+            "description": "purchaseItemUniqueRelId not found"
+          }
+        }
+      }
+    },
+    "/user/{userId}/purchaseItemUniqueRel/{purchaseItemUniqueRelId}/status": {
+      "put": {
+        "tags": [
+          "purchase"
+        ],
+        "summary": "Finds purchaseItemUniqueRel and update status ",
+        "description": "update purchaseItemUniqueRel status",
+        "operationId": "update purchaseItemUniqueRel status by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseItemUniqueRelId",
+            "in": "path",
+            "description": "purchaseItemUniqueRel unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "状态",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+
     "/user/{userId}/purchaseRefund": {
       "get": {
         "tags": [
@@ -12108,6 +12333,56 @@
       },
       "xml": {
         "name": "purchaseItemPutStorage"
+      }
+    },
+    "PurchaseItemUniqueRel": {
+      "type": "object",
+      "required": [
+        "PurchaseItemUniqueRelArray"
+      ],
+      "properties": {
+        "uniqueRelArray": {
+          "type": "array",
+          "items":{
+            "$ref": "#/definitions/PurchaseItemUniqueRelArray"
+          }
+        }
+      },
+      "xml": {
+        "name": "PurchaseItemUniqueRel"
+      }
+    },
+    "PurchaseItemUniqueRelArray": {
+      "type": "object",
+      "required": [
+        "remark",
+        "purchaseId",
+        "productId",
+        "productName",
+        "uniqueId",
+        "PurchaseItemUniqueRelArray"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "purchaseId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "productId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "productName": {
+          "type": "string"
+        },
+        "uniqueId": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "PurchaseItemUniqueRelArray"
       }
     },
     "PurchaseRefund": {

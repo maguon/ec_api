@@ -310,8 +310,8 @@ CREATE TABLE IF NOT EXISTS public.purchase_info
     "remark" character varying(200),
     "supplier_id" smallint NOT NULL DEFAULT 0,
     "supplier_name" character varying(50),
-    "plan_date_id" integer ,
-    "finish_date_id" integer ,
+    "plan_date_id" integer,
+    "finish_date_id" integer,
     "storage_status" smallint NOT NULL DEFAULT 1,
     "payment_status" smallint NOT NULL DEFAULT 1,
     "payment_date_id" integer,
@@ -356,7 +356,8 @@ CREATE TABLE IF NOT EXISTS public.purchase_item
     "unit_cost" decimal(12,2)  NOT NULL DEFAULT 0,
     "purchase_count" smallint  NOT NULL DEFAULT 0,
     "total_cost" decimal(12,2)  NOT NULL DEFAULT 0,
-    "order_id" bigint ,
+    "order_id" bigint,
+    "unique_flag" smallint  NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 
@@ -365,6 +366,7 @@ COMMENT ON COLUMN public.purchase_item.product_id IS '商品ID';
 COMMENT ON COLUMN public.purchase_item.unit_cost IS '商品单价';
 COMMENT ON COLUMN public.purchase_item.purchase_count IS '采购数量';
 COMMENT ON COLUMN public.purchase_item.total_cost IS '总成本';
+COMMENT ON COLUMN public.purchase_item.unique_flag IS '商品是否有唯一编码';
 create trigger purchase_item_upt before update on purchase_item for each row execute procedure update_timestamp_func();
 select setval(' purchase_item_id_seq',10000,false);
 
@@ -430,6 +432,7 @@ CREATE TABLE IF NOT EXISTS public.storage_product_rel
     "date_id" integer ,
     "order_id" bigint ,
     "old_flag" smallint NOT NULL DEFAULT 0,
+    "unique_flag" smallint  NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 
@@ -437,6 +440,7 @@ COMMENT ON COLUMN public.storage_product_rel.unit_cost IS '入库单价';
 COMMENT ON COLUMN public.storage_product_rel.storage_count IS '库存量';
 COMMENT ON COLUMN public.storage_product_rel.date_id IS '入库日期';
 COMMENT ON COLUMN public.storage_product_rel.old_flag IS '是否旧货';
+COMMENT ON COLUMN public.storage_product_rel.unique_flag IS '商品是否有唯一编码';
 
 create trigger storage_product_rel_upt before update on storage_product_rel for each row execute procedure update_timestamp_func();
 select setval(' storage_product_rel_id_seq',10000,false);
@@ -467,6 +471,8 @@ CREATE TABLE IF NOT EXISTS public.storage_product_rel_detail
     "old_flag" smallint NOT NULL DEFAULT 0,
     "order_refund_id" bigint ,
     "order_refund_prod_id" integer ,
+    "prod_unique_id" character varying(40) ARRAY[],
+    "unique_flag" smallint  NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 
@@ -474,7 +480,9 @@ COMMENT ON COLUMN public.storage_product_rel_detail.storage_type IS '入库=1出
 COMMENT ON COLUMN public.storage_product_rel_detail.storage_sub_type IS '出入库原因';
 COMMENT ON COLUMN public.storage_product_rel_detail.storage_count IS '出入库量';
 COMMENT ON COLUMN public.storage_product_rel_detail.date_id IS '出入库日期';
-COMMENT ON COLUMN public.storage_product_rel.old_flag IS '是否旧货';
+COMMENT ON COLUMN public.storage_product_rel_detail.old_flag IS '是否旧货';
+COMMENT ON COLUMN public.storage_product_rel_detail.prod_unique_id IS '商品编码数组';
+COMMENT ON COLUMN public.storage_product_rel_detail.unique_flag IS '商品是否有唯一编码';
 
 create trigger storage_product_rel_detail_upt before update on storage_product_rel_detail for each row execute procedure update_timestamp_func();
 
@@ -1005,3 +1013,27 @@ COMMENT ON COLUMN public.user_perf_level.check_ratio IS '验收提成比例';
 
 create trigger user_perf_level_upt before update on user_perf_level for each row execute procedure update_timestamp_func();
 select setval('user_perf_level_id_seq',100,false);
+
+--CREATE TABLE purchase_item_unique_rel
+CREATE TABLE IF NOT EXISTS public.purchase_item_unique_rel
+(
+    "id" serial NOT NULL,
+    "created_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_on" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "status" smallint NOT NULL DEFAULT 0,
+    "op_user" smallint NOT NULL DEFAULT 1,
+    "remark" character varying(200),
+    "purchase_id" bigint NOT NULL DEFAULT 0,
+    "purchase_item_id" bigint NOT NULL DEFAULT 0,
+    "product_id" smallint NOT NULL DEFAULT 0,
+    "product_name" character varying(40),
+    "unique_id"  character varying(40) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+COMMENT ON COLUMN public.purchase_item_unique_rel.status IS '库存标记（0-未接收 1-已接收）';
+COMMENT ON COLUMN public.purchase_item_unique_rel.unique_id IS '商品唯一码';
+create trigger purchase_item_unique_rel_upt before update on purchase_item_unique_rel for each row execute procedure update_timestamp_func();
+select setval(' purchase_item_unique_rel_id_seq',10000,false);
+
+CREATE UNIQUE INDEX uk_prod_unique_purchase ON purchase_item_unique_rel(purchase_item_id, unique_id);
