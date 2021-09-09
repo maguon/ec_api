@@ -51,6 +51,12 @@ const updateStatus = async (req,res,next)=>{
     if(path.userId){
         params.opUser = path.userId;
     }
+    if(path.purchaseItemId){
+        params.purchaseItemId = path.purchaseItemId;
+    }
+    if(path.productId ){
+        params.productId  = path.productId ;
+    }
     try{
         const rows = await purchaseItemUniqueRelDAO.updateStatus(params);
         logger.info(' updateStatus ' + 'success');
@@ -67,6 +73,12 @@ const deleteUniqueRel = async (req,res,next)=>{
     let path = req.params;
     if(path.purchaseItemUniqueRelId ){
         params.uniqueRelId = path.purchaseItemUniqueRelId ;
+    }
+    if(path.purchaseItemId){
+        params.purchaseItemId = path.purchaseItemId;
+    }
+    if(path.productId ){
+        params.productId  = path.productId ;
     }
     try{
         const rows = await purchaseItemUniqueRelDAO.deleteUniqueRel(params);

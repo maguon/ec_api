@@ -5843,7 +5843,7 @@
         }
       }
     },
-    "/user/{userId}/purchaseItemUniqueRel/{purchaseItemUniqueRelId}": {
+    "/user/{userId}/purchaseItem/{purchaseItemId}/product/{productId}/purchaseItemUniqueRel/{purchaseItemUniqueRelId}": {
       "delete": {
         "tags": [
           "purchase"
@@ -5859,6 +5859,20 @@
             "name": "userId",
             "in": "path",
             "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseItemId",
+            "in": "path",
+            "description": "purchaseItemId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "productId",
             "required": true,
             "type": "integer"
           },
@@ -5880,7 +5894,7 @@
         }
       }
     },
-    "/user/{userId}/uniqueRelStatus": {
+    "/user/{userId}/purchaseItem/{purchaseItemId}/product/{productId}/uniqueRelStatus": {
       "put": {
         "tags": [
           "purchase"
@@ -5896,6 +5910,20 @@
             "name": "userId",
             "in": "path",
             "description": "user unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseItemId",
+            "in": "path",
+            "description": "purchaseItemId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "productId",
             "required": true,
             "type": "integer"
           },
@@ -12378,14 +12406,9 @@
     "UniqueRelArray": {
       "type": "object",
       "required": [
-        "status",
         "UniqueRelArray"
       ],
       "properties": {
-        "status": {
-          "type": "integer",
-          "format": "int64"
-        },
         "uniqueRelIdArray": {
           "type": "array",
           "items": {

@@ -249,8 +249,8 @@ const createServer=()=>{
 
     server.post({path:'/api/user/:userId/purchaseItem/:purchaseItemId/product/:productId/uniqueRel',contentType: 'application/json'}, purchaseItemUniqueRel.addUniqueRel);
     server.get('/api/user/:userId/purchaseItemUniqueRel', purchaseItemUniqueRel.queryUniqueRel);
-    server.put({path:'/api/user/:userId/uniqueRelStatus',contentType: 'application/json'} ,purchaseItemUniqueRel.updateStatus);
-    server.del({path:'/api/user/:userId/purchaseItemUniqueRel/:purchaseItemUniqueRelId',contentType: 'application/json'}, purchaseItemUniqueRel.deleteUniqueRel);
+    server.put({path:'/api/user/:userId/purchaseItem/:purchaseItemId/product/:productId/uniqueRelStatus',contentType: 'application/json'} ,purchaseItemUniqueRel.updateStatus);
+    server.del({path:'/api/user/:userId/purchaseItem/:purchaseItemId/product/:productId/purchaseItemUniqueRel/:purchaseItemUniqueRelId',contentType: 'application/json'}, purchaseItemUniqueRel.deleteUniqueRel);
 
     server.get('/api/user/:userId/purchaseRefund', purchaseRefund.queryPurchaseRefund);
     server.post({path:'/api/user/:userId/purchase/:purchaseId/purchaseItem/:purchaseItemId/purchaseRefund',contentType: 'application/json'}, purchaseRefund.addPurchaseRefund);

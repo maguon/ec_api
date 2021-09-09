@@ -98,38 +98,10 @@ class PurchaseItemUniqueRelDAO  {
         return await pgDb.any(query,valueObj);
     }
 
-    static async updateUniqueRel(params){
-        const query = 'update purchase_item_unique_rel set op_user=${opUser} , remark=${remark} , ' +
-            ' purchase_id=${purchaseId} , purchase_item_id=${purchaseItemId} , product_id=${productId} , ' +
-            ' product_name=${productName} ' +
-            ' where id =${uniqueRelId} RETURNING id ';
-        let valueObj = {};
-        valueObj.opUser = params.opUser;
-        valueObj.remark = params.remark;
-        valueObj.purchaseId = params.purchaseId;
-        valueObj.purchaseItemId = params.purchaseItemId;
-        valueObj.productId = params.productId;
-        valueObj.productName  = params.productName ;
-        valueObj.uniqueRelId  = params.uniqueRelId ;
-        logger.debug(' updateUniqueRel ');
-        return await pgDb.any(query,valueObj);
-    }
-
-    static async updateUniqueId(params){
-        const query = 'update purchase_item_unique_rel set unique_id=${uniqueId} ' +
-            ' where id = ${uniqueRelId} RETURNING id ';
-        let valueObj = {};
-        valueObj.uniqueId  = params.uniqueId ;
-        valueObj.uniqueRelId  = params.uniqueRelId ;
-        logger.debug(' updateUniqueId ');
-        return await pgDb.any(query,valueObj);
-    }
-
     static async updateStatus(params){
-        const query = 'update purchase_item_unique_rel set status=${status} , op_user=${opUser} ' +
-            ' where id in (${uniqueRelIdArray:csv}) RETURNING id ';
+        const query = 'update purchase_item_unique_rel set status = 1 , op_user=${opUser} ' +
+            ' where id in (${uniqueRelIdArray:csv}) and status = 0 RETURNING id ';
         let valueObj = {};
-        valueObj.status = params.status;
         valueObj.opUser = params.opUser;
         valueObj.uniqueRelIdArray = params.uniqueRelIdArray.join(',').split(',');
         logger.debug(' updateStatus ');
@@ -139,10 +111,14 @@ class PurchaseItemUniqueRelDAO  {
     static async deleteUniqueRel(params){
         const query = 'delete from purchase_item_unique_rel ' +
             ' where id =${uniqueRelId} ' +
-            ' and status = 0' +
+            ' and status = 0 ' +
+            ' and purchase_item_id =${purchaseItemId} ' +
+            ' and product_id =${productId}' +
             ' RETURNING id ';
         let valueObj = {};
         valueObj.uniqueRelId = params.uniqueRelId;
+        valueObj.purchaseItemId = params.purchaseItemId;
+        valueObj.productId = params.productId;
         logger.debug(' deleteUniqueRel ');
         return await pgDb.any(query,valueObj);
     }
