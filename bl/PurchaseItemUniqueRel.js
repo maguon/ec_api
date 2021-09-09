@@ -30,6 +30,9 @@ const addUniqueRel = async (req,res,next)=>{
             if(path.purchaseItemId){
                 params.uniqueRelArray[i].purchaseItemId = path.purchaseItemId;
             }
+            if(path.productId ){
+                params.uniqueRelArray[i].productId  = path.productId ;
+            }
             const rows = await purchaseItemUniqueRelDAO.addUniqueRel(params.uniqueRelArray[i]);
             returnRows.push({"id":rows[0].id});
             logger.info(' UniqueRel ' + 'success');

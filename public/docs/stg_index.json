@@ -12357,7 +12357,6 @@
       "required": [
         "remark",
         "purchaseId",
-        "productId",
         "productName",
         "uniqueId",
         "PurchaseItemUniqueRelArray"
@@ -12367,10 +12366,6 @@
           "type": "string"
         },
         "purchaseId": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "productId": {
           "type": "integer",
           "format": "int64"
         },
