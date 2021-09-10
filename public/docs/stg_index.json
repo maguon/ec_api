@@ -12335,7 +12335,8 @@
         "storageId",
         "storageAreaId",
         "storageCount",
-        "remark"
+        "remark",
+        "prodUniqueArr"
       ],
       "properties": {
         "storageId": {
@@ -12352,6 +12353,12 @@
         },
         "remark": {
           "type": "string"
+        },
+        "prodUniqueArr": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "xml": {

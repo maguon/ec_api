@@ -433,6 +433,7 @@ CREATE TABLE IF NOT EXISTS public.storage_product_rel
     "order_id" bigint ,
     "old_flag" smallint NOT NULL DEFAULT 0,
     "unique_flag" smallint  NOT NULL DEFAULT 0,
+    "prod_unique_arr" character varying(40) ARRAY[],
     PRIMARY KEY (id)
 );
 
@@ -471,7 +472,7 @@ CREATE TABLE IF NOT EXISTS public.storage_product_rel_detail
     "old_flag" smallint NOT NULL DEFAULT 0,
     "order_refund_id" bigint ,
     "order_refund_prod_id" integer ,
-    "prod_unique_id" character varying(40) ARRAY[],
+    "prod_unique_arr" character varying(40) ARRAY[],
     "unique_flag" smallint  NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );

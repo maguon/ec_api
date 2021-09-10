@@ -225,6 +225,16 @@ class PurchaseItemDAO  {
         return await pgDb.any(query,valueObj);
     }
 
+    static async updateUniqueFlag(params){
+        const query = 'update purchase_item set unique_flag = 1 , op_user=${opUser} ' +
+            ' where id=${purchaseItemId} RETURNING id ';
+        let valueObj = {};
+        valueObj.opUser = params.opUser;
+        valueObj.purchaseItemId = params.purchaseItemId;
+        logger.debug(' updateUniqueFlag ');
+        return await pgDb.any(query,valueObj);
+    }
+
     static async queryStat(params) {
         let query = "select count(*), COALESCE(sum(purchase_count),0) as purchase_count ," +
             " COALESCE(sum(total_cost),0) as total_cost " +

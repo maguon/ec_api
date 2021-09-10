@@ -253,7 +253,7 @@ class StorageProductRelDetailDAO  {
     static async addStorageProductRelDetailByPurchaseItem(params) {
         let query = 'INSERT INTO storage_product_rel_detail (op_user , storage_id , storage_area_id , ' +
             ' storage_product_rel_id , supplier_id , product_id , purchase_id , purchase_item_id , storage_type , ' +
-            ' storage_sub_type , storage_count , date_id , order_id ) ' +
+            ' storage_sub_type , storage_count , date_id , order_id ,prod_unique_arr , unique_flag ) ' +
             ' ( select ${opUser} , ${storageId} , ${storageAreaId} , ${storageProductRelId} , pit.supplier_id , pit.product_id , pit.purchase_id, ' +
             ' pit.id , ${storageType} , ${storageSubType} , ' ;
         let valueObj = {};
@@ -271,7 +271,7 @@ class StorageProductRelDetailDAO  {
             valueObj.storageCount = params.storageCount;
         }
 
-        query =  query + ' ${dateId} , pit.order_id ' +
+        query =  query + ' ${dateId} , pit.order_id ,${prodUniqueArr} , pit.unique_flag ' +
             ' from purchase_item pit ' +
             ' left join user_info ui on ui.id = pit.op_user ' +
             ' left join supplier_info si on si.id = pit.supplier_id ' +
@@ -279,6 +279,7 @@ class StorageProductRelDetailDAO  {
             ' ) RETURNING id ';
 
         valueObj.dateId = params.dateId;
+        valueObj.prodUniqueArr = params.prodUniqueArr;
         valueObj.purchaseItemId = params.purchaseItemId;
         valueObj.purchaseId = params.purchaseId;
         logger.debug(' addStorageProductRelDetailByPurchaseItem ');

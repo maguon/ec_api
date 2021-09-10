@@ -1,5 +1,6 @@
 
 const purchaseItemUniqueRelDAO = require('../models/PurchaseItemUniqueRelDAO');
+const purchaseItemDAO = require('../models/PurchaseItemDAO');
 const serverLogger = require('../util/ServerLogger.js');
 const resUtil = require('../util/ResponseUtil.js');
 const logger = serverLogger.createLogger('PurchaseItemUniqueRel.js');
@@ -46,6 +47,10 @@ const addUniqueRel = async (req,res,next)=>{
                 returnCount += 1;
                 logger.info(' UniqueRel ' + 'success');
             }
+
+            //如果成功更新 product_item unique_flage
+            const rowsItem = await purchaseItemDAO.updateUniqueFlag(uniqueObj);
+            logger.info(' UniqueRel updateUniqueFlag ' + 'success');
         }
         resUtil.resetCreateRes(res,returnCount);
         return next();
