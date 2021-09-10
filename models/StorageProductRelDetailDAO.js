@@ -272,15 +272,17 @@ class StorageProductRelDetailDAO  {
             valueObj.storageCount = params.storageCount;
         }
 
-        query =  query + ' ${dateId} , pit.order_id ,${prodUniqueArr} , pit.unique_flag ' +
+        query =  query + ' ${dateId} , pit.order_id ,array_agg(piur.unique_id) , pit.unique_flag ' +
             ' from purchase_item pit ' +
             ' left join user_info ui on ui.id = pit.op_user ' +
             ' left join supplier_info si on si.id = pit.supplier_id ' +
-            ' where pit.id is not null  and pit.id = ${purchaseItemId} and pit.purchase_id = ${purchaseId} order by pit.id desc ' +
+            ' left join purchase_item_unique_rel piur on piur.purchase_item_id = pit.id ' +
+            ' where pit.id is not null  and pit.id = ${purchaseItemId} and pit.purchase_id = ${purchaseId} ' +
+            ' and piur.status = 1 ' +
+            ' group by pit.id order by pit.id desc ' +
             ' ) RETURNING id ';
 
         valueObj.dateId = params.dateId;
-        valueObj.prodUniqueArr = params.prodUniqueArr;
         valueObj.purchaseItemId = params.purchaseItemId;
         valueObj.purchaseId = params.purchaseId;
         logger.debug(' addStorageProductRelDetailByPurchaseItem ');
