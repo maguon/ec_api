@@ -9,7 +9,7 @@ class OrderItemProdDAO  {
             " oi.re_user_name as or_re_user_name , oi.order_type as or_order_type , oi.client_id as or_client_id , " +
             " oi.client_agent_id as or_client_agent_id , oi.client_name as or_client_name , " +
             " oi.date_id as or_date_id , oi.fin_date_id as or_fin_date_id ," +
-            " sprd.purchase_id as purchase_id , pit.unit_cost as prod_unit_cost , pi.supplier_id , pi.supplier_name " +
+            " sprd.purchase_id as purchase_id , sprd.prod_unique_arr , sprd.unique_flag , pit.unit_cost as prod_unit_cost , pi.supplier_id , pi.supplier_name " +
             " from order_item_prod oip " +
             " left join user_info ui on ui.id = oip.op_user " +
             " left join order_info oi on oi.id = oip.order_id " +
@@ -153,6 +153,7 @@ class OrderItemProdDAO  {
             "   sprd.product_id as st_product_id , sprd.purchase_id as st_purchase_id , sprd.purchase_item_id as st_purchase_item_id ," +
             "   sprd.storage_type as st_storage_type , sprd.storage_sub_type as st_storage_sub_type , " +
             "   sprd.storage_count as st_storage_count , sprd.date_id as st_date_id , sprd.apply_user_id as st_apply_user_id , " +
+            "   sprd.prod_unique_arr , sprd.unique_flag " +
             "   sui.real_name as st_apply_user_name " +
             "   from order_item_prod oip " +
             "   left join user_info ui on ui.id = oip.op_user " +

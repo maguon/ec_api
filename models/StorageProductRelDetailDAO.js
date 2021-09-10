@@ -208,7 +208,7 @@ class StorageProductRelDetailDAO  {
         let query = 'INSERT INTO storage_product_rel_detail ( op_user , remark , storage_id , storage_area_id , ' +
             ' storage_product_rel_id , supplier_id , product_id , purchase_id , purchase_item_id , storage_type , ' +
             ' storage_sub_type , storage_count , date_id , apply_user_id , old_flag , order_id , order_prod_id , ' +
-            ' order_refund_id , order_refund_prod_id )' +
+            ' order_refund_id , order_refund_prod_id , prod_unique_arr , unique_flag )' +
             ' (select  ${opUser} , ${remark} , storage_id , storage_area_id , ${storageProductRelId} , ' +
             ' supplier_id , product_id , purchase_id , purchase_item_id , ${storageType} , ${storageSubType} , ' +
             ' ${storageCount} , ${dateId} , ${applyUserId} ' ;
@@ -219,7 +219,7 @@ class StorageProductRelDetailDAO  {
         }
 
         query = query +  ' , ${orderId} , ${orderProdId} , ' +
-            ' ${orderRefundId} , ${orderRefundProdId} ' +
+            ' ${orderRefundId} , ${orderRefundProdId} , ${prodUniqueArr} , unique_flag ' +
             ' from storage_product_rel ' +
             ' where storage_product_rel.id= ${storageProductRelId} ' ;
         let valueObj = {};
@@ -238,6 +238,7 @@ class StorageProductRelDetailDAO  {
         valueObj.orderProdId = params.orderProdId;
         valueObj.orderRefundId = params.orderRefundId;
         valueObj.orderRefundProdId = params.orderRefundProdId;
+        valueObj.prodUniqueArr = params.prodUniqueArr;
 
         if(params.storageType == sysConst.storageType.export){
             query = query + ' and storage_product_rel.storage_count - ${storageCount} >= 0 ';
@@ -253,7 +254,7 @@ class StorageProductRelDetailDAO  {
     static async addStorageProductRelDetailByPurchaseItem(params) {
         let query = 'INSERT INTO storage_product_rel_detail (op_user , storage_id , storage_area_id , ' +
             ' storage_product_rel_id , supplier_id , product_id , purchase_id , purchase_item_id , storage_type , ' +
-            ' storage_sub_type , storage_count , date_id , order_id ,prod_unique_arr , unique_flag ) ' +
+            ' storage_sub_type , storage_count , date_id , order_id , prod_unique_arr , unique_flag ) ' +
             ' ( select ${opUser} , ${storageId} , ${storageAreaId} , ${storageProductRelId} , pit.supplier_id , pit.product_id , pit.purchase_id, ' +
             ' pit.id , ${storageType} , ${storageSubType} , ' ;
         let valueObj = {};

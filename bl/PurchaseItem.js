@@ -102,6 +102,10 @@ const updateStorageStatus = async (req,res,next)=>{
 
         params.storageType = systemConst.storageType.import;
         params.storageSubType = systemConst.storageImportType.purchaseImport;
+        if(rowsRel.length < 1){
+            resUtil.resetFailedRes(res,{message:'商品未验收，无法入库！'});
+            return next();
+        }
         params.storageProductRelId = rowsRel[0].id;
         //创建 StorageProductRelDetail
         const rowsRelDetail = await storageProductRelDetailDAO.addStorageProductRelDetailByPurchaseItem(params);

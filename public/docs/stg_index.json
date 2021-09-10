@@ -11519,7 +11519,9 @@
         "orderId",
         "storageType",
         "storageSubType",
-        "oldFlag"
+        "oldFlag",
+        "prodUniqueArr",
+        "uniqueFlag"
       ],
       "properties": {
         "remark": {
@@ -11565,6 +11567,16 @@
           "format": "int64"
         },
         "oldFlag": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "prodUniqueArr": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "uniqueFlag": {
           "type": "integer",
           "format": "int64"
         }
@@ -11679,7 +11691,8 @@
         "storageSubType",
         "orderId",
         "orderProdId",
-        "applyUserId"
+        "applyUserId",
+        "prodUniqueArr"
       ],
       "properties": {
         "remark": {
@@ -11708,6 +11721,12 @@
         "applyUserId": {
           "type": "integer",
           "format": "int64"
+        },
+        "prodUniqueArr": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "xml": {
@@ -12335,8 +12354,7 @@
         "storageId",
         "storageAreaId",
         "storageCount",
-        "remark",
-        "prodUniqueArr"
+        "remark"
       ],
       "properties": {
         "storageId": {
@@ -12353,12 +12371,6 @@
         },
         "remark": {
           "type": "string"
-        },
-        "prodUniqueArr": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
         }
       },
       "xml": {
