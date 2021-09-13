@@ -183,7 +183,13 @@ const updateStorageMove = async (req,res,next)=>{
         params.storageSubType = sysConst.storageExportType.storageMoveExport;
         //创建 storage_product_detail 出库
         const rowsAddExportDetail = await storageProductRelDetailDAO.addStorageProductRelDetailByMove(params);
-
+        if(params.uniqueFlag == 1){
+            //存在 唯一码
+            //更新库存 商品唯一码
+            params.storageProductRelDetail = rowsAddExportDetail[0].id;
+            const rowsUniqueArr = await storageProductRelDAO.updateProdUniqueArr(params);
+            logger.info(' addRelDetailExport updateProdUniqueArr ' + 'success');
+        }
 
         //创建 storage_product_rel 入库
         const rowsAddRel = await storageProductRelDAO.addStorageProductRelByMove(params);

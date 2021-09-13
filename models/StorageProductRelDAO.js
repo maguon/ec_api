@@ -205,10 +205,11 @@ class StorageProductRelDAO  {
     static async addStorageProductRelByMove(params) {
         const query = 'INSERT INTO storage_product_rel ( op_user , remark , storage_id , storage_area_id , ' +
             ' supplier_id , product_id , product_name , purchase_id , purchase_item_id , unit_cost , storage_count , ' +
-            ' date_id , order_id , old_flag) ' +
+            ' date_id , order_id , old_flag , prod_unique_arr , unique_flag ) ' +
             ' ( SELECT ${opUser} , ${remark} , ${storageId} , ${storageAreaId} , ' +
             ' sprs.supplier_id , sprs.product_id , sprs.product_name , sprs.purchase_id , ' +
-            ' sprs.purchase_item_id , sprs.unit_cost , ${moveCount} , ${dateId} , sprs.order_id , sprs.old_flag' +
+            ' sprs.purchase_item_id , sprs.unit_cost , ${moveCount} , ${dateId} , sprs.order_id , sprs.old_flag , ' +
+            ' ${prodUniqueArr} , ${uniqueFlag} ' +
             ' FROM storage_product_rel sprs ' +
             ' WHERE sprs.id is not null and sprs.id = ${storageProductRelId}) RETURNING id ';
         let valueObj = {};
@@ -218,6 +219,8 @@ class StorageProductRelDAO  {
         valueObj.storageAreaId = params.moveStorageAreaId;
         valueObj.moveCount = params.moveCount;
         valueObj.dateId = params.dateId;
+        valueObj.prodUniqueArr = params.prodUniqueArr;
+        valueObj.uniqueFlag = params.uniqueFlag;
         valueObj.storageProductRelId = params.storageProductRelId;
         logger.debug(' addStorageProductRelByMove ');
         return await pgDb.any(query,valueObj);
@@ -287,7 +290,7 @@ class StorageProductRelDAO  {
         return await pgDb.any(query,valueObj);
     }
 
-    //更新 商品唯一码（订单出库）
+    //更新 商品唯一码（订单出库,移库）
     static async updateProdUniqueArr(params){
         const query = ' UPDATE storage_product_rel ' +
             ' SET op_user = ${opUser} , prod_unique_arr = new_arr.unique_arr ' +
@@ -309,6 +312,27 @@ class StorageProductRelDAO  {
         return await pgDb.any(query,valueObj);
     }
 
+    //更新 商品唯一码（移库）
+    static async updateProdUniqueArrByMove(params){
+        const query = ' UPDATE storage_product_rel ' +
+            ' SET op_user = ${opUser} , prod_unique_arr = new_arr.unique_arr ' +
+            ' from ( ' +
+            ' select array( ' +
+            ' select regexp_split_to_table(array_to_string(prod_unique_arr,\',\'),\',\') ' +
+            ' from storage_product_rel where id = ${storageProductRelId} ' +
+            ' except ' +
+            ' select regexp_split_to_table(array_to_string(prod_unique_arr,\',\'),\',\') ' +
+            ' from storage_product_rel_detail where id=${storageProductRelDetail}) as unique_arr ' +
+            ' )new_arr ' +
+            ' WHERE id = ${storageProductRelId} RETURNING id ';
+        let valueObj = {};
+        valueObj.opUser = params.opUser;
+        valueObj.storageProductRelId = params.storageProductRelId;
+        valueObj.storageProductRelDetail = params.storageProductRelDetail;
+        valueObj.storageProductRelId = params.storageProductRelId;
+        logger.debug(' updateProdUniqueArrByMove ');
+        return await pgDb.any(query,valueObj);
+    }
 
     static async queryStat(params) {
         let query = "select COALESCE(sum(unit_cost*storage_count),0) as total_cost, COALESCE(sum(storage_count),0) as storage_count" +
