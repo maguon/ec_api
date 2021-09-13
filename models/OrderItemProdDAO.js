@@ -14,7 +14,7 @@ class OrderItemProdDAO  {
             " left join user_info ui on ui.id = oip.op_user " +
             " left join order_info oi on oi.id = oip.order_id " +
             " left join storage_product_rel_detail sprd on sprd.order_prod_id = oip.id " +
-            " left join purchase_item pit on pit.purchase_id = sprd.purchase_id " +
+            " left join purchase_item pit on pit.id = sprd.purchase_item_id   " +
             " left join purchase_info pi on pi.id = sprd.purchase_id " +
             " where oip.id is not null ";
         let filterObj = {};
