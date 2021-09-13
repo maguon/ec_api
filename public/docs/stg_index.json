@@ -2976,6 +2976,13 @@
             "type": "string"
           },
           {
+            "name": "prodUniqueId",
+            "in": "query",
+            "description": "prodUniqueId",
+            "required": false,
+            "type": "string"
+          },
+          {
             "name": "status",
             "in": "query",
             "description": "status",
