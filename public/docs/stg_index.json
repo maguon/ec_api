@@ -11692,7 +11692,8 @@
         "orderId",
         "orderProdId",
         "applyUserId",
-        "prodUniqueArr"
+        "prodUniqueArr",
+        "uniqueFlag"
       ],
       "properties": {
         "remark": {
@@ -11727,6 +11728,10 @@
           "items": {
             "type": "string"
           }
+        },
+        "uniqueFlag": {
+          "type": "integer",
+          "format": "int64"
         }
       },
       "xml": {

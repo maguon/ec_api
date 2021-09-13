@@ -310,6 +310,12 @@ const addRelDetailExport = async (req,res,next)=>{
             params.storageCount = -params.storageCount;
             const rowsRel = await storageProductRelDAO.updateStorageCount(params);
             logger.info(' addRelDetailExport updateStorageCount ' + 'success');
+
+            //更新库存 商品唯一码
+            params.storageProductRelDetail = rows[0].id;
+            const rowsUniqueArr = await storageProductRelDAO.updateProdUniqueArr(params);
+            logger.info(' addRelDetailExport updateProdUniqueArr ' + 'success');
+
         }else{
             resUtil.resetFailedRes(res,{message:'创建失败！'});
             return next();

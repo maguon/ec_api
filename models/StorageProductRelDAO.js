@@ -287,6 +287,29 @@ class StorageProductRelDAO  {
         return await pgDb.any(query,valueObj);
     }
 
+    //更新 商品唯一码（订单出库）
+    static async updateProdUniqueArr(params){
+        const query = ' UPDATE storage_product_rel ' +
+            ' SET op_user = ${opUser} , prod_unique_arr = new_arr.unique_arr ' +
+            ' from ( ' +
+            ' select array( ' +
+            ' select regexp_split_to_table(array_to_string(prod_unique_arr,\',\'),\',\') ' +
+            ' from storage_product_rel where id = ${storageProductRelId} ' +
+            ' except ' +
+            ' select regexp_split_to_table(array_to_string(prod_unique_arr,\',\'),\',\') ' +
+            ' from storage_product_rel_detail where id=${storageProductRelDetail}) as unique_arr ' +
+            ' )new_arr ' +
+            ' WHERE id = ${storageProductRelId} RETURNING id ';
+        let valueObj = {};
+        valueObj.opUser = params.opUser;
+        valueObj.storageProductRelId = params.storageProductRelId;
+        valueObj.storageProductRelDetail = params.storageProductRelDetail;
+        valueObj.storageProductRelId = params.storageProductRelId;
+        logger.debug(' updateProdUniqueArr ');
+        return await pgDb.any(query,valueObj);
+    }
+
+
     static async queryStat(params) {
         let query = "select COALESCE(sum(unit_cost*storage_count),0) as total_cost, COALESCE(sum(storage_count),0) as storage_count" +
             " from storage_product_rel spr " +
