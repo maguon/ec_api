@@ -306,9 +306,6 @@ const addRelDetailExport = async (req,res,next)=>{
 
         params.orderRefundId = null;
         params.orderRefundProdId = null;
-        //add detail
-        const rows = await storageProductRelDetailDAO.addStorageProductRelDetail(params);
-        logger.info(' addRelDetailExport ' + 'success');
 
         //update rel
         const rowsUpdateRel = await storageProductRel.updateStorageProdRelCount(path.storageProductRelId,sysConst.storageType.export,
@@ -316,6 +313,10 @@ const addRelDetailExport = async (req,res,next)=>{
         logger.info(' addRelDetailExport updateStorageProdRelCount ' + 'success');
 
         if(rowsUpdateRel.success){
+            //add detail
+            const rows = await storageProductRelDetailDAO.addStorageProductRelDetail(params);
+            logger.info(' addRelDetailExport ' + 'success');
+
             resUtil.resetCreateRes(res,rows);
             return next();
         }else{
