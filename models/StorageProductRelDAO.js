@@ -191,7 +191,7 @@ class StorageProductRelDAO  {
             ' left join supplier_info si on si.id = pit.supplier_id ' +
             ' left join purchase_item_unique_rel piur on piur.purchase_item_id = pit.id ' +
             ' where pit.id is not null  and pit.id = ${purchaseItemId}  and pit.purchase_id = ${purchaseId}' +
-            ' and piur.status = 1 ' +
+            ' and ( piur.status=1 or piur.status is null ) ' +
             ' group by pit.id order by pit.id desc ) RETURNING id ';
 
         valueObj.dateId = params.dateId;
@@ -331,6 +331,28 @@ class StorageProductRelDAO  {
         valueObj.storageProductRelDetail = params.storageProductRelDetail;
         valueObj.storageProductRelId = params.storageProductRelId;
         logger.debug(' updateProdUniqueArrByMove ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    //更新 商品唯一码（入库）
+    static async updateProdUniqueArrByImport(params){
+        const query = ' UPDATE storage_product_rel ' +
+            ' SET op_user = ${opUser} , prod_unique_arr = new_arr.unique_arr ' +
+            ' from ( ' +
+            ' select array( ' +
+            ' select regexp_split_to_table(array_to_string(prod_unique_arr,\',\'),\',\') ' +
+            ' from storage_product_rel where id = ${storageProductRelId} ' +
+            ' except ' +
+            ' select regexp_split_to_table(array_to_string(prod_unique_arr,\',\'),\',\') ' +
+            ' from storage_product_rel_detail where id=${storageProductRelDetail}) as unique_arr ' +
+            ' )new_arr ' +
+            ' WHERE id = ${storageProductRelId} RETURNING id ';
+        let valueObj = {};
+        valueObj.opUser = params.opUser;
+        valueObj.storageProductRelId = params.storageProductRelId;
+        valueObj.storageProductRelDetail = params.storageProductRelDetail;
+        valueObj.storageProductRelId = params.storageProductRelId;
+        logger.debug(' updateProdUniqueArrByImport ');
         return await pgDb.any(query,valueObj);
     }
 

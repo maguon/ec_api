@@ -286,7 +286,7 @@ class StorageProductRelDetailDAO  {
             ' left join supplier_info si on si.id = pit.supplier_id ' +
             ' left join purchase_item_unique_rel piur on piur.purchase_item_id = pit.id ' +
             ' where pit.id is not null  and pit.id = ${purchaseItemId} and pit.purchase_id = ${purchaseId} ' +
-            ' and piur.status = 1 ' +
+            ' and ( piur.status=1 or piur.status is null ) ' +
             ' group by pit.id order by pit.id desc ' +
             ' ) RETURNING id ';
 
