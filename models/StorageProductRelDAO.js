@@ -4,7 +4,7 @@ const logger = serverLogger.createLogger('StorageProductRelDAO.js');
 
 class StorageProductRelDAO  {
     static async queryStorageProductRel(params) {
-        let query = "select spr.* , ui.real_name , si.storage_name , sai.storage_area_name , sui.supplier_name " +
+        let query = "select spr.* , array_remove(spr.prod_unique_arr,NULL) , ui.real_name , si.storage_name , sai.storage_area_name , sui.supplier_name " +
             " from storage_product_rel spr " +
             " left join user_info ui on ui.id = spr.op_user " +
             " left join storage_info si on si.id = spr.storage_id " +
@@ -185,7 +185,7 @@ class StorageProductRelDAO  {
             valueObj.storageCount = params.storageCount;
         }
 
-        query =  query + ' ${dateId} , pit.order_id , array_agg(piur.unique_id) , pit.unique_flag ' +
+        query =  query + ' ${dateId} , pit.order_id , array_remove(array_agg(piur.unique_id),NULL), pit.unique_flag ' +
             ' from purchase_item pit ' +
             ' left join user_info ui on ui.id = pit.op_user ' +
             ' left join supplier_info si on si.id = pit.supplier_id ' +
