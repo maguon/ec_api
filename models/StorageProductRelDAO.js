@@ -4,7 +4,7 @@ const logger = serverLogger.createLogger('StorageProductRelDAO.js');
 
 class StorageProductRelDAO  {
     static async queryStorageProductRel(params) {
-        let query = "select spr.* , array_remove(spr.prod_unique_arr,NULL) , ui.real_name , si.storage_name , sai.storage_area_name , sui.supplier_name " +
+        let query = "select spr.* , ui.real_name , si.storage_name , sai.storage_area_name , sui.supplier_name " +
             " from storage_product_rel spr " +
             " left join user_info ui on ui.id = spr.op_user " +
             " left join storage_info si on si.id = spr.storage_id " +
@@ -236,6 +236,35 @@ class StorageProductRelDAO  {
         logger.debug(' updateStorageProductRel ');
         return await pgDb.any(query,valueObj);
     }
+
+    //更新 库存数量 和 商品唯一码
+    static async updateStorageCountAndUniqueArr(params){
+        const query = 'update storage_product_rel set storage_count = ${storageCount} , prod_unique_arr = ${prodUniqueArr} ' +
+            ' where id =${storageProductRelId} RETURNING id ';
+        let valueObj = {};
+        valueObj.storageCount = params.storageCount;
+        valueObj.prodUniqueArr = params.prodUniqueArr;
+        valueObj.storageProductRelId =params.storageProductRelId;
+        logger.debug(' updateStorageCountAndUniqueArr ');
+        return await pgDb.any(query,valueObj);
+    }
+
+    //更新 库存数量
+    static async updateCount(params){
+        const query = 'update storage_product_rel set storage_count = ${storageCount} ' +
+            ' where id =${storageProductRelId} RETURNING id ';
+        let valueObj = {};
+        valueObj.storageCount = params.storageCount;
+        valueObj.prodUniqueArr = params.prodUniqueArr;
+        valueObj.storageProductRelId =params.storageProductRelId;
+        logger.debug(' updateCount ');
+        return await pgDb.any(query,valueObj);
+    }
+
+
+
+
+
 
     //更新库存数量 加减
     static async updateStorageCount(params){

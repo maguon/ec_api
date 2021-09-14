@@ -169,38 +169,38 @@ const updateStorageMove = async (req,res,next)=>{
     let today = new Date();
     let date = moment(today).format('YYYYMMDD');
     params.dateId = date;
+
     try{
+        //update storage_count and prodUniqueArr
+        const rowsReturn = await updateStorageProdRelCount(path.storageProductRelId,sysConst.storageType.export,
+            params.moveCount,(params.prodUniqueArr?params.prodUniqueArr:null));
+        logger.info(' updateStorageMove updateStorageProdRelCount ' + 'success');
 
-        //更新 storage_product_rel 原库存量
-        const rows = await storageProductRelDAO.updateStorageCountByMove(params);
-        logger.info(' updateStorageMove ' + 'success');
+        if( rowsReturn.success ){
+            //add detail info
+            params.storageType = sysConst.storageType.export;
+            params.storageSubType = sysConst.storageExportType.storageMoveExport;
+            const rowsAddExportDetail = await storageProductRelDetailDAO.addStorageProductRelDetailByMove(params);
+            logger.info(' updateStorageMove addStorageProductRelDetailByMove ' + 'success');
 
-        if(rows.length <=0){
+            //add rel info
+            const rowsAddRel = await storageProductRelDAO.addStorageProductRelByMove(params);
+            logger.info(' updateStorageMove addStorageProductRelByMove ' + 'success');
+
+            //add new detail info
+            params.storageType = sysConst.storageType.import;
+            params.storageSubType = sysConst.storageImportType.storageMoveImport;
+            params.storageProductRelId = rowsAddRel[0].id;
+            //创建 storage_product_detail 入库
+            const rowsAddImportDetail = await storageProductRelDetailDAO.addStorageProductRelDetailByMove(params);
+            logger.info(' updateStorageMove addStorageProductRelDetailByMove ' + 'success');
+
+        }else{
             resUtil.resetFailedRes(res,{message:'移库失败！'});
             return next();
         }
-        params.storageType = sysConst.storageType.export;
-        params.storageSubType = sysConst.storageExportType.storageMoveExport;
-        //创建 storage_product_detail 出库
-        const rowsAddExportDetail = await storageProductRelDetailDAO.addStorageProductRelDetailByMove(params);
-        if(params.uniqueFlag == 1){
-            //存在 唯一码
-            //更新库存 商品唯一码
-            params.storageProductRelDetail = rowsAddExportDetail[0].id;
-            const rowsUniqueArr = await storageProductRelDAO.updateProdUniqueArr(params);
-            logger.info(' addRelDetailExport updateProdUniqueArr ' + 'success');
-        }
 
-        //创建 storage_product_rel 入库
-        const rowsAddRel = await storageProductRelDAO.addStorageProductRelByMove(params);
-
-        params.storageType = sysConst.storageType.import;
-        params.storageSubType = sysConst.storageImportType.storageMoveImport;
-        params.storageProductRelId = rowsAddRel[0].id;
-        //创建 storage_product_detail 入库
-        const rowsAddDetail = await storageProductRelDetailDAO.addStorageProductRelDetailByMove(params);
-
-        resUtil.resetUpdateRes(res,rows);
+        resUtil.resetUpdateRes(res,{id:path.storageProductRelId});
         return next();
     }catch (e) {
         logger.error(" updateStorageMove error ",e.stack);
@@ -222,11 +222,100 @@ const queryStat = async (req,res,next)=>{
     }
 }
 
+//更新商品库存 和 商品唯一码
+const  updateStorageProdRelCount = async (storageProductRelId,addFlag,count,uniqueArray) =>{
+    try {
+        const originStorageProdRel = await storageProductRelDAO.queryStorageProductRel({storageProductRelId:storageProductRelId});
+        if(originStorageProdRel && originStorageProdRel.length==1){
+            let newCount ;
+            let newUniqueArray ;
+            if(originStorageProdRel[0].unique_flag ==1){
+                //有商品标记
+                if(sysConst.storageType.import == addFlag){
+                    //入库
+                    newCount = originStorageProdRel[0].storage_count + count;
+                    if(originStorageProdRel[0].prod_unique_arr == null || originStorageProdRel[0].prod_unique_arr ==[null]){
+                        newUniqueArray = uniqueArray;
+                    }else{
+                        newUniqueArray = originStorageProdRel[0].prod_unique_arr.concat(uniqueArray);
+                    }
+
+                }else{
+                    //出库
+                    newCount = originStorageProdRel[0].storage_count - count;
+                    if(newCount<0 || originStorageProdRel[0].prod_unique_arr == null ||originStorageProdRel[0].prod_unique_arr ==[null]
+                        ||originStorageProdRel[0].prod_unique_arr.length<uniqueArray.length){
+                        //无法更新 无法出库
+                        return {success:false};
+                    }else{
+                        //整理出库后的商品码
+                        newUniqueArray = originStorageProdRel[0].prod_unique_arr;
+                        for(let i=0;i<uniqueArray.length;i++){
+                            let removeFlag = false;
+                            for(let j=0;j<newUniqueArray.length;j++){
+                                if(newUniqueArray[j] == uniqueArray[i]){
+                                    //匹配到商品码，移除商品码
+                                    newUniqueArray.splice(j,1);
+                                    removeFlag = true;
+                                }
+                            }
+                            if(!removeFlag){
+                                //未找到匹配的商品码
+                                newCount += 1;
+                            }
+                        }
+                        // return true;
+                    }
+                }
+                //update count & unique array
+                const rowsUpdateUniqueArr = await storageProductRelDAO.updateStorageCountAndUniqueArr({
+                    storageCount:newCount,prodUniqueArr: newUniqueArray,storageProductRelId:storageProductRelId});
+                if(rowsUpdateUniqueArr.length>0){
+                    return {success:true,newUniqueArray};
+                }else{
+                    return {success:false};
+                }
+
+            }else{
+                // update count
+                if(sysConst.storageType.import == addFlag){
+                    //入库
+                    newCount = originStorageProdRel[0].storage_count + count;
+
+                }else{
+                    //出库
+                    newCount = originStorageProdRel[0].storage_count - count;
+                    if(newCount<0){
+                        //无法更新 无法出库
+                        return {success:false};
+                    }
+                }
+                const rowsUpdateCount = await storageProductRelDAO.updateCount({storageCount:newCount,storageProductRelId:storageProductRelId});
+                if(rowsUpdateCount.length>0){
+                    return {success:true,count};
+                }else{
+                    return {success:false};
+                }
+
+            }
+        }else{
+            //找不到库存记录
+            return {success:false};
+        }
+    }catch (e) {
+        logger.error(" addRelDetailImport error ",e.stack);
+        return {success:false};
+    }
+
+};
+
+
 module.exports = {
     queryStorageProductRel,
     queryStorageProductRelCsv,
     addStorageProductRel,
     updateStorageProductRel,
     updateStorageMove,
-    queryStat
+    queryStat,
+    updateStorageProdRelCount
 }
