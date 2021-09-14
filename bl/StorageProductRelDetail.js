@@ -1,4 +1,5 @@
 
+const storageProductRel = require('../bl/StorageProductRel');
 const storageProductRelDAO = require('../models/StorageProductRelDAO');
 const storageProductRelDetailDAO = require('../models/StorageProductRelDetailDAO');
 const orderItemProdDAO = require('../models/OrderItemProdDAO');
@@ -230,6 +231,7 @@ const addRelDetailImport = async (req,res,next)=>{
                 //返回原来仓位
                 const rowsRel = await storageProductRelDAO.updateStorageCount(params);
                 logger.info(' addRelDetailImport updateStorageCount ' + 'success');
+
             }else{
                 //与原仓位，商品旧货状态不同，创建新仓库信息
                 params.opUser = path.userId;
@@ -246,6 +248,7 @@ const addRelDetailImport = async (req,res,next)=>{
 
                 const rowsAddRel = await storageProductRelDAO.addStorageProductRel(params);
                 logger.info(' addRelDetailImport addStorageProductRel ' + 'success');
+
             }
 
         }else{
@@ -303,31 +306,29 @@ const addRelDetailExport = async (req,res,next)=>{
 
         params.orderRefundId = null;
         params.orderRefundProdId = null;
+        //add detail
         const rows = await storageProductRelDetailDAO.addStorageProductRelDetail(params);
         logger.info(' addRelDetailExport ' + 'success');
 
-        if(rows.length >= 1){
-            params.storageCount = -params.storageCount;
-            const rowsRel = await storageProductRelDAO.updateStorageCount(params);
-            logger.info(' addRelDetailExport updateStorageCount ' + 'success');
+        //update rel
+        const rowsUpdateRel = await storageProductRel.updateStorageProdRelCount(path.storageProductRelId,sysConst.storageType.export,
+            params.storageCount,(params.prodUniqueArr?params.prodUniqueArr:null));
+        logger.info(' addRelDetailExport updateStorageProdRelCount ' + 'success');
 
-            //更新库存 商品唯一码
-            params.storageProductRelDetail = rows[0].id;
-            const rowsUniqueArr = await storageProductRelDAO.updateProdUniqueArr(params);
-            logger.info(' addRelDetailExport updateProdUniqueArr ' + 'success');
-
+        if(rowsUpdateRel.success){
+            resUtil.resetCreateRes(res,rows);
+            return next();
         }else{
-            resUtil.resetFailedRes(res,{message:'创建失败！'});
+            resUtil.resetFailedRes(res,{message:'出库更新失败！'});
             return next();
         }
 
-        resUtil.resetCreateRes(res,rows);
-        return next();
     }catch (e) {
         logger.error(" addRelDetailExport error ",e.stack);
         resUtil.resInternalError(e,res,next);
     }
 }
+
 
 module.exports = {
     queryStorageProductRelDetail,
