@@ -216,48 +216,67 @@ const addRelDetailImport = async (req,res,next)=>{
             params.orderRefundProdId = null;
         }
         params.orderProdId = null;
-        const rows = await storageProductRelDetailDAO.addStorageProductRelDetail(params);
-        logger.info(' addRelDetailImport ' + 'success');
 
-        if(rows.length >= 1){
-            //查询storage_product_rel 原库是否存在旧货
-            if(params.oldFlag == undefined){
-                params.oldFlag = 0;
-            }
-            const rowsOld = await storageProductRelDAO.queryStorageProductRel({storageProductRelId:path.storageProductRelId});
-            logger.info(' addRelDetailImport queryStorageProductRel ' + 'success');
 
-            if(rowsOld[0].old_flag == params.oldFlag){
-                //返回原来仓位
-                const rowsRel = await storageProductRelDAO.updateStorageCount(params);
-                logger.info(' addRelDetailImport updateStorageCount ' + 'success');
+        //查询storage_product_rel 原库是否存在旧货
+        if(params.oldFlag == undefined){
+            params.oldFlag = 0;
+        }
+        //query rel
+        const rowsOld = await storageProductRelDAO.queryStorageProductRel({storageProductRelId:path.storageProductRelId});
+        logger.info(' addRelDetailImport queryStorageProductRel ' + 'success');
 
+        if(rowsOld[0].old_flag == params.oldFlag){
+            //返回原来仓位
+            //update storage_count and prodUniqueArr
+            const rowsUpdateRel = await storageProductRel.updateStorageProdRelCount(path.storageProductRelId,sysConst.storageType.import,
+                params.storageCount,(params.prodUniqueArr?params.prodUniqueArr:null));
+            logger.info(' addRelDetailImport updateStorageProdRelCount ' + 'success');
+
+            if(rowsUpdateRel.success){
+                //add detail
+                const rows = await storageProductRelDetailDAO.addStorageProductRelDetail(params);
+                logger.info(' addRelDetailImport addStorageProductRelDetail ' + 'success');
+
+                resUtil.resetCreateRes(res,rows);
+                return next();
             }else{
-                //与原仓位，商品旧货状态不同，创建新仓库信息
-                params.opUser = path.userId;
-                params.remark = params.remark;
-                params.storageId = rowsOld[0].storage_id;
-                params.storageAreaId = rowsOld[0].storage_area_id;
-                params.supplierId = rowsOld[0].supplier_id;
-                params.productId = rowsOld[0].product_id;
-                params.productName = rowsOld[0].product_name;
-                params.purchaseId = rowsOld[0].purchase_id;
-                params.purchaseItemId = rowsOld[0].purchase_item_id;
-                params.unitCost = rowsOld[0].unit_cost;
-                params.orderId = rowsOld[0].order_id;
-
-                const rowsAddRel = await storageProductRelDAO.addStorageProductRel(params);
-                logger.info(' addRelDetailImport addStorageProductRel ' + 'success');
-
+                resUtil.resetFailedRes(res,{message:'入库更新失败！'});
+                return next();
             }
 
         }else{
-            resUtil.resetFailedRes(res,{message:'创建失败！'});
-            return next();
+            //与原仓位，商品旧货状态不同，创建新仓库信息
+            params.opUser = path.userId;
+            params.remark = params.remark;
+            params.storageId = rowsOld[0].storage_id;
+            params.storageAreaId = rowsOld[0].storage_area_id;
+            params.supplierId = rowsOld[0].supplier_id;
+            params.productId = rowsOld[0].product_id;
+            params.productName = rowsOld[0].product_name;
+            params.purchaseId = rowsOld[0].purchase_id;
+            params.purchaseItemId = rowsOld[0].purchase_item_id;
+            params.unitCost = rowsOld[0].unit_cost;
+            params.orderId = rowsOld[0].order_id;
+            params.prodUniqueArr = (params.prodUniqueArr?params.prodUniqueArr:null);
+
+            //add rel info
+            const rowsAddRel = await storageProductRelDAO.addStorageProductRel(params);
+            logger.info(' addRelDetailImport addStorageProductRel ' + 'success');
+
+            if(rowsAddRel.length>0){
+                //add detail
+                const rows = await storageProductRelDetailDAO.addStorageProductRelDetail(params);
+                logger.info(' addRelDetailImport addStorageProductRelDetail ' + 'success');
+
+                resUtil.resetCreateRes(res,rows);
+                return next();
+            }else{
+                resUtil.resetFailedRes(res,{message:'入库更新失败！'});
+                return next();
+            }
         }
 
-        resUtil.resetCreateRes(res,rows);
-        return next();
     }catch (e) {
         logger.error(" addRelDetailImport error ",e.stack);
         resUtil.resInternalError(e,res,next);
