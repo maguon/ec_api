@@ -247,10 +247,6 @@ class StorageProductRelDetailDAO  {
         valueObj.orderRefundId = params.orderRefundId;
         valueObj.orderRefundProdId = params.orderRefundProdId;
         valueObj.prodUniqueArr = params.prodUniqueArr;
-
-        if(params.storageType == sysConst.storageType.export){
-            query = query + ' and storage_product_rel.storage_count - ${storageCount} >= 0 ';
-        }
         query = query +') RETURNING id ';
         valueObj.storageProductRelId = params.storageProductRelId;
         valueObj.storageCount = params.storageCount;
