@@ -685,6 +685,9 @@ CREATE TABLE IF NOT EXISTS public.storage_check_rel(
     "storage_id" smallint  NOT NULL DEFAULT 0,
     "storage_area_id" smallint  NOT NULL DEFAULT 0,
     "product_id" smallint  NOT NULL DEFAULT 0,
+    "check_unique_arr" character varying(40) ARRAY[],
+    "prod_unique_arr" character varying(40) ARRAY[],
+    "unique_flag" smallint  NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 

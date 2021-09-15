@@ -11782,7 +11782,9 @@
         "categoryId",
         "categorySubId",
         "brandId",
-        "brandModelId"
+        "brandModelId",
+        "prodUniqueArr",
+        "uniqueFlag"
       ],
       "properties": {
         "remark": {
@@ -11824,6 +11826,16 @@
           "format": "int64"
         },
         "brandModelId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "prodUniqueArr": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "uniqueFlag": {
           "type": "integer",
           "format": "int64"
         }

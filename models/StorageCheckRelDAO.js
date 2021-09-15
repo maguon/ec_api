@@ -141,9 +141,10 @@ class StorageCheckRelDAO  {
     static async addStorageCheckRelByProductRel(params) {
         let query = 'INSERT INTO storage_check_rel (op_user , ' +
             ' storage_check_id , date_id , storage_count , check_count , storage_product_rel_id ,' +
-            ' storage_id , storage_area_id , product_id , old_flag ) ' +
+            ' storage_id , storage_area_id , product_id , old_flag , prod_unique_arr , unique_flag ) ' +
             ' (select ${opUser} , ${storageCheckId} , ${dateId} , spr.storage_count , 0 , spr.id , ' +
-            ' spr.storage_id , spr.storage_area_id , spr.product_id , spr.old_flag' +
+            ' spr.storage_id , spr.storage_area_id , spr.product_id , spr.old_flag , ' +
+            ' spr.prod_unique_arr , spr.unique_flag ' +
             ' from storage_product_rel spr ' +
             ' left join product_info pi on pi.id = spr.product_id ' +
             ' where spr.id is not null ';
