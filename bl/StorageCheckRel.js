@@ -125,6 +125,9 @@ const addStorageCheckRel = async (req,res,next)=>{
         params.purchaseItemId = 0;
         params.storageCount = 0;
         params.orderId = 0;
+        if(params.uniqueFlag == 0){
+            params.prodUniqueArr = null;
+        }
         //创建 storage_product_rel
         const rowsProductRel = await storageProductRelDAO.addStorageProductRel(params);
         logger.info(' addStorageCheckRel addStorageProductRel ' + 'success');

@@ -11782,9 +11782,7 @@
         "categoryId",
         "categorySubId",
         "brandId",
-        "brandModelId",
-        "prodUniqueArr",
-        "uniqueFlag"
+        "brandModelId"
       ],
       "properties": {
         "remark": {
@@ -11828,16 +11826,6 @@
         "brandModelId": {
           "type": "integer",
           "format": "int64"
-        },
-        "prodUniqueArr": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "uniqueFlag": {
-          "type": "integer",
-          "format": "int64"
         }
       },
       "xml": {
@@ -11871,7 +11859,9 @@
         "productId",
         "productName",
         "unitCost",
-        "oldFlag"
+        "oldFlag",
+        "prodUniqueArr",
+        "uniqueFlag"
       ],
       "properties": {
         "remark": {
@@ -11913,6 +11903,16 @@
           "format": "int64"
         },
         "oldFlag": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "prodUniqueArr": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "uniqueFlag": {
           "type": "integer",
           "format": "int64"
         }
