@@ -6320,7 +6320,7 @@
             "description": "storageInfo object that needs to be added to the store",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Remark"
+              "$ref": "#/definitions/PurchaseRefundStorage"
             }
           }
         ],
@@ -12552,6 +12552,32 @@
       },
       "xml": {
         "name": "PurchaseRefundPut"
+      }
+    },
+    "PurchaseRefundStorage": {
+      "type": "object",
+      "required": [
+        "remark",
+        "prodUniqueArr",
+        "uniqueFlag"
+      ],
+      "properties": {
+        "remark": {
+          "type": "string"
+        },
+        "prodUniqueArr": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "uniqueFlag": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "PurchaseRefundStorage"
       }
     },
     "Client": {
