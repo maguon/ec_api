@@ -280,7 +280,7 @@ class StorageProductRelDAO  {
 
     //更新库存数量 根据盘点数量
     static async updateStorageCountByStorageCheckId(params){
-        const query = ' update storage_product_rel set storage_count = check_count ' +
+        const query = ' update storage_product_rel set storage_count = check_count , prod_unique_arr = check_unique_arr ' +
             ' from storage_product_rel spr ' +
             ' left join storage_check_rel scr on scr.storage_product_rel_id = spr.id ' +
             ' where (scr.storage_count - scr.check_count)<>0 and scr.storage_check_id = ${storageCheckId}' +

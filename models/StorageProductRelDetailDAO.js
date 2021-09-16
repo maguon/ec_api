@@ -346,12 +346,13 @@ class StorageProductRelDetailDAO  {
     static async addStorageProductRelDetailByCheck(params) {
         const query = 'INSERT INTO storage_product_rel_detail (op_user , storage_id , storage_area_id , ' +
             ' storage_product_rel_id , supplier_id , product_id , purchase_id , purchase_item_id , storage_type , ' +
-            ' storage_sub_type , storage_count , date_id , order_id ) ' +
+            ' storage_sub_type , storage_count , date_id , order_id , prod_unique_arr , unique_flag ) ' +
             ' ( select scr.op_user , scr.storage_id , scr.storage_area_id , ' +
             ' scr.storage_product_rel_id , spr.supplier_id , spr.product_id , spr.purchase_id , spr.purchase_item_id , ' +
             ' (case when  (scr.storage_count - scr.check_count)>0 then 2 else 1 end ) as storage_type , ' +
             ' (case when  (scr.storage_count - scr.check_count)>0 then 23 else 13 end ) as storage_sub_type , ' +
-            ' abs(scr.storage_count - scr.check_count) as storage_count , ${dateId} , spr.order_id ' +
+            ' abs(scr.storage_count - scr.check_count) as storage_count , ${dateId} , ' +
+            ' spr.order_id , scr.check_unique_arr , scr.unique_flag ' +
             ' from storage_check_rel scr ' +
             ' left join storage_product_rel spr on spr.id = scr.storage_product_rel_id ' +
             ' where (scr.storage_count - scr.check_count)<>0 and scr.storage_check_id = ${storageCheckId} ) RETURNING id ';
