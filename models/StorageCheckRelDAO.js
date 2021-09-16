@@ -190,7 +190,7 @@ class StorageCheckRelDAO  {
 
     static async updateStorageCheckRel(params){
         const query = 'update storage_check_rel set op_user=${opUser} , remark=${remark} , ' +
-            ' check_count=${checkCount} , status = ${status} , date_id = ${dateId} , ' +
+            ' check_count=${checkCount} , check_unique_arr = ${checkUniqueArr} , status = ${status} , date_id = ${dateId} , ' +
             ' check_status = (' +
             ' select (case when scr.storage_count=${checkCount} then 1 else 2 end ) as check_status ' +
             ' from storage_check_rel scr ' +
@@ -203,8 +203,9 @@ class StorageCheckRelDAO  {
         valueObj.status = 2;
         valueObj.dateId = params.dateId;
         valueObj.checkCount = params.checkCount;
-        valueObj.storageCheckRelId =params.storageCheckRelId;
-        valueObj.storageCheckRelId =params.storageCheckRelId;
+        valueObj.checkUniqueArr = params.checkUniqueArr;
+        valueObj.storageCheckRelId = params.storageCheckRelId;
+        valueObj.storageCheckRelId = params.storageCheckRelId;
         logger.debug(' updateStorageCheckRel ');
         return await pgDb.any(query,valueObj);
     }

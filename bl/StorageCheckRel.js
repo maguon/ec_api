@@ -169,6 +169,10 @@ const updateStorageCheckRel = async (req,res,next)=>{
         let date = moment(today).format('YYYYMMDD');
         params.dateId = date;
 
+        if(params.uniqueFlag == 0){
+            params.checkUniqueArr = null;
+        }
+
         const rows = await storageCheckRelDAO.updateStorageCheckRel(params);
         logger.info(' updateStorageCheckRel ' + 'success');
 

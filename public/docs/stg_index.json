@@ -11925,13 +11925,26 @@
       "type": "object",
       "required": [
         "remark",
-        "checkCount"
+        "checkCount",
+        "checkUniqueArr",
+        "prodUniqueArr",
+        "uniqueFlag"
       ],
       "properties": {
         "remark": {
           "type": "string"
         },
         "checkCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "checkUniqueArr": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "uniqueFlag": {
           "type": "integer",
           "format": "int64"
         }
