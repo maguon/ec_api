@@ -261,23 +261,6 @@ class StorageProductRelDAO  {
         return await pgDb.any(query,valueObj);
     }
 
-
-
-
-
-
-    //更新库存数量 加减
-    static async updateStorageCount(params){
-        const query = 'update storage_product_rel set op_user=${opUser} , storage_count = storage_count + ${storageCount}  ' +
-            ' where id =${storageProductRelId} RETURNING id ';
-        let valueObj = {};
-        valueObj.opUser = params.opUser;
-        valueObj.storageCount = params.storageCount;
-        valueObj.storageProductRelId =params.storageProductRelId;
-        logger.debug(' updateStorageProductRel ');
-        return await pgDb.any(query,valueObj);
-    }
-
     //更新库存数量 根据盘点数量
     static async updateStorageCountByStorageCheckId(params){
         const query = ' update storage_product_rel set storage_count = check_count , prod_unique_arr = check_unique_arr ' +
@@ -288,100 +271,6 @@ class StorageProductRelDAO  {
         let valueObj = {};
         valueObj.storageCheckId =params.storageCheckId;
         logger.debug(' updateStorageCountByStorageCheckId ');
-        return await pgDb.any(query,valueObj);
-    }
-
-    //判断 退货数量 是否可以退货
-    static async updateStorageCountByRefund(params){
-        const query = 'update storage_product_rel ' +
-            ' set storage_count =  storage_count - ${refundCount} ' +
-            ' where id = ${storageProductRelId} and (storage_count - ${refundCount}) >=0 RETURNING id ';
-
-        let valueObj = {};
-        valueObj.refundCount = params.refundCount;
-        valueObj.storageProductRelId = params.storageProductRelId;
-        valueObj.refundCount = params.refundCount;
-        logger.debug(' updateStorageCountByRefund ');
-        return await pgDb.any(query,valueObj);
-    }
-
-    //判断 移库数量 是否可以移库
-    static async updateStorageCountByMove(params){
-        const query = 'update storage_product_rel ' +
-            ' set storage_count =  storage_count - ${moveCount} ' +
-            ' where id = ${storageProductRelId} and (storage_count - ${moveCount}) >=0 RETURNING id ';
-
-        let valueObj = {};
-        valueObj.moveCount = params.moveCount;
-        valueObj.storageProductRelId = params.storageProductRelId;
-        valueObj.refundCount = params.refundCount;
-        logger.debug(' updateStorageCountByRefund ');
-        return await pgDb.any(query,valueObj);
-    }
-
-    //更新 商品唯一码（订单出库,移库）
-    static async updateProdUniqueArr(params){
-        const query = ' UPDATE storage_product_rel ' +
-            ' SET op_user = ${opUser} , prod_unique_arr = new_arr.unique_arr ' +
-            ' from ( ' +
-            ' select array( ' +
-            ' select regexp_split_to_table(array_to_string(prod_unique_arr,\',\'),\',\') ' +
-            ' from storage_product_rel where id = ${storageProductRelId} ' +
-            ' except ' +
-            ' select regexp_split_to_table(array_to_string(prod_unique_arr,\',\'),\',\') ' +
-            ' from storage_product_rel_detail where id=${storageProductRelDetail}) as unique_arr ' +
-            ' )new_arr ' +
-            ' WHERE id = ${storageProductRelId} RETURNING id ';
-        let valueObj = {};
-        valueObj.opUser = params.opUser;
-        valueObj.storageProductRelId = params.storageProductRelId;
-        valueObj.storageProductRelDetail = params.storageProductRelDetail;
-        valueObj.storageProductRelId = params.storageProductRelId;
-        logger.debug(' updateProdUniqueArr ');
-        return await pgDb.any(query,valueObj);
-    }
-
-    //更新 商品唯一码（移库）
-    static async updateProdUniqueArrByMove(params){
-        const query = ' UPDATE storage_product_rel ' +
-            ' SET op_user = ${opUser} , prod_unique_arr = new_arr.unique_arr ' +
-            ' from ( ' +
-            ' select array( ' +
-            ' select regexp_split_to_table(array_to_string(prod_unique_arr,\',\'),\',\') ' +
-            ' from storage_product_rel where id = ${storageProductRelId} ' +
-            ' except ' +
-            ' select regexp_split_to_table(array_to_string(prod_unique_arr,\',\'),\',\') ' +
-            ' from storage_product_rel_detail where id=${storageProductRelDetail}) as unique_arr ' +
-            ' )new_arr ' +
-            ' WHERE id = ${storageProductRelId} RETURNING id ';
-        let valueObj = {};
-        valueObj.opUser = params.opUser;
-        valueObj.storageProductRelId = params.storageProductRelId;
-        valueObj.storageProductRelDetail = params.storageProductRelDetail;
-        valueObj.storageProductRelId = params.storageProductRelId;
-        logger.debug(' updateProdUniqueArrByMove ');
-        return await pgDb.any(query,valueObj);
-    }
-
-    //更新 商品唯一码（入库）
-    static async updateProdUniqueArrByImport(params){
-        const query = ' UPDATE storage_product_rel ' +
-            ' SET op_user = ${opUser} , prod_unique_arr = new_arr.unique_arr ' +
-            ' from ( ' +
-            ' select array( ' +
-            ' select regexp_split_to_table(array_to_string(prod_unique_arr,\',\'),\',\') ' +
-            ' from storage_product_rel where id = ${storageProductRelId} ' +
-            ' except ' +
-            ' select regexp_split_to_table(array_to_string(prod_unique_arr,\',\'),\',\') ' +
-            ' from storage_product_rel_detail where id=${storageProductRelDetail}) as unique_arr ' +
-            ' )new_arr ' +
-            ' WHERE id = ${storageProductRelId} RETURNING id ';
-        let valueObj = {};
-        valueObj.opUser = params.opUser;
-        valueObj.storageProductRelId = params.storageProductRelId;
-        valueObj.storageProductRelDetail = params.storageProductRelDetail;
-        valueObj.storageProductRelId = params.storageProductRelId;
-        logger.debug(' updateProdUniqueArrByImport ');
         return await pgDb.any(query,valueObj);
     }
 

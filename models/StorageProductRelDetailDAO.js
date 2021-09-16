@@ -293,31 +293,6 @@ class StorageProductRelDetailDAO  {
         return await pgDb.any(query,valueObj);
     }
 
-    // 根据 storage_product_rel 查询结果，创建信息 (退货)
-    static async addStorageProductRelDetailByRefund(params) {
-        const query = 'INSERT INTO storage_product_rel_detail (op_user , remark , storage_id , storage_area_id , ' +
-            ' storage_product_rel_id , supplier_id , product_id , purchase_id , purchase_item_id , storage_type , ' +
-            ' storage_sub_type , storage_count , date_id , order_id ) ' +
-            ' ( select ${opUser} , ${remark} , spr.storage_id , spr.storage_area_id , spr.id , ${supplierId} , ${productId} , ${purchaseId}, ' +
-            ' ${purchaseItemId} , ${storageType} , ${storageSubType} , ${refundCount} , ${dateId} , spr.order_id ' +
-            ' from storage_product_rel spr ' +
-            ' where spr.id is not null  and spr.id = ${storageProductRelId} order by spr.id desc ) RETURNING id ';
-        let valueObj = {};
-        valueObj.opUser = params.opUser;
-        valueObj.remark = params.remark;
-        valueObj.supplierId = params.supplierId;
-        valueObj.productId = params.productId;
-        valueObj.purchaseId = params.purchaseId;
-        valueObj.purchaseItemId = params.purchaseItemId;
-        valueObj.storageType = params.storageType;
-        valueObj.storageSubType = params.storageSubType;
-        valueObj.refundCount = params.refundCount;
-        valueObj.dateId = params.dateId;
-        valueObj.storageProductRelId = params.storageProductRelId;
-        logger.debug(' addStorageProductRelDetailByRefund ');
-        return await pgDb.any(query,valueObj);
-    }
-
     // 根据 storage_product_rel 查询结果，创建信息 (移库)
     static async addStorageProductRelDetailByMove(params) {
         const query = 'INSERT INTO storage_product_rel_detail (op_user , remark , storage_id , storage_area_id , ' +
