@@ -1057,3 +1057,20 @@ LANGUAGE  plpgsql;
 CREATE TRIGGER storage_product_rel_status_put BEFORE UPDATE ON storage_product_rel FOR EACH ROW
 WHEN(NEW.storage_count = 0)
 EXECUTE PROCEDURE update_storage_pord_rel_status_func();
+
+-- CREATE FUNCTION UPDATE_PURCHASE_ITEM_UNIQUE_FLAG_FUNC
+CREATE OR REPLACE FUNCTION update_purchase_item_unique_flag_func() RETURNS TRIGGER AS
+$$
+BEGIN
+	UPDATE purchase_item SET unique_flag = (
+		SELECT (CASE WHEN COUNT(*)>=1 THEN 1 ELSE 0 END )
+		FROM purchase_item_unique_rel piur
+		where purchase_id = OLD.purchase_id
+	);
+	RETURN NEW;
+END;
+$$
+LANGUAGE  plpgsql;
+
+CREATE TRIGGER purchase_item_unique_flag_del AFTER DELETE ON purchase_item_unique_rel FOR EACH ROW
+EXECUTE PROCEDURE update_purchase_item_unique_flag_func();
