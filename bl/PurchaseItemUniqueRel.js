@@ -106,16 +106,6 @@ const deleteUniqueRel = async (req,res,next)=>{
             resUtil.resetFailedRes(res,{message:'删除失败！'});
             return next();
         }
-        //判断如果删除为空，修改商品标记字段
-        const rowsUniqueArr = await purchaseItemUniqueRelDAO.queryUniqueRel(
-            {purchaseItemId:params.purchaseItemId,productId:params.productId});
-
-        if(rowsUniqueArr.length<=0){
-            params.uniqueFlag = 0;
-            const rowsItem = await purchaseItemDAO.updateUniqueFlag(params);
-            logger.info(' UniqueRel updateUniqueFlag ' + 'success');
-
-        }
 
         resUtil.resetUpdateRes(res,rows);
         return next();
