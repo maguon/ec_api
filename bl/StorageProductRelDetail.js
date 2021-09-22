@@ -30,7 +30,7 @@ const queryStorageProductRelDetailCsv = async (req,res,next)=>{
 
         let csvString = "";
         const header = "仓库" + ',' + "仓库分区" + ',' + "供应商"+ ',' + "采购单号"  + ',' + "商品"+ ',' + "数量" + ',' +
-            "操作" + ',' + "操作原因" + ',' + "操作员" + ',' + "操作日期" ;
+            "操作" + ',' + "操作原因" + ',' + "操作员" + ',' + "操作日期" + ',' + "是否编码" + ',' + "编码";
         csvString = header + '\r\n' + csvString;
         let parkObj = {};
 
@@ -112,9 +112,23 @@ const queryStorageProductRelDetailCsv = async (req,res,next)=>{
                 parkObj.createdOn =  moment(rows[i].created_on).format(' YYYY-MM-DD HH:mm:ss');
             }
 
+            //是否编码
+            if (rows[i].unique_flag == 1) {
+                parkObj.uniqueFlag = '是';
+            } else {
+                parkObj.uniqueFlag = '否';
+            }
+
+            //编码
+            if (rows[i].prod_unique_arr == null) {
+                parkObj.prodUniqueId = '';
+            } else {
+                parkObj.prodUniqueId = rows[i].prod_unique_arr.join().replace(/,/g,"|");
+            }
+
             csvString = csvString + parkObj.storageName + "," + parkObj.storageAreaName + "," + parkObj.supplierName + "," +
                 parkObj.purchaseId + "," + parkObj.productName + "," + parkObj.storageCount + "," + parkObj.storageType + "," +parkObj.storageSubType + "," +
-                parkObj.realName + "," + parkObj.createdOn + '\r\n';
+                parkObj.realName + "," + parkObj.createdOn + "," + parkObj.uniqueFlag + "," + parkObj.prodUniqueId +  '\r\n';
 
         }
 
