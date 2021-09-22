@@ -1041,3 +1041,19 @@ create trigger purchase_item_unique_rel_upt before update on purchase_item_uniqu
 select setval(' purchase_item_unique_rel_id_seq',10000,false);
 
 CREATE UNIQUE INDEX uk_prod_unique_purchase ON purchase_item_unique_rel(purchase_item_id, unique_id);
+
+-- CREATE FUNCTION UPDATE_STORAGE_PROD_REL_STATUS_FUNC
+CREATE OR REPLACE FUNCTION update_storage_pord_rel_status_func() RETURNS TRIGGER AS
+$$
+BEGIN
+	IF (NEW.storage_count = 0) THEN
+  		NEW.status = 0;
+  	END IF;
+	RETURN NEW;
+END;
+$$
+LANGUAGE  plpgsql;
+
+CREATE TRIGGER storage_product_rel_status_put BEFORE UPDATE ON storage_product_rel FOR EACH ROW
+WHEN(NEW.storage_count = 0)
+EXECUTE PROCEDURE update_storage_pord_rel_status_func();
