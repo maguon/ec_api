@@ -49,6 +49,7 @@ const addUniqueRel = async (req,res,next)=>{
             }
 
             //如果成功更新 product_item unique_flage
+            params.uniqueFlag = 1;
             const rowsItem = await purchaseItemDAO.updateUniqueFlag(uniqueObj);
             logger.info(' UniqueRel updateUniqueFlag ' + 'success');
         }
@@ -86,6 +87,9 @@ const updateStatus = async (req,res,next)=>{
 const deleteUniqueRel = async (req,res,next)=>{
     let params = req.query;
     let path = req.params;
+    if(path.userId){
+        params.opUser = path.userId;
+    }
     if(path.purchaseItemUniqueRelId ){
         params.uniqueRelId = path.purchaseItemUniqueRelId ;
     }
@@ -102,6 +106,17 @@ const deleteUniqueRel = async (req,res,next)=>{
             resUtil.resetFailedRes(res,{message:'删除失败！'});
             return next();
         }
+        //判断如果删除为空，修改商品标记字段
+        const rowsUniqueArr = await purchaseItemUniqueRelDAO.queryUniqueRel(
+            {purchaseItemId:params.purchaseItemId,productId:params.productId});
+
+        if(rowsUniqueArr.length<=0){
+            params.uniqueFlag = 0;
+            const rowsItem = await purchaseItemDAO.updateUniqueFlag(params);
+            logger.info(' UniqueRel updateUniqueFlag ' + 'success');
+
+        }
+
         resUtil.resetUpdateRes(res,rows);
         return next();
     }catch (e) {

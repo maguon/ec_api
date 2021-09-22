@@ -226,9 +226,10 @@ class PurchaseItemDAO  {
     }
 
     static async updateUniqueFlag(params){
-        const query = 'update purchase_item set unique_flag = 1 , op_user=${opUser} ' +
+        const query = 'update purchase_item set unique_flag = ${uniqueFlag} , op_user=${opUser} ' +
             ' where id=${purchaseItemId} RETURNING id ';
         let valueObj = {};
+        valueObj.uniqueFlag = params.uniqueFlag;
         valueObj.opUser = params.opUser;
         valueObj.purchaseItemId = params.purchaseItemId;
         logger.debug(' updateUniqueFlag ');
