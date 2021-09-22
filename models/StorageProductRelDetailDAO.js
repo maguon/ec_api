@@ -99,6 +99,10 @@ class StorageProductRelDetailDAO  {
             query += " and  ${prodUniqueId} = ANY(sprd.prod_unique_arr) ";
             filterObj.prodUniqueId = params.prodUniqueId;
         }
+        if(params.uniqueFlag){
+            query += " and sprd.unique_flag = ${uniqueFlag} ";
+            filterObj.uniqueFlag = params.uniqueFlag;
+        }
         query = query + '  order by sprd.id desc ';
         if(params.start){
             query += " offset ${start} ";
@@ -202,6 +206,10 @@ class StorageProductRelDetailDAO  {
         if(params.prodUniqueId){
             query += " and  ${prodUniqueId} = ANY(sprd.prod_unique_arr) ";
             filterObj.prodUniqueId = params.prodUniqueId;
+        }
+        if(params.uniqueFlag){
+            query += " and sprd.unique_flag = ${uniqueFlag} ";
+            filterObj.uniqueFlag = params.uniqueFlag;
         }
         if(params.oldFlag){
             query += " and sprd.old_flag = ${oldFlag} ";

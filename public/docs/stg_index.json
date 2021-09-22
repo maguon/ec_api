@@ -2983,6 +2983,13 @@
             "type": "string"
           },
           {
+            "name": "uniqueFlag",
+            "in": "query",
+            "description": "uniqueFlag",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "status",
             "in": "query",
             "description": "status",
