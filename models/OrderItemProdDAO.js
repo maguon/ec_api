@@ -26,6 +26,10 @@ class OrderItemProdDAO  {
             query += " and oip.status = ${status} ";
             filterObj.status = params.status;
         }
+        if(params.orderStatus){
+            query += " and oi.status = ${orderStatus} ";
+            filterObj.orderStatus = params.orderStatus;
+        }
         if(params.saleUserId){
             query += " and oip.sale_user_id = ${saleUserId} ";
             filterObj.saleUserId = params.saleUserId;
@@ -95,6 +99,10 @@ class OrderItemProdDAO  {
         if(params.status){
             query += " and oip.status = ${status} ";
             filterObj.status = params.status;
+        }
+        if(params.orderStatus){
+            query += " and oi.status = ${orderStatus} ";
+            filterObj.orderStatus = params.orderStatus;
         }
         if(params.saleUserId){
             query += " and oip.sale_user_id = ${saleUserId} ";

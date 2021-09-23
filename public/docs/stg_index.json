@@ -8140,6 +8140,13 @@
             "type": "integer"
           },
           {
+            "name": "orderStatus",
+            "in": "query",
+            "description": "orderStatus",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "saleUserId",
             "in": "query",
             "description": "saleUserId",
