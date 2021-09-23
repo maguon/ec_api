@@ -8236,6 +8236,135 @@
         }
       }
     },
+    "/user/{userId}/orderItemProd.csv": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Select orderItemProd.csv Info",
+        "description": "Get orderItemProd.csv info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderItemProdId",
+            "in": "query",
+            "description": "orderItemProdId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderStatus",
+            "in": "query",
+            "description": "orderStatus",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "saleUserId",
+            "in": "query",
+            "description": "saleUserId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "query",
+            "description": "orderId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "clientId",
+            "in": "query",
+            "description": "clientId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "clientAgentId",
+            "in": "query",
+            "description": "clientAgentId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderItemType",
+            "in": "query",
+            "description": "orderItemType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "prodId",
+            "in": "query",
+            "description": "prodId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "purchaseId",
+            "in": "query",
+            "description": "purchaseId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "supplierId",
+            "in": "query",
+            "description": "supplierId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateStart",
+            "in": "query",
+            "description": "dateStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateEnd",
+            "in": "query",
+            "description": "dateEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
     "/user/{userId}/orderItemProdStorage": {
       "get": {
         "tags": [

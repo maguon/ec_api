@@ -302,6 +302,7 @@ const createServer=()=>{
     server.put({path:'/api/user/:userId/order/:orderId/status',contentType: 'application/json'} ,order.updateStatus);
 
     server.get('/api/user/:userId/orderItemProd', orderItemProd.queryItemProd);
+    server.get('/api/user/:userId/orderItemProd.csv', orderItemProd.queryItemProdCsv);
     server.get('/api/user/:userId/orderItemProdStorage', orderItemProd.queryItemProdStorage);
     server.post({path:'/api/user/:userId/order/:orderId/orderItemProd',contentType: 'application/json'}, orderItemProd.addItemProd);
     server.put({path:'/api/user/:userId/orderItemProd/:orderItemProdId',contentType: 'application/json'} ,orderItemProd.updateItemProd);

@@ -34,6 +34,101 @@ const queryItemProdStorage = async (req,res,next)=>{
     }
 }
 
+const queryItemProdCsv = async (req,res,next)=>{
+    let query = req.query;
+    try {
+
+        let csvString = "";
+        const header = "订单号" + ',' + "商品名称" + ',' + "价格*数量" + ',' +
+            "折扣" + ',' + "实际价格" + ',' + "采购单号" + ',' + "供应商"+ ',' + "时间" + ',' + "编号";
+        csvString = header + '\r\n' + csvString;
+        let parkObj = {};
+        const rows = await orderItemProdDAO.queryItemProd(query);
+
+        for (let i = 0; i < rows.length; i++) {
+            //订单号
+            if (rows[i].order_id == null) {
+                parkObj.orderId = '';
+            } else {
+                parkObj.orderId = rows[i].order_id;
+            }
+
+            //商品名称
+            if (rows[i].prod_name == null) {
+                parkObj.prodName = '';
+            } else {
+                parkObj.prodName = rows[i].prod_name;
+            }
+
+            //价格*数量
+            if (rows[i].unit_price == null && rows[i].prod_count == null) {
+                parkObj.unitPriceCount = 0;
+            } else {
+                parkObj.unitPriceCount = rows[i].unit_price + '*' + rows[i].prod_count;
+            }
+
+            //折扣
+            if (rows[i].discount_prod_price == null) {
+                parkObj.discountProdPrice = 0;
+            } else {
+                parkObj.discountProdPrice = rows[i].discount_prod_price;
+            }
+
+            //实际价格
+            if (rows[i].actual_prod_price == null) {
+                parkObj.actualProdPrice = 0;
+            } else {
+                parkObj.actualProdPrice = rows[i].actual_prod_price;
+            }
+
+            //采购单号
+            if (rows[i].purchase_id == null) {
+                parkObj.purchaseId = 0;
+            } else {
+                parkObj.purchaseId = rows[i].purchase_id;
+            }
+
+            //供应商
+            if (rows[i].supplier_name == null) {
+                parkObj.supplierName = '';
+            } else {
+                parkObj.supplierName = rows[i].supplier_name;
+            }
+
+            //时间
+            if (rows[i].date_id == null) {
+                parkObj.dateId = '';
+            } else {
+                parkObj.dateId = rows[i].date_id;
+            }
+
+            //编码
+            if (rows[i].prod_unique_arr == null) {
+                parkObj.prodUniqueId = '';
+            } else {
+                parkObj.prodUniqueId = rows[i].prod_unique_arr.join().replace(/,/g,"|");
+            }
+
+            csvString = csvString + parkObj.orderId + "," + parkObj.prodName + "," + parkObj.unitPriceCount + "," +
+                parkObj.discountProdPrice + "," + parkObj.actualProdPrice + "," + parkObj.purchaseId + "," +
+                parkObj.supplierName +"," + parkObj.dateId + "," + parkObj.prodUniqueId + '\r\n';
+        }
+        let csvBuffer = new Buffer(csvString, 'utf8');
+        res.set('content-type', 'application/csv');
+        res.set('charset', 'utf8');
+        res.set('content-length', csvBuffer.length);
+        res.writeHead(200);
+        res.write(csvBuffer);//TODO
+        res.end();
+        return next(false);
+        logger.info(' queryItemProdCsv ' + 'success');
+
+    }catch (e) {
+        logger.error(" queryItemProdCsv error",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 const addItemProd = async (req,res,next)=>{
     let params = req.body;
     let path = req.params;
@@ -160,6 +255,7 @@ const deleteItemProd = async (req,res,next)=>{
 module.exports = {
     queryItemProd,
     queryItemProdStorage,
+    queryItemProdCsv,
     addItemProd,
     updateItemProd,
     updateStatus,
