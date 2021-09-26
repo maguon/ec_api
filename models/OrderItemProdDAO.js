@@ -8,6 +8,9 @@ class OrderItemProdDAO  {
             " oi.status as or_status , oi.payment_status as or_payment_status , oi.re_user_id as or_re_user_id ," +
             " oi.re_user_name as or_re_user_name , oi.order_type as or_order_type , oi.client_id as or_client_id , " +
             " oi.client_agent_id as or_client_agent_id , oi.client_name as or_client_name , " +
+            " oi.client_tel as or_client_tel , " +
+            " oi.client_address as or_client_address , oi.client_serial as or_client_serial , " +
+            " oi.client_serial_detail as or_client_serial_detail, " +
             " oi.date_id as or_date_id , oi.fin_date_id as or_fin_date_id ," +
             " sprd.purchase_id as purchase_id , sprd.prod_unique_arr , sprd.unique_flag , pit.unit_cost as prod_unit_cost , pi.supplier_id , pi.supplier_name " +
             " from order_item_prod oip " +
