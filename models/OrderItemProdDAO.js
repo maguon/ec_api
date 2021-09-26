@@ -7,7 +7,7 @@ class OrderItemProdDAO  {
         let query = "select oip.* , ui.real_name , " +
             " oi.status as or_status , oi.payment_status as or_payment_status , oi.re_user_id as or_re_user_id ," +
             " oi.re_user_name as or_re_user_name , oi.order_type as or_order_type , oi.client_id as or_client_id , " +
-            " oi.client_agent_id as or_client_agent_id , oi.client_name as or_client_name , " +
+            " oi.client_name as or_client_name , oi.client_agent_id as or_client_agent_id , ca.name as or_client_agent_name , " +
             " oi.client_tel as or_client_tel , " +
             " oi.client_address as or_client_address , oi.client_serial as or_client_serial , " +
             " oi.client_serial_detail as or_client_serial_detail, " +
@@ -19,6 +19,7 @@ class OrderItemProdDAO  {
             " left join storage_product_rel_detail sprd on sprd.order_prod_id = oip.id " +
             " left join purchase_item pit on pit.id = sprd.purchase_item_id   " +
             " left join purchase_info pi on pi.id = sprd.purchase_id " +
+            " left join client_agent ca on ca.id = oi.client_agent_id " +
             " where oip.id is not null ";
         let filterObj = {};
         if(params.orderItemProdId){

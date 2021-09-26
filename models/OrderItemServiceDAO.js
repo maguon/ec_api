@@ -7,13 +7,14 @@ class OrderItemServiceDAO  {
         let query = "select ois.* , ui.real_name ," +
             "   oi.status as or_status , oi.payment_status as or_payment_status , oi.re_user_id as or_re_user_id , " +
             "   oi.re_user_name as or_re_user_name , oi.order_type as or_order_type , oi.client_name as or_client_name , " +
-            "   oi.client_tel as or_client_tel , " +
+            "   ca.name as or_client_agent_name , oi.client_tel as or_client_tel , " +
             "   oi.client_address as or_client_address , oi.client_serial as or_client_serial , " +
             "   oi.client_serial_detail as or_client_serial_detail, " +
             "   oi.date_id as or_date_id , oi.fin_date_id as or_fin_date_id " +
             "   from order_item_service ois " +
             "   left join user_info ui on ui.id = ois.op_user " +
             "   left join order_info oi on oi.id = ois.order_id " +
+            "   left join client_agent ca on ca.id = oi.client_agent_id " +
             "   where ois.id is not null ";
         let filterObj = {};
         if(params.orderItemServiceId){
