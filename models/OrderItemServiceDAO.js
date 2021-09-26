@@ -41,6 +41,12 @@ class OrderItemServiceDAO  {
             query += " and ois.client_id = ${clientId} ";
             filterObj.clientId = params.clientId;
         }
+        if(params.clientTel){
+            query += " and oi.client_tel like '%" + params.clientTel + "%' ";
+        }
+        if(params.clientSerial){
+            query += " and oi.client_serial like '%" + params.clientSerial + "%' ";
+        }
         if(params.clientAgentId){
             query += " and ois.client_agent_id = ${clientAgentId} ";
             filterObj.clientAgentId = params.clientAgentId;
@@ -112,6 +118,12 @@ class OrderItemServiceDAO  {
         if(params.clientId){
             query += " and ois.client_id = ${clientId} ";
             filterObj.clientId = params.clientId;
+        }
+        if(params.clientTel){
+            query += " and oi.client_tel like '%" + params.clientTel + "%' ";
+        }
+        if(params.clientSerial){
+            query += " and oi.client_serial like '%" + params.clientSerial + "%' ";
         }
         if(params.clientAgentId){
             query += " and ois.client_agent_id = ${clientAgentId} ";

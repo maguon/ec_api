@@ -8168,6 +8168,20 @@
             "type": "integer"
           },
           {
+            "name": "clientTel",
+            "in": "query",
+            "description": "clientTel",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "clientSerial",
+            "in": "query",
+            "description": "clientSerial",
+            "required": false,
+            "type": "string"
+          },
+          {
             "name": "clientAgentId",
             "in": "query",
             "description": "clientAgentId",
@@ -8765,6 +8779,20 @@
             "description": "clientId",
             "required": false,
             "type": "integer"
+          },
+          {
+            "name": "clientTel",
+            "in": "query",
+            "description": "clientTel",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "clientSerial",
+            "in": "query",
+            "description": "clientSerial",
+            "required": false,
+            "type": "string"
           },
           {
             "name": "clientAgentId",
