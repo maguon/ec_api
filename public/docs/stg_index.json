@@ -6746,6 +6746,20 @@
             "type": "integer"
           },
           {
+            "name": "matchBrandId",
+            "in": "query",
+            "description": "matchBrandId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "matchModelId",
+            "in": "query",
+            "description": "matchModelId",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "status",
             "in": "query",
             "description": "status",
@@ -12960,7 +12974,9 @@
         "modelName",
         "clientAgentId",
         "referUser",
-        "sourceType"
+        "sourceType",
+        "matchBrandId",
+        "matchModelId"
       ],
       "properties": {
         "remark": {
@@ -12999,6 +13015,14 @@
         "sourceType": {
           "type": "integer",
           "format": "int64"
+        },
+        "matchBrandId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "matchModelId": {
+          "type": "integer",
+          "format": "int64"
         }
       },
       "xml": {
@@ -13016,7 +13040,9 @@
         "clientSerialDetail",
         "modelId",
         "modelName",
-        "clientAgentId"
+        "clientAgentId",
+        "matchBrandId",
+        "matchModelId"
       ],
       "properties": {
         "remark": {
@@ -13045,6 +13071,14 @@
           "type": "string"
         },
         "clientAgentId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "matchBrandId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "matchModelId": {
           "type": "integer",
           "format": "int64"
         }

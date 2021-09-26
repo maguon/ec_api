@@ -559,7 +559,8 @@ CREATE TABLE IF NOT EXISTS public.client_info
     "date_id" integer ,
     "refer_user" smallint NOT NULL DEFAULT 1,
     "source_type" smallint NOT NULL DEFAULT 0,
-
+    "match_brand_id" smallint DEFAULT 1,
+    "match_model_id" smallint DEFAULT 1,
     PRIMARY KEY (id)
 );
 
@@ -570,6 +571,8 @@ COMMENT ON COLUMN public.client_info.date_id IS '创建日期';
 COMMENT ON COLUMN public.client_info.model_id IS '类型ID';
 COMMENT ON COLUMN public.client_info.model_name IS '类型名称';
 COMMENT ON COLUMN public.client_info.source_type IS '客户来源';
+COMMENT ON COLUMN public.client_info.match_brand_id IS '品牌ID';
+COMMENT ON COLUMN public.client_info.match_model_id IS '车型ID';
 
 create trigger client_info_upt before update on client_info for each row execute procedure update_timestamp_func();
 select setval(' client_info_id_seq',10000,false);

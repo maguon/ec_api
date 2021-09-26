@@ -5,11 +5,13 @@ const logger = serverLogger.createLogger('ClientDAO.js');
 class ClientDAO  {
     static async queryClient(params) {
         let query = "select ci.* , ui.real_name , rui.real_name as refer_real_name , " +
-            " ca.name as client_agent_name " +
+            " ca.name as client_agent_name , pmb.brand_name as match_brand_name , pmm.match_model_name" +
             " from client_info ci " +
             " left join user_info ui on ui.id = ci.op_user " +
             " left join user_info rui on rui.id = ci.refer_user " +
             " left join client_agent ca on ca.id = ci.client_agent_id " +
+            " left join prod_match_brand pmb on pmb.id = ci.match_brand_id " +
+            " left join prod_match_model pmm on pmm.id = ci.match_model_id " +
             " where ci.id is not null ";
         let filterObj = {};
         if(params.clientId){
@@ -49,6 +51,14 @@ class ClientDAO  {
             query += " and ci.source_type = ${sourceType} ";
             filterObj.sourceType = params.sourceType;
         }
+        if(params.matchBrandId){
+            query += " and ci.match_brand_id = ${matchBrandId} ";
+            filterObj.matchBrandId = params.matchBrandId;
+        }
+        if(params.matchModelId){
+            query += " and ci.match_model_id = ${matchModelId} ";
+            filterObj.matchModelId = params.matchModelId;
+        }
         query = query + '  order by ci.id desc ';
         if(params.start){
             query += " offset ${start} ";
@@ -63,7 +73,14 @@ class ClientDAO  {
     }
 
     static async queryClientCount(params) {
-        let query = "select count(id) from client_info ci where ci.id is not null ";
+        let query = "select count(ci.id) " +
+            " from client_info ci " +
+            " left join user_info ui on ui.id = ci.op_user " +
+            " left join user_info rui on rui.id = ci.refer_user " +
+            " left join client_agent ca on ca.id = ci.client_agent_id " +
+            " left join prod_match_brand pmb on pmb.id = ci.match_brand_id " +
+            " left join prod_match_model pmm on pmm.id = ci.match_model_id " +
+            " where ci.id is not null ";
         let filterObj = {};
         if(params.clientId){
             query += " and ci.id = ${clientId} ";
@@ -102,6 +119,14 @@ class ClientDAO  {
             query += " and ci.source_type = ${sourceType} ";
             filterObj.sourceType = params.sourceType;
         }
+        if(params.matchBrandId){
+            query += " and ci.match_brand_id = ${matchBrandId} ";
+            filterObj.matchBrandId = params.matchBrandId;
+        }
+        if(params.matchModelId){
+            query += " and ci.match_model_id = ${matchModelId} ";
+            filterObj.matchModelId = params.matchModelId;
+        }
         logger.debug(' queryClientCount ');
         return await pgDb.one(query,filterObj);
     }
@@ -109,10 +134,10 @@ class ClientDAO  {
     static async addClient(params) {
         const query = 'INSERT INTO client_info (op_user , remark , name , tel , ' +
             ' address , client_serial , client_serial_detail , model_id , model_name ,' +
-            ' client_agent_id , date_id , refer_user , source_type ) ' +
+            ' client_agent_id , date_id , refer_user , source_type , match_brand_id , match_model_id ) ' +
             ' VALUES ( ${opUser} , ${remark} ,  ${name} , ${tel} , ${address} ,' +
             ' ${clientSerial} , ${clientSerialDetail} , ${modelId} , ${modelName} , ' +
-            ' ${clientAgentId} , ${dateId} , ${referUser} , ${sourceType} ) RETURNING id ';
+            ' ${clientAgentId} , ${dateId} , ${referUser} , ${sourceType} , ${matchBrandId} , ${matchModelId} ) RETURNING id ';
         let valueObj = {};
         valueObj.opUser = params.opUser;
         valueObj.remark = params.remark;
@@ -131,6 +156,8 @@ class ClientDAO  {
             valueObj.referUser = 1;
         }
         valueObj.sourceType = params.sourceType;
+        valueObj.matchBrandId = params.matchBrandId;
+        valueObj.matchModelId = params.matchModelId;
         logger.debug(' addClient ');
         return await pgDb.any(query,valueObj);
     }
@@ -139,7 +166,8 @@ class ClientDAO  {
         const query = 'update client_info set op_user = ${opUser} , remark = ${remark} , ' +
             ' name = ${name} , tel = ${tel} , address = ${address} , ' +
             ' client_serial = ${clientSerial} , client_serial_detail = ${clientSerialDetail} , ' +
-            ' model_id = ${modelId} , model_name = ${modelName} , client_agent_id = ${clientAgentId}' +
+            ' model_id = ${modelId} , model_name = ${modelName} , client_agent_id = ${clientAgentId} , ' +
+            ' match_brand_id = ${matchBrandId} , match_model_id = ${matchModelId} ' +
             ' where id =${clientId} RETURNING id ';
         let valueObj = {};
         valueObj.opUser = params.opUser;
@@ -153,6 +181,8 @@ class ClientDAO  {
         valueObj.modelName = params.modelName;
         valueObj.clientAgentId = params.clientAgentId;
         valueObj.clientId = params.clientId;
+        valueObj.matchBrandId = params.matchBrandId;
+        valueObj.matchModelId = params.matchModelId;
         logger.debug(' updateClient ');
         return await pgDb.any(query,valueObj);
     }
