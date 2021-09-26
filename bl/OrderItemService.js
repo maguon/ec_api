@@ -20,6 +20,94 @@ const queryItemService = async (req,res,next)=>{
     }
 }
 
+const queryItemServiceCsv = async (req,res,next)=>{
+    let query = req.query;
+    try {
+
+        let csvString = "";
+        const header = "订单号" + ',' + "服务名称" + ',' + "售价" + ',' +
+            "折扣" + ',' + "实际价格" + ',' + "施工" + ',' + "验收"+ ',' + "时间" ;
+        csvString = header + '\r\n' + csvString;
+        let parkObj = {};
+        const rows = await orderItemServiceDAO.queryItemService(query);
+
+        for (let i = 0; i < rows.length; i++) {
+            //订单号
+            if (rows[i].order_id == null) {
+                parkObj.orderId = '';
+            } else {
+                parkObj.orderId = rows[i].order_id;
+            }
+
+            //服务名称
+            if (rows[i].sale_service_name == null) {
+                parkObj.saleServiceName = '';
+            } else {
+                parkObj.saleServiceName = rows[i].sale_service_name;
+            }
+
+            //售价
+            if (rows[i].fixed_price == null) {
+                parkObj.fixedPrice = 0;
+            } else {
+                parkObj.fixedPrice = rows[i].fixed_price;
+            }
+
+            //折扣
+            if (rows[i].discount_service_price == null) {
+                parkObj.discountServicePrice = 0;
+            } else {
+                parkObj.discountServicePrice = rows[i].discount_service_price;
+            }
+
+            //实际价格
+            if (rows[i].actual_service_price == null) {
+                parkObj.actualServicePrice = 0;
+            } else {
+                parkObj.actualServicePrice = rows[i].actual_service_price;
+            }
+
+            //施工
+            if (rows[i].deploy_user_name == null) {
+                parkObj.deployUserName = 0;
+            } else {
+                parkObj.deployUserName = rows[i].deploy_user_name;
+            }
+
+            //验收
+            if (rows[i].check_user_name == null) {
+                parkObj.checkUserName = '';
+            } else {
+                parkObj.checkUserName = rows[i].check_user_name;
+            }
+
+            //时间
+            if (rows[i].date_id == null) {
+                parkObj.dateId = '';
+            } else {
+                parkObj.dateId = rows[i].date_id;
+            }
+
+            csvString = csvString + parkObj.orderId + "," + parkObj.saleServiceName + "," + parkObj.fixedPrice + "," +
+                parkObj.discountServicePrice + "," + parkObj.actualServicePrice + "," + parkObj.deployUserName + "," +
+                parkObj.checkUserName +"," + parkObj.dateId + '\r\n';
+        }
+        let csvBuffer = new Buffer(csvString, 'utf8');
+        res.set('content-type', 'application/csv');
+        res.set('charset', 'utf8');
+        res.set('content-length', csvBuffer.length);
+        res.writeHead(200);
+        res.write(csvBuffer);//TODO
+        res.end();
+        return next(false);
+        logger.info(' queryItemServiceCsv ' + 'success');
+
+    }catch (e) {
+        logger.error(" queryItemServiceCsv error",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 const addItemService = async (req,res,next)=>{
     let params = req.body;
     let path = req.params;
@@ -183,6 +271,7 @@ const deleteItemService = async (req,res,next)=>{
 
 module.exports = {
     queryItemService,
+    queryItemServiceCsv,
     addItemService,
     updateItemService,
     updateDeploy,

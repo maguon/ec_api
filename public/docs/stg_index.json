@@ -8856,6 +8856,149 @@
         }
       }
     },
+    "/user/{userId}/orderItemService.csv": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Select orderItemServiceCsv Info",
+        "description": "Get orderItemServiceCsv info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderItemServiceId",
+            "in": "query",
+            "description": "orderItemServiceId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "saleUserId",
+            "in": "query",
+            "description": "saleUserId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "deployUserId",
+            "in": "query",
+            "description": "deployUserId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "checkUserId",
+            "in": "query",
+            "description": "checkUserId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "query",
+            "description": "orderId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "clientId",
+            "in": "query",
+            "description": "clientId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "clientTel",
+            "in": "query",
+            "description": "clientTel",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "clientSerial",
+            "in": "query",
+            "description": "clientSerial",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "clientAgentId",
+            "in": "query",
+            "description": "clientAgentId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "saleServiceId",
+            "in": "query",
+            "description": "saleServiceId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateStart",
+            "in": "query",
+            "description": "dateStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateEnd",
+            "in": "query",
+            "description": "dateEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "finDateStart",
+            "in": "query",
+            "description": "finDateStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "finDateEnd",
+            "in": "query",
+            "description": "finDateEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
     "/user/{userId}/orderItemService/{orderItemServiceId}": {
       "put": {
         "tags": [

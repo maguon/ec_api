@@ -310,6 +310,7 @@ const createServer=()=>{
     server.del({path:'/api/user/:userId/order/:orderId/orderItemProd/:orderItemProdId',contentType: 'application/json'}, orderItemProd.deleteItemProd);
 
     server.get('/api/user/:userId/orderItemService', orderItemService.queryItemService);
+    server.get('/api/user/:userId/orderItemService.csv', orderItemService.queryItemServiceCsv);
     server.post({path:'/api/user/:userId/order/:orderId/orderItemService',contentType: 'application/json'}, orderItemService.addItemService);
     server.put({path:'/api/user/:userId/orderItemService/:orderItemServiceId',contentType: 'application/json'} ,orderItemService.updateItemService);
     server.put({path:'/api/user/:userId/orderItemService/:orderItemServiceId/deploy',contentType: 'application/json'} ,orderItemService.updateDeploy);
