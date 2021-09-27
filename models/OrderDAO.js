@@ -336,6 +336,174 @@ class OrderDAO  {
         return await pgDb.any(query,filterObj);
     }
 
+    static async queryTypeStat(params) {
+        let query = "select ssi.service_type , " +
+            " COALESCE(sum(oip.prod_price),0) as prod_price , " +
+            " COALESCE(sum(oip.prod_count),0) as prod_count , " +
+            " COALESCE(sum(ois.service_price),0) as service_price , " +
+            " COALESCE(sum(ois.service_count),0) as service_count , " +
+            " count(oi.id) as order_count" +
+            " from order_info oi " +
+            " left join order_item_prod oip on oip.order_id = oi.id " +
+            " left join order_item_service ois on ois.order_id = oi.id " +
+            " left join sale_service_info ssi on ssi.id = ois.sale_service_id " +
+            " where oi.id is not null ";
+        let filterObj = {};
+        if(params.orderId){
+            query += " and oi.id = ${orderId} ";
+            filterObj.orderId = params.orderId;
+        }
+        if(params.reUserId){
+            query += " and oi.re_user_id = ${reUserId} ";
+            filterObj.reUserId = params.reUserId;
+        }
+        if(params.status){
+            query += " and oi.status = ${status} ";
+            filterObj.status = params.status;
+        }
+        if(params.paymentStatus){
+            query += " and oi.payment_status = ${paymentStatus} ";
+            filterObj.paymentStatus = params.paymentStatus;
+        }
+        if(params.orderType){
+            query += " and oi.order_type = ${orderType} ";
+            filterObj.orderType = params.orderType;
+        }
+        if(params.checkUserId){
+            query += " and oi.check_user_id = ${checkUserId} ";
+            filterObj.checkUserId = params.checkUserId;
+        }
+        if(params.clientId){
+            query += " and oi.client_id = ${clientId} ";
+            filterObj.clientId = params.clientId;
+        }
+        if(params.clientTel){
+            query += " and oi.client_tel like '%" + params.clientTel + "%' ";
+        }
+        if(params.clientSerial){
+            query += " and oi.client_serial like '%" + params.clientSerial + "%' ";
+        }
+        if(params.clientAgentId){
+            query += " and oi.client_agent_id = ${clientAgentId} ";
+            filterObj.clientAgentId = params.clientAgentId;
+        }
+        if(params.modelId){
+            query += " and oi.model_id = ${modelId} ";
+            filterObj.modelId = params.modelId;
+        }
+        if(params.dateStart){
+            query += " and oi.date_id >= ${dateStart} ";
+            filterObj.dateStart = params.dateStart;
+        }
+        if(params.dateEnd){
+            query += " and oi.date_id <= ${dateEnd} ";
+            filterObj.dateEnd = params.dateEnd;
+        }
+        if(params.finDateStart){
+            query += " and oi.fin_date_id >= ${finDateStart} ";
+            filterObj.finDateStart = params.finDateStart;
+        }
+        if(params.finDateEnd){
+            query += " and oi.fin_date_id <= ${finDateEnd} ";
+            filterObj.finDateEnd = params.finDateEnd;
+        }
+        if(params.serviceType){
+            query += " and oip.service_type = ${serviceType} ";
+            filterObj.serviceType = params.serviceType;
+        }
+        if(params.servicePartType){
+            query += " and oip.service_part_type = ${servicePartType} ";
+            filterObj.servicePartType = params.servicePartType;
+        }
+        query = query + " group by ssi.service_type ";
+        logger.debug(' queryTypeStat ');
+        return await pgDb.any(query,filterObj);
+    }
+
+    static async queryPartTypeStat(params) {
+        let query = "select ssi.service_part_type , " +
+            " COALESCE(sum(oip.prod_price),0) as prod_price , " +
+            " COALESCE(sum(oip.prod_count),0) as prod_count , " +
+            " COALESCE(sum(ois.service_price),0) as service_price , " +
+            " COALESCE(sum(ois.service_count),0) as service_count , " +
+            " count(oi.id) as order_count" +
+            " from order_info oi " +
+            " left join order_item_prod oip on oip.order_id = oi.id " +
+            " left join order_item_service ois on ois.order_id = oi.id " +
+            " left join sale_service_info ssi on ssi.id = ois.sale_service_id " +
+            " where oi.id is not null ";
+        let filterObj = {};
+        if(params.orderId){
+            query += " and oi.id = ${orderId} ";
+            filterObj.orderId = params.orderId;
+        }
+        if(params.reUserId){
+            query += " and oi.re_user_id = ${reUserId} ";
+            filterObj.reUserId = params.reUserId;
+        }
+        if(params.status){
+            query += " and oi.status = ${status} ";
+            filterObj.status = params.status;
+        }
+        if(params.paymentStatus){
+            query += " and oi.payment_status = ${paymentStatus} ";
+            filterObj.paymentStatus = params.paymentStatus;
+        }
+        if(params.orderType){
+            query += " and oi.order_type = ${orderType} ";
+            filterObj.orderType = params.orderType;
+        }
+        if(params.checkUserId){
+            query += " and oi.check_user_id = ${checkUserId} ";
+            filterObj.checkUserId = params.checkUserId;
+        }
+        if(params.clientId){
+            query += " and oi.client_id = ${clientId} ";
+            filterObj.clientId = params.clientId;
+        }
+        if(params.clientTel){
+            query += " and oi.client_tel like '%" + params.clientTel + "%' ";
+        }
+        if(params.clientSerial){
+            query += " and oi.client_serial like '%" + params.clientSerial + "%' ";
+        }
+        if(params.clientAgentId){
+            query += " and oi.client_agent_id = ${clientAgentId} ";
+            filterObj.clientAgentId = params.clientAgentId;
+        }
+        if(params.modelId){
+            query += " and oi.model_id = ${modelId} ";
+            filterObj.modelId = params.modelId;
+        }
+        if(params.dateStart){
+            query += " and oi.date_id >= ${dateStart} ";
+            filterObj.dateStart = params.dateStart;
+        }
+        if(params.dateEnd){
+            query += " and oi.date_id <= ${dateEnd} ";
+            filterObj.dateEnd = params.dateEnd;
+        }
+        if(params.finDateStart){
+            query += " and oi.fin_date_id >= ${finDateStart} ";
+            filterObj.finDateStart = params.finDateStart;
+        }
+        if(params.finDateEnd){
+            query += " and oi.fin_date_id <= ${finDateEnd} ";
+            filterObj.finDateEnd = params.finDateEnd;
+        }
+        if(params.serviceType){
+            query += " and oip.service_type = ${serviceType} ";
+            filterObj.serviceType = params.serviceType;
+        }
+        if(params.servicePartType){
+            query += " and oip.service_part_type = ${servicePartType} ";
+            filterObj.servicePartType = params.servicePartType;
+        }
+        query = query + " group by ssi.service_part_type ";
+        logger.debug(' queryPartTypeStat ');
+        return await pgDb.any(query,filterObj);
+    }
+
     static async queryPerfStat(params) {
         let query = " select u.id,u.real_name,dp.deploy_count,dp.deploy_perf,cp.check_count ,cp.check_perf " +
             " from user_info u " +

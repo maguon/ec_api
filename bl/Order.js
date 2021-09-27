@@ -306,6 +306,32 @@ const queryStat = async (req,res,next)=>{
     }
 }
 
+const queryTypeStat = async (req,res,next)=>{
+    let query = req.query;
+    try{
+        const rows = await orderDAO.queryTypeStat(query);
+        logger.info(' queryTypeStat ' + 'success');
+        resUtil.resetQueryRes(res,rows,rows.length);
+        return next();
+    }catch (e) {
+        logger.error(" queryTypeStat error",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
+const queryPartTypeStat = async (req,res,next)=>{
+    let query = req.query;
+    try{
+        const rows = await orderDAO.queryPartTypeStat(query);
+        logger.info(' queryPartTypeStat ' + 'success');
+        resUtil.resetQueryRes(res,rows,rows.length);
+        return next();
+    }catch (e) {
+        logger.error(" queryPartTypeStat error",e.stack);
+        resUtil.resInternalError(e,res,next);
+    }
+}
+
 const queryPerfStat = async (req,res,next)=>{
     let query = req.query;
     try{
@@ -339,6 +365,8 @@ module.exports = {
     updateOrder,
     updateStatus,
     queryStat,
+    queryTypeStat,
+    queryPartTypeStat,
     queryPerfStat,
     queryPerfDateStat
 }
