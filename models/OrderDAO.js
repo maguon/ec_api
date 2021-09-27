@@ -408,11 +408,11 @@ class OrderDAO  {
             filterObj.finDateEnd = params.finDateEnd;
         }
         if(params.serviceType){
-            query += " and oip.service_type = ${serviceType} ";
+            query += " and ssi.service_type = ${serviceType} ";
             filterObj.serviceType = params.serviceType;
         }
         if(params.servicePartType){
-            query += " and oip.service_part_type = ${servicePartType} ";
+            query += " and ssi.service_part_type = ${servicePartType} ";
             filterObj.servicePartType = params.servicePartType;
         }
         query = query + " group by ssi.service_type ";
@@ -492,11 +492,11 @@ class OrderDAO  {
             filterObj.finDateEnd = params.finDateEnd;
         }
         if(params.serviceType){
-            query += " and oip.service_type = ${serviceType} ";
+            query += " and ssi.service_type = ${serviceType} ";
             filterObj.serviceType = params.serviceType;
         }
         if(params.servicePartType){
-            query += " and oip.service_part_type = ${servicePartType} ";
+            query += " and ssi.service_part_type = ${servicePartType} ";
             filterObj.servicePartType = params.servicePartType;
         }
         query = query + " group by ssi.service_part_type ";
