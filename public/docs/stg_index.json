@@ -8865,6 +8865,20 @@
             "type": "integer"
           },
           {
+            "name": "serviceType",
+            "in": "query",
+            "description": "serviceType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "servicePartType",
+            "in": "query",
+            "description": "servicePartType",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "clientId",
             "in": "query",
             "description": "clientId",
@@ -9004,6 +9018,20 @@
             "name": "orderId",
             "in": "query",
             "description": "orderId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "serviceType",
+            "in": "query",
+            "description": "serviceType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "servicePartType",
+            "in": "query",
+            "description": "servicePartType",
             "required": false,
             "type": "integer"
           },

@@ -145,7 +145,7 @@ const queryItemProdCsv = async (req,res,next)=>{
     }
 }
 
-function getServiceType(type){
+const getServiceType = (type) => {
     let typeName;
     switch (type) {
         case 1:{
@@ -165,14 +165,14 @@ function getServiceType(type){
             break;
         }
         default:{
-            typeName = '';
+            typeName = ' ';
             break;
         }
     }
     return typeName;
 }
 
-function getServicePartType(type){
+const getServicePartType = (type) => {
     let partTypeName;
     switch (type) {
         case 1:{
@@ -204,7 +204,7 @@ function getServicePartType(type){
             break;
         }
         default:{
-            partTypeName = '';
+            partTypeName = ' ';
             break;
         }
     }
@@ -338,6 +338,8 @@ module.exports = {
     queryItemProd,
     queryItemProdStorage,
     queryItemProdCsv,
+    getServiceType,
+    getServicePartType,
     addItemProd,
     updateItemProd,
     updateStatus,

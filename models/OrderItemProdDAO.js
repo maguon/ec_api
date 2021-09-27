@@ -115,7 +115,7 @@ class OrderItemProdDAO  {
         " left join storage_product_rel_detail sprd on sprd.order_prod_id = oip.id " +
         " left join purchase_item pit on pit.id = sprd.purchase_id " +
         " left join purchase_info pi on pi.id = sprd.purchase_id " +
-        " left join sale_service_info ssi on ssi.id = oip.service_id " +
+        " left join sale_service_info ssi on ssi.id = oip.sale_service_id " +
         " where oip.id is not null ";
         let filterObj = {};
         if(params.orderItemProdId){
@@ -219,7 +219,7 @@ class OrderItemProdDAO  {
             "   left join supplier_info si on si.id = sprd.supplier_id " +
             "   left join storage_info sti on sti.id = sprd.storage_id " +
             "   left join storage_area_info stai on stai.id = sprd.storage_area_id " +
-            "   left join sale_service_info ssi on ssi.id = oip.service_id " +
+            "   left join sale_service_info ssi on ssi.id = oip.sale_service_id " +
             "   where oip.id is not null ";
         let filterObj = {};
         if(params.orderItemProdId){
@@ -321,7 +321,7 @@ class OrderItemProdDAO  {
             "   left join order_info oi on oi.id = oip.order_id " +
             "   left join storage_product_rel_detail sprd on sprd.order_prod_id = oip.id " +
             "   left join user_info sui on sui.id = sprd.apply_user_id " +
-            "   left join sale_service_info ssi on ssi.id = oip.service_id " +
+            "   left join sale_service_info ssi on ssi.id = oip.sale_service_id " +
             "   where oip.id is not null";
         let filterObj = {};
         if(params.orderItemProdId){

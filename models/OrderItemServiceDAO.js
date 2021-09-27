@@ -10,11 +10,13 @@ class OrderItemServiceDAO  {
             "   ca.name as or_client_agent_name , oi.client_tel as or_client_tel , " +
             "   oi.client_address as or_client_address , oi.client_serial as or_client_serial , " +
             "   oi.client_serial_detail as or_client_serial_detail, " +
-            "   oi.date_id as or_date_id , oi.fin_date_id as or_fin_date_id " +
+            "   oi.date_id as or_date_id , oi.fin_date_id as or_fin_date_id , " +
+            "   ssi.service_type , ssi.service_part_type " +
             "   from order_item_service ois " +
             "   left join user_info ui on ui.id = ois.op_user " +
             "   left join order_info oi on oi.id = ois.order_id " +
             "   left join client_agent ca on ca.id = oi.client_agent_id " +
+            "   left join sale_service_info ssi on ssi.id = ois.sale_service_id " +
             "   where ois.id is not null ";
         let filterObj = {};
         if(params.orderItemServiceId){
@@ -74,6 +76,14 @@ class OrderItemServiceDAO  {
         if(params.finDateEnd){
             query += " and oi.fin_date_id <= ${finDateEnd} ";
             filterObj.finDateEnd = params.finDateEnd;
+        }
+        if(params.serviceType){
+            query += " and ssi.service_type = ${serviceType} ";
+            filterObj.serviceType = params.serviceType;
+        }
+        if(params.servicePartType){
+            query += " and ssi.service_part_type = ${servicePartType} ";
+            filterObj.servicePartType = params.servicePartType;
         }
         query = query + '  order by ois.id desc ';
         if(params.start){
@@ -93,6 +103,8 @@ class OrderItemServiceDAO  {
             "   from order_item_service ois " +
             "   left join user_info ui on ui.id = ois.op_user " +
             "   left join order_info oi on oi.id = ois.order_id " +
+            "   left join client_agent ca on ca.id = oi.client_agent_id " +
+            "   left join sale_service_info ssi on ssi.id = ois.sale_service_id " +
             "   where ois.id is not null ";
         let filterObj = {};
         if(params.orderItemServiceId){
@@ -153,7 +165,14 @@ class OrderItemServiceDAO  {
             query += " and oi.fin_date_id <= ${finDateEnd} ";
             filterObj.finDateEnd = params.finDateEnd;
         }
-
+        if(params.serviceType){
+            query += " and ssi.service_type = ${serviceType} ";
+            filterObj.serviceType = params.serviceType;
+        }
+        if(params.servicePartType){
+            query += " and ssi.service_part_type = ${servicePartType} ";
+            filterObj.servicePartType = params.servicePartType;
+        }
         logger.debug(' queryItemServiceCount ');
         return await pgDb.one(query,filterObj);
     }

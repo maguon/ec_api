@@ -2,6 +2,7 @@
 const orderDAO = require('../models/OrderDAO');
 const orderItemServiceDAO = require('../models/OrderItemServiceDAO');
 const orderItemProdDAO = require('../models/OrderItemProdDAO');
+const orderItemProd = require('../bl/OrderItemProd');
 const serverLogger = require('../util/ServerLogger.js');
 const moment = require('moment');
 const resUtil = require('../util/ResponseUtil.js');
@@ -27,7 +28,8 @@ const queryItemServiceCsv = async (req,res,next)=>{
 
         let csvString = "";
         const header = "订单号" + ',' + "服务名称" + ',' + "售价" + ',' +
-            "折扣" + ',' + "实际价格" + ',' + "施工" + ',' + "验收"+ ',' + "时间" ;
+            "折扣" + ',' + "实际价格" + ',' + "施工" + ',' + "验收"+ ',' +
+            "时间" + ',' + "项目类型" + ',' + "服务项目类型" ;
         csvString = header + '\r\n' + csvString;
         let parkObj = {};
         const rows = await orderItemServiceDAO.queryItemService(query);
@@ -89,9 +91,23 @@ const queryItemServiceCsv = async (req,res,next)=>{
                 parkObj.dateId = rows[i].date_id;
             }
 
+            //项目类型
+            if (rows[i].service_type == null) {
+                parkObj.serviceType = 0;
+            } else {
+                parkObj.serviceType = orderItemProd.getServiceType(rows[i].service_type);
+            }
+
+            //服务项目类型
+            if (rows[i].service_part_type == null) {
+                parkObj.servicePartType = 0;
+            } else {
+                parkObj.servicePartType = orderItemProd.getServicePartType(rows[i].service_part_type);
+            }
+
             csvString = csvString + parkObj.orderId + "," + parkObj.saleServiceName + "," + parkObj.fixedPrice + "," +
                 parkObj.discountServicePrice + "," + parkObj.actualServicePrice + "," + parkObj.deployUserName + "," +
-                parkObj.checkUserName +"," + parkObj.dateId + '\r\n';
+                parkObj.checkUserName +"," + parkObj.dateId + ","  + parkObj.serviceType + "," + parkObj.servicePartType + '\r\n';
         }
         let csvBuffer = new Buffer(csvString, 'utf8');
         res.set('content-type', 'application/csv');
