@@ -180,8 +180,24 @@ const supplierType = {
 
 //服务类型
 const serviceType = {
-    normal:1,//正常
-    quick:2//快捷
+    // normal:1,//正常
+    // quick:2//快捷
+
+    upkeep:1,//保养
+    service:2,//维修
+    electric_welding:3,//电焊
+    electric_appliance:4//电器
+}
+
+//项目服务类型
+const servicePartType = {
+    electric_appliance:1,//电器
+    engine:2,//发动机
+    underpan:3,//底盘
+    hydraulic_pressure:4,//液压
+    bodywork:5,//车身
+    electric_welding:6,//电焊
+    other:7//其他部分
 }
 
 //服务价格类型
@@ -232,5 +248,7 @@ module.exports = {
     orderRefundStatus,
     orderPaymentStatus,
     orderRefundPaymentStatus,
-    paymentInfoStatus
+    paymentInfoStatus,
+    serviceType,
+    servicePartType
 }

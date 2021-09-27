@@ -8182,6 +8182,34 @@
             "type": "integer"
           },
           {
+            "name": "orderItemServiceId",
+            "in": "query",
+            "description": "orderItemServiceId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "serviceId",
+            "in": "query",
+            "description": "serviceId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "serviceType",
+            "in": "query",
+            "description": "serviceType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "servicePartType",
+            "in": "query",
+            "description": "servicePartType",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "clientId",
             "in": "query",
             "description": "clientId",
@@ -8325,6 +8353,20 @@
             "type": "integer"
           },
           {
+            "name": "serviceType",
+            "in": "query",
+            "description": "serviceType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "servicePartType",
+            "in": "query",
+            "description": "servicePartType",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "clientId",
             "in": "query",
             "description": "clientId",
@@ -8443,6 +8485,34 @@
             "name": "orderId",
             "in": "query",
             "description": "orderId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderItemServiceId",
+            "in": "query",
+            "description": "orderItemServiceId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "serviceId",
+            "in": "query",
+            "description": "serviceId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "serviceType",
+            "in": "query",
+            "description": "serviceType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "servicePartType",
+            "in": "query",
+            "description": "servicePartType",
             "required": false,
             "type": "integer"
           },
@@ -13476,7 +13546,11 @@
         "prodId",
         "prodName",
         "prodCount",
-        "discountProdPrice"
+        "discountProdPrice",
+        "orderItemServiceId",
+        "serviceId",
+        "serviceType",
+        "servicePartType"
       ],
       "properties": {
         "saleUserId": {
@@ -13513,6 +13587,22 @@
           "format": "int64"
         },
         "discountProdPrice": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "orderItemServiceId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "serviceId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "serviceType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "servicePartType": {
           "type": "integer",
           "format": "int64"
         }

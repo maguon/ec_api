@@ -40,7 +40,8 @@ const queryItemProdCsv = async (req,res,next)=>{
 
         let csvString = "";
         const header = "订单号" + ',' + "商品名称" + ',' + "价格*数量" + ',' +
-            "折扣" + ',' + "实际价格" + ',' + "采购单号" + ',' + "供应商"+ ',' + "时间" + ',' + "编号";
+            "折扣" + ',' + "实际价格" + ',' + "采购单号" + ',' + "供应商"+ ',' + "时间" + ',' +
+            "编号" + ',' + "项目类型" + ',' + "服务项目类型" ;
         csvString = header + '\r\n' + csvString;
         let parkObj = {};
         const rows = await orderItemProdDAO.queryItemProd(query);
@@ -109,9 +110,24 @@ const queryItemProdCsv = async (req,res,next)=>{
                 parkObj.prodUniqueId = rows[i].prod_unique_arr.join().replace(/,/g,"|");
             }
 
+            //项目类型
+            if (rows[i].service_type == null) {
+                parkObj.serviceType = 0;
+            } else {
+                parkObj.serviceType = getServiceType(rows[i].service_type);
+            }
+
+            //服务项目类型
+            if (rows[i].service_part_type == null) {
+                parkObj.servicePartType = 0;
+            } else {
+                parkObj.servicePartType = getServicePartType(rows[i].service_part_type);
+            }
+
             csvString = csvString + parkObj.orderId + "," + parkObj.prodName + "," + parkObj.unitPriceCount + "," +
                 parkObj.discountProdPrice + "," + parkObj.actualProdPrice + "," + parkObj.purchaseId + "," +
-                parkObj.supplierName +"," + parkObj.dateId + "," + parkObj.prodUniqueId + '\r\n';
+                parkObj.supplierName +"," + parkObj.dateId + "," + parkObj.prodUniqueId + "," +
+                parkObj.serviceType + "," + parkObj.servicePartType + '\r\n';
         }
         let csvBuffer = new Buffer(csvString, 'utf8');
         res.set('content-type', 'application/csv');
@@ -127,6 +143,72 @@ const queryItemProdCsv = async (req,res,next)=>{
         logger.error(" queryItemProdCsv error",e.stack);
         resUtil.resInternalError(e,res,next);
     }
+}
+
+function getServiceType(type){
+    let typeName;
+    switch (type) {
+        case 1:{
+            typeName = '保养';
+            break;
+        }
+        case 2:{
+            typeName = '维修';
+            break;
+        }
+        case 3:{
+            typeName = '电焊';
+            break;
+        }
+        case 4:{
+            typeName = '电器';
+            break;
+        }
+        default:{
+            typeName = '';
+            break;
+        }
+    }
+    return typeName;
+}
+
+function getServicePartType(type){
+    let partTypeName;
+    switch (type) {
+        case 1:{
+            partTypeName = '电器';
+            break;
+        }
+        case 2:{
+            partTypeName = '发动机';
+            break;
+        }
+        case 3:{
+            partTypeName = '底盘';
+            break;
+        }
+        case 4:{
+            partTypeName = '液压';
+            break;
+        }
+        case 5:{
+            partTypeName = '车身';
+            break;
+        }
+        case 6:{
+            partTypeName = '电焊';
+            break;
+        }
+        case 7:{
+            partTypeName = '其他部分';
+            break;
+        }
+        default:{
+            partTypeName = '';
+            break;
+        }
+    }
+    return partTypeName;
 }
 
 const addItemProd = async (req,res,next)=>{

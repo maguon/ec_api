@@ -1,6 +1,7 @@
 
 const orderDAO = require('../models/OrderDAO');
 const orderItemServiceDAO = require('../models/OrderItemServiceDAO');
+const orderItemProdDAO = require('../models/orderItemProdDAO');
 const serverLogger = require('../util/ServerLogger.js');
 const moment = require('moment');
 const resUtil = require('../util/ResponseUtil.js');
@@ -249,8 +250,17 @@ const deleteItemService = async (req,res,next)=>{
         const rowsStatus = await orderDAO.queryOrder(params);
         logger.info(' deleteItemService queryOrder ' + 'success');
 
-        if(rowsStatus > 5){
+        if(rowsStatus[0].status > 5){
             resUtil.resetFailedRes(res,{message:'删除失败！'});
+            return next();
+        }
+
+        //判断该订单的服务下是否存在商品
+        const rowsProd = await orderItemProdDAO.queryItemProd(params);
+        logger.info(' deleteItemService queryItemProd ' + 'success');
+
+        if(rowsProd.length > 0){
+            resUtil.resetFailedRes(res,{message:'存在商品删除失败！'});
             return next();
         }
 

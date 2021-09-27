@@ -12,7 +12,9 @@ class OrderItemProdDAO  {
             " oi.client_address as or_client_address , oi.client_serial as or_client_serial , " +
             " oi.client_serial_detail as or_client_serial_detail, " +
             " oi.date_id as or_date_id , oi.fin_date_id as or_fin_date_id ," +
-            " sprd.purchase_id as purchase_id , sprd.prod_unique_arr , sprd.unique_flag , pit.unit_cost as prod_unit_cost , pi.supplier_id , pi.supplier_name " +
+            " sprd.purchase_id as purchase_id , sprd.prod_unique_arr , sprd.unique_flag , " +
+            " pit.unit_cost as prod_unit_cost , pi.supplier_id , pi.supplier_name , " +
+            " ssi.service_name " +
             " from order_item_prod oip " +
             " left join user_info ui on ui.id = oip.op_user " +
             " left join order_info oi on oi.id = oip.order_id " +
@@ -20,6 +22,7 @@ class OrderItemProdDAO  {
             " left join purchase_item pit on pit.id = sprd.purchase_item_id   " +
             " left join purchase_info pi on pi.id = sprd.purchase_id " +
             " left join client_agent ca on ca.id = oi.client_agent_id " +
+            " left join sale_service_info ssi on ssi.id = oip.service_id " +
             " where oip.id is not null ";
         let filterObj = {};
         if(params.orderItemProdId){
@@ -42,9 +45,25 @@ class OrderItemProdDAO  {
             query += " and oip.order_id = ${orderId} ";
             filterObj.orderId = params.orderId;
         }
-        if(params.clientId){
-            query += " and oip.client_id = ${clientId} ";
-            filterObj.clientId = params.clientId;
+        if(params.orderId){
+            query += " and oip.order_id = ${orderId} ";
+            filterObj.orderId = params.orderId;
+        }
+        if(params.orderItemServiceId){
+            query += " and oip.order_item_service_id = ${orderItemServiceId} ";
+            filterObj.orderItemServiceId = params.orderItemServiceId;
+        }
+        if(params.serviceId){
+            query += " and oip.service_id = ${serviceId} ";
+            filterObj.serviceId = params.serviceId;
+        }
+        if(params.serviceType){
+            query += " and oip.service_type = ${serviceType} ";
+            filterObj.serviceType = params.serviceType;
+        }
+        if(params.servicePartType){
+            query += " and oip.service_part_type = ${servicePartType} ";
+            filterObj.servicePartType = params.servicePartType;
         }
         if(params.clientTel){
             query += " and oi.client_tel like '%" + params.clientTel + "%' ";
@@ -100,6 +119,7 @@ class OrderItemProdDAO  {
         " left join storage_product_rel_detail sprd on sprd.order_prod_id = oip.id " +
         " left join purchase_item pit on pit.id = sprd.purchase_id " +
         " left join purchase_info pi on pi.id = sprd.purchase_id " +
+        " left join sale_service_info ssi on ssi.id = oip.service_id " +
         " where oip.id is not null ";
         let filterObj = {};
         if(params.orderItemProdId){
@@ -121,6 +141,22 @@ class OrderItemProdDAO  {
         if(params.orderId){
             query += " and oip.order_id = ${orderId} ";
             filterObj.orderId = params.orderId;
+        }
+        if(params.orderItemServiceId){
+            query += " and oip.order_item_service_id = ${orderItemServiceId} ";
+            filterObj.orderItemServiceId = params.orderItemServiceId;
+        }
+        if(params.serviceId){
+            query += " and oip.service_id = ${serviceId} ";
+            filterObj.serviceId = params.serviceId;
+        }
+        if(params.serviceType){
+            query += " and oip.service_type = ${serviceType} ";
+            filterObj.serviceType = params.serviceType;
+        }
+        if(params.servicePartType){
+            query += " and oip.service_part_type = ${servicePartType} ";
+            filterObj.servicePartType = params.servicePartType;
         }
         if(params.clientId){
             query += " and oip.client_id = ${clientId} ";
@@ -178,6 +214,7 @@ class OrderItemProdDAO  {
             "   sprd.storage_type as st_storage_type , sprd.storage_sub_type as st_storage_sub_type , " +
             "   sprd.storage_count as st_storage_count , sprd.date_id as st_date_id , sprd.apply_user_id as st_apply_user_id , " +
             "   sprd.prod_unique_arr , sprd.unique_flag , sui.real_name as st_apply_user_name " +
+            "   ssi.service_name " +
             "   from order_item_prod oip " +
             "   left join user_info ui on ui.id = oip.op_user " +
             "   left join order_info oi on oi.id = oip.order_id " +
@@ -186,6 +223,7 @@ class OrderItemProdDAO  {
             "   left join supplier_info si on si.id = sprd.supplier_id " +
             "   left join storage_info sti on sti.id = sprd.storage_id " +
             "   left join storage_area_info stai on stai.id = sprd.storage_area_id " +
+            "   left join sale_service_info ssi on ssi.id = oip.service_id " +
             "   where oip.id is not null ";
         let filterObj = {};
         if(params.orderItemProdId){
@@ -203,6 +241,22 @@ class OrderItemProdDAO  {
         if(params.orderId){
             query += " and oip.order_id = ${orderId} ";
             filterObj.orderId = params.orderId;
+        }
+        if(params.orderItemServiceId){
+            query += " and oip.order_item_service_id = ${orderItemServiceId} ";
+            filterObj.orderItemServiceId = params.orderItemServiceId;
+        }
+        if(params.serviceId){
+            query += " and oip.service_id = ${serviceId} ";
+            filterObj.serviceId = params.serviceId;
+        }
+        if(params.serviceType){
+            query += " and oip.service_type = ${serviceType} ";
+            filterObj.serviceType = params.serviceType;
+        }
+        if(params.servicePartType){
+            query += " and oip.service_part_type = ${servicePartType} ";
+            filterObj.servicePartType = params.servicePartType;
         }
         if(params.clientId){
             query += " and oip.client_id = ${clientId} ";
@@ -271,6 +325,7 @@ class OrderItemProdDAO  {
             "   left join order_info oi on oi.id = oip.order_id " +
             "   left join storage_product_rel_detail sprd on sprd.order_prod_id = oip.id " +
             "   left join user_info sui on sui.id = sprd.apply_user_id " +
+            "   left join sale_service_info ssi on ssi.id = oip.service_id " +
             "   where oip.id is not null";
         let filterObj = {};
         if(params.orderItemProdId){
@@ -288,6 +343,22 @@ class OrderItemProdDAO  {
         if(params.orderId){
             query += " and oip.order_id = ${orderId} ";
             filterObj.orderId = params.orderId;
+        }
+        if(params.orderItemServiceId){
+            query += " and oip.order_item_service_id = ${orderItemServiceId} ";
+            filterObj.orderItemServiceId = params.orderItemServiceId;
+        }
+        if(params.serviceId){
+            query += " and oip.service_id = ${serviceId} ";
+            filterObj.serviceId = params.serviceId;
+        }
+        if(params.serviceType){
+            query += " and oip.service_type = ${serviceType} ";
+            filterObj.serviceType = params.serviceType;
+        }
+        if(params.servicePartType){
+            query += " and oip.service_part_type = ${servicePartType} ";
+            filterObj.servicePartType = params.servicePartType;
         }
         if(params.clientId){
             query += " and oip.client_id = ${clientId} ";
@@ -343,10 +414,12 @@ class OrderItemProdDAO  {
 
     static async addItemProd(params) {
         const query = ' INSERT INTO order_item_prod( op_user, sale_user_id, sale_user_name, remark, ' +
-            ' order_id, client_id, client_agent_id, order_item_type, ' +
+            ' order_id,  order_item_service_id , service_id , service_type , service_part_type, ' +
+            ' client_id, client_agent_id, order_item_type, ' +
             ' prod_id, prod_name, unit_price, prod_count, prod_price, ' +
             ' discount_prod_price, actual_prod_price, date_id) ' +
             ' ( select ${opUser} , ${saleUserId} , ${saleUserName} , ${remark} ,${orderId} , ' +
+            '   ${orderItemServiceId} , ${serviceId} , ${serviceType} , ${servicePartType} , ' +
             '   ${clientId} , ${clientAgentId} , ${orderItemType} , ' +
             '   pi.id , pi.product_name , pi.price , ' +
             '   ${prodCount} , COALESCE(pi.price,0)*${prodCount}, ' +
@@ -369,6 +442,10 @@ class OrderItemProdDAO  {
         }
         valueObj.remark = params.remark;
         valueObj.orderId = params.orderId;
+        valueObj.orderItemServiceId = params.orderItemServiceId;
+        valueObj.serviceId = params.serviceId;
+        valueObj.serviceType = params.serviceType;
+        valueObj.servicePartType = params.servicePartType;
         valueObj.clientId = params.clientId;
         valueObj.clientAgentId = params.clientAgentId;
         valueObj.orderItemType = params.orderItemType;
