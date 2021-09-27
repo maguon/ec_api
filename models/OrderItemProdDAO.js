@@ -209,7 +209,7 @@ class OrderItemProdDAO  {
             "   sprd.product_id as st_product_id , sprd.purchase_id as st_purchase_id , sprd.purchase_item_id as st_purchase_item_id ," +
             "   sprd.storage_type as st_storage_type , sprd.storage_sub_type as st_storage_sub_type , " +
             "   sprd.storage_count as st_storage_count , sprd.date_id as st_date_id , sprd.apply_user_id as st_apply_user_id , " +
-            "   sprd.prod_unique_arr , sprd.unique_flag , sui.real_name as st_apply_user_name " +
+            "   sprd.prod_unique_arr , sprd.unique_flag , sui.real_name as st_apply_user_name , " +
             "   ssi.service_name " +
             "   from order_item_prod oip " +
             "   left join user_info ui on ui.id = oip.op_user " +
