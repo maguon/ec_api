@@ -1,7 +1,7 @@
 
 const orderDAO = require('../models/OrderDAO');
 const orderItemServiceDAO = require('../models/OrderItemServiceDAO');
-const orderItemProdDAO = require('../models/orderItemProdDAO');
+const orderItemProdDAO = require('../models/OrderItemProdDAO');
 const serverLogger = require('../util/ServerLogger.js');
 const moment = require('moment');
 const resUtil = require('../util/ResponseUtil.js');
