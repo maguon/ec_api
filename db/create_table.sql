@@ -819,7 +819,7 @@ CREATE TABLE IF NOT EXISTS public.order_item_prod(
     "remark" character varying(200) ,
     "order_id" bigint NOT NULL,
     "order_item_service_id" smallint NOT NULL DEFAULT 0,
-    "service_id" smallint NOT NULL DEFAULT 0,
+    "sale_service_id" smallint NOT NULL DEFAULT 0,
     "service_type" smallint NOT NULL DEFAULT 0,
     "service_part_type" smallint NOT NULL DEFAULT 0,
     "client_id" smallint NOT NULL DEFAULT 0,

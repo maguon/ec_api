@@ -8189,9 +8189,9 @@
             "type": "integer"
           },
           {
-            "name": "serviceId",
+            "name": "saleServiceId",
             "in": "query",
-            "description": "serviceId",
+            "description": "saleServiceId",
             "required": false,
             "type": "integer"
           },
@@ -8496,9 +8496,9 @@
             "type": "integer"
           },
           {
-            "name": "serviceId",
+            "name": "saleServiceId",
             "in": "query",
-            "description": "serviceId",
+            "description": "saleServiceId",
             "required": false,
             "type": "integer"
           },
@@ -13548,7 +13548,7 @@
         "prodCount",
         "discountProdPrice",
         "orderItemServiceId",
-        "serviceId",
+        "saleServiceId",
         "serviceType",
         "servicePartType"
       ],
@@ -13594,7 +13594,7 @@
           "type": "integer",
           "format": "int64"
         },
-        "serviceId": {
+        "saleServiceId": {
           "type": "integer",
           "format": "int64"
         },

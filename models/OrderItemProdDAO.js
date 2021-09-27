@@ -22,7 +22,7 @@ class OrderItemProdDAO  {
             " left join purchase_item pit on pit.id = sprd.purchase_item_id   " +
             " left join purchase_info pi on pi.id = sprd.purchase_id " +
             " left join client_agent ca on ca.id = oi.client_agent_id " +
-            " left join sale_service_info ssi on ssi.id = oip.service_id " +
+            " left join sale_service_info ssi on ssi.id = oip.sale_service_id " +
             " where oip.id is not null ";
         let filterObj = {};
         if(params.orderItemProdId){
@@ -45,17 +45,13 @@ class OrderItemProdDAO  {
             query += " and oip.order_id = ${orderId} ";
             filterObj.orderId = params.orderId;
         }
-        if(params.orderId){
-            query += " and oip.order_id = ${orderId} ";
-            filterObj.orderId = params.orderId;
-        }
         if(params.orderItemServiceId){
             query += " and oip.order_item_service_id = ${orderItemServiceId} ";
             filterObj.orderItemServiceId = params.orderItemServiceId;
         }
-        if(params.serviceId){
-            query += " and oip.service_id = ${serviceId} ";
-            filterObj.serviceId = params.serviceId;
+        if(params.saleServiceId){
+            query += " and oip.sale_service_id = ${saleServiceId} ";
+            filterObj.saleServiceId = params.saleServiceId;
         }
         if(params.serviceType){
             query += " and oip.service_type = ${serviceType} ";
@@ -146,9 +142,9 @@ class OrderItemProdDAO  {
             query += " and oip.order_item_service_id = ${orderItemServiceId} ";
             filterObj.orderItemServiceId = params.orderItemServiceId;
         }
-        if(params.serviceId){
-            query += " and oip.service_id = ${serviceId} ";
-            filterObj.serviceId = params.serviceId;
+        if(params.saleServiceId){
+            query += " and oip.sale_service_id = ${saleServiceId} ";
+            filterObj.saleServiceId = params.saleServiceId;
         }
         if(params.serviceType){
             query += " and oip.service_type = ${serviceType} ";
@@ -246,9 +242,9 @@ class OrderItemProdDAO  {
             query += " and oip.order_item_service_id = ${orderItemServiceId} ";
             filterObj.orderItemServiceId = params.orderItemServiceId;
         }
-        if(params.serviceId){
-            query += " and oip.service_id = ${serviceId} ";
-            filterObj.serviceId = params.serviceId;
+        if(params.saleServiceId){
+            query += " and oip.sale_service_id = ${saleServiceId} ";
+            filterObj.saleServiceId = params.saleServiceId;
         }
         if(params.serviceType){
             query += " and oip.service_type = ${serviceType} ";
@@ -348,9 +344,9 @@ class OrderItemProdDAO  {
             query += " and oip.order_item_service_id = ${orderItemServiceId} ";
             filterObj.orderItemServiceId = params.orderItemServiceId;
         }
-        if(params.serviceId){
-            query += " and oip.service_id = ${serviceId} ";
-            filterObj.serviceId = params.serviceId;
+        if(params.saleServiceId){
+            query += " and oip.sale_service_id = ${saleServiceId} ";
+            filterObj.saleServiceId = params.saleServiceId;
         }
         if(params.serviceType){
             query += " and oip.service_type = ${serviceType} ";
@@ -414,12 +410,12 @@ class OrderItemProdDAO  {
 
     static async addItemProd(params) {
         const query = ' INSERT INTO order_item_prod( op_user, sale_user_id, sale_user_name, remark, ' +
-            ' order_id,  order_item_service_id , service_id , service_type , service_part_type, ' +
+            ' order_id,  order_item_service_id , sale_service_id , service_type , service_part_type, ' +
             ' client_id, client_agent_id, order_item_type, ' +
             ' prod_id, prod_name, unit_price, prod_count, prod_price, ' +
             ' discount_prod_price, actual_prod_price, date_id) ' +
             ' ( select ${opUser} , ${saleUserId} , ${saleUserName} , ${remark} ,${orderId} , ' +
-            '   ${orderItemServiceId} , ${serviceId} , ${serviceType} , ${servicePartType} , ' +
+            '   ${orderItemServiceId} , ${saleServiceId} , ${serviceType} , ${servicePartType} , ' +
             '   ${clientId} , ${clientAgentId} , ${orderItemType} , ' +
             '   pi.id , pi.product_name , pi.price , ' +
             '   ${prodCount} , COALESCE(pi.price,0)*${prodCount}, ' +
@@ -443,7 +439,7 @@ class OrderItemProdDAO  {
         valueObj.remark = params.remark;
         valueObj.orderId = params.orderId;
         valueObj.orderItemServiceId = params.orderItemServiceId;
-        valueObj.serviceId = params.serviceId;
+        valueObj.saleServiceId = params.saleServiceId;
         valueObj.serviceType = params.serviceType;
         valueObj.servicePartType = params.servicePartType;
         valueObj.clientId = params.clientId;
