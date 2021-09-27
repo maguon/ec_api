@@ -21,6 +21,10 @@ class SaleServiceDAO  {
             query += " and ssi.service_type = ${serviceType} ";
             filterObj.serviceType = params.serviceType;
         }
+        if(params.servicePartType){
+            query += " and ssi.service_part_type = ${servicePartType} ";
+            filterObj.servicePartType = params.servicePartType;
+        }
         if(params.servicePriceType){
             query += " and ssi.service_price_type = ${servicePriceType} ";
             filterObj.servicePriceType = params.servicePriceType;
@@ -55,38 +59,45 @@ class SaleServiceDAO  {
     }
 
     static async querySaleServiceCount(params) {
-        let query = "select count(id) from sale_service_info where id is not null ";
+        let query = "select count(ssi.id) " +
+            " from sale_service_info ssi " +
+            " left join user_info ui on ui.id = ssi.op_user " +
+            " where ssi.id is not null ";
         let filterObj = {};
         if(params.saleServiceId){
-            query += " and id = ${saleServiceId} ";
+            query += " and ssi.id = ${saleServiceId} ";
             filterObj.saleServiceId = params.saleServiceId;
         }
         if(params.status){
-            query += " and status = ${status} ";
+            query += " and ssi.status = ${status} ";
             filterObj.status = params.status;
         }
         if(params.serviceType){
-            query += " and service_type = ${serviceType} ";
+            query += " and ssi.service_type = ${serviceType} ";
             filterObj.serviceType = params.serviceType;
         }
+        if(params.servicePartType){
+            query += " and ssi.service_part_type = ${servicePartType} ";
+            filterObj.servicePartType = params.servicePartType;
+        }
         if(params.servicePriceType){
-            query += " and service_price_type = ${servicePriceType} ";
+            query += " and ssi.service_price_type = ${servicePriceType} ";
             filterObj.servicePriceType = params.servicePriceType;
         }
         if(params.serviceCostType){
-            query += " and service_cost_type = ${serviceCostType} ";
+            query += " and ssi.service_cost_type = ${serviceCostType} ";
             filterObj.serviceCostType = params.serviceCostType;
         }
         if(params.salePerfType){
-            query += " and sale_perf_type = ${salePerfType} ";
+            query += " and ssi.sale_perf_type = ${salePerfType} ";
             filterObj.salePerfType = params.salePerfType;
         }
         if(params.deployPerfType){
-            query += " and deploy_perf_type = ${deployPerfType} ";
+            query += " and ssi.deploy_perf_type = ${deployPerfType} ";
             filterObj.deployPerfType = params.deployPerfType;
         }
         if(params.checkPerfType){
-            query += " and check_perf_type = ${checkPerfType} ";
+            query += " and ssi.check_perf_type = ${checkPerfType} ";
             filterObj.checkPerfType = params.checkPerfType;
         }
         logger.debug(' querySaleServiceCount ');
@@ -94,23 +105,23 @@ class SaleServiceDAO  {
     }
 
     static async addSaleService(params) {
-        const query = 'INSERT INTO sale_service_info (status , op_user , remark , service_name , service_type , ' +
-            ' service_price_type , fixed_price , unit_price , service_price_count , ' +
+        const query = 'INSERT INTO sale_service_info (op_user , remark , service_name , service_type , ' +
+            ' service_part_type , service_price_type , fixed_price , unit_price , service_price_count , ' +
             ' service_cost_type , fixed_cost , unit_cost , service_cost_count , ' +
             ' total_price , total_cost , total_profit , sale_perf_type , sale_perf_fixed , sale_perf_ratio , ' +
             ' deploy_perf_type , deploy_perf_fixed , deploy_perf_ratio , check_perf_type , check_perf_fixed , check_perf_ratio ) ' +
-            ' VALUES (${status} , ${opUser} , ${remark} , ${serviceName} , ${serviceType} , ' +
+            ' VALUES (${opUser} , ${remark} , ${serviceName} , ${serviceType} , ${servicePartType} , ' +
             ' ${servicePriceType} , ${fixedPrice} , ${unitPrice} , ${servicePriceCount} , ' +
             ' ${serviceCostType} , ${fixedCost} , ${unitCost} , ${serviceCostCount} , ' +
             ' ${totalPrice} , ${totalCost} , ${totalProfit} , ${salePerfType} , ${salePerfFixed} , ${salePerfRatio} , ' +
             ' ${deployPerfType} , ${deployPerfFixed} , ${deployPerfRatio} , ${checkPerfType} , ${checkPerfFixed} , ${checkPerfRatio} ) ' +
             ' RETURNING id ';
         let valueObj = {};
-        valueObj.status = params.status;
         valueObj.opUser = params.opUser;
         valueObj.remark = params.remark;
         valueObj.serviceName = params.serviceName;
         valueObj.serviceType = params.serviceType;
+        valueObj.servicePartType = params.servicePartType;
         valueObj.servicePriceType = params.servicePriceType;
         valueObj.fixedPrice = params.fixedPrice;
         valueObj.unitPrice = params.unitPrice;
@@ -136,9 +147,9 @@ class SaleServiceDAO  {
     }
 
     static async updateSaleService(params){
-        const query = 'update sale_service_info set op_user=${opUser} , remark=${remark} , ' +
-            ' service_name=${serviceName} ,  service_type=${serviceType} , ' +
-            ' service_price_type=${servicePriceType} , fixed_price=${fixedPrice} , unit_price=${unitPrice} , service_price_count=${servicePriceCount} ,' +
+        const query = 'update sale_service_info set op_user=${opUser} , remark=${remark} , service_name=${serviceName} , ' +
+            ' service_type=${serviceType} , service_part_type=${servicePartType} , service_price_type=${servicePriceType} , ' +
+            ' fixed_price=${fixedPrice} , unit_price=${unitPrice} , service_price_count=${servicePriceCount} ,' +
             ' service_cost_type=${serviceCostType} , fixed_cost=${fixedCost} , unit_cost=${unitCost} , service_cost_count=${serviceCostCount} ,' +
             ' total_price=${totalPrice} , total_cost=${totalCost} , total_profit=${totalProfit} , ' +
             ' sale_perf_type=${salePerfType} , sale_perf_fixed=${salePerfFixed} , sale_perf_ratio=${salePerfRatio} , ' +
@@ -150,6 +161,7 @@ class SaleServiceDAO  {
         valueObj.remark = params.remark;
         valueObj.serviceName = params.serviceName;
         valueObj.serviceType = params.serviceType;
+        valueObj.servicePartType = params.servicePartType;
 
         valueObj.servicePriceType = params.servicePriceType;
         valueObj.fixedPrice = params.fixedPrice;

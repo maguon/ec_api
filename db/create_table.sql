@@ -588,6 +588,7 @@ CREATE TABLE IF NOT EXISTS public.sale_service_info(
     "remark" character varying(200),
     "service_name" character varying(200),
     "service_type" smallint NOT NULL DEFAULT 1 ,
+    "service_part_type" smallint NOT NULL DEFAULT 1 ,
     "service_price_type" smallint NOT NULL DEFAULT 1 ,
     "fixed_price" decimal(12,2) NOT NULL DEFAULT 0,
     "unit_price" decimal(12,2) NOT NULL DEFAULT 0,
@@ -611,7 +612,8 @@ CREATE TABLE IF NOT EXISTS public.sale_service_info(
      PRIMARY KEY (id)
 );
 
-COMMENT ON COLUMN public.sale_service_info.service_type IS '服务类型';
+COMMENT ON COLUMN public.sale_service_info.service_type IS '服务类型(保养、维修、电焊、电器)';
+COMMENT ON COLUMN public.sale_service_info.service_part_type IS '项目服务类型(电器、发动机、底盘、液压、车身、电焊、其他部分)';
 COMMENT ON COLUMN public.sale_service_info.service_price_type IS '服务价格类型1:固定2:单价数量';
 COMMENT ON COLUMN public.sale_service_info.fixed_price IS '固定售价';
 COMMENT ON COLUMN public.sale_service_info.unit_price IS '销售单价';

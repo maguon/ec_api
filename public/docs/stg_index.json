@@ -7343,6 +7343,13 @@
             "type": "integer"
           },
           {
+            "name": "servicePartType",
+            "in": "query",
+            "description": "servicePartType",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "servicePriceType",
             "in": "query",
             "description": "servicePriceType",
@@ -13177,6 +13184,7 @@
         "remark",
         "serviceName",
         "serviceType",
+        "servicePartType",
         "servicePriceType",
         "fixedPrice",
         "unitPrice",
@@ -13206,6 +13214,10 @@
           "type": "string"
         },
         "serviceType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "servicePartType": {
           "type": "integer",
           "format": "int64"
         },

@@ -25,7 +25,6 @@ const addSaleService = async (req,res,next)=>{
     if(path.userId){
         params.opUser = path.userId;
     }
-    params.status = sysConst.status.usable;
     try {
         const rows = await saleServiceDAO.addSaleService(params);
         logger.info(' addSaleService ' + 'success');
