@@ -5,7 +5,7 @@ const logger = serverLogger.createLogger('ProductDAO.js');
 class ProductDAO  {
     static async queryProduct(params) {
         let query = "select pi.* , ui.real_name , ci.category_name , " +
-            " csi.category_sub_name , bi.brand_name , bmi.brand_model_name , sum(spr.storage_count) as storage_count " +
+            " csi.category_sub_name , bi.brand_name , bmi.brand_model_name , COALESCE(sum(spr.storage_count),0) as storage_count " +
             " from product_info pi " +
             " left join user_info ui on ui.id = pi.op_user " +
             " left join category_info ci on ci.id = pi.category_id " +
