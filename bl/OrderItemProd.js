@@ -176,30 +176,38 @@ const getServicePartType = (type) => {
     let partTypeName;
     switch (type) {
         case 1:{
-            partTypeName = '电器';
+            partTypeName = '车身部分';
             break;
         }
         case 2:{
-            partTypeName = '发动机';
+            partTypeName = '电焊部分';
             break;
         }
         case 3:{
-            partTypeName = '底盘';
+            partTypeName = '液压部分';
             break;
         }
         case 4:{
-            partTypeName = '液压';
+            partTypeName = '电器部分';
             break;
         }
         case 5:{
-            partTypeName = '车身';
+            partTypeName = '气路部分';
             break;
         }
         case 6:{
-            partTypeName = '电焊';
+            partTypeName = '发动机部分';
             break;
         }
         case 7:{
+            partTypeName = '底盘部分';
+            break;
+        }
+        case 8:{
+            partTypeName = '轮胎部分';
+            break;
+        }
+        case 9:{
             partTypeName = '其他部分';
             break;
         }

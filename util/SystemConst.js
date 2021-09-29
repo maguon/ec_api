@@ -191,13 +191,16 @@ const serviceType = {
 
 //项目服务类型
 const servicePartType = {
-    electric_appliance:1,//电器
-    engine:2,//发动机
-    underpan:3,//底盘
-    hydraulic_pressure:4,//液压
-    bodywork:5,//车身
-    electric_welding:6,//电焊
-    other:7//其他部分
+    bodywork:1,//车身部分
+    electric_welding:2,//电焊部分
+    hydraulic_pressure:3,//液压部分
+    electric_appliance:4,//电器部分
+    gas_circuit:5,//气路部分
+    engine:6,//发动机部分
+    underpan:7,//底盘部分
+    tire:8,//轮胎部分
+    other:9//其他部分
+
 }
 
 //服务价格类型
