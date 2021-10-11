@@ -211,6 +211,7 @@ const createServer=()=>{
      * Product Module
      */
     server.get('/api/user/:userId/product', product.queryProduct);
+    server.get('/api/user/:userId/product.csv', product.queryProductCsv);
     server.post({path:'/api/user/:userId/product',contentType: 'application/json'}, product.addProduct);
     server.put({path:'/api/user/:userId/product/:productId',contentType: 'application/json'} ,product.updateProduct);
     server.put({path:'/api/user/:userId/product/:productId/status',contentType: 'application/json'} ,product.updateStatus);

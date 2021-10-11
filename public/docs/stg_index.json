@@ -4214,6 +4214,114 @@
         }
       }
     },
+    "/user/{userId}/product.csv": {
+      "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Select product.csv Info",
+        "description": "Get product.csv info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "query",
+            "description": "productId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "productName",
+            "in": "query",
+            "description": "productName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "productSName",
+            "in": "query",
+            "description": "productSName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "categoryId",
+            "in": "query",
+            "description": "categoryId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "categorySubId",
+            "in": "query",
+            "description": "categorySubId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "brandId",
+            "in": "query",
+            "description": "brandId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "brandModelId",
+            "in": "query",
+            "description": "brandModelId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "standardType",
+            "in": "query",
+            "description": "standardType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "priceType",
+            "in": "query",
+            "description": "priceType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
     "/user/{userId}/product/{productId}": {
       "put": {
         "tags": [
