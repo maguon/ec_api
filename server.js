@@ -286,6 +286,7 @@ const createServer=()=>{
      * Service Module
      */
     server.get('/api/user/:userId/saleService', saleService.querySaleService);
+    server.get('/api/user/:userId/saleService.csv', saleService.querySaleServiceCsv);
     server.post({path:'/api/user/:userId/saleService',contentType: 'application/json'}, saleService.addSaleService);
     server.put({path:'/api/user/:userId/saleService/:saleServiceId',contentType: 'application/json'} ,saleService.updateSaleService);
     server.put({path:'/api/user/:userId/saleService/:saleServiceId/status',contentType: 'application/json'} ,saleService.updateStatus);

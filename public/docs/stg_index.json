@@ -7641,6 +7641,107 @@
         }
       }
     },
+    "/user/{userId}/saleService.csv": {
+      "get": {
+        "tags": [
+          "service"
+        ],
+        "summary": "Select saleService.csv Info",
+        "description": "Get saleService.csv info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "saleServiceId",
+            "in": "query",
+            "description": "saleServiceId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "serviceType",
+            "in": "query",
+            "description": "serviceType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "servicePartType",
+            "in": "query",
+            "description": "servicePartType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "servicePriceType",
+            "in": "query",
+            "description": "servicePriceType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "serviceCostType",
+            "in": "query",
+            "description": "serviceCostType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "salePerfType",
+            "in": "query",
+            "description": "salePerfType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "deployPerfType",
+            "in": "query",
+            "description": "deployPerfType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "checkPerfType",
+            "in": "query",
+            "description": "checkPerfType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params"
+          }
+        }
+      }
+    },
     "/user/{userId}/saleService/{saleServiceId}": {
       "put": {
         "tags": [
