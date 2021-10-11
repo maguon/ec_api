@@ -268,6 +268,7 @@ const createServer=()=>{
      * Client Module
      */
     server.get('/api/user/:userId/client', client.queryClient);
+    server.get('/api/user/:userId/client.csv', client.queryClientCsv);
     server.post({path:'/api/user/:userId/client',contentType: 'application/json'}, client.addClient);
     server.put({path:'/api/user/:userId/client/:clientId',contentType: 'application/json'} ,client.updateClient);
     server.put({path:'/api/user/:userId/client/:clientId/status',contentType: 'application/json'} ,client.updateStatus);
