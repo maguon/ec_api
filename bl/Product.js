@@ -80,7 +80,7 @@ const queryProductCsv = async (req,res,next)=>{
 
             //品牌型号
             if (rows[i].brand_model_name == null) {
-                parkObj.brandModelName = 0;
+                parkObj.brandModelName = '';
             } else {
                 parkObj.brandModelName = rows[i].brand_model_name;
             }
