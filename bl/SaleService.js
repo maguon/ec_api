@@ -58,7 +58,7 @@ const querySaleServiceCsv = async (req,res,next)=>{
             if (rows[i].service_part_type == null) {
                 parkObj.servicePartType = '';
             } else {
-                parkObj.serviceType = getServicePartType(rows[i].service_type);
+                parkObj.servicePartType = getServicePartType(rows[i].service_part_type);
             }
 
             //售价类型
@@ -98,9 +98,9 @@ const querySaleServiceCsv = async (req,res,next)=>{
                 parkObj.serviceCostType = '';
             } else {
                 if(rows[i].service_cost_type == 1){
-                    parkObj.servicePriceType = '固定售价';
+                    parkObj.serviceCostType = '固定售价';
                 }else if(rows[i].service_cost_type == 2){
-                    parkObj.servicePriceType = '单价数量';
+                    parkObj.serviceCostType = '单价数量';
                 }
             }
 
@@ -166,7 +166,6 @@ const querySaleServiceCsv = async (req,res,next)=>{
         resUtil.resInternalError(e,res,next);
     }
 }
-
 
 const getServiceType = (type) => {
     let typeName;
@@ -242,7 +241,6 @@ const getServicePartType = (type) => {
     return partTypeName;
 }
 
-
 const addSaleService = async (req,res,next)=>{
     let params = req.body;
     let path = req.params;
@@ -305,6 +303,8 @@ const updateStatus = async (req,res,next)=>{
 module.exports = {
     querySaleService,
     querySaleServiceCsv,
+    getServiceType,
+    getServicePartType,
     addSaleService,
     updateSaleService,
     updateStatus
