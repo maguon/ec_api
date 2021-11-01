@@ -12,7 +12,7 @@ end
 $$
 language plpgsql;
 
---CREATE TABLE user_info
+DROP TABLE IF EXISTS public.user_info;
 CREATE TABLE IF NOT EXISTS public.user_info
 (
     id smallserial NOT NULL,
@@ -47,7 +47,7 @@ CREATE UNIQUE INDEX uk_user_info_phone ON user_info(phone);
 
 INSERT INTO user_info (status , user_name , real_name , password , phone , email , gender , type)
 VALUES (1 , '超级管理员' , '管理员' , 'E10ADC3949BA59ABBE56E057F20F883E' , '19999999999' , '1234567@qq.com' , 0 , 99 )
-on conflict(phone) DO NOTHING RETURNING id
+on conflict(phone) DO NOTHING RETURNING id;
 
 --CREATE TABLE supplier_info
 CREATE TABLE IF NOT EXISTS public.supplier_info (
@@ -92,6 +92,7 @@ COMMENT ON COLUMN public.supplier_info.settle_type IS '结算类型';
 COMMENT ON COLUMN public.supplier_info.settle_month_day IS '月结日期';
 COMMENT ON COLUMN public.supplier_info.remark IS '备注';
 
+DROP TRIGGER IF EXISTS supplier_info_upt ON supplier_info;
 create trigger supplier_info_upt before update on supplier_info for each row execute procedure update_timestamp_func();
 select setval('supplier_info_id_seq',1000,false);
 --CREATE TABLE storage_info
@@ -105,6 +106,7 @@ CREATE TABLE IF NOT EXISTS public.storage_info (
     "storage_name" character varying(50),
     PRIMARY KEY ("id")
 );
+DROP TRIGGER IF EXISTS storage_info_upt ON storage_info;
 create trigger storage_info_upt before update on storage_info for each row execute procedure update_timestamp_func();
 select setval('storage_info_id_seq',1000,false);
 
@@ -120,6 +122,8 @@ CREATE TABLE IF NOT EXISTS public.storage_area_info (
     "storage_id" smallint NOT NULL,
     PRIMARY KEY ("id")
 );
+
+DROP TRIGGER IF EXISTS storage_area_info_upt ON storage_area_info;
 create trigger storage_area_info_upt before update on storage_area_info for each row execute procedure update_timestamp_func();
 select setval('storage_area_info_id_seq',1000,false);
 
@@ -134,6 +138,8 @@ CREATE TABLE IF NOT EXISTS public.brand_info (
     "brand_name" character varying(50),
     PRIMARY KEY ("id")
 );
+
+DROP TRIGGER IF EXISTS brand_info_upt ON brand_info;
 create trigger brand_info_upt before update on brand_info for each row execute procedure update_timestamp_func();
 select setval('brand_info_id_seq',1000,false);
 
@@ -149,6 +155,8 @@ CREATE TABLE IF NOT EXISTS public.brand_model_info (
     "brand_id" smallint NOT NULL,
     PRIMARY KEY ("id")
 );
+
+DROP TRIGGER IF EXISTS brand_model_info_upt ON brand_model_info;
 create trigger brand_model_info_upt before update on brand_model_info for each row execute procedure update_timestamp_func();
 select setval('brand_model_info_id_seq',1000,false);
 
@@ -163,6 +171,8 @@ CREATE TABLE IF NOT EXISTS public.category_info (
     "category_name" character varying(50),
     PRIMARY KEY ("id")
 );
+
+DROP TRIGGER IF EXISTS category_info_upt ON category_info;
 create trigger category_info_upt before update on category_info for each row execute procedure update_timestamp_func();
 select setval('category_info_id_seq',1000,false);
 
@@ -178,6 +188,8 @@ CREATE TABLE IF NOT EXISTS public.category_sub_info (
     "category_id" smallint NOT NULL,
     PRIMARY KEY ("id")
 );
+
+DROP TRIGGER IF EXISTS category_sub_info_upt ON category_sub_info;
 create trigger category_sub_info_upt before update on category_sub_info for each row execute procedure update_timestamp_func();
 select setval('category_sub_info_id_seq',1000,false);
 
@@ -197,6 +209,7 @@ COMMENT ON COLUMN public.user_type_menu.status IS '状态';
 COMMENT ON COLUMN public.user_type_menu.type_name IS '类型名称';
 COMMENT ON COLUMN public.user_type_menu.menu_list IS '菜单列表';
 
+DROP TRIGGER IF EXISTS user_type_menu_upt ON user_type_menu;
 create trigger user_type_menu_upt before update on user_type_menu for each row execute procedure update_timestamp_func();
 select setval(' user_type_menu_id_seq',1000,false);
 
@@ -245,6 +258,7 @@ COMMENT ON COLUMN public.product_info.price_raise_ratio IS '加价率';
 COMMENT ON COLUMN public.product_info.price_raise_value IS '加价额';
 COMMENT ON COLUMN public.product_info.last_purchase_price IS '最后采购价';
 
+DROP TRIGGER IF EXISTS product_info_upt ON product_info;
 create trigger product_info_upt before update on product_info for each row execute procedure update_timestamp_func();
 select setval(' product_info_id_seq',1000,false);
 
@@ -252,8 +266,8 @@ select setval(' product_info_id_seq',1000,false);
 CREATE TABLE IF NOT EXISTS public.app_info
 (
     id smallserial NOT NULL,
-    created_on timestamp with time zone NOT NULL NOW(),
-    updated_on timestamp with time zone NOT NULL NOW(),
+    created_on timestamp with time zone NOT NULL DEFAULT NOW(),
+    updated_on timestamp with time zone NOT NULL DEFAULT NOW(),
     status smallint NOT NULL,
     app_type smallint NOT NULL,
     device_type smallint NOT NULL,
@@ -276,6 +290,7 @@ COMMENT ON COLUMN public.app_info.force_update IS '是否强制更新(0-不更�
 COMMENT ON COLUMN public.app_info.url IS '下载地址';
 COMMENT ON COLUMN public.app_info.remarks IS '备注';
 
+DROP TRIGGER IF EXISTS app_info_upt ON app_info;
 create trigger app_info_upt before update on app_info for each row execute procedure update_timestamp_func();
 
 --CREATE TABLE date_base
@@ -333,6 +348,7 @@ COMMENT ON COLUMN public.purchase_info.transfer_cost IS '运费';
 COMMENT ON COLUMN public.purchase_info.product_cost IS '商品成本';
 COMMENT ON COLUMN public.purchase_info.total_cost IS '总成本';
 
+DROP TRIGGER IF EXISTS purchase_info_upt ON purchase_info;
 create trigger purchase_info_upt before update on purchase_info for each row execute procedure update_timestamp_func();
 
 SELECT cron.schedule('purchase_id_sdl', '0 16 * * *', $$select setval(' purchase_info_id_seq',(CAST(to_char(current_timestamp, 'YYYYMMDD0001') AS BIGINT)),false);$$);
@@ -367,6 +383,8 @@ COMMENT ON COLUMN public.purchase_item.unit_cost IS '商品单价';
 COMMENT ON COLUMN public.purchase_item.purchase_count IS '采购数量';
 COMMENT ON COLUMN public.purchase_item.total_cost IS '总成本';
 COMMENT ON COLUMN public.purchase_item.unique_flag IS '商品是否有唯一编码';
+
+DROP TRIGGER IF EXISTS purchase_item_upt ON purchase_item;
 create trigger purchase_item_upt before update on purchase_item for each row execute procedure update_timestamp_func();
 select setval(' purchase_item_id_seq',10000,false);
 
@@ -408,6 +426,7 @@ COMMENT ON COLUMN public.purchase_refund.refund_unit_cost IS '退货单价';
 COMMENT ON COLUMN public.purchase_refund.transfer_cost IS '退货运费';
 COMMENT ON COLUMN public.purchase_refund.refund_profile IS '退货盈亏';
 
+DROP TRIGGER IF EXISTS purchase_refund_upt ON purchase_refund;
 create trigger purchase_refund_upt before update on purchase_refund for each row execute procedure update_timestamp_func();
 select setval(' purchase_refund_id_seq',10000,false);
 
@@ -433,7 +452,7 @@ CREATE TABLE IF NOT EXISTS public.storage_product_rel
     "order_id" bigint ,
     "old_flag" smallint NOT NULL DEFAULT 0,
     "unique_flag" smallint  NOT NULL DEFAULT 0,
-    "prod_unique_arr" character varying(40) ARRAY[],
+    "prod_unique_arr" character varying(40)[],
     PRIMARY KEY (id)
 );
 
@@ -443,6 +462,7 @@ COMMENT ON COLUMN public.storage_product_rel.date_id IS '入库日期';
 COMMENT ON COLUMN public.storage_product_rel.old_flag IS '是否旧货';
 COMMENT ON COLUMN public.storage_product_rel.unique_flag IS '商品是否有唯一编码';
 
+DROP TRIGGER IF EXISTS storage_product_rel_upt ON storage_product_rel;
 create trigger storage_product_rel_upt before update on storage_product_rel for each row execute procedure update_timestamp_func();
 select setval(' storage_product_rel_id_seq',10000,false);
 
@@ -472,7 +492,7 @@ CREATE TABLE IF NOT EXISTS public.storage_product_rel_detail
     "old_flag" smallint NOT NULL DEFAULT 0,
     "order_refund_id" bigint ,
     "order_refund_prod_id" integer ,
-    "prod_unique_arr" character varying(40) ARRAY[],
+    "prod_unique_arr" character varying(40)[],
     "unique_flag" smallint  NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
@@ -482,9 +502,10 @@ COMMENT ON COLUMN public.storage_product_rel_detail.storage_sub_type IS '出入�
 COMMENT ON COLUMN public.storage_product_rel_detail.storage_count IS '出入库量';
 COMMENT ON COLUMN public.storage_product_rel_detail.date_id IS '出入库日期';
 COMMENT ON COLUMN public.storage_product_rel_detail.old_flag IS '是否旧货';
-COMMENT ON COLUMN public.storage_product_rel_detail.prod_unique_id IS '商品编码数组';
+COMMENT ON COLUMN public.storage_product_rel_detail.prod_unique_arr IS '商品编码数组';
 COMMENT ON COLUMN public.storage_product_rel_detail.unique_flag IS '商品是否有唯一编码';
 
+DROP TRIGGER IF EXISTS storage_product_rel_detail_upt ON storage_product_rel_detail;
 create trigger storage_product_rel_detail_upt before update on storage_product_rel_detail for each row execute procedure update_timestamp_func();
 
 SELECT cron.schedule('storage_product_rel_detail_id_sdl', '0 16 * * *', $$select setval(' storage_product_rel_detail_id_seq',(CAST(to_char(current_timestamp, 'YYYYMMDD0001') AS BIGINT)),false);$$);
@@ -516,6 +537,7 @@ COMMENT ON COLUMN public.client_agent.date_id IS '创建日期';
 COMMENT ON COLUMN public.client_agent.sales_user_id IS '销售人员编号';
 COMMENT ON COLUMN public.client_agent.source_type IS '客户来源';
 
+DROP TRIGGER IF EXISTS client_agent_upt ON client_agent;
 create trigger client_agent_upt before update on client_agent for each row execute procedure update_timestamp_func();
 select setval(' client_agent_id_seq',10000,false);
 
@@ -536,6 +558,8 @@ CREATE TABLE IF NOT EXISTS public.client_agent_invoice(
     "settle_type" smallint NOT NULL DEFAULT 0,
      PRIMARY KEY (id)
 );
+
+DROP TRIGGER IF EXISTS client_agent_invoice_upt ON client_agent_invoice;
 create trigger client_agent_invoice_upt before update on client_agent_invoice for each row execute procedure update_timestamp_func();
 select setval(' client_agent_invoice_id_seq',10000,false);
 
@@ -574,6 +598,7 @@ COMMENT ON COLUMN public.client_info.source_type IS '客户来源';
 COMMENT ON COLUMN public.client_info.match_brand_id IS '品牌ID';
 COMMENT ON COLUMN public.client_info.match_model_id IS '车型ID';
 
+DROP TRIGGER IF EXISTS client_info_upt ON client_info;
 create trigger client_info_upt before update on client_info for each row execute procedure update_timestamp_func();
 select setval(' client_info_id_seq',10000,false);
 
@@ -630,6 +655,8 @@ COMMENT ON COLUMN public.sale_service_info.sale_perf_fixed IS '固定提成金�
 COMMENT ON COLUMN public.sale_service_info.sale_perf_ratio IS '提成比例';
 COMMENT ON COLUMN public.sale_service_info.deploy_perf_type IS '施工提成类型';
 COMMENT ON COLUMN public.sale_service_info.check_perf_type IS '验收提成类型';
+
+DROP TRIGGER IF EXISTS sale_service_info_upt ON sale_service_info;
 create trigger sale_service_info_upt before update on sale_service_info for each row execute procedure update_timestamp_func();
 select setval(' sale_service_info_id_seq',10000,false);
 
@@ -644,6 +671,7 @@ CREATE TABLE IF NOT EXISTS public.sale_service_prod_rel(
     "product_count" smallint NOT NULL DEFAULT 1
 );
 
+DROP INDEX IF EXISTS uk_sale_service_prod_rel;
 CREATE UNIQUE INDEX uk_sale_service_prod_rel ON sale_service_prod_rel(sale_service_id,product_id);
 
 --CREATE TABLE storage_check
@@ -670,6 +698,7 @@ COMMENT ON COLUMN public.storage_check.checked_count IS '已盘点数量';
 COMMENT ON COLUMN public.storage_check.check_desc IS '盘点描述';
 COMMENT ON COLUMN public.storage_check.old_flag IS '是否旧货';
 
+DROP TRIGGER IF EXISTS storage_check_upt ON storage_check;
 create trigger storage_check_upt before update on storage_check for each row execute procedure update_timestamp_func();
 select setval(' storage_check_id_seq',10000,false);
 
@@ -690,8 +719,8 @@ CREATE TABLE IF NOT EXISTS public.storage_check_rel(
     "storage_id" smallint  NOT NULL DEFAULT 0,
     "storage_area_id" smallint  NOT NULL DEFAULT 0,
     "product_id" smallint  NOT NULL DEFAULT 0,
-    "check_unique_arr" character varying(40) ARRAY[],
-    "prod_unique_arr" character varying(40) ARRAY[],
+    "check_unique_arr" character varying(40)[],
+    "prod_unique_arr" character varying(40)[],
     "unique_flag" smallint  NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
@@ -699,6 +728,8 @@ CREATE TABLE IF NOT EXISTS public.storage_check_rel(
 COMMENT ON COLUMN public.storage_check_rel.check_status IS '库存等于盘库数量1,否则异常2';
 COMMENT ON COLUMN public.storage_check_rel.storage_count IS '库存数量';
 COMMENT ON COLUMN public.storage_check_rel.check_count IS '盘库数量';
+
+DROP TRIGGER IF EXISTS storage_check_rel_upt ON storage_check_rel;
 create trigger storage_check_rel_upt before update on storage_check_rel for each row execute procedure update_timestamp_func();
 select setval(' storage_check_rel_id_seq',10000,false);
 
@@ -756,6 +787,8 @@ COMMENT ON COLUMN public.order_info.actual_service_price IS '折后服务金额'
 COMMENT ON COLUMN public.order_info.actual_prod_price IS '折后商品金额';
 COMMENT ON COLUMN public.order_info.total_actual_price IS '折后总金额';
 COMMENT ON COLUMN public.order_info.transfer_price IS '运费';
+
+DROP TRIGGER IF EXISTS order_info_upt ON order_info;
 create trigger order_info_upt before update on order_info for each row execute procedure update_timestamp_func();
 
 SELECT cron.schedule('order_id_sdl', '0 16 * * *', $$select setval(' order_info_id_seq',(CAST(to_char(current_timestamp, 'YYYYMMDD0001') AS BIGINT)),false);$$);
@@ -804,6 +837,7 @@ COMMENT ON COLUMN public.order_item_service.sale_perf IS '销售提成';
 COMMENT ON COLUMN public.order_item_service.deploy_perf IS '施工提成';
 COMMENT ON COLUMN public.order_item_service.check_perf IS '验收提成';
 
+DROP TRIGGER IF EXISTS order_item_service_upt ON order_item_service;
 create trigger order_item_service_upt before update on order_item_service for each row execute procedure update_timestamp_func();
 select setval(' order_item_service_id_seq',10000,false);
 
@@ -842,7 +876,8 @@ COMMENT ON COLUMN public.order_item_prod.discount_prod_price IS '折扣价';
 COMMENT ON COLUMN public.order_item_prod.actual_prod_price IS '实际价格';
 COMMENT ON COLUMN public.order_item_prod.sale_perf IS '销售提成';
 
-create trigger order_item_prod_upt before update on order_prod_service for each row execute procedure update_timestamp_func();
+DROP TRIGGER IF EXISTS order_item_prod_upt ON order_item_prod;
+create trigger order_item_prod_upt before update on order_item_prod for each row execute procedure update_timestamp_func();
 select setval(' order_item_prod_id_seq',10000,false);
 
 --CREATE TABLE payment_info
@@ -883,6 +918,7 @@ COMMENT ON COLUMN public.payment_info.total_refund_price IS '退款总金额';
 COMMENT ON COLUMN public.payment_info.plan_price IS '预计收款';
 COMMENT ON COLUMN public.payment_info.actual_price IS '实收金额';
 
+DROP TRIGGER IF EXISTS payment_info_upt ON payment_info;
 create trigger payment_info_upt before update on payment_info for each row execute procedure update_timestamp_func();
 select setval(' payment_info_id_seq',10000,false);
 
@@ -902,6 +938,7 @@ CREATE TABLE IF NOT EXISTS public.payment_order_rel(
     PRIMARY KEY (id)
 );
 
+DROP TRIGGER IF EXISTS payment_order_rel_upt ON payment_order_rel;
 create trigger payment_order_rel_upt before update on payment_order_rel for each row execute procedure update_timestamp_func();
 select setval(' payment_order_rel_id_seq',10000,false);
 
@@ -930,6 +967,7 @@ CREATE TABLE IF NOT EXISTS public.order_refund(
 COMMENT ON COLUMN public.order_refund.payment_status IS '支付状态(1.未退，5.退款中，7.已退)';
 COMMENT ON COLUMN public.order_refund.payment_type IS '支付方式(1.挂账 2.现金)';
 
+DROP TRIGGER IF EXISTS order_refund_upt ON order_refund;
 create trigger order_refund_upt before update on order_refund for each row execute procedure update_timestamp_func();
 select setval(' order_refund_id_seq',10000,false);
 
@@ -948,6 +986,8 @@ CREATE TABLE IF NOT EXISTS public.order_refund_service(
     "date_id" integer,
     PRIMARY KEY (id)
 );
+
+DROP TRIGGER IF EXISTS order_refund_service_upt ON order_refund_service;
 create trigger order_refund_service_upt before update on order_refund_service for each row execute procedure update_timestamp_func();
 select setval(' order_refund_service_id_seq',10000,false);
 
@@ -970,6 +1010,8 @@ CREATE TABLE IF NOT EXISTS public.order_refund_prod(
     "date_id" integer,
     PRIMARY KEY (id)
 );
+
+DROP TRIGGER IF EXISTS order_refund_prod_upt ON order_refund_prod;
 create trigger order_refund_prod_upt before update on order_refund_prod for each row execute procedure update_timestamp_func();
 select setval(' order_refund_prod_id_seq',10000,false);
 
@@ -984,6 +1026,8 @@ CREATE TABLE IF NOT EXISTS public.prod_match_brand (
     "brand_name" character varying(50),
     PRIMARY KEY ("id")
 );
+
+DROP TRIGGER IF EXISTS prod_match_brand_upt ON prod_match_brand;
 create trigger prod_match_brand_upt before update on prod_match_brand for each row execute procedure update_timestamp_func();
 select setval('prod_match_brand_id_seq',1000,false);
 
@@ -999,6 +1043,8 @@ CREATE TABLE IF NOT EXISTS public.prod_match_model (
     "match_model_name" character varying(50),
     PRIMARY KEY ("id")
 );
+
+DROP TRIGGER IF EXISTS prod_match_model_upt ON prod_match_model;
 create trigger prod_match_model_upt before update on prod_match_model for each row execute procedure update_timestamp_func();
 select setval('prod_match_model_id_seq',1000,false);
 
@@ -1024,6 +1070,7 @@ COMMENT ON COLUMN public.user_perf_level.sale_ratio IS '销售提成比列';
 COMMENT ON COLUMN public.user_perf_level.deploy_ratio IS '施工提成比例';
 COMMENT ON COLUMN public.user_perf_level.check_ratio IS '验收提成比例';
 
+DROP TRIGGER IF EXISTS user_perf_level_upt ON user_perf_level;
 create trigger user_perf_level_upt before update on user_perf_level for each row execute procedure update_timestamp_func();
 select setval('user_perf_level_id_seq',100,false);
 
@@ -1046,6 +1093,8 @@ CREATE TABLE IF NOT EXISTS public.purchase_item_unique_rel
 
 COMMENT ON COLUMN public.purchase_item_unique_rel.status IS '库存标记（0-未接收 1-已接收）';
 COMMENT ON COLUMN public.purchase_item_unique_rel.unique_id IS '商品唯一码';
+
+DROP TRIGGER IF EXISTS purchase_item_unique_rel_upt ON purchase_item_unique_rel;
 create trigger purchase_item_unique_rel_upt before update on purchase_item_unique_rel for each row execute procedure update_timestamp_func();
 select setval(' purchase_item_unique_rel_id_seq',10000,false);
 
@@ -1063,6 +1112,7 @@ END;
 $$
 LANGUAGE  plpgsql;
 
+DROP TRIGGER IF EXISTS storage_product_rel_status_put ON storage_product_rel ;
 CREATE TRIGGER storage_product_rel_status_put BEFORE UPDATE ON storage_product_rel FOR EACH ROW
 WHEN(NEW.storage_count = 0)
 EXECUTE PROCEDURE update_storage_pord_rel_status_func();
@@ -1081,5 +1131,6 @@ END;
 $$
 LANGUAGE  plpgsql;
 
+DROP TRIGGER IF EXISTS purchase_item_unique_flag_del ON purchase_item_unique_rel ;
 CREATE TRIGGER purchase_item_unique_flag_del AFTER DELETE ON purchase_item_unique_rel FOR EACH ROW
 EXECUTE PROCEDURE update_purchase_item_unique_flag_func();
