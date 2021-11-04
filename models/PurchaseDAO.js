@@ -4,9 +4,10 @@ const logger = serverLogger.createLogger('PurchaseDAO.js');
 
 class PurchaseDAO  {
     static async queryPurchase(params) {
-        let query = "select pi.* , ui.real_name " +
+        let query = "select distinct pi.* , ui.real_name " +
             " from purchase_info pi " +
             " left join user_info ui on ui.id = pi.op_user " +
+            " left join purchase_item pit on pi.id = pit.purchase_id  " +
             " where pi.id is not null ";
         let filterObj = {};
         if(params.purchaseId){
@@ -20,6 +21,10 @@ class PurchaseDAO  {
         if(params.supplierId){
             query += " and pi.supplier_id = ${supplierId} ";
             filterObj.supplierId = params.supplierId;
+        }
+        if(params.productId){
+            query += " and pit.product_id = ${productId} ";
+            filterObj.productId = params.productId;
         }
         if(params.planDateStart){
             query += " and pi.plan_date_id >= ${planDateStart} ";
@@ -71,7 +76,11 @@ class PurchaseDAO  {
     }
 
     static async queryPurchaseCount(params) {
-        let query = "select count(id) from purchase_info where id is not null ";
+        // let query = "select count(id) from purchase_info where id is not null ";
+        let query = "select count(distinct pi.id) " +
+            " from purchase_info pi " +
+            " left join purchase_item pit on pi.id = pit.purchase_id  " +
+            " where pi.id is not null ";
         let filterObj = {};
         if(params.purchaseId){
             query += " and id = ${purchaseId} ";
@@ -84,6 +93,10 @@ class PurchaseDAO  {
         if(params.supplierId){
             query += " and supplier_id = ${supplierId} ";
             filterObj.supplierId = params.supplierId;
+        }
+        if(params.productId){
+            query += " and pit.product_id = ${productId} ";
+            filterObj.productId = params.productId;
         }
         if(params.planDateStart){
             query += " and plan_date_id >= ${planDateStart} ";

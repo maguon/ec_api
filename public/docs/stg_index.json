@@ -5151,6 +5151,13 @@
             "type": "integer"
           },
           {
+            "name": "productId",
+            "in": "query",
+            "description": "productId",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "planDateStart",
             "in": "query",
             "description": "planDateStart",
@@ -5605,6 +5612,48 @@
             "name": "productId",
             "in": "query",
             "description": "productId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "planDateStart",
+            "in": "query",
+            "description": "planDateStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "planDateEnd",
+            "in": "query",
+            "description": "planDateEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "categoryId",
+            "in": "query",
+            "description": "categoryId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "categorySubId",
+            "in": "query",
+            "description": "categorySubId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "brandId",
+            "in": "query",
+            "description": "brandId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "brandModelId",
+            "in": "query",
+            "description": "brandModelId",
             "required": false,
             "type": "integer"
           },

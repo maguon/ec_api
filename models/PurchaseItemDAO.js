@@ -5,9 +5,90 @@ const logger = serverLogger.createLogger('PurchaseItemDAO.js');
 class PurchaseItemDAO  {
     static async queryPurchaseItem(params) {
         let query = "select pit.* , ui.real_name , si.supplier_name  " +
+            " ,pi.plan_date_id ,pi.finish_date_id ,pi.storage_status ,pi.payment_status " +
             " from purchase_item pit " +
             " left join user_info ui on ui.id = pit.op_user " +
             " left join supplier_info si on si.id = pit.supplier_id " +
+            " left join purchase_info pi on pi.id = pit.purchase_id " +
+            " left join product_info pdi on pdi.id = pit.product_id " +
+            " where pit.id is not null ";
+        let filterObj = {};
+        if(params.purchaseItemId){
+            query += " and pit.id = ${purchaseItemId} ";
+            filterObj.purchaseItemId = params.purchaseItemId;
+        }
+        if(params.status){
+            query += " and pit.status = ${status} ";
+            filterObj.status = params.status;
+        }
+        if(params.storageStatus){
+            query += " and pit.storage_tatus = ${storageStatus} ";
+            filterObj.storageStatus = params.storageStatus;
+        }
+        // 供应商
+        if(params.supplierId){
+            query += " and pit.supplier_id = ${supplierId} ";
+            filterObj.supplierId = params.supplierId;
+        }
+        // 采购单号
+        if(params.purchaseId){
+            query += " and pit.purchase_id = ${purchaseId} ";
+            filterObj.purchaseId = params.purchaseId;
+        }
+        // 商品
+        if(params.productId){
+            query += " and pit.product_id = ${productId} ";
+            filterObj.productId = params.productId;
+        }
+        // 采购单日期
+        if(params.planDateStart){
+            query += " and pi.plan_date_id >= ${planDateStart} ";
+            filterObj.planDateStart = params.planDateStart;
+        }
+        if(params.planDateEnd){
+            query += " and pi.plan_date_id <= ${planDateEnd} ";
+            filterObj.planDateEnd = params.planDateEnd;
+        }
+        // 商品分类
+        if(params.categoryId){
+            query += " and pdi.category_id = ${categoryId} ";
+            filterObj.categoryId = params.categoryId;
+        }
+        // 子类
+        if(params.categorySubId){
+            query += " and pdi.category_sub_id = ${categorySubId} ";
+            filterObj.categorySubId = params.categorySubId;
+        }
+        // 品牌
+        if(params.brandId){
+            query += " and pdi.brand_id = ${brandId} ";
+            filterObj.brandId = params.brandId;
+        }
+        // 型号
+        if(params.brandModelId){
+            query += " and pdi.brand_model_id = ${brandModelId} ";
+            filterObj.brandModelId = params.brandModelId;
+        }
+
+        query = query + '  order by pit.id desc ';
+        if(params.start){
+            query += " offset ${start} ";
+            filterObj.start = params.start;
+        }
+        if(params.size){
+            query += " limit ${size} ";
+            filterObj.size = params.size;
+        }
+        logger.debug(' queryPurchaseItem ');
+        return await pgDb.any(query,filterObj);
+    }
+
+    static async queryPurchaseItemCount(params) {
+        // let query = "select count(id) from purchase_item where id is not null ";
+        let query = "select count(pit.id)  " +
+            " from purchase_item pit " +
+            " left join purchase_info pi on pi.id = pit.purchase_id " +
+            " left join product_info pdi on pdi.id = pit.product_id " +
             " where pit.id is not null ";
         let filterObj = {};
         if(params.purchaseItemId){
@@ -34,45 +115,34 @@ class PurchaseItemDAO  {
             query += " and pit.product_id = ${productId} ";
             filterObj.productId = params.productId;
         }
-        query = query + '  order by pit.id desc ';
-        if(params.start){
-            query += " offset ${start} ";
-            filterObj.start = params.start;
+        // 采购单日期
+        if(params.planDateStart){
+            query += " and pi.plan_date_id >= ${planDateStart} ";
+            filterObj.planDateStart = params.planDateStart;
         }
-        if(params.size){
-            query += " limit ${size} ";
-            filterObj.size = params.size;
+        if(params.planDateEnd){
+            query += " and pi.plan_date_id <= ${planDateEnd} ";
+            filterObj.planDateEnd = params.planDateEnd;
         }
-        logger.debug(' queryPurchaseItem ');
-        return await pgDb.any(query,filterObj);
-    }
-
-    static async queryPurchaseItemCount(params) {
-        let query = "select count(id) from purchase_item where id is not null ";
-        let filterObj = {};
-        if(params.purchaseItemId){
-            query += " and id = ${purchaseItemId} ";
-            filterObj.purchaseItemId = params.purchaseItemId;
+        // 商品分类
+        if(params.categoryId){
+            query += " and pdi.category_id = ${categoryId} ";
+            filterObj.categoryId = params.categoryId;
         }
-        if(params.status){
-            query += " and status = ${status} ";
-            filterObj.status = params.status;
+        // 子类
+        if(params.categorySubId){
+            query += " and pdi.category_sub_id = ${categorySubId} ";
+            filterObj.categorySubId = params.categorySubId;
         }
-        if(params.storageStatus){
-            query += " and pit.storage_tatus = ${storageStatus} ";
-            filterObj.storageStatus = params.storageStatus;
+        // 品牌
+        if(params.brandId){
+            query += " and pdi.brand_id = ${brandId} ";
+            filterObj.brandId = params.brandId;
         }
-        if(params.supplierId){
-            query += " and supplier_id = ${supplierId} ";
-            filterObj.supplierId = params.supplierId;
-        }
-        if(params.purchaseId){
-            query += " and purchase_id = ${purchaseId} ";
-            filterObj.purchaseId = params.purchaseId;
-        }
-        if(params.productId){
-            query += " and product_id = ${productId} ";
-            filterObj.productId = params.productId;
+        // 型号
+        if(params.brandModelId){
+            query += " and pdi.brand_model_id = ${brandModelId} ";
+            filterObj.brandModelId = params.brandModelId;
         }
         logger.debug(' queryPurchaseItemCount ');
         return await pgDb.one(query,filterObj);
